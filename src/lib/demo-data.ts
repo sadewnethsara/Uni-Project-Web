@@ -1,0 +1,177 @@
+import type { MarketCenter, PriceEntry, Vegetable, Category, Item, Admin } from "./types";
+
+export const MARKETS: MarketCenter[] = [
+  {
+    id: "dambulla",
+    name: "Dambulla Economic Centre",
+    nameSi: "Dambulla Arthika Madhyasthanaya",
+    district: "Matale",
+    emoji: "🏛️",
+  },
+  {
+    id: "kappetipola",
+    name: "Kappetipola Market",
+    nameSi: "කප්පෙටිපොළ වෙළඳපොළ",
+    district: "Kandy",
+    emoji: "🌾",
+  },
+  {
+    id: "peliyagoda",
+    name: "Peliyagoda Market",
+    nameSi: "පෑලියගොඩ වෙළඳපොළ",
+    district: "Gampaha",
+    emoji: "🚛",
+  },
+  {
+    id: "kandy",
+    name: "Kandy Economic Centre",
+    nameSi: "මහනුවර ආර්ථික මධ්‍යස්ථානය",
+    district: "Kandy",
+    emoji: "⛰️",
+  },
+  {
+    id: "nuwara-eliya",
+    name: "Nuwara Eliya Market",
+    nameSi: "නුවර එළිය වෙළඳපොළ",
+    district: "Nuwara Eliya",
+    emoji: "🌿",
+  },
+  {
+    id: "pettah",
+    name: "Pettah Market",
+    nameSi: "පැට්ටහ වෙළඳපොළ",
+    district: "Colombo",
+    emoji: "🏙️",
+  },
+];
+
+export const CATEGORIES: Category[] = [
+  { id: "vegetables", name: "Vegetables", nameSi: "එළවළු", emoji: "🥬" },
+  { id: "fruits", name: "Fruits", nameSi: "පලතුරු", emoji: "🍎" },
+];
+
+export const ITEMS: Item[] = [
+  // Vegetables
+  { id: "beans", categoryId: "vegetables", name: "Beans", nameSi: "බෝංචි", emoji: "🫘", unit: "kg", minPrice: 200, maxPrice: 250 },
+  { id: "carrot", categoryId: "vegetables", name: "Carrot", nameSi: "කැරට්", emoji: "🥕", unit: "kg", minPrice: 250, maxPrice: 300 },
+  { id: "tomato", categoryId: "vegetables", name: "Tomato", nameSi: "තක්කාලි", emoji: "🍅", unit: "kg", minPrice: 300, maxPrice: 400 },
+  { id: "potato", categoryId: "vegetables", name: "Potato", nameSi: "අල", emoji: "🥔", unit: "kg", minPrice: 180, maxPrice: 250 },
+  { id: "onion", categoryId: "vegetables", name: "Onion", nameSi: "ලූණු", emoji: "🧅", unit: "kg", minPrice: 280, maxPrice: 350 },
+  { id: "cabbage", categoryId: "vegetables", name: "Cabbage", nameSi: "ගෝවා", emoji: "🥬", unit: "kg", minPrice: 150, maxPrice: 200 },
+  { id: "brinjal", categoryId: "vegetables", name: "Brinjal", nameSi: "වම්බටු", emoji: "🍆", unit: "kg", minPrice: 250, maxPrice: 320 },
+  { id: "green-chilli", categoryId: "vegetables", name: "Green Chilli", nameSi: "මිරිස්", emoji: "🌶️", unit: "kg", minPrice: 600, maxPrice: 750 },
+  { id: "pumpkin", categoryId: "vegetables", name: "Pumpkin", nameSi: "Wattakka", emoji: "🎃", unit: "kg", minPrice: 120, maxPrice: 180 },
+  { id: "okra", categoryId: "vegetables", name: "Ladies Finger", nameSi: "බඩඉක්ක", emoji: "🌱", unit: "kg", minPrice: 280, maxPrice: 350 },
+  { id: "beetroot", categoryId: "vegetables", name: "Beetroot", nameSi: "බීට්", emoji: "🔴", unit: "kg", minPrice: 220, maxPrice: 280 },
+  { id: "leeks", categoryId: "vegetables", name: "Leeks", nameSi: "ලීක්ස්", emoji: "🧄", unit: "kg", minPrice: 320, maxPrice: 400 },
+  // Fruits
+  { id: "rambutan", categoryId: "fruits", name: "Rambutan", nameSi: "රඹුටන්", emoji: "🍒", unit: "kg", minPrice: 300, maxPrice: 500 },
+  { id: "mango", categoryId: "fruits", name: "Mango", nameSi: "අඹ", emoji: "🥭", unit: "kg", minPrice: 250, maxPrice: 400 },
+  { id: "banana", categoryId: "fruits", name: "Banana", nameSi: "කෙසෙල්", emoji: "🍌", unit: "kg", minPrice: 150, maxPrice: 250 },
+  { id: "papaya", categoryId: "fruits", name: "Papaya", nameSi: "පැපොල්", emoji: "🍈", unit: "kg", minPrice: 100, maxPrice: 180 },
+  { id: "pineapple", categoryId: "fruits", name: "Pineapple", nameSi: "අනාස්", emoji: "🍍", unit: "kg", minPrice: 150, maxPrice: 250 },
+  { id: "guava", categoryId: "fruits", name: "Guava", nameSi: "පේර", emoji: "🍐", unit: "kg", minPrice: 120, maxPrice: 200 },
+  { id: "watermelon", categoryId: "fruits", name: "Watermelon", nameSi: "දෙපල්", emoji: "🍉", unit: "kg", minPrice: 80, maxPrice: 150 },
+];
+
+export const VEGETABLES: Vegetable[] = [
+  { id: "beans", name: "Beans", nameSi: "බෝංචි", emoji: "🫘", unit: "kg" },
+  { id: "carrot", name: "Carrot", nameSi: "කැරට්", emoji: "🥕", unit: "kg" },
+  { id: "tomato", name: "Tomato", nameSi: "තක්කාලි", emoji: "🍅", unit: "kg" },
+  { id: "potato", name: "Potato", nameSi: "අල", emoji: "🥔", unit: "kg" },
+  { id: "onion", name: "Onion", nameSi: "ලූණු", emoji: "🧅", unit: "kg" },
+  { id: "cabbage", name: "Cabbage", nameSi: "ගෝවා", emoji: "🥬", unit: "kg" },
+  { id: "brinjal", name: "Brinjal", nameSi: "වම්බටු", emoji: "🍆", unit: "kg" },
+  { id: "green-chilli", name: "Green Chilli", nameSi: "මිරිස්", emoji: "🌶️", unit: "kg" },
+  { id: "pumpkin", name: "Pumpkin", nameSi: "Wattakka", emoji: "🎃", unit: "kg" },
+  { id: "okra", name: "Ladies Finger", nameSi: "බඩඉක්ක", emoji: "🌱", unit: "kg" },
+  { id: "beetroot", name: "Beetroot", nameSi: "බීට්", emoji: "🔴", unit: "kg" },
+  { id: "leeks", name: "Leeks", nameSi: "ලීක්ස්", emoji: "🧄", unit: "kg" },
+];
+
+function daysAgo(n: number): string {
+  const d = new Date();
+  d.setDate(d.getDate() - n);
+  return d.toISOString().split("T")[0];
+}
+
+const today = daysAgo(0);
+const yesterday = daysAgo(1);
+const twoDaysAgo = daysAgo(2);
+
+export const DEMO_PRICES: PriceEntry[] = [
+  { id: "1", marketId: "dambulla", vegetableId: "beans", price: 420, date: today },
+  { id: "2", marketId: "dambulla", vegetableId: "carrot", price: 280, date: today },
+  { id: "3", marketId: "dambulla", vegetableId: "tomato", price: 350, date: today },
+  { id: "4", marketId: "dambulla", vegetableId: "potato", price: 220, date: today },
+  { id: "5", marketId: "dambulla", vegetableId: "onion", price: 310, date: today },
+  { id: "6", marketId: "dambulla", vegetableId: "cabbage", price: 180, date: today },
+  { id: "7", marketId: "dambulla", vegetableId: "brinjal", price: 290, date: today },
+  { id: "8", marketId: "dambulla", vegetableId: "green-chilli", price: 680, date: today },
+  { id: "9", marketId: "dambulla", vegetableId: "beans", price: 400, date: yesterday },
+  { id: "10", marketId: "dambulla", vegetableId: "carrot", price: 260, date: yesterday },
+  { id: "11", marketId: "dambulla", vegetableId: "tomato", price: 380, date: yesterday },
+  { id: "12", marketId: "dambulla", vegetableId: "potato", price: 210, date: yesterday },
+  { id: "13", marketId: "dambulla", vegetableId: "onion", price: 295, date: yesterday },
+  { id: "14", marketId: "kappetipola", vegetableId: "beans", price: 390, date: today },
+  { id: "15", marketId: "kappetipola", vegetableId: "carrot", price: 250, date: today },
+  { id: "16", marketId: "kappetipola", vegetableId: "tomato", price: 320, date: today },
+  { id: "17", marketId: "kappetipola", vegetableId: "potato", price: 200, date: today },
+  { id: "18", marketId: "kappetipola", vegetableId: "pumpkin", price: 140, date: today },
+  { id: "19", marketId: "kappetipola", vegetableId: "okra", price: 320, date: today },
+  { id: "20", marketId: "kappetipola", vegetableId: "beans", price: 410, date: yesterday },
+  { id: "21", marketId: "kappetipola", vegetableId: "carrot", price: 270, date: yesterday },
+  { id: "22", marketId: "peliyagoda", vegetableId: "beans", price: 450, date: today },
+  { id: "23", marketId: "peliyagoda", vegetableId: "onion", price: 340, date: today },
+  { id: "24", marketId: "peliyagoda", vegetableId: "leeks", price: 380, date: today },
+  { id: "25", marketId: "peliyagoda", vegetableId: "beetroot", price: 260, date: today },
+  { id: "26", marketId: "peliyagoda", vegetableId: "beans", price: 430, date: twoDaysAgo },
+  { id: "27", marketId: "peliyagoda", vegetableId: "onion", price: 320, date: twoDaysAgo },
+  { id: "28", marketId: "kandy", vegetableId: "cabbage", price: 195, date: today },
+  { id: "29", marketId: "kandy", vegetableId: "carrot", price: 270, date: today },
+  { id: "30", marketId: "kandy", vegetableId: "potato", price: 215, date: today },
+  { id: "31", marketId: "nuwara-eliya", vegetableId: "carrot", price: 240, date: today },
+  { id: "32", marketId: "nuwara-eliya", vegetableId: "leeks", price: 350, date: today },
+  { id: "33", marketId: "nuwara-eliya", vegetableId: "beetroot", price: 240, date: today },
+  { id: "34", marketId: "nuwara-eliya", vegetableId: "cabbage", price: 170, date: today },
+  { id: "35", marketId: "pettah", vegetableId: "tomato", price: 370, date: today },
+  { id: "36", marketId: "pettah", vegetableId: "onion", price: 360, date: today },
+  { id: "37", marketId: "pettah", vegetableId: "green-chilli", price: 720, date: today },
+];
+
+export const ADMINS: Admin[] = [
+  {
+    id: "admin-super-1",
+    email: "super@admin.com",
+    name: "Super Administrator",
+    role: "super",
+    createdAt: new Date().toISOString(),
+    isActive: true,
+  },
+  {
+    id: "admin-market-1",
+    email: "admin@dambulla.com",
+    name: "Dambulla Market Admin",
+    role: "market",
+    marketId: "dambulla",
+    createdAt: new Date().toISOString(),
+    isActive: true,
+  },
+  {
+    id: "admin-market-2",
+    email: "admin@kappetipola.com",
+    name: "Kappetipola Market Admin",
+    role: "market",
+    marketId: "kappetipola",
+    createdAt: new Date().toISOString(),
+    isActive: true,
+  },
+  {
+    id: "admin-viewer-1",
+    email: "viewer@market.com",
+    name: "Market Viewer",
+    role: "viewer",
+    createdAt: new Date().toISOString(),
+    isActive: true,
+  },
+];

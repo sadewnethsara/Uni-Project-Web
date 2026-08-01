@@ -1,12 +1,7 @@
 import type { Metadata } from "next";
 import { Space_Grotesk, Geist_Mono, Geist } from "next/font/google";
 import localFont from "next/font/local";
-import "./globals.css";
-
-import Header from "@/components/Header";
-import ConditionalFooter from "@/components/ConditionalFooter";
-import FloatingLanguageSwitcher from "@/components/FloatingLanguageSwitcher";
-import ConditionalFloatingChat from "@/components/ConditionalFloatingChat";
+import "../globals.css";
 import { cn } from "@/lib/utils";
 import { AuthProvider } from "@/contexts/AuthContext";
 
@@ -15,12 +10,12 @@ const geist = Geist({ subsets: ['latin'], variable: '--font-sans' });
 const rocGrotesk = localFont({
   src: [
     {
-      path: "./fonts/roc-grotesk-regular.woff2",
+      path: "../fonts/roc-grotesk-regular.woff2",
       weight: "400",
       style: "normal",
     },
     {
-      path: "./fonts/roc-grotesk-bold.woff2",
+      path: "../fonts/roc-grotesk-bold.woff2",
       weight: "700",
       style: "normal",
     },
@@ -39,11 +34,11 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Agri - Light & Pastel",
-  description: "A beautiful pastel themed application",
+  title: "Admin - Agri",
+  description: "Admin Panel for Agri",
 };
 
-export default function RootLayout({
+export default function AdminLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
@@ -52,18 +47,11 @@ export default function RootLayout({
     <html
       lang="en"
       className={cn("h-full", "antialiased", spaceGrotesk.variable, geistMono.variable, rocGrotesk.variable, "font-sans", geist.variable)}
-      // 💡 ADD THIS RIGHT HERE TO BYPASS BROWSER EXTENSION INJECTIONS:
       suppressHydrationWarning
     >
-      <body suppressHydrationWarning className="min-h-full flex flex-col bg-[#fdf6e3]">
+      <body suppressHydrationWarning className="min-h-screen bg-[#fdf6e3]">
         <AuthProvider>
-          <Header />
-          <FloatingLanguageSwitcher />
-          <ConditionalFloatingChat />
-          {/* Note: removed the class string 'suppressHydrationWarning' here since it is an attribute, not a class name */}
-          <main className="flex-1 w-full max-w-8xl mx-auto">
-            {children}
-          </main>
+          {children}
         </AuthProvider>
       </body>
     </html>
