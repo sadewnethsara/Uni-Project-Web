@@ -5,6 +5,7 @@ import { useScroll, useTransform } from "framer-motion";
 import AppShowcase from "@/components/landing/AppShowcase";
 import LandingFooter from "@/components/landing/LandingFooter";
 import ScrollProgress from "@/components/landing/ScrollProgress";
+import MobileHero from "@/components/landing/MobileHero";
 
 // Import new Hero sub-components
 import { locations, LocationData } from "@/components/landing/HeroData";
@@ -98,6 +99,11 @@ export default function Home() {
 
     return (
         <div className="w-full relative text-slate-900">
+            {/* MOBILE HERO — shown only on small screens */}
+            <MobileHero />
+
+            {/* DESKTOP SCROLL HERO — hidden on mobile */}
+            <div className="hidden md:block">
             <ScrollProgress />
 
             {/* HERO SCROLL AREA */}
@@ -159,7 +165,8 @@ export default function Home() {
 
                 {/* TALL SCROLL AREA TO DRIVE THE HERO ANIMATIONS */}
                 <div className="h-[1200vh] w-full relative pointer-events-none" />
-            </div>
+            </div>{/* end HERO SCROLL AREA */}
+            </div>{/* end desktop scroll hero */}
 
             {/* REST OF THE LANDING PAGE */}
             <AppShowcase />
