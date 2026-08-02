@@ -2,21 +2,10 @@
 
 import {
   ANALYZE_MARKETS,
-  getDailyPrice,
   toISODate,
   parseISODate,
   formatDisplayDate,
-  type GradeFilter,
 } from "@/lib/analyticsData";
-
-function hashString(input: string): number {
-  let h = 2166136261;
-  for (let i = 0; i < input.length; i++) {
-    h ^= input.charCodeAt(i);
-    h = Math.imul(h, 16777619);
-  }
-  return h >>> 0;
-}
 
 export type DatePreset = "today" | "yesterday" | "custom";
 
@@ -169,41 +158,6 @@ export const MARKET_COMMODITIES: MarketCommodity[] = [
 /** Re-export for parseAnalyzePrompt compatibility */
 export const SIDEBAR_COMMODITY_IDS = MARKET_COMMODITIES.map((c) => c.id);
 
-function seededUnit(seed: number): number {
-  const x = Math.sin(seed * 12.9898 + seed * 78.233) * 43758.5453;
-  return x - Math.floor(x);
-}
-
-/** Some market × commodity × day combos intentionally have no recorded price. */
-export function isPriceAvailable(
-  marketId: string,
-  commodityId: string,
-  date: Date
-): boolean {
-  const seed = hashString(`${marketId}|${commodityId}|${toISODate(date)}|avail`);
-  const u = seededUnit(seed);
-
-  // Hill markets skip some low-country crops occasionally
-  const hillMarkets = ["nuwara-eliya", "keppetipola", "thambuttegama"];
-  const lowCountryOnly = ["brinjal", "cucumber", "pumpkin"];
-  if (hillMarkets.includes(marketId) && lowCountryOnly.includes(commodityId) && u < 0.12) {
-    return false;
-  }
-
-  // Manning rarely lists knol khol / beetroot
-  if (marketId === "manning" && ["knol_khol", "beetroot"].includes(commodityId) && u < 0.35) {
-    return false;
-  }
-
-  // Sundays: fewer listings
-  if (date.getDay() === 0 && u < 0.18) return false;
-
-  // Random gaps (~7%)
-  if (u < 0.07) return false;
-
-  return true;
-}
-
 export function getCommodityById(id: string): MarketCommodity | undefined {
   return MARKET_COMMODITIES.find((c) => c.id === id);
 }
@@ -225,221 +179,13 @@ export function resolveViewDate(preset: DatePreset, customIso: string, today = n
   return base;
 }
 
-export function getPriceForDay(
-  marketId: string,
-  commodityId: string,
-  date: Date,
-  grade: GradeFilter = "all"
-): number | null {
-  if (!isPriceAvailable(marketId, commodityId, date)) return null;
-  return getDailyPrice(commodityId, marketId, date, grade);
-}
-
-function pctChange(current: number | null, prior: number | null): number | null {
-  if (current == null || prior == null || prior === 0) return null;
-  return Math.round(((current - prior) / prior) * 10000) / 100;
-}
-
-function trendFromChange(change: number | null): "up" | "down" | "stable" | "none" {
-  if (change == null) return "none";
-  if (change > 0.5) return "up";
-  if (change < -0.5) return "down";
-  return "stable";
-}
-
-export function getMarketBoard(
-  marketId: string,
-  viewDate: Date,
-  grade: GradeFilter = "all"
-): CommodityDayPrice[] {
-  const prior = new Date(viewDate);
-  prior.setDate(prior.getDate() - 1);
-
-  return MARKET_COMMODITIES.map((c) => {
-    const price = getPriceForDay(marketId, c.id, viewDate, grade);
-    const priorPrice = getPriceForDay(marketId, c.id, prior, grade);
-    const changeVsPrior = pctChange(price, priorPrice);
-    return {
-      commodityId: c.id,
-      price,
-      available: price != null,
-      changeVsPrior,
-      trend: trendFromChange(changeVsPrior),
-    };
-  });
-}
-
-export function getPriceComparison(
-  marketId: string,
-  commodityId: string,
-  viewDate: Date,
-  grade: GradeFilter = "all"
-): PriceComparison {
-  const yesterday = new Date(viewDate);
-  yesterday.setDate(yesterday.getDate() - 1);
-
-  const lastYear = new Date(viewDate);
-  lastYear.setFullYear(lastYear.getFullYear() - 1);
-
-  const selectedPrice = getPriceForDay(marketId, commodityId, viewDate, grade);
-  const yesterdayPrice = getPriceForDay(marketId, commodityId, yesterday, grade);
-  const lastYearPrice = getPriceForDay(marketId, commodityId, lastYear, grade);
-
-  const selectedIso = toISODate(viewDate);
-  const yesterdayIso = toISODate(yesterday);
-  const lastYearIso = toISODate(lastYear);
-
-  return {
-    selected: {
-      date: selectedIso,
-      label: formatDisplayDate(selectedIso),
-      price: selectedPrice,
-      available: selectedPrice != null,
-    },
-    yesterday: {
-      date: yesterdayIso,
-      label: "Yesterday",
-      price: yesterdayPrice,
-      available: yesterdayPrice != null,
-    },
-    lastYear: {
-      date: lastYearIso,
-      label: "Same day last year",
-      price: lastYearPrice,
-      available: lastYearPrice != null,
-    },
-    changeVsYesterday: pctChange(selectedPrice, yesterdayPrice),
-    changeVsLastYear: pctChange(selectedPrice, lastYearPrice),
-  };
-}
-
-export function getRecentSparkline(
-  marketId: string,
-  commodityId: string,
-  endDate: Date,
-  days = 7,
-  grade: GradeFilter = "all"
-): SparkPoint[] {
-  const out: SparkPoint[] = [];
-  for (let i = days - 1; i >= 0; i--) {
-    const d = new Date(endDate);
-    d.setDate(d.getDate() - i);
-    const iso = toISODate(d);
-    const price = getPriceForDay(marketId, commodityId, d, grade);
-    out.push({
-      date: iso,
-      label: d.toLocaleDateString("en-LK", { weekday: "short", day: "numeric", month: "short" }),
-      price,
-    });
-  }
-  return out;
-}
-
-export function getMarketDisplayName(slug: string): string {
-  const key = slug.toLowerCase();
-  const meta = getMarketMeta(key);
-  if (meta) return meta.shortName;
-  if (key === "nuwara-eliya") return "Nuwara Eliya";
-  if (!slug) return "Dambulla";
-  return slug.charAt(0).toUpperCase() + slug.slice(1).toLowerCase();
-}
-
 export const MARKET_SLUGS = ANALYZE_MARKETS.map((m) => m.id);
 
-export function formatRs(price: number | null): string {
-  if (price == null) return "—";
-  return `Rs. ${price.toFixed(2)}`;
+export function getMarketDisplayName(marketId: string): string {
+  return ANALYZE_MARKETS.find((m) => m.id === marketId)?.name ?? marketId;
 }
 
-export interface MarketPriceInfo {
-  marketId: string;
-  marketName: string;
-  price: number;
-}
-
-export function getLowestPriceAcrossMarkets(
-  commodityId: string,
-  date: Date,
-  grade: GradeFilter = "all"
-): MarketPriceInfo | null {
-  const prices: MarketPriceInfo[] = [];
-  
-  for (const market of ANALYZE_MARKETS) {
-    const price = getPriceForDay(market.id, commodityId, date, grade);
-    if (price != null) {
-      prices.push({
-        marketId: market.id,
-        marketName: market.shortName,
-        price,
-      });
-    }
-  }
-  
-  if (prices.length === 0) return null;
-  
-  return prices.reduce((lowest, current) => 
-    current.price < lowest.price ? current : lowest
-  );
-}
-
-export function getHighestPriceAcrossMarkets(
-  commodityId: string,
-  date: Date,
-  grade: GradeFilter = "all"
-): MarketPriceInfo | null {
-  const prices: MarketPriceInfo[] = [];
-  
-  for (const market of ANALYZE_MARKETS) {
-    const price = getPriceForDay(market.id, commodityId, date, grade);
-    if (price != null) {
-      prices.push({
-        marketId: market.id,
-        marketName: market.shortName,
-        price,
-      });
-    }
-  }
-  
-  if (prices.length === 0) return null;
-  
-  return prices.reduce((highest, current) => 
-    current.price > highest.price ? current : highest
-  );
-}
-
-export interface WeeklyMarketPrice {
-  date: string;
-  label: string;
-  lowest: MarketPriceInfo | null;
-  highest: MarketPriceInfo | null;
-  selectedMarket: { price: number | null; marketName: string } | null;
-}
-
-export function getWeeklyMarketPrices(
-  commodityId: string,
-  endDate: Date,
-  selectedMarketId: string,
-  selectedMarketName: string,
-  days = 7,
-  grade: GradeFilter = "all"
-): WeeklyMarketPrice[] {
-  const out: WeeklyMarketPrice[] = [];
-  
-  for (let i = days - 1; i >= 0; i--) {
-    const d = new Date(endDate);
-    d.setDate(d.getDate() - i);
-    const iso = toISODate(d);
-    
-    const selectedPrice = getPriceForDay(selectedMarketId, commodityId, d, grade);
-    
-    out.push({
-      date: iso,
-      label: d.toLocaleDateString("en-LK", { weekday: "short", day: "numeric", month: "short" }),
-      lowest: getLowestPriceAcrossMarkets(commodityId, d, grade),
-      highest: getHighestPriceAcrossMarkets(commodityId, d, grade),
-      selectedMarket: selectedPrice != null ? { price: selectedPrice, marketName: selectedMarketName } : null,
-    });
-  }
-  
-  return out;
+export function formatRs(amount: number | null): string {
+  if (amount == null) return "Rs. —";
+  return "Rs. " + amount.toLocaleString("en-LK", { minimumFractionDigits: 0, maximumFractionDigits: 0 });
 }

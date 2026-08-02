@@ -57,10 +57,10 @@ export default function TermsPage() {
       />
 
       {/* Navigation Header */}
-      <div className="w-full max-w-6xl mx-auto flex items-center justify-between relative z-20 mb-8">
+      <div className="w-full max-w-5xl mx-auto flex items-center justify-between relative z-20 mb-8">
         <Link
           href="/"
-          className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-bold transition-all border shadow-xs hover:bg-white/60"
+          className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-bold transition-all border shadow-xs hover:bg-white/60 text-center"
           style={{
             background: ANALYZE_THEME.surface,
             borderColor: ANALYZE_THEME.border,
@@ -74,14 +74,14 @@ export default function TermsPage() {
         <div className="flex items-center gap-3">
           <Link
             href="/privacy"
-            className="text-xs font-bold px-3.5 py-2 rounded-xl hover:underline"
+            className="text-xs font-bold px-3.5 py-2 rounded-xl hover:underline text-center"
             style={{ color: ANALYZE_THEME.inkMuted }}
           >
             Privacy Policy
           </Link>
           <Link
             href="/login"
-            className="text-xs font-black px-4 py-2 rounded-xl text-white transition-all shadow-xs"
+            className="text-xs font-black px-4 py-2 rounded-xl text-white transition-all shadow-xs text-center"
             style={{ background: ANALYZE_THEME.accent }}
           >
             Terminal Access
@@ -90,7 +90,7 @@ export default function TermsPage() {
       </div>
 
       {/* Main Container */}
-      <div className="w-full max-w-6xl mx-auto relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 my-auto py-4">
+      <div className="w-full max-w-5xl mx-auto relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 my-auto py-4">
         
         {/* Left Sticky Sidebar Index (4 Cols) */}
         <div className="lg:col-span-4 space-y-4 lg:sticky lg:top-8">

@@ -41,11 +41,11 @@ export default function SignupPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  
+
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const { login } = useAuth();
+  const { login, register } = useAuth();
   const router = useRouter();
 
   const getPasswordStrength = () => {
@@ -70,11 +70,11 @@ export default function SignupPage() {
   };
 
   const handleVerifyOtp = () => {
-    if (otp === "1234" || otp.length === 4) {
+    if (otp.length === 4) {
       setIsOtpVerified(true);
       setError("");
     } else {
-      setError("Invalid OTP code. (Demo code: 1234)");
+      setError("Invalid OTP code. Please enter the 4-digit code.");
     }
   };
 
@@ -104,22 +104,36 @@ export default function SignupPage() {
     e.preventDefault();
     setError("");
 
+    if (!fullName.trim()) {
+      setError("Please enter your full name.");
+      return;
+    }
+
+    if (!email || !password) {
+      setError("Please fill out all required fields.");
+      return;
+    }
+
     if (password.length < 6) {
       setError("Password must be at least 6 characters long.");
       return;
     }
 
+    if (!isOtpVerified) {
+      setError("Please verify your mobile number with OTP first.");
+      return;
+    }
+
     setIsLoading(true);
 
-    setTimeout(() => {
-      if (email && password) {
-        login(email, password);
-        router.push("/dashboard");
-      } else {
-        setError("Please fill out all required fields.");
-      }
+    try {
+      await register(fullName, email, password, role, phone);
+      router.push("/dashboard");
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Registration failed. Please try again.");
+    } finally {
       setIsLoading(false);
-    }, 1000);
+    }
   };
 
   return (
@@ -140,7 +154,7 @@ export default function SignupPage() {
       />
 
       {/* Top Header Bar with Back Button */}
-      <div className="w-full max-w-8xl mx-auto flex items-center justify-between relative z-20 mb-4">
+      <div className="w-full max-w-5xl mx-auto flex items-center justify-between relative z-20 mb-4">
         <Link
           href="/"
           className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-bold transition-all border shadow-xs hover:bg-white/60"
@@ -155,7 +169,7 @@ export default function SignupPage() {
         </Link>
 
         <div className="flex items-center gap-2 text-xs font-medium" style={{ color: ANALYZE_THEME.inkMuted }}>
-          <span>Already registered?</span>
+          <span className="hidden md:block">Already registered?</span>
           <Link
             href="/login"
             className="font-bold hover:underline"
@@ -167,8 +181,8 @@ export default function SignupPage() {
       </div>
 
       {/* Main Grid Content */}
-      <div className="w-full max-w-8xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-center relative z-10 my-auto py-4">
-        
+      <div className="w-full max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-center relative z-10 my-auto py-4">
+
         {/* Left Side (7 Columns) — Onboarding & Value Propositions */}
         <motion.div
           initial={{ opacity: 0, x: -20 }}
@@ -307,7 +321,7 @@ export default function SignupPage() {
 
             <form onSubmit={handleSubmit}>
               <AnimatePresence mode="wait">
-                
+
                 {/* STEP 1 */}
                 {step === 1 && (
                   <motion.div
@@ -635,8 +649,8 @@ export default function SignupPage() {
                             {passwordScore <= 1
                               ? "Weak"
                               : passwordScore <= 3
-                              ? "Good"
-                              : "Strong"}
+                                ? "Good"
+                                : "Strong"}
                           </span>
                         </div>
                       )}

@@ -6,6 +6,8 @@ interface User {
   id: string;
   email: string;
   name: string;
+  role: string;
+  phone?: string;
   avatar?: string;
 }
 
@@ -27,7 +29,8 @@ interface NotificationSettings {
 interface AuthContextType {
   user: User | null;
   isLoggedIn: boolean;
-  login: (email: string, password: string) => void;
+  login: (email: string, password: string) => Promise<void>;
+  register: (name: string, email: string, password: string, role: string, phone?: string) => Promise<void>;
   logout: () => void;
   userHistory: UserHistory[];
   addToHistory: (action: string, details: string, category: 'market' | 'analyze' | 'settings') => void;
@@ -73,28 +76,92 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     localStorage.setItem('userHistory', JSON.stringify(userHistory));
   }, [userHistory]);
 
-  const login = useCallback((email: string, password: string) => {
-    // Simulate login - in production, this would call an API
-    const newUser: User = {
-      id: Date.now().toString(),
-      email,
-      name: email.split('@')[0],
-      avatar: undefined
-    };
+  const login = useCallback(async (email: string, password: string) => {
+    try {
+      const response = await fetch('http://localhost/backend/api/auth/login.php', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      });
 
-    setUser(newUser);
-    setIsLoggedIn(true);
-    localStorage.setItem('user', JSON.stringify(newUser));
+      const data = await response.json();
 
-    // Add login to history
-    const loginEntry: UserHistory = {
-      id: Date.now().toString(),
-      date: new Date().toISOString(),
-      action: 'Login',
-      details: 'User logged in successfully',
-      category: 'settings'
-    };
-    setUserHistory(prev => [loginEntry, ...prev]);
+      if (!response.ok || !data.success) {
+        throw new Error(data.error || 'Login failed');
+      }
+
+      const newUser: User = {
+        id: data.user.id.toString(),
+        email: data.user.email,
+        name: data.user.name,
+        role: data.user.role,
+        phone: data.user.phone,
+        avatar: undefined
+      };
+
+      setUser(newUser);
+      setIsLoggedIn(true);
+      localStorage.setItem('user', JSON.stringify(newUser));
+
+      // Add login to history
+      const loginEntry: UserHistory = {
+        id: Date.now().toString(),
+        date: new Date().toISOString(),
+        action: 'Login',
+        details: 'User logged in successfully',
+        category: 'settings'
+      };
+      setUserHistory(prev => [loginEntry, ...prev]);
+    } catch (error) {
+      console.error('Login error:', error);
+      throw error;
+    }
+  }, []);
+
+  const register = useCallback(async (name: string, email: string, password: string, role: string, phone?: string) => {
+    try {
+      const response = await fetch('http://localhost/backend/api/auth/register.php', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ name, email, password, role, phone }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok || !data.success) {
+        throw new Error(data.error || 'Registration failed');
+      }
+
+      const newUser: User = {
+        id: data.user.id.toString(),
+        email: data.user.email,
+        name: data.user.name,
+        role: data.user.role,
+        phone: data.user.phone,
+        avatar: undefined
+      };
+
+      setUser(newUser);
+      setIsLoggedIn(true);
+      localStorage.setItem('user', JSON.stringify(newUser));
+
+      // Add registration to history
+      const registerEntry: UserHistory = {
+        id: Date.now().toString(),
+        date: new Date().toISOString(),
+        action: 'Registration',
+        details: 'New user account created',
+        category: 'settings'
+      };
+      setUserHistory(prev => [registerEntry, ...prev]);
+    } catch (error) {
+      console.error('Registration error:', error);
+      throw error;
+    }
   }, []);
 
   const logout = useCallback(() => {
@@ -144,6 +211,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       user,
       isLoggedIn,
       login,
+      register,
       logout,
       userHistory,
       addToHistory,

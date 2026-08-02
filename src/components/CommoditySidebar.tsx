@@ -79,9 +79,9 @@ export default function CommoditySidebar({
 
       <div className="flex-1 overflow-y-auto overscroll-contain">
         {MARKET_COMMODITIES.map((item) => {
-          const row = board.find((b) => b.commodityId === item.id)!;
+          const row = board.find((b) => b.commodityId === item.id);
           const isActive = selectedId === item.id;
-          const unavailable = !row.available;
+          const unavailable = !row?.available;
 
           return (
             <button
@@ -127,22 +127,22 @@ export default function CommoditySidebar({
                         transition={{ duration: 0.15, ease: "easeInOut" }}
                       >
                         <div className="font-black text-sm tabular-nums" style={{ color: ANALYZE_THEME.ink }}>
-                          {formatRs(row.price).replace("Rs. ", "Rs.")}
+                          {row?.price != null ? formatRs(row.price).replace("Rs. ", "Rs.") : "—"}
                         </div>
-                        {row.changeVsPrior != null && (
+                        {row?.changeVsPrior != null && (
                           <div
                             className="text-[10px] font-bold mt-0.5 tabular-nums"
                             style={{
                               color:
-                                row.trend === "up"
+                                row?.trend === "up"
                                   ? ANALYZE_THEME.up
-                                  : row.trend === "down"
+                                  : row?.trend === "down"
                                     ? ANALYZE_THEME.down
                                     : ANALYZE_THEME.inkMuted,
                             }}
                           >
-                            {row.changeVsPrior >= 0 ? "+" : ""}
-                            {row.changeVsPrior}%
+                            {row?.changeVsPrior >= 0 ? "+" : ""}
+                            {row?.changeVsPrior}%
                           </div>
                         )}
 

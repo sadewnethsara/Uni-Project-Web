@@ -44,16 +44,14 @@ export default function LoginPage() {
 
     setIsLoading(true);
 
-    setTimeout(() => {
-      try {
-        login(email, password);
-        router.push("/dashboard");
-      } catch (err) {
-        setError("Invalid email or password. Please try again.");
-      } finally {
-        setIsLoading(false);
-      }
-    }, 900);
+    try {
+      await login(email, password);
+      router.push("/dashboard");
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Invalid email or password. Please try again.");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -75,7 +73,7 @@ export default function LoginPage() {
       />
 
       {/* Top Header Bar with Back Button */}
-      <div className="w-full max-w-8xl mx-auto flex items-center justify-between relative z-20 mb-4">
+      <div className="w-full max-w-5xl mx-auto flex items-center justify-between relative z-20 mb-4">
         <Link
           href="/"
           className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-bold transition-all border shadow-xs hover:bg-white/60"
@@ -102,7 +100,7 @@ export default function LoginPage() {
       </div>
 
       {/* Main Grid Content */}
-      <div className="w-full max-w-8xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-center relative z-10 my-auto py-4">
+      <div className="w-full max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-center relative z-10 my-auto py-4">
         
         {/* Left Side (7 Columns) — Live Snapshot / Returning User View */}
         <motion.div
@@ -343,18 +341,7 @@ export default function LoginPage() {
               </button>
             </form>
 
-            <div
-              className="mt-6 p-3 rounded-xl border flex items-center justify-between gap-2"
-              style={{
-                background: ANALYZE_THEME.surface,
-                borderColor: ANALYZE_THEME.border,
-              }}
-            >
-              <div className="flex items-center gap-2 text-xs font-medium" style={{ color: ANALYZE_THEME.inkMuted }}>
-                <KeyRound size={15} style={{ color: ANALYZE_THEME.accentInk }} />
-                <span>Demo mode? Any email & password logs in.</span>
-              </div>
-            </div>
+
           </div>
         </motion.div>
 

@@ -68,10 +68,10 @@ export default function SupportDeskPage() {
       />
 
       {/* Top Navigation */}
-      <div className="w-full max-w-7xl mx-auto flex items-center justify-between relative z-20 mb-6">
+      <div className="w-full max-w-5xl mx-auto flex items-center justify-between relative z-20 mb-6">
         <Link
           href="/"
-          className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-bold transition-all border shadow-xs hover:bg-white/60"
+          className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-bold transition-all border shadow-xs hover:bg-white/60 text-center"
           style={{
             background: ANALYZE_THEME.surface,
             borderColor: ANALYZE_THEME.border,
@@ -85,7 +85,7 @@ export default function SupportDeskPage() {
         <div className="flex items-center gap-3">
           <Link
             href="/faq"
-            className="text-xs font-bold px-3.5 py-2 rounded-xl hover:underline flex items-center gap-1.5"
+            className="text-xs font-bold px-3.5 py-2 rounded-xl hover:underline flex items-center gap-1.5 text-center"
             style={{ color: ANALYZE_THEME.inkMuted }}
           >
             <HelpCircle size={15} />
@@ -93,7 +93,7 @@ export default function SupportDeskPage() {
           </Link>
           <Link
             href="/login"
-            className="text-xs font-black px-4 py-2 rounded-xl text-white transition-all shadow-xs"
+            className="text-xs font-black px-4 py-2 rounded-xl text-white transition-all shadow-xs text-center"
             style={{ background: ANALYZE_THEME.accent }}
           >
             Terminal Access
@@ -102,7 +102,7 @@ export default function SupportDeskPage() {
       </div>
 
       {/* Main Container */}
-      <div className="w-full max-w-7xl mx-auto relative z-10 space-y-8 my-auto py-4">
+      <div className="w-full max-w-5xl mx-auto relative z-10 space-y-8 my-auto py-4">
         
         {/* Header Title */}
         <div className="text-center max-w-2xl mx-auto space-y-2">

@@ -1,17 +1,17 @@
 "use client";
 
-import EmojiMarquee from "@/components/effects/EmojiMarquee";
-import Footer from "@/components/Footer";
-import Newsletter from "@/components/NewsletterSection";
+import FloatingLanguageSwitcher from "@/components/FloatingLanguageSwitcher";
+import ConditionalFloatingChat from "@/components/ConditionalFloatingChat";
+import { AuthProvider } from "@/contexts/AuthContext";
 import { ANALYZE_THEME } from "@/lib/chartTheme";
 import { AnimatePresence, motion } from "motion/react";
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 
-export default function PublicLayout({
+export default function RootLayout({
   children,
-}: {
+}: Readonly<{
   children: React.ReactNode;
-}) {
+}>) {
   const [showScrollButton, setShowScrollButton] = useState(false);
   const scrollToTop = () => {
     const startPosition = window.scrollY;
@@ -49,9 +49,8 @@ export default function PublicLayout({
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-
   return (
-    <div className="flex-1 w-full max-w-8xl mx-auto px-0">
+    <div>
       <div className="fixed right-4 md:right-auto md:left-7 bottom-4 md:bottom-6 z-50 pointer-events-none">
         <AnimatePresence>
           {showScrollButton && (
@@ -78,29 +77,29 @@ export default function PublicLayout({
           )}
         </AnimatePresence>
       </div>
-
-      {/* Main Page Content */}
-      <main className="flex-1 w-full max-w-8xl mx-auto px-4 sm:px-6 lg:px-4 pb-4 sm:pb-6 lg:pb-4">
-        {children}
-        <Newsletter />
-        <EmojiMarquee />
-        <Footer />
-        {/* Footer copyright */}
-        <div
-          className="pb-0 pt-4 text-center text-xs font-semibold relative z-10"
-          style={{
-            borderColor: `${ANALYZE_THEME.border}80`,
-            color: ANALYZE_THEME.inkMuted
-          }}
-        >
-          <span className="block sm:inline">
-            © {new Date().getFullYear()} AgriLanka Intelligence Network.
-          </span>
-          <span className="block sm:inline">
-            {" "}All rights reserved.
-          </span>
-        </div>
-      </main>
+      <div suppressHydrationWarning className="min-h-full flex flex-col bg-[#fdf6e3]">
+        <AuthProvider>
+          <ConditionalFloatingChat />
+          <main className="flex-1 w-full max-w-8xl mx-auto px-4 sm:px-6 lg:px-4 pb-4 sm:pb-6 lg:pb-4">
+            {children}
+          </main>
+          {/* Footer copyright */}
+          <div
+            className="pb-3 pt-0 text-center text-xs font-semibold relative z-10"
+            style={{
+              borderColor: `${ANALYZE_THEME.border}80`,
+              color: ANALYZE_THEME.inkMuted
+            }}
+          >
+            <span className="block sm:inline">
+              © {new Date().getFullYear()} AgriLanka Intelligence Network.
+            </span>
+            <span className="block sm:inline">
+              {" "}All rights reserved.
+            </span>
+          </div>
+        </AuthProvider>
+      </div>
     </div>
   );
 }

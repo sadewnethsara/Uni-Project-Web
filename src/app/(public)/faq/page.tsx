@@ -121,7 +121,7 @@ export default function FaqPage() {
       <div className="w-full max-w-5xl mx-auto flex items-center justify-between relative z-20 mb-8">
         <Link
           href="/"
-          className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-bold transition-all border shadow-xs hover:bg-white/60"
+          className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-bold transition-all border shadow-xs hover:bg-white/60 text-center"
           style={{
             background: ANALYZE_THEME.surface,
             borderColor: ANALYZE_THEME.border,
@@ -135,14 +135,14 @@ export default function FaqPage() {
         <div className="flex items-center gap-3">
           <Link
             href="/contact"
-            className="text-xs font-bold px-3.5 py-2 rounded-xl hover:underline"
+            className="text-xs font-bold px-3.5 py-2 rounded-xl hover:underline text-center"
             style={{ color: ANALYZE_THEME.inkMuted }}
           >
             Contact Support
           </Link>
           <Link
             href="/login"
-            className="text-xs font-black px-4 py-2 rounded-xl text-white transition-all shadow-xs"
+            className="text-xs font-black px-4 py-2 rounded-xl text-white transition-all shadow-xs text-center"
             style={{ background: ANALYZE_THEME.accent }}
           >
             Sign In

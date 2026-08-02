@@ -1,15 +1,15 @@
 "use client";
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import { useAuth } from '@/contexts/AuthContext';
-import { 
-  User, 
-  Clock, 
-  TrendingUp, 
-  Bell, 
-  Mail, 
-  Smartphone, 
+import {
+  User,
+  Clock,
+  TrendingUp,
+  Bell,
+  Mail,
+  Smartphone,
   Settings,
   BarChart3,
   History,
@@ -68,9 +68,9 @@ export default function DashboardPage() {
 
   // Demo analytics data fallback if api fails
   const analyticsData = apiData ? {
-    totalMarkets: apiData.total_markets,
-    totalCategories: apiData.total_categories,
-    totalVegetables: apiData.total_vegetables,
+    totalMarkets: apiData.total_markets || 0,
+    totalCategories: apiData.total_categories || 0,
+    totalVegetables: apiData.total_vegetables || 0,
     latestPricesCount: apiData.latest_prices?.length || 0
   } : {
     totalMarkets: 0,
@@ -195,7 +195,7 @@ export default function DashboardPage() {
             </div>
 
             <div className="space-y-4">
-              {displayHistory.map((item, index) => (
+              {displayHistory.map((item: any, index: number) => (
                 <motion.div
                   key={item.id}
                   initial={{ opacity: 0, x: -20 }}
@@ -247,7 +247,7 @@ export default function DashboardPage() {
                 enabled={notificationSettings.email}
                 onToggle={(enabled) => handleNotificationChange('email', enabled)}
               />
-              
+
               <NotificationToggle
                 icon={<Smartphone size={20} className="text-purple-600" />}
                 title="Mobile Notifications"
@@ -255,7 +255,7 @@ export default function DashboardPage() {
                 enabled={notificationSettings.mobile}
                 onToggle={(enabled) => handleNotificationChange('mobile', enabled)}
               />
-              
+
               <NotificationToggle
                 icon={<TrendingUp size={20} className="text-emerald-600" />}
                 title="Marketing Updates"
@@ -263,7 +263,7 @@ export default function DashboardPage() {
                 enabled={notificationSettings.marketing}
                 onToggle={(enabled) => handleNotificationChange('marketing', enabled)}
               />
-              
+
               <NotificationToggle
                 icon={<ShieldCheck size={20} className="text-orange-600" />}
                 title="System Updates"
@@ -278,14 +278,14 @@ export default function DashboardPage() {
               <h3 className="font-semibold text-[#1a1a1a] mb-4">Quick Actions</h3>
               <div className="space-y-3">
                 <Link
-                  href="/market/dambulla"
+                  href="/markets/dambulla"
                   className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors text-gray-700"
                 >
                   <TrendingUp size={20} className="text-emerald-600" />
                   <span>View Market Prices</span>
                 </Link>
                 <Link
-                  href="/analyze"
+                  href="/analytics"
                   className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors text-gray-700"
                 >
                   <BarChart3 size={20} className="text-blue-600" />
@@ -300,11 +300,11 @@ export default function DashboardPage() {
   );
 }
 
-function StatCard({ icon, title, value, change, positive }: { 
-  icon: React.ReactNode; 
-  title: string; 
-  value: string; 
-  change: string; 
+function StatCard({ icon, title, value, change, positive }: {
+  icon: React.ReactNode;
+  title: string;
+  value: string;
+  change: string;
   positive: boolean;
 }) {
   return (
@@ -321,17 +321,17 @@ function StatCard({ icon, title, value, change, positive }: {
   );
 }
 
-function NotificationToggle({ 
-  icon, 
-  title, 
-  description, 
-  enabled, 
-  onToggle 
-}: { 
-  icon: React.ReactNode; 
-  title: string; 
-  description: string; 
-  enabled: boolean; 
+function NotificationToggle({
+  icon,
+  title,
+  description,
+  enabled,
+  onToggle
+}: {
+  icon: React.ReactNode;
+  title: string;
+  description: string;
+  enabled: boolean;
   onToggle: (enabled: boolean) => void;
 }) {
   return (
@@ -342,14 +342,12 @@ function NotificationToggle({
         <p className="text-sm text-gray-600 mb-2">{description}</p>
         <button
           onClick={() => onToggle(!enabled)}
-          className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-            enabled ? 'bg-emerald-600' : 'bg-gray-300'
-          }`}
+          className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${enabled ? 'bg-emerald-600' : 'bg-gray-300'
+            }`}
         >
           <span
-            className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
-              enabled ? 'translate-x-6' : 'translate-x-1'
-            }`}
+            className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${enabled ? 'translate-x-6' : 'translate-x-1'
+              }`}
           />
         </button>
       </div>

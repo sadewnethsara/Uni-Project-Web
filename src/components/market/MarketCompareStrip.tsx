@@ -95,6 +95,10 @@ export default function MarketCompareStrip({
   selectedMarketPrice,
   selectedMarketName 
 }: MarketCompareStripProps) {
+  if (!comparison) {
+    return null;
+  }
+
   return (
     <motion.div
       key={`${comparison.selected.label}-${comparison.selected.price ?? "na"}-${comparison.changeVsYesterday ?? "na"}-${comparison.changeVsLastYear ?? "na"}`}

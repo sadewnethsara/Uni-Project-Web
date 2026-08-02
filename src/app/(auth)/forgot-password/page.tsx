@@ -48,8 +48,8 @@ export default function ForgotPasswordPage() {
     e.preventDefault();
     setError("");
 
-    if (otp !== "1234" && otp.length !== 4) {
-      setError("Invalid OTP code. Use demo code '1234'.");
+    if (otp.length !== 4) {
+      setError("Invalid OTP code. Please enter the 4-digit code.");
       return;
     }
 
@@ -80,7 +80,7 @@ export default function ForgotPasswordPage() {
       />
 
       {/* Top Header Bar */}
-      <div className="w-full max-w-8xl mx-auto flex items-center justify-between relative z-20 mb-4">
+      <div className="w-full max-w-5xl mx-auto flex items-center justify-between relative z-20 mb-4">
         <Link
           href="/login"
           className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-bold transition-all border shadow-xs hover:bg-white/60"
@@ -104,7 +104,7 @@ export default function ForgotPasswordPage() {
       </div>
 
       {/* Main Grid Content */}
-      <div className="w-full max-w-8xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-center relative z-10 my-auto py-4">
+      <div className="w-full max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-center relative z-10 my-auto py-4">
         
         {/* Left Side (7 Columns) */}
         <motion.div

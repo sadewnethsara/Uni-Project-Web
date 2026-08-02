@@ -15,21 +15,15 @@ import MarketComparisonChart from "@/components/market/MarketComparisonChart";
 import MarketAnalyzeLink from "@/components/market/MarketAnalyzeLink";
 import MobileBottomSheet from "@/components/market/MobileBottomSheet";
 import { ANALYZE_THEME, PANEL_CLASS } from "@/lib/chartTheme";
-import { toISODate, formatDisplayDate } from "@/lib/analyticsData";
+import { formatDisplayDate, toISODate } from "@/lib/analyticsData";
 import { analyzeStore } from "@/lib/analyzeStore";
 import {
-  getMarketBoard,
   getMarketDisplayName,
   getMarketMeta,
   getCommodityById,
-  getPriceComparison,
-  getRecentSparkline,
   resolveViewDate,
   formatRs,
   MARKET_SLUGS,
-  getLowestPriceAcrossMarkets,
-  getHighestPriceAcrossMarkets,
-  getWeeklyMarketPrices,
   type DatePreset,
 } from "@/lib/marketPageData";
 
@@ -57,9 +51,14 @@ export default function MarketPage({ params }: PageProps) {
   const [bottomSheetTab, setBottomSheetTab] = useState<"vegetables" | "date">("vegetables");
   const [isScrolled, setIsScrolled] = useState(false);
 
+  // Data fetching state
+  const [apiBoard, setApiBoard] = useState<any[]>([]);
+  const [apiPrices, setApiPrices] = useState<any[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
   useEffect(() => {
     if (urlSegments.length === 0) {
-      router.replace("/market/dambulla");
+      router.replace("/markets/dambulla");
     }
   }, [router, urlSegments.length]);
 
@@ -75,63 +74,176 @@ export default function MarketPage({ params }: PageProps) {
   const marketName = getMarketDisplayName(marketId);
   const locationList = MARKET_SLUGS.map((id) => getMarketDisplayName(id));
 
-  const syncCommoditySelection = (commodityId: string | null) => {
-    const nextPath = `/markets/${marketId}${commodityId ? `?commodity=${encodeURIComponent(commodityId)}` : ""}`;
-    router.replace(nextPath, { scroll: false });
-  };
-
-  // Handle market change client-side
-  const handleMarketChange = (newMarketName: string) => {
-    // Save current scroll position
-    scrollPositionRef.current = window.scrollY;
-
-    // Find the market ID from the display name
-    const newMarketId = normalizeMarketSlug(
-      MARKET_SLUGS.find((slug) => getMarketDisplayName(slug) === newMarketName) || "dambulla"
-    );
-
-    // Update URL without full page reload and keep the current commodity selection
-    const nextPath = `/markets/${newMarketId}${selectedCommodityId ? `?commodity=${encodeURIComponent(selectedCommodityId)}` : ""}`;
-    router.push(nextPath, { scroll: false });
-
-    // Restore scroll position after a brief delay to allow DOM to update
-    setTimeout(() => {
-      window.scrollTo({ top: scrollPositionRef.current, behavior: "smooth" });
-    }, 50);
-  };
-
   const viewDate = useMemo(
     () => resolveViewDate(datePreset, customDate),
     [datePreset, customDate]
   );
   const viewDateLabel = formatDisplayDate(toISODate(viewDate));
 
-  const board = getMarketBoard(marketId, viewDate);
+  // Fetch prices and vegetables from API
+  useEffect(() => {
+    setIsLoading(true);
+    Promise.all([
+      fetch(`http://localhost/NAMIS/backend/api/prices.php`),
+      fetch(`http://localhost/NAMIS/backend/api/vegetables.php`)
+    ])
+      .then(responses => Promise.all(responses.map(res => res.json())))
+      .then(([prices, vegetables]) => {
+        setApiPrices(prices);
 
+        // Transform into the board format expected by components
+        const currentMarketPrices = prices.filter((p: any) => p.market_id === marketId && p.date === toISODate(viewDate));
+
+        const newBoard = vegetables.map((v: any) => {
+          const pEntry = currentMarketPrices.find((p: any) => p.vegetable_id === v.id);
+
+          // Find yesterday's price for trend
+          const yesterday = new Date(viewDate);
+          yesterday.setDate(yesterday.getDate() - 1);
+          const yDateStr = toISODate(yesterday);
+          const yEntry = prices.find((p: any) => p.market_id === marketId && p.vegetable_id === v.id && p.date === yDateStr);
+
+          let trend: "up" | "down" | "stable" | "none" = "none";
+          let changeVsPrior = null;
+
+          if (pEntry && yEntry) {
+            const diff = pEntry.price - yEntry.price;
+            if (diff > 0) trend = "up";
+            else if (diff < 0) trend = "down";
+            else trend = "stable";
+            changeVsPrior = Math.round((diff / yEntry.price) * 100);
+          }
+
+          return {
+            commodityId: v.id,
+            price: pEntry ? parseFloat(pEntry.price) : null,
+            available: !!pEntry,
+            changeVsPrior,
+            trend
+          };
+        });
+
+        setApiBoard(newBoard);
+        setIsLoading(false);
+      })
+      .catch(err => {
+        console.error("Error fetching market data", err);
+        setIsLoading(false);
+      });
+  }, [marketId, viewDateLabel]);
+
+  const syncCommoditySelection = (commodityId: string | null) => {
+    const nextPath = `/markets/${marketId}${commodityId ? `?commodity=${encodeURIComponent(commodityId)}` : ""}`;
+    router.replace(nextPath, { scroll: false });
+  };
+
+  const handleMarketChange = (newMarketName: string) => {
+    scrollPositionRef.current = window.scrollY;
+    const newMarketId = normalizeMarketSlug(
+      MARKET_SLUGS.find((slug) => getMarketDisplayName(slug) === newMarketName) || "dambulla"
+    );
+    const nextPath = `/markets/${newMarketId}${selectedCommodityId ? `?commodity=${encodeURIComponent(selectedCommodityId)}` : ""}`;
+    router.push(nextPath, { scroll: false });
+    setTimeout(() => {
+      window.scrollTo({ top: scrollPositionRef.current, behavior: "smooth" });
+    }, 50);
+  };
+
+  const board = apiBoard;
   const selectedCommodity = selectedCommodityId ? getCommodityById(selectedCommodityId) : null;
   const selectedRow = selectedCommodityId
     ? board.find((b) => b.commodityId === selectedCommodityId)
     : null;
 
-  const comparison = selectedCommodityId
-    ? getPriceComparison(marketId, selectedCommodityId, viewDate)
-    : null;
+  // Compute stats based on API data instead of mocked functions
+  const comparison = useMemo(() => {
+    if (!selectedCommodityId || apiPrices.length === 0) return null;
+    const todayStr = toISODate(viewDate);
 
-  const sparkline = selectedCommodityId
-    ? getRecentSparkline(marketId, selectedCommodityId, viewDate)
-    : [];
+    const yesterday = new Date(viewDate);
+    yesterday.setDate(yesterday.getDate() - 1);
+    const yestStr = toISODate(yesterday);
 
-  const lowestPrice = selectedCommodityId
-    ? getLowestPriceAcrossMarkets(selectedCommodityId, viewDate)
-    : null;
+    const lastYear = new Date(viewDate);
+    lastYear.setFullYear(lastYear.getFullYear() - 1);
+    const lastYearStr = toISODate(lastYear);
 
-  const highestPrice = selectedCommodityId
-    ? getHighestPriceAcrossMarkets(selectedCommodityId, viewDate)
-    : null;
+    const getPrice = (dateStr: string) => {
+      const p = apiPrices.find(p => p.market_id === marketId && p.vegetable_id === selectedCommodityId && p.date === dateStr);
+      return p ? parseFloat(p.price) : null;
+    };
 
-  const weeklyMarketPrices = selectedCommodityId
-    ? getWeeklyMarketPrices(selectedCommodityId, viewDate, marketId, marketName)
-    : [];
+    const pToday = getPrice(todayStr);
+    const pYest = getPrice(yestStr);
+    const pLastYear = getPrice(lastYearStr);
+
+    return {
+      selected: { date: todayStr, label: "Selected", price: pToday, available: pToday !== null },
+      yesterday: { date: yestStr, label: "Yesterday", price: pYest, available: pYest !== null },
+      lastYear: { date: lastYearStr, label: "Last Year", price: pLastYear, available: pLastYear !== null },
+      changeVsYesterday: pToday && pYest ? Math.round(((pToday - pYest) / pYest) * 100) : null,
+      changeVsLastYear: pToday && pLastYear ? Math.round(((pToday - pLastYear) / pLastYear) * 100) : null,
+    };
+  }, [selectedCommodityId, apiPrices, marketId, viewDate]);
+
+  const sparkline = useMemo(() => {
+    if (!selectedCommodityId || apiPrices.length === 0) return [];
+    return apiPrices
+      .filter(p => p.market_id === marketId && p.vegetable_id === selectedCommodityId)
+      .slice(0, 7)
+      .map(p => ({ date: p.date, label: formatDisplayDate(p.date), price: parseFloat(p.price) }))
+      .reverse();
+  }, [selectedCommodityId, apiPrices, marketId]);
+
+  const lowestPrice = useMemo(() => {
+    if (!selectedCommodityId || apiPrices.length === 0) return null;
+    const todayStr = toISODate(viewDate);
+    const prices = apiPrices.filter(p => p.vegetable_id === selectedCommodityId && p.date === todayStr);
+    if (prices.length === 0) return null;
+    const minP = Math.min(...prices.map(p => parseFloat(p.price)));
+    const minM = prices.find(p => parseFloat(p.price) === minP);
+    return minM ? { marketId: minM.market_id, marketName: getMarketDisplayName(minM.market_id), price: minP } : null;
+  }, [selectedCommodityId, apiPrices, viewDate]);
+
+  const highestPrice = useMemo(() => {
+    if (!selectedCommodityId || apiPrices.length === 0) return null;
+    const todayStr = toISODate(viewDate);
+    const prices = apiPrices.filter(p => p.vegetable_id === selectedCommodityId && p.date === todayStr);
+    if (prices.length === 0) return null;
+    const maxP = Math.max(...prices.map(p => parseFloat(p.price)));
+    const maxM = prices.find(p => parseFloat(p.price) === maxP);
+    return maxM ? { marketId: maxM.market_id, marketName: getMarketDisplayName(maxM.market_id), price: maxP } : null;
+  }, [selectedCommodityId, apiPrices, viewDate]);
+
+  const weeklyMarketPrices = useMemo(() => {
+    if (!selectedCommodityId || apiPrices.length === 0) return [];
+
+    const out: any[] = [];
+    for (let i = 6; i >= 0; i--) {
+      const d = new Date(viewDate);
+      d.setDate(d.getDate() - i);
+      const iso = toISODate(d);
+
+      const selectedPrice = apiPrices.find(p => p.market_id === marketId && p.vegetable_id === selectedCommodityId && p.date === iso);
+
+      const pricesForDay = apiPrices.filter(p => p.vegetable_id === selectedCommodityId && p.date === iso);
+      const lowest = pricesForDay.length > 0
+        ? pricesForDay.reduce((min, p) => parseFloat(p.price) < parseFloat(min.price) ? p : min)
+        : null;
+      const highest = pricesForDay.length > 0
+        ? pricesForDay.reduce((max, p) => parseFloat(p.price) > parseFloat(max.price) ? p : max)
+        : null;
+
+      out.push({
+        date: iso,
+        label: d.toLocaleDateString("en-LK", { weekday: "short", day: "numeric", month: "short" }),
+        lowest: lowest ? { price: parseFloat(lowest.price), marketName: getMarketDisplayName(lowest.market_id) } : null,
+        highest: highest ? { price: parseFloat(highest.price), marketName: getMarketDisplayName(highest.market_id) } : null,
+        selectedMarket: selectedPrice ? { price: parseFloat(selectedPrice.price), marketName: getMarketDisplayName(marketId) } : null,
+      });
+    }
+    return out;
+  }, [selectedCommodityId, apiPrices, marketId, viewDate]);
 
   const listedCount = board.filter((b) => b.available).length;
   const missingCount = board.length - listedCount;
@@ -149,6 +261,14 @@ export default function MarketPage({ params }: PageProps) {
         : `Opened analytics for ${marketName}.`,
     });
   };
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#fdf6e3] via-[#f5edd6] to-[#ebe5d5]">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-emerald-600"></div>
+      </div>
+    );
+  }
 
   return (
     <div
@@ -433,25 +553,25 @@ export default function MarketPage({ params }: PageProps) {
                             Wholesale spot
                           </p>
                           <p className="text-3xl sm:text-4xl font-black tabular-nums mt-1" style={{ color: ANALYZE_THEME.ink }}>
-                            {formatRs(selectedRow.price)}
+                            {formatRs(selectedRow?.price)}
                           </p>
                           <p className="text-xs font-bold" style={{ color: ANALYZE_THEME.inkMuted }}>
                             per kg
                           </p>
-                          {selectedRow.changeVsPrior != null && (
+                          {selectedRow?.changeVsPrior != null && (
                             <p
                               className="text-sm font-black mt-2 tabular-nums"
                               style={{
                                 color:
-                                  selectedRow.trend === "up"
+                                  selectedRow?.trend === "up"
                                     ? ANALYZE_THEME.up
-                                    : selectedRow.trend === "down"
+                                    : selectedRow?.trend === "down"
                                       ? ANALYZE_THEME.down
                                       : ANALYZE_THEME.inkMuted,
                               }}
                             >
-                              {selectedRow.changeVsPrior >= 0 ? "+" : ""}
-                              {selectedRow.changeVsPrior}% vs previous day
+                              {selectedRow?.changeVsPrior >= 0 ? "+" : ""}
+                              {selectedRow?.changeVsPrior}% vs previous day
                             </p>
                           )}
                         </motion.div>
@@ -461,7 +581,7 @@ export default function MarketPage({ params }: PageProps) {
                 </div>
 
                 {comparison && (
-                  <MarketCompareStrip 
+                  <MarketCompareStrip
                     comparison={comparison}
                     lowestPrice={lowestPrice}
                     highestPrice={highestPrice}

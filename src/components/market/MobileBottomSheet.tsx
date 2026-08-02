@@ -65,7 +65,7 @@ export default function MobileBottomSheet({
   const VegetableList = () => (
     <div className="px-4 py-4 space-y-2">
       {MARKET_COMMODITIES.map((item) => {
-        const row = board.find((b) => b.commodityId === item.id)!;
+        const row = board.find((b) => b.commodityId === item.id);
         const isActive = selectedCommodityId === item.id;
         const unavailable = !row?.available;
         return (
@@ -102,16 +102,16 @@ export default function MobileBottomSheet({
               ) : (
                 <>
                   <div className="font-extrabold text-base tabular-nums" style={{ color: ANALYZE_THEME.ink }}>
-                    {formatRs(row.price).replace("Rs. ", "Rs.")}
+                    {row?.price != null ? formatRs(row.price).replace("Rs. ", "Rs.") : "—"}
                   </div>
-                  {row.changeVsPrior != null && (
+                  {row?.changeVsPrior != null && (
                     <div
                       className="text-[11px] font-semibold mt-0.5 tabular-nums"
                       style={{
-                        color: row.trend === "up" ? ANALYZE_THEME.up : row.trend === "down" ? ANALYZE_THEME.down : ANALYZE_THEME.inkMuted,
+                        color: row?.trend === "up" ? ANALYZE_THEME.up : row?.trend === "down" ? ANALYZE_THEME.down : ANALYZE_THEME.inkMuted,
                       }}
                     >
-                      {row.changeVsPrior >= 0 ? "+" : ""}{row.changeVsPrior}%
+                      {row?.changeVsPrior >= 0 ? "+" : ""}{row?.changeVsPrior}%
                     </div>
                   )}
                 </>

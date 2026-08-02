@@ -88,7 +88,7 @@ export function calculateStatistics(values: number[]): StatisticsSummary {
   sorted.forEach((v) => {
     frequency[v] = (frequency[v] || 0) + 1;
   });
-  const mode = Object.entries(frequency).reduce((a, b) => (frequency[a[0]] > frequency[b[0]] ? a : b))[0];
+  const mode = Number(Object.entries(frequency).reduce((a, b) => (frequency[Number(a[0])] > frequency[Number(b[0])] ? a : b))[0]);
 
   // Variance and Standard Deviation
   const variance = sorted.reduce((sum, val) => sum + Math.pow(val - mean, 2), 0) / n;
@@ -113,7 +113,7 @@ export function calculateStatistics(values: number[]): StatisticsSummary {
   return {
     mean,
     median,
-    mode: parseFloat(mode),
+    mode,
     standardDeviation,
     variance,
     range,

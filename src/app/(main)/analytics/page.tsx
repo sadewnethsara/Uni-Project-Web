@@ -10,7 +10,6 @@ import ScatterPlot from "@/components/analyze/ScatterPlot";
 import Histogram from "@/components/analyze/Histogram";
 import BarChart from "@/components/analyze/BarChart";
 import ColumnChart from "@/components/analyze/ColumnChart";
-import ChartSelector from "@/components/analyze/ChartSelector";
 import AnalyticsPanel from "@/components/analyze/AnalyticsPanel";
 import TimeComparisonPanel from "@/components/analyze/TimeComparisonPanel";
 import HistoricalComparisonChart from "@/components/analyze/HistoricalComparisonChart";
@@ -185,11 +184,6 @@ export default function AnalyzePage() {
   };
 
   useEffect(() => {
-    const t = window.setTimeout(() => setPageReady(true), 80);
-    return () => window.clearTimeout(t);
-  }, []);
-
-  useEffect(() => {
     const onScroll = () => setIsScrolled(window.scrollY > 40);
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
@@ -214,6 +208,21 @@ export default function AnalyzePage() {
     const t = window.setTimeout(() => setIsUpdating(false), 520);
     return () => window.clearTimeout(t);
   }, [filterSig]);
+
+  useEffect(() => {
+    fetch('http://localhost/NAMIS/backend/api/prices.php')
+      .then(res => res.json())
+      .then(data => {
+        import('@/lib/analyticsData').then(m => {
+          m.setApiPrices(data);
+          const t = window.setTimeout(() => setPageReady(true), 80);
+        });
+      })
+      .catch(err => {
+        console.error("Failed to fetch prices for analytics", err);
+        const t = window.setTimeout(() => setPageReady(true), 80);
+      });
+  }, []);
 
   const seriesTruncated =
     dash.commodities.length * dash.markets.length > MAX_SERIES;
@@ -456,7 +465,7 @@ export default function AnalyzePage() {
           />
         </div>
 
-        
+
 
         <div
           className="mb-4 px-3 py-2.5 rounded-xl text-[11px] font-medium flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2"
@@ -568,69 +577,69 @@ export default function AnalyzePage() {
               <AnalyticsPanel seriesList={seriesList} />
             </CollapsibleSection>
             {/* Market Prediction Panel */}
-        <CollapsibleSection
-          id="market-prediction"
-          title="Market Predictions"
-          subtitle="AI-powered price forecasts & trend analysis"
-          defaultOpen={true}
-        >
-          <MarketPredictionPanel
-            predictions={[
-              {
-                market: getMarketLabel(primaryMarket),
-                trend: (primaryStats.changePct >= 0 ? "up" : "down") as "up" | "down" | "stable",
-                confidence: 75 + Math.floor(Math.random() * 15),
-                timeframe: dash.timeframe === "1D" ? "24h" : dash.timeframe === "7D" ? "7 days" : dash.timeframe === "1M" ? "30 days" : "90 days",
-                reasoning: primaryStats.changePct >= 0 
-                  ? `Strong ${commodityName} demand observed at ${getMarketLabel(primaryMarket)}. Historical patterns suggest continued upward trend based on seasonal factors and current supply constraints.`
-                  : `${commodityName} prices softening at ${getMarketLabel(primaryMarket)}. Increased supply from regional markets and seasonal harvest putting downward pressure on prices.`,
-                currentPrice: primaryStats.latest,
-                predictedPrice: primaryStats.latest * (1 + (primaryStats.changePct / 100) * 1.5),
-              },
-              ...(dash.markets.length > 1 ? [{
-                market: getMarketLabel(dash.markets[1]),
-                trend: (Math.random() > 0.5 ? "up" : "down") as const,
-                confidence: 70 + Math.floor(Math.random() * 20),
-                timeframe: dash.timeframe === "1D" ? "24h" : dash.timeframe === "7D" ? "7 days" : dash.timeframe === "1M" ? "30 days" : "90 days",
-                reasoning: `Cross-market analysis shows correlation with ${getMarketLabel(primaryMarket)}. Price differentials may normalize as traders arbitrage opportunities.`,
-                currentPrice: statsList[1]?.stats.latest || primaryStats.latest * 0.95,
-                predictedPrice: (statsList[1]?.stats.latest || primaryStats.latest * 0.95) * (1 + (Math.random() - 0.5) * 0.1),
-              }] : []),
-            ]}
-          />
-        </CollapsibleSection>
+            <CollapsibleSection
+              id="market-prediction"
+              title="Market Predictions"
+              subtitle="AI-powered price forecasts & trend analysis"
+              defaultOpen={true}
+            >
+              <MarketPredictionPanel
+                predictions={[
+                  {
+                    market: getMarketLabel(primaryMarket),
+                    trend: (primaryStats.changePct >= 0 ? "up" : "down") as "up" | "down" | "stable",
+                    confidence: 75 + Math.floor(Math.random() * 15),
+                    timeframe: dash.timeframe === "1D" ? "24h" : dash.timeframe === "7D" ? "7 days" : dash.timeframe === "1M" ? "30 days" : "90 days",
+                    reasoning: primaryStats.changePct >= 0
+                      ? `Strong ${commodityName} demand observed at ${getMarketLabel(primaryMarket)}. Historical patterns suggest continued upward trend based on seasonal factors and current supply constraints.`
+                      : `${commodityName} prices softening at ${getMarketLabel(primaryMarket)}. Increased supply from regional markets and seasonal harvest putting downward pressure on prices.`,
+                    currentPrice: primaryStats.latest,
+                    predictedPrice: primaryStats.latest * (1 + (primaryStats.changePct / 100) * 1.5),
+                  },
+                  ...(dash.markets.length > 1 ? [{
+                    market: getMarketLabel(dash.markets[1]),
+                    trend: (Math.random() > 0.5 ? "up" : "down") as "up" | "down",
+                    confidence: 70 + Math.floor(Math.random() * 20),
+                    timeframe: dash.timeframe === "1D" ? "24h" : dash.timeframe === "7D" ? "7 days" : dash.timeframe === "1M" ? "30 days" : "90 days",
+                    reasoning: `Cross-market analysis shows correlation with ${getMarketLabel(primaryMarket)}. Price differentials may normalize as traders arbitrage opportunities.`,
+                    currentPrice: statsList[1]?.stats.latest || primaryStats.latest * 0.95,
+                    predictedPrice: (statsList[1]?.stats.latest || primaryStats.latest * 0.95) * (1 + (Math.random() - 0.5) * 0.1),
+                  }] : []),
+                ]}
+              />
+            </CollapsibleSection>
 
-        <CollapsibleSection
-          id="time-comparison"
-          title="Time Comparison"
-          subtitle="Today vs yesterday, last year, 2 years, 3 years"
-          defaultOpen={true}
-        >
-          <TimeComparisonPanel
-            commodityId={primaryCommodity}
-            marketId={primaryMarket}
-            currentDate={to}
-            gradeFilter={dash.gradeFilter}
-          />
-        </CollapsibleSection>
+            <CollapsibleSection
+              id="time-comparison"
+              title="Time Comparison"
+              subtitle="Today vs yesterday, last year, 2 years, 3 years"
+              defaultOpen={true}
+            >
+              <TimeComparisonPanel
+                commodityId={primaryCommodity}
+                marketId={primaryMarket}
+                currentDate={to}
+                gradeFilter={dash.gradeFilter}
+              />
+            </CollapsibleSection>
 
-        <CollapsibleSection
-          id="historical-chart"
-          title="Historical Trends"
-          subtitle="30-day comparison across multiple years"
-          defaultOpen={false}
-        >
-          <HistoricalComparisonChart
-            commodityId={primaryCommodity}
-            marketId={primaryMarket}
-            currentDate={to}
-            gradeFilter={dash.gradeFilter}
-          />
-        </CollapsibleSection>
+            <CollapsibleSection
+              id="historical-chart"
+              title="Historical Trends"
+              subtitle="30-day comparison across multiple years"
+              defaultOpen={false}
+            >
+              <HistoricalComparisonChart
+                commodityId={primaryCommodity}
+                marketId={primaryMarket}
+                currentDate={to}
+                gradeFilter={dash.gradeFilter}
+              />
+            </CollapsibleSection>
 
-            <CollapsibleSection 
-              id="venue-cards" 
-              title="Series snapshot" 
+            <CollapsibleSection
+              id="venue-cards"
+              title="Series snapshot"
               subtitle="Latest vs prior bar"
             >
               <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 p-3">
@@ -667,89 +676,89 @@ export default function AnalyzePage() {
               </div>
             </CollapsibleSection>
 
-              <CollapsibleSection
-                id="session-ledger"
-                title="Session ledger"
-                subtitle={`${primary?.points.length ?? 0} bars · Rs/kg`}
-                defaultOpen
-              >
-                <div className="overflow-x-auto max-h-72 overflow-y-auto">
-                  <table className="w-full text-left text-xs">
-                    <thead
-                      className="sticky top-0 z-10 border-b"
-                      style={{ background: ANALYZE_THEME.surfaceRaised, borderColor: ANALYZE_THEME.border }}
+            <CollapsibleSection
+              id="session-ledger"
+              title="Session ledger"
+              subtitle={`${primary?.points.length ?? 0} bars · Rs/kg`}
+              defaultOpen
+            >
+              <div className="overflow-x-auto max-h-72 overflow-y-auto">
+                <table className="w-full text-left text-xs">
+                  <thead
+                    className="sticky top-0 z-10 border-b"
+                    style={{ background: ANALYZE_THEME.surfaceRaised, borderColor: ANALYZE_THEME.border }}
+                  >
+                    <tr
+                      className="text-[10px] uppercase tracking-wide font-bold"
+                      style={{ color: ANALYZE_THEME.inkFaint }}
                     >
-                      <tr
-                        className="text-[10px] uppercase tracking-wide font-bold"
-                        style={{ color: ANALYZE_THEME.inkFaint }}
+                      <th
+                        className="px-3 py-2 sticky left-0"
+                        style={{ background: ANALYZE_THEME.surfaceRaised }}
                       >
-                        <th
-                          className="px-3 py-2 sticky left-0"
-                          style={{ background: ANALYZE_THEME.surfaceRaised }}
-                        >
-                          Time
+                        Time
+                      </th>
+                      {seriesList.map((s, idx) => (
+                        <th key={s.marketId} className="px-3 py-2 whitespace-nowrap">
+                          <span className="inline-flex items-center gap-1">
+                            <span
+                              className="w-1.5 h-1.5 rounded-full"
+                              style={{ background: getSeriesColor(idx) }}
+                            />
+                            {s.marketName}
+                          </span>
                         </th>
-                        {seriesList.map((s, idx) => (
-                          <th key={s.marketId} className="px-3 py-2 whitespace-nowrap">
-                            <span className="inline-flex items-center gap-1">
-                              <span
-                                className="w-1.5 h-1.5 rounded-full"
-                                style={{ background: getSeriesColor(idx) }}
-                              />
-                              {s.marketName}
-                            </span>
-                          </th>
-                        ))}
-                        <th className="px-3 py-2">O</th>
-                        <th className="px-3 py-2">H</th>
-                        <th className="px-3 py-2">L</th>
-                        <th className="px-3 py-2">C</th>
-                        <th className="px-3 py-2">Vol</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {[...(primary?.points ?? [])].reverse().map((p, revIdx) => {
-                        const idx = (primary?.points.length ?? 0) - 1 - revIdx;
-                        const up = (p.close ?? p.price) >= (p.open ?? p.price);
-                        return (
-                          <tr
-                            key={p.date}
-                            className="font-semibold tabular-nums border-b"
-                            style={{ borderColor: ANALYZE_THEME.border, color: ANALYZE_THEME.ink }}
+                      ))}
+                      <th className="px-3 py-2">O</th>
+                      <th className="px-3 py-2">H</th>
+                      <th className="px-3 py-2">L</th>
+                      <th className="px-3 py-2">C</th>
+                      <th className="px-3 py-2">Vol</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {[...(primary?.points ?? [])].reverse().map((p, revIdx) => {
+                      const idx = (primary?.points.length ?? 0) - 1 - revIdx;
+                      const up = (p.close ?? p.price) >= (p.open ?? p.price);
+                      return (
+                        <tr
+                          key={p.date}
+                          className="font-semibold tabular-nums border-b"
+                          style={{ borderColor: ANALYZE_THEME.border, color: ANALYZE_THEME.ink }}
+                        >
+                          <td
+                            className="px-3 py-2 sticky left-0"
+                            style={{
+                              color: ANALYZE_THEME.inkMuted,
+                              background: ANALYZE_THEME.surfaceRaised,
+                            }}
                           >
-                            <td
-                              className="px-3 py-2 sticky left-0"
-                              style={{
-                                color: ANALYZE_THEME.inkMuted,
-                                background: ANALYZE_THEME.surfaceRaised,
-                              }}
-                            >
-                              {p.label}
+                            {p.label}
+                          </td>
+                          {seriesList.map((s, sIdx) => (
+                            <td key={s.marketId} className="px-3 py-2" style={{ color: getSeriesColor(sIdx) }}>
+                              {(s.points[idx]?.price ?? 0).toFixed(2)}
                             </td>
-                            {seriesList.map((s, sIdx) => (
-                              <td key={s.marketId} className="px-3 py-2" style={{ color: getSeriesColor(sIdx) }}>
-                                {(s.points[idx]?.price ?? 0).toFixed(2)}
-                              </td>
-                            ))}
-                            <td className="px-3 py-2">{(p.open ?? p.price).toFixed(2)}</td>
-                            <td className="px-3 py-2">{(p.high ?? p.price).toFixed(2)}</td>
-                            <td className="px-3 py-2">{(p.low ?? p.price).toFixed(2)}</td>
-                            <td
-                              className="px-3 py-2"
-                              style={{ color: up ? ANALYZE_THEME.up : ANALYZE_THEME.down }}
-                            >
-                              {(p.close ?? p.price).toFixed(2)}
-                            </td>
-                            <td className="px-3 py-2" style={{ color: ANALYZE_THEME.inkMuted }}>
-                              {(p.volume ?? 0).toLocaleString()}
-                            </td>
-                          </tr>
-                        );
-                      })}
-                    </tbody>
-                  </table>
-                </div>
-              </CollapsibleSection>
+                          ))}
+                          <td className="px-3 py-2">{(p.open ?? p.price).toFixed(2)}</td>
+                          <td className="px-3 py-2">{(p.high ?? p.price).toFixed(2)}</td>
+                          <td className="px-3 py-2">{(p.low ?? p.price).toFixed(2)}</td>
+                          <td
+                            className="px-3 py-2"
+                            style={{ color: up ? ANALYZE_THEME.up : ANALYZE_THEME.down }}
+                          >
+                            {(p.close ?? p.price).toFixed(2)}
+                          </td>
+                          <td className="px-3 py-2" style={{ color: ANALYZE_THEME.inkMuted }}>
+                            {(p.volume ?? 0).toLocaleString()}
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+            </CollapsibleSection>
 
             {commodityMeta.description && (
               <p className="text-[11px] font-medium px-1" style={{ color: ANALYZE_THEME.inkMuted }}>
@@ -759,7 +768,7 @@ export default function AnalyzePage() {
           </div>
 
           <div
-            className={`w-full xl:w-72 flex-shrink-0 flex-col gap-3 xl:sticky xl:top-30 xl:self-start ${mobileTab === "depth" ? "flex" : "hidden xl:flex"
+            className={`w-full xl:w-72 flex-shrink-0 flex-col gap-3 xl:sticky xl:top-30 xl:self-start ${mobileTab === "ledger" ? "flex" : "hidden xl:flex"
               }`}
           >
             <div

@@ -38,9 +38,9 @@ export default function MarketOverviewGrid({ board, selectedId, onSelect, market
   return (
     <div className="grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-3 xl:grid-cols-2 2xl:grid-cols-3 gap-3">
       {MARKET_COMMODITIES.map((commodity, idx) => {
-        const row = board.find((b) => b.commodityId === commodity.id)!;
+        const row = board.find((b) => b.commodityId === commodity.id);
         const isActive = selectedId === commodity.id;
-        const unavailable = !row.available;
+        const unavailable = !row?.available;
 
         return (
           <motion.button
@@ -94,12 +94,12 @@ export default function MarketOverviewGrid({ board, selectedId, onSelect, market
                       transition={{ duration: 0.15, ease: "easeInOut" }}
                     >
                       <p className="text-lg font-black tabular-nums" style={{ color: ANALYZE_THEME.ink }}>
-                        {formatRs(row.price)}
+                        {row?.price != null ? formatRs(row.price) : "—"}
                         <span className="text-[11px] font-bold ml-1" style={{ color: ANALYZE_THEME.inkFaint }}>
                           / kg
                         </span>
                       </p>
-                      <TrendBadge trend={row.trend} change={row.changeVsPrior} />
+                      <TrendBadge trend={row?.trend} change={row?.changeVsPrior} />
                     </motion.div>
                   </AnimatePresence>
                 )}

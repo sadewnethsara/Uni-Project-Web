@@ -37,10 +37,10 @@ export default function AboutPage() {
       />
 
       {/* Top Header Navigation */}
-      <div className="w-full max-w-7xl mx-auto flex items-center justify-between relative z-20 mb-8">
+      <div className="w-full max-w-5xl mx-auto flex items-center justify-between relative z-20 mb-8">
         <Link
           href="/"
-          className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-bold transition-all border shadow-xs hover:bg-white/60"
+          className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-bold transition-all border shadow-xs hover:bg-white/60 text-center"
           style={{
             background: ANALYZE_THEME.surface,
             borderColor: ANALYZE_THEME.border,
@@ -54,7 +54,7 @@ export default function AboutPage() {
         <div className="flex items-center gap-3">
           <Link
             href="/login"
-            className="text-xs font-bold px-4 py-2 rounded-xl border transition-all"
+            className="text-xs font-bold px-4 py-2 rounded-xl border transition-all text-center"
             style={{
               borderColor: ANALYZE_THEME.border,
               color: ANALYZE_THEME.ink,
@@ -65,7 +65,7 @@ export default function AboutPage() {
           </Link>
           <Link
             href="/signup"
-            className="text-xs font-black px-4 py-2 rounded-xl text-white transition-all shadow-xs"
+            className="text-xs font-black px-4 py-2 rounded-xl text-white transition-all shadow-xs text-center"
             style={{ background: ANALYZE_THEME.accent }}
           >
             Get Started
@@ -74,7 +74,7 @@ export default function AboutPage() {
       </div>
 
       {/* Main Container */}
-      <div className="w-full max-w-7xl mx-auto relative z-10 space-y-12 my-auto py-4">
+      <div className="w-full max-w-5xl mx-auto relative z-10 space-y-12 my-auto py-4">
         
         {/* Hero Section */}
         <motion.div

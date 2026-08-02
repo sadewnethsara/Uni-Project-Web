@@ -49,7 +49,7 @@ export default function Footer() {
       }}
     >
       {/* PixelBlast Background */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+      <div className="absolute inset-0 pointer-events-none overflow-hidden hidden md:block">
           <Antigravity
             count={300}
             magnetRadius={6}
@@ -74,14 +74,14 @@ export default function Footer() {
         variants={containerVariants}
         initial="hidden"
         animate={isInView ? "visible" : "hidden"}
-        className="relative z-10 mx-auto max-w-8xl space-y-12 px-12"
+        className="relative z-10 mx-auto max-w-8xl space-y-12 px-6 md:px-12"
       >
         {/* Top Section */}
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-4">
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-3 lg:grid-cols-7">
           {/* Brand Info */}
           <motion.div
             variants={itemVariants}
-            className="space-y-4 md:col-span-2"
+            className="space-y-4 md:col-span-2 lg:col-span-2"
           >
             <div className="flex items-center gap-2">
               <span
@@ -102,13 +102,21 @@ export default function Footer() {
             </p>
           </motion.div>
 
-          {/* Platform Links */}
+          {/* Public Pages */}
           <motion.div variants={itemVariants} className="space-y-3">
             <h4 className="text-xs font-semibold uppercase tracking-widest text-gray-400">
-              Platform
+              Public
             </h4>
 
             <ul className="space-y-2 text-sm">
+              <li>
+                <Link
+                  href="/"
+                  className="text-gray-300 transition-colors hover:text-white hover:underline underline-offset-4"
+                >
+                  Home
+                </Link>
+              </li>
               <li>
                 <Link
                   href="/markets"
@@ -117,7 +125,6 @@ export default function Footer() {
                   Market Intelligence
                 </Link>
               </li>
-
               <li>
                 <Link
                   href="/trends"
@@ -126,7 +133,32 @@ export default function Footer() {
                   Price Index
                 </Link>
               </li>
+            </ul>
+          </motion.div>
 
+          {/* Main Pages */}
+          <motion.div variants={itemVariants} className="space-y-3">
+            <h4 className="text-xs font-semibold uppercase tracking-widest text-gray-400">
+              Main
+            </h4>
+
+            <ul className="space-y-2 text-sm">
+              <li>
+                <Link
+                  href="/dashboard"
+                  className="text-gray-300 transition-colors hover:text-white hover:underline underline-offset-4"
+                >
+                  Dashboard
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/analyze"
+                  className="text-gray-300 transition-colors hover:text-white hover:underline underline-offset-4"
+                >
+                  Analysis
+                </Link>
+              </li>
               <li>
                 <Link
                   href="/hubs"
@@ -138,38 +170,112 @@ export default function Footer() {
             </ul>
           </motion.div>
 
-          {/* Connect Links */}
+          {/* Auth Pages */}
           <motion.div variants={itemVariants} className="space-y-3">
             <h4 className="text-xs font-semibold uppercase tracking-widest text-gray-400">
-              Connect
+              Auth
             </h4>
 
             <ul className="space-y-2 text-sm">
               <li>
-                <a
-                  href="#"
+                <Link
+                  href="/login"
                   className="text-gray-300 transition-colors hover:text-white hover:underline underline-offset-4"
                 >
-                  API Access
-                </a>
+                  Login
+                </Link>
               </li>
-
               <li>
-                <a
-                  href="#"
+                <Link
+                  href="/signup"
                   className="text-gray-300 transition-colors hover:text-white hover:underline underline-offset-4"
                 >
-                  Documentation
-                </a>
+                  Sign Up
+                </Link>
               </li>
-
               <li>
-                <a
-                  href="#"
+                <Link
+                  href="/forgot-password"
                   className="text-gray-300 transition-colors hover:text-white hover:underline underline-offset-4"
                 >
-                  System Status
-                </a>
+                  Reset Password
+                </Link>
+              </li>
+            </ul>
+          </motion.div>
+
+          {/* Admin Pages */}
+          <motion.div variants={itemVariants} className="space-y-3">
+            <h4 className="text-xs font-semibold uppercase tracking-widest text-gray-400">
+              Admin
+            </h4>
+
+            <ul className="space-y-2 text-sm">
+              <li>
+                <Link
+                  href="/admin"
+                  className="text-gray-300 transition-colors hover:text-white hover:underline underline-offset-4"
+                >
+                  Admin Panel
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/admin/users"
+                  className="text-gray-300 transition-colors hover:text-white hover:underline underline-offset-4"
+                >
+                  Users
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/admin/settings"
+                  className="text-gray-300 transition-colors hover:text-white hover:underline underline-offset-4"
+                >
+                  Settings
+                </Link>
+              </li>
+            </ul>
+          </motion.div>
+
+          {/* Support Pages */}
+          <motion.div variants={itemVariants} className="space-y-3">
+            <h4 className="text-xs font-semibold uppercase tracking-widest text-gray-400">
+              Support
+            </h4>
+
+            <ul className="space-y-2 text-sm">
+              <li>
+                <Link
+                  href="/about"
+                  className="text-gray-300 transition-colors hover:text-white hover:underline underline-offset-4"
+                >
+                  About Us
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/faq"
+                  className="text-gray-300 transition-colors hover:text-white hover:underline underline-offset-4"
+                >
+                  FAQ
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/contact"
+                  className="text-gray-300 transition-colors hover:text-white hover:underline underline-offset-4"
+                >
+                  Contact
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/support"
+                  className="text-gray-300 transition-colors hover:text-white hover:underline underline-offset-4"
+                >
+                  Support Desk
+                </Link>
               </li>
             </ul>
           </motion.div>

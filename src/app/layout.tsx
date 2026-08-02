@@ -58,7 +58,6 @@ export default function RootLayout({
       <body suppressHydrationWarning className="min-h-full flex flex-col bg-[#fdf6e3]">
         <AuthProvider>
           <Header />
-          <FloatingLanguageSwitcher />
           <ConditionalFloatingChat />
           {/* Note: removed the class string 'suppressHydrationWarning' here since it is an attribute, not a class name */}
           <main className="flex-1 w-full max-w-8xl mx-auto">

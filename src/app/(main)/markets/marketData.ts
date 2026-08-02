@@ -7,6 +7,8 @@ export interface MarketDetail {
     trend: "up" | "down" | "stable";
     history: { date: string; price: number }[];
     description?: string;
+    image?: string;
+    category?: string;
 }
 
 export interface SidebarItem {
@@ -42,6 +44,8 @@ export const COMMODITY_DETAILS: Record<string, MarketDetail> = Object.fromEntrie
             change: ((i % 3) - 1) * 4.2,
             trend: (["up", "down", "stable"] as const)[i % 3],
             description: c.description,
+            image: c.image,
+            category: c.category,
             history: [
                 { date: "Selected day", price: 200 + (i % 5) * 25 },
                 { date: "Yesterday", price: 195 + (i % 5) * 22 },

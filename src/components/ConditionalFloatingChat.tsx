@@ -6,8 +6,20 @@ import FloatingChat from "./FloatingChat";
 export default function ConditionalFloatingChat() {
   const pathname = usePathname();
   
-  // Hide floating chat on landing page only
-  if (pathname === "/") {
+  const hiddenPaths = [
+    "/",
+    "/login",
+    "/signup",
+    "/forgot-password",
+    "/about-us",
+    "/contact",
+    "/faq",
+    "/privacy",
+    "/support-desk",
+    "/terms"
+  ];
+
+  if (hiddenPaths.includes(pathname)) {
     return null;
   }
   

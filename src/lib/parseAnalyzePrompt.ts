@@ -7,7 +7,7 @@ import {
   type GradeFilter,
   type TimeframePreset,
 } from "@/lib/analyticsData";
-import { SIDEBAR_ITEMS } from "@/app/market/marketData";
+import { SIDEBAR_ITEMS } from "@/app/(main)/markets/marketData";
 
 export interface ParsedAnalyzeIntent {
   commodities?: string[];

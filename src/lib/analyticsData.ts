@@ -1,4 +1,4 @@
-/** Deterministic multi-market commodity price analytics (Rs/kg). */
+/** Multi-market commodity price analytics (Rs/kg) - Now uses MySQL backend data */
 
 export type PeriodMode = "today" | "week" | "month" | "year" | "custom" | "multi";
 export type GradeFilter = "all" | "premium" | "standard";
@@ -54,6 +54,23 @@ export const ANALYZE_MARKETS: MarketMeta[] = [
   { id: "nuwara-eliya", name: "Nuwara Eliya Economic Center", shortName: "Nuwara Eliya" },
 ];
 
+// Fallback function to get short name from full name
+export function getShortNameFromFullName(fullName: string): string {
+  const nameMap: Record<string, string> = {
+    "Dambulla Dedicated Economic Center": "Dambulla",
+    "Manning Market (Colombo)": "Manning",
+    "Minuwangoda Dedicated Economic Center": "Minuwangoda",
+    "Keppetipola Dedicated Economic Center": "Keppetipola",
+    "Meegoda Dedicated Economic Center": "Meegoda",
+    "Welisara Dedicated Economic Center": "Welisara",
+    "Thambuttegama Dedicated Economic Center": "Thambuttegama",
+    "Narahenpita Dedicated Economic Center": "Narahenpita",
+    "Embilipitiya Dedicated Economic Center": "Embilipitiya",
+    "Nuwara Eliya Economic Center": "Nuwara Eliya"
+  };
+  return nameMap[fullName] || fullName;
+}
+
 /** Stable palette for multi-market chart / legend series */
 export const SERIES_COLORS = [
   "#171717",
@@ -74,24 +91,6 @@ export function getSeriesColor(index: number): string {
 
 export const DEFAULT_COMPARE_MARKETS = ["dambulla", "keppetipola", "nuwara-eliya"];
 
-/** Base wholesale Rs/kg anchors per commodity */
-const COMMODITY_BASE: Record<string, number> = {
-  carrot: 260,
-  leeks: 185,
-  cabbage: 145,
-  potato: 205,
-  tomato: 290,
-  brinjal: 170,
-  beans: 235,
-  chilli: 420,
-  cucumber: 155,
-  pumpkin: 95,
-  onion: 310,
-  capsicum: 380,
-  beetroot: 175,
-  knol_khol: 140,
-};
-
 export const ANALYZE_COMMODITIES = [
   { id: "carrot", name: "Carrot" },
   { id: "beans", name: "Beans" },
@@ -111,40 +110,6 @@ export const ANALYZE_COMMODITIES = [
 
 export function getCommodityLabel(id: string): string {
   return ANALYZE_COMMODITIES.find((c) => c.id === id)?.name ?? id;
-}
-
-/** Market price multipliers vs national baseline */
-const MARKET_FACTOR: Record<string, number> = {
-  dambulla: 0.92,
-  manning: 1.18,
-  minuwangoda: 1.05,
-  keppetipola: 0.88,
-  meegoda: 1.12,
-  welisara: 1.08,
-  thambuttegama: 0.85,
-  narahenpita: 1.22,
-  embilipitiya: 0.95,
-  "nuwara-eliya": 0.9,
-};
-
-const GRADE_FACTOR: Record<GradeFilter, number> = {
-  all: 1,
-  premium: 1.12,
-  standard: 0.94,
-};
-
-function hashString(input: string): number {
-  let h = 2166136261;
-  for (let i = 0; i < input.length; i++) {
-    h ^= input.charCodeAt(i);
-    h = Math.imul(h, 16777619);
-  }
-  return h >>> 0;
-}
-
-function seededUnit(seed: number): number {
-  const x = Math.sin(seed * 12.9898 + seed * 78.233) * 43758.5453;
-  return x - Math.floor(x);
 }
 
 function pad(n: number) {
@@ -169,29 +134,31 @@ export function getMarketLabel(id: string): string {
   return ANALYZE_MARKETS.find((m) => m.id === id)?.shortName ?? id;
 }
 
-/** Spot price for a commodity at a market on a calendar day (deterministic). */
+let _apiPrices: any[] = [];
+
+export function setApiPrices(prices: any[]) {
+  _apiPrices = prices;
+}
+
+/** Spot price for a commodity at a market on a calendar day (from API data). */
 export function getDailyPrice(
   commodityId: string,
   marketId: string,
   date: Date,
   grade: GradeFilter = "all"
 ): number {
-  const base = COMMODITY_BASE[commodityId] ?? 200;
-  const market = MARKET_FACTOR[marketId] ?? 1;
-  const gradeMul = GRADE_FACTOR[grade];
-
   const dayKey = toISODate(date);
-  const seed = hashString(`${commodityId}|${marketId}|${dayKey}`);
-  const noise = (seededUnit(seed) - 0.5) * 0.22;
-  const seasonal = Math.sin((date.getMonth() / 12) * Math.PI * 2 + hashString(commodityId) * 0.01) * 0.08;
-  const weekly = Math.sin((date.getDay() / 7) * Math.PI * 2) * 0.03;
-  const trend = ((date.getFullYear() - 2024) * 12 + date.getMonth()) * 0.004;
+  
+  if (_apiPrices.length > 0) {
+    const entry = _apiPrices.find(p => p.vegetable_id === commodityId && p.market_id === marketId && p.date === dayKey);
+    if (entry) return parseFloat(entry.price);
+  }
 
-  const raw = base * market * gradeMul * (1 + noise + seasonal + weekly + trend);
-  return Math.round(raw * 100) / 100;
+  // Return default price if no data available
+  return 0;
 }
 
-/** OHLC + volume for candle charts (deterministic from daily close). */
+/** OHLC + volume for candle charts (from API data). */
 export function getDailyOHLC(
   commodityId: string,
   marketId: string,
@@ -202,27 +169,14 @@ export function getDailyOHLC(
   const prev = new Date(date);
   prev.setDate(prev.getDate() - 1);
   const prevClose = getDailyPrice(commodityId, marketId, prev, grade);
-  const seed = hashString(`${commodityId}|${marketId}|${toISODate(date)}|ohlc`);
-  const rangePct = 0.025 + seededUnit(seed) * 0.04;
-  const open = Math.round(prevClose * (1 + (seededUnit(seed + 1) - 0.5) * 0.02) * 100) / 100;
-  const high = Math.round(Math.max(open, close) * (1 + rangePct) * 100) / 100;
-  const low = Math.round(Math.min(open, close) * (1 - rangePct) * 100) / 100;
-  const volume = Math.round(800 + seededUnit(seed + 7) * 4200 + Math.abs(close - open) * 12);
+  
+  // Simple OHLC calculation from API data
+  const open = prevClose || close;
+  const high = Math.max(open, close);
+  const low = Math.min(open, close);
+  const volume = 1000; // Default volume
+  
   return { open, high, low, close, volume, price: close };
-}
-
-function getHourlyPrice(
-  commodityId: string,
-  marketId: string,
-  date: Date,
-  hour: number,
-  grade: GradeFilter
-): number {
-  const day = getDailyPrice(commodityId, marketId, date, grade);
-  const seed = hashString(`${commodityId}|${marketId}|${toISODate(date)}|h${hour}`);
-  const session = hour < 12 ? -0.03 : hour < 16 ? 0.01 : 0.04;
-  const jitter = (seededUnit(seed) - 0.5) * 0.06;
-  return Math.round(day * (1 + session + jitter) * 100) / 100;
 }
 
 function eachDay(from: Date, to: Date): Date[] {
@@ -336,28 +290,6 @@ function aggregatePoints(
   grain: AggregateGrain,
   grade: GradeFilter
 ): PricePoint[] {
-  if (grain === "hour") {
-    const hours = [6, 8, 10, 12, 14, 16, 18];
-    return hours.map((h) => {
-      const close = getHourlyPrice(commodityId, marketId, from, h, grade);
-      const open = getHourlyPrice(commodityId, marketId, from, Math.max(6, h - 2), grade);
-      const seed = hashString(`${commodityId}|${marketId}|${toISODate(from)}|h${h}|ohlc`);
-      const high = Math.round(Math.max(open, close) * (1.01 + seededUnit(seed) * 0.02) * 100) / 100;
-      const low = Math.round(Math.min(open, close) * (0.98 - seededUnit(seed + 1) * 0.015) * 100) / 100;
-      const volume = Math.round(200 + seededUnit(seed + 3) * 900);
-      return {
-        date: `${toISODate(from)}T${pad(h)}:00`,
-        label: `${h > 12 ? h - 12 : h}${h >= 12 ? "PM" : "AM"}`,
-        price: close,
-        open,
-        high,
-        low,
-        close,
-        volume,
-      };
-    });
-  }
-
   const days = eachDay(from, to);
 
   if (grain === "day") {
