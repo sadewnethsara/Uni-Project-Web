@@ -48,6 +48,7 @@ export function AdminsManagement() {
 
   const [editingAdmin, setEditingAdmin] = useState<Admin | null>(null);
   const [adminForm, setAdminForm] = useState<AdminFormState>(INITIAL_FORM);
+  const [dbMarkets, setDbMarkets] = useState<any[]>([]);
 
   useEffect(() => {
     fetchData();
@@ -57,6 +58,16 @@ export function AdminsManagement() {
     setIsLoading(true);
     try {
       const supabase = createClient();
+
+      // Fetch markets
+      const { data: marketsData } = await supabase
+        .from('markets')
+        .select('*')
+        .order('name', { ascending: true });
+      if (marketsData) {
+        setDbMarkets(marketsData);
+      }
+
       const { data, error } = await supabase
         .from('admins')
         .select('*')
@@ -350,8 +361,11 @@ export function AdminsManagement() {
                 }}
               >
                 <option value="">Select Market</option>
-                <option value="dambulla">Dambulla</option>
-                <option value="kappetipola">Kappetipola</option>
+                {dbMarkets.map((m) => (
+                  <option key={m.id} value={m.id}>
+                    {m.name.split(" ")[0]}
+                  </option>
+                ))}
               </select>
             </div>
           )}
@@ -431,7 +445,7 @@ export function AdminsManagement() {
                     >
                       <MapPin className="w-3.5 h-3.5" />
                       <span className="capitalize">
-                        {a.marketId === "dambulla" ? "Dambulla" : "Kappetipola"}
+                        {dbMarkets.find((m) => m.id === a.marketId)?.name.split(" ")[0] || a.marketId}
                       </span>
                     </div>
                   )}

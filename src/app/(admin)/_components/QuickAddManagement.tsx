@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { createClient } from "@/utils/supabase/client";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   DollarSign,
@@ -20,7 +21,7 @@ function cn(...classes: (string | boolean | undefined)[]) {
   return classes.filter(Boolean).join(" ");
 }
 
-type MarketType = "dambulla" | "kappetipola";
+type MarketType = string;
 type DataType = "prices" | "weather" | "fuel";
 
 interface QuickAddEntry {
@@ -75,6 +76,28 @@ export function QuickAddManagement({
   const [dataType, setDataType] = useState<DataType>("prices");
   const [date, setDate] = useState(() => new Date().toISOString().split("T")[0]);
   const [selectedMarket, setSelectedMarket] = useState<MarketType>(market || "dambulla");
+  const [dbMarkets, setDbMarkets] = useState<any[]>([]);
+
+  // Fetch active markets from database
+  useEffect(() => {
+    const fetchMarkets = async () => {
+      try {
+        const supabase = createClient();
+        const { data } = await supabase.from("markets").select("*");
+        if (data) setDbMarkets(data);
+      } catch (err) {
+        console.error("Failed to fetch markets in QuickAddManagement:", err);
+      }
+    };
+    fetchMarkets();
+  }, []);
+
+  // Sync prop changes to selectedMarket
+  useEffect(() => {
+    if (market) {
+      setSelectedMarket(market);
+    }
+  }, [market]);
   const [itemIndex, setItemIndex] = useState(0);
   const [inputValue, setInputValue] = useState("");
   const [sessionEntries, setSessionEntries] = useState<QuickAddEntry[]>([]);
@@ -246,10 +269,7 @@ export function QuickAddManagement({
                 Select Market
               </label>
               <div className="grid grid-cols-2 gap-3">
-                {[
-                  { id: "dambulla" as const, label: "Dambulla", emoji: "🏛️" },
-                  { id: "kappetipola" as const, label: "Kappetipola", emoji: "🏪" },
-                ].map((m) => (
+                {dbMarkets.map((m) => (
                   <button
                     key={m.id}
                     onClick={() => setSelectedMarket(m.id)}
@@ -259,14 +279,14 @@ export function QuickAddManagement({
                       background: selectedMarket === m.id ? ANALYZE_THEME.accentSoft : ANALYZE_THEME.surface,
                     }}
                   >
-                    <span className="text-2xl block mb-2">{m.emoji}</span>
+                    <span className="text-2xl block mb-2">{m.emoji || "🏛️"}</span>
                     <span
-                      className="font-bold"
+                      className="font-bold text-sm"
                       style={{
                         color: selectedMarket === m.id ? ANALYZE_THEME.accentInk : ANALYZE_THEME.ink,
                       }}
                     >
-                      {m.label}
+                      {m.name.split(" ")[0]}
                     </span>
                   </button>
                 ))}

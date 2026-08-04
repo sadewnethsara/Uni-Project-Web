@@ -28,7 +28,7 @@ export interface Admin {
   isActive?: boolean;
 }
 
-export type MarketType = "dambulla" | "kappetipola" | null;
+export type MarketType = string | null;
 
 interface OverviewManagementProps {
   market: MarketType;
@@ -98,15 +98,25 @@ export function OverviewManagement({ market, admin, onNavigate }: OverviewManage
 
   const isSuperAdmin = admin?.role === "super";
 
+  const [dbMarkets, setDbMarkets] = useState<any[]>([]);
+
+  useEffect(() => {
+    const fetchMarkets = async () => {
+      try {
+        const supabase = createClient();
+        const { data } = await supabase.from("markets").select("*");
+        if (data) setDbMarkets(data);
+      } catch (err) {
+        console.error("Failed to fetch markets in OverviewManagement:", err);
+      }
+    };
+    fetchMarkets();
+  }, []);
+
   const getMarketName = (marketKey: MarketType) => {
-    switch (marketKey) {
-      case "dambulla":
-        return "Dambulla Dedicated Economic Center";
-      case "kappetipola":
-        return "Keppetipola Dedicated Economic Center";
-      default:
-        return "Dedicated Economic Center Panel";
-    }
+    if (!marketKey) return "Dedicated Economic Center Panel";
+    const found = dbMarkets.find((m) => m.id === marketKey);
+    return found ? found.name : "Dedicated Economic Center Panel";
   };
 
   const quickActions = useMemo<QuickAction[]>(() => {

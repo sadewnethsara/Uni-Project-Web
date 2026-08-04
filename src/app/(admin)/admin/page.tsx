@@ -9,6 +9,8 @@ import { Admin } from "../_components/OverviewManagement";
 import { createClient } from "@/utils/supabase/client";
 import { usePageTitle } from "@/hooks/usePageTitle";
 
+import { getErrorMessage } from "@/utils/errorHelpers";
+
 // Fallback theme in case ANALYZE_THEME is partially defined
 const DEFAULT_THEME = {
   page: "#f8fafc",
@@ -28,7 +30,7 @@ export default function AdminPage() {
   usePageTitle("Admin Dashboard");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [currentAdmin, setCurrentAdmin] = useState<Admin | null>(null);
-  const [market, setMarket] = useState<"dambulla" | "kappetipola" | null>(null);
+  const [market, setMarket] = useState<string | null>(null);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -52,7 +54,7 @@ export default function AdminPage() {
             if (adminProfile.role === "super") {
               setMarket(null);
             } else if (adminProfile.market_id) {
-              setMarket(adminProfile.market_id as "dambulla" | "kappetipola");
+              setMarket(adminProfile.market_id);
             }
             setIsLoggedIn(true);
           }
@@ -115,7 +117,7 @@ export default function AdminPage() {
         if (adminProfile.role === "super") {
           setMarket(null);
         } else if (adminProfile.market_id) {
-          setMarket(adminProfile.market_id as "dambulla" | "kappetipola");
+          setMarket(adminProfile.market_id);
         }
         setIsLoggedIn(true);
       } else {
@@ -123,7 +125,7 @@ export default function AdminPage() {
         throw new Error("Access denied. You do not have administrator permissions.");
       }
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Invalid credentials. Please try again.");
+      setError(getErrorMessage(err));
     } finally {
       setIsAuthenticating(false);
     }

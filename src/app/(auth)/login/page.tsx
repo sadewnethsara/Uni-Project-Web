@@ -23,6 +23,7 @@ import {
 import { ANALYZE_THEME, PANEL_CLASS } from "@/lib/chartTheme";
 
 import { usePageTitle } from "@/hooks/usePageTitle";
+import { getErrorMessage } from "@/utils/errorHelpers";
 
 export default function LoginPage() {
   usePageTitle("Sign In");
@@ -51,7 +52,7 @@ export default function LoginPage() {
       await login(email, password);
       router.push("/dashboard");
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Invalid email or password. Please try again.");
+      setError(getErrorMessage(err));
     } finally {
       setIsLoading(false);
     }

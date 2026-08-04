@@ -1,4 +1,4 @@
-export type MarketType = "dambulla" | "kappetipola" | null;
+export type MarketType = string | null;
 export type SaveStatus = "idle" | "saving" | "saved";
 export type SectionId = "general" | "notifications" | "ui" | "data" | "security";
 

@@ -1,4 +1,5 @@
-import React, { useState, useMemo, useCallback } from "react";
+import React, { useState, useMemo, useCallback, useEffect } from "react";
+import { createClient } from "@/utils/supabase/client";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   LayoutDashboard,
@@ -40,7 +41,7 @@ export type AdminView =
   | "dataManagement"
   | "settings";
 
-export type MarketType = "dambulla" | "kappetipola" | null;
+export type MarketType = string | null;
 
 export interface Admin {
   id: string;
@@ -222,19 +223,29 @@ export function AdminPanel({ market, admin, onLogout }: AdminPanelProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [saveStatus, setSaveStatus] = useState<"idle" | "saving" | "saved">("idle");
   const [isQuickAddOpen, setIsQuickAddOpen] = useState(false);
+  const [dbMarkets, setDbMarkets] = useState<any[]>([]);
 
   const isSuperAdmin = admin?.role === "super";
 
+  // Fetch active markets from database
+  useEffect(() => {
+    const fetchMarkets = async () => {
+      try {
+        const supabase = createClient();
+        const { data } = await supabase.from("markets").select("*");
+        if (data) setDbMarkets(data);
+      } catch (err) {
+        console.error("Failed to fetch markets in AdminPanel:", err);
+      }
+    };
+    fetchMarkets();
+  }, []);
+
   const marketName = useMemo(() => {
-    switch (market) {
-      case "dambulla":
-        return "Dambulla Dedicated Economic Center";
-      case "kappetipola":
-        return "Keppetipola Dedicated Economic Center";
-      default:
-        return "All Economic Centers";
-    }
-  }, [market]);
+    if (!market) return "All Economic Centers";
+    const found = dbMarkets.find((m) => m.id === market);
+    return found ? found.name : "All Economic Centers";
+  }, [market, dbMarkets]);
 
   const handleSave = useCallback(() => {
     setSaveStatus("saving");

@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useMemo } from "react";
+import { createClient } from "@/utils/supabase/client";
 import { Search, Edit2, Save, TrendingUp, TrendingDown, X, Check } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -31,7 +32,7 @@ interface VegetableItem {
 }
 
 interface PriceManagementProps {
-  market: "dambulla" | "kappetipola" | null;
+  market: string | null;
   isSuperAdmin: boolean;
   onSave: () => void;
   saveStatus: "idle" | "saving" | "saved";
@@ -43,9 +44,31 @@ export function PriceManagement({
   onSave,
   saveStatus,
 }: PriceManagementProps) {
-  const [selectedMarket, setSelectedMarket] = useState<"dambulla" | "kappetipola">(
+  const [selectedMarket, setSelectedMarket] = useState<string>(
     () => market || "dambulla"
   );
+  const [dbMarkets, setDbMarkets] = useState<any[]>([]);
+
+  // Fetch active markets from database
+  useEffect(() => {
+    const fetchMarkets = async () => {
+      try {
+        const supabase = createClient();
+        const { data } = await supabase.from("markets").select("*");
+        if (data) setDbMarkets(data);
+      } catch (err) {
+        console.error("Failed to fetch markets in PriceManagement:", err);
+      }
+    };
+    fetchMarkets();
+  }, []);
+
+  // Sync prop changes to selectedMarket
+  useEffect(() => {
+    if (market) {
+      setSelectedMarket(market);
+    }
+  }, [market]);
 
   const [vegetableData, setVegetableData] = useState<VegetableItem[]>([
     { id: 1, name: "Carrots", emoji: "🥕", todayPrice: 180, yesterdayPrice: 175, lastWeekPrice: 170, category: "Vegetables" },
@@ -116,7 +139,11 @@ export function PriceManagement({
   });
 
   const categories = ["all", ...Array.from(new Set(vegetableData.map((v) => v.category)))];
-  const activeMarketName = (isSuperAdmin ? selectedMarket : market) === "dambulla" ? "Dambulla" : "Kappetipola";
+  const currentMarketId = isSuperAdmin ? selectedMarket : market;
+  const activeMarketName = useMemo(() => {
+    const found = dbMarkets.find((m) => m.id === currentMarketId);
+    return found ? found.name.split(" ")[0] : (currentMarketId === "kappetipola" ? "Kappetipola" : "Dambulla");
+  }, [currentMarketId, dbMarkets]);
 
   return (
     <div className="space-y-5 max-w-8xl mx-auto px-1 sm:px-0">
@@ -157,11 +184,8 @@ export function PriceManagement({
           <label className="block text-xs uppercase tracking-wider font-extrabold mb-2.5" style={{ color: ANALYZE_THEME.inkMuted }}>
             Switch Admin Market Context
           </label>
-          <div className="grid grid-cols-2 gap-2.5 max-w-md">
-            {[
-              { id: "dambulla" as const, label: "Dambulla", emoji: "🏛️" },
-              { id: "kappetipola" as const, label: "Kappetipola", emoji: "🏪" },
-            ].map((m) => {
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+            {dbMarkets.map((m) => {
               const isSelected = selectedMarket === m.id;
               return (
                 <button
@@ -177,8 +201,8 @@ export function PriceManagement({
                     color: isSelected ? ANALYZE_THEME.accentInk : ANALYZE_THEME.ink,
                   }}
                 >
-                  <span className="text-lg">{m.emoji}</span>
-                  <span>{m.label}</span>
+                  <span className="text-lg">{m.emoji || "🏛️"}</span>
+                  <span>{m.name.split(" ")[0]}</span>
                 </button>
               );
             })}
