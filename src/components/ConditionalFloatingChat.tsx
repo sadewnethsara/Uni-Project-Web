@@ -19,7 +19,7 @@ export default function ConditionalFloatingChat() {
     "/terms"
   ];
 
-  if (hiddenPaths.includes(pathname)) {
+  if (hiddenPaths.includes(pathname) || pathname?.startsWith("/admin")) {
     return <></>;
   }
   

@@ -208,18 +208,22 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       }
 
       if (data.user) {
+        // Map UI roles (buyer, farmer, trader) to allowed database roles (super, market, viewer)
+        const dbRole = (role === 'super' || role === 'market' || role === 'viewer') ? role : 'viewer';
+
         // Create user profile in public.admins
         const { error: profileError } = await supabase.from('admins').insert([{
           id: data.user.id,
           email,
           name,
-          role,
+          role: dbRole,
           password_hash: '', // Handled by Supabase Auth
           is_active: true
         }]);
 
         if (profileError) {
           console.error("Failed to insert profile record:", profileError);
+          throw new Error(profileError.message || "Failed to create user profile database record.");
         }
       }
 

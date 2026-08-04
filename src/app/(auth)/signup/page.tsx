@@ -37,6 +37,8 @@ export default function SignupPage() {
   const [otpSent, setOtpSent] = useState(false);
   const [otp, setOtp] = useState("");
   const [isOtpVerified, setIsOtpVerified] = useState(false);
+  const [generatedOtp, setGeneratedOtp] = useState("");
+  const [isSendingOtp, setIsSendingOtp] = useState(false);
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -60,21 +62,49 @@ export default function SignupPage() {
 
   const passwordScore = getPasswordStrength();
 
-  const handleSendOtp = () => {
+  const handleSendOtp = async () => {
     if (!phone || phone.length < 9) {
       setError("Please enter a valid mobile number.");
       return;
     }
     setError("");
-    setOtpSent(true);
+    setIsSendingOtp(true);
+
+    const code = Math.floor(1000 + Math.random() * 9000).toString();
+    console.log("[Dev Info] Generated OTP:", code);
+
+    try {
+      const response = await fetch("/api/send-otp", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          recipient: phone,
+          otp: code,
+        }),
+      });
+
+      const data = await response.json();
+      if (!response.ok) {
+        throw new Error(data.error || "Failed to send OTP.");
+      }
+
+      setGeneratedOtp(code);
+      setOtpSent(true);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Failed to send OTP. Please try again.");
+    } finally {
+      setIsSendingOtp(false);
+    }
   };
 
   const handleVerifyOtp = () => {
-    if (otp.length === 4) {
+    if (otp === generatedOtp) {
       setIsOtpVerified(true);
       setError("");
     } else {
-      setError("Invalid OTP code. Please enter the 4-digit code.");
+      setError("Invalid OTP code. Please enter the correct code.");
     }
   };
 
@@ -452,7 +482,7 @@ export default function SignupPage() {
                         <button
                           type="button"
                           onClick={handleSendOtp}
-                          disabled={isOtpVerified}
+                          disabled={isOtpVerified || isSendingOtp}
                           className="px-3.5 py-2.5 text-xs font-bold rounded-xl border shrink-0 transition-all cursor-pointer disabled:opacity-50"
                           style={{
                             background: ANALYZE_THEME.accentSoft,
@@ -460,7 +490,7 @@ export default function SignupPage() {
                             color: ANALYZE_THEME.accentInk,
                           }}
                         >
-                          {otpSent ? "Resend OTP" : "Send OTP"}
+                          {isSendingOtp ? "Sending..." : otpSent ? "Resend OTP" : "Send OTP"}
                         </button>
                       </div>
                     </div>
