@@ -1,12 +1,13 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { ShieldCheck, ArrowRight, AlertCircle, Loader2 } from "lucide-react";
 import { ANALYZE_THEME } from "@/lib/chartTheme";
 import { AdminPanel } from "../_components/AdminPanel";
 import { Admin } from "../_components/OverviewManagement";
-import { ADMIN_DEMO_DATA } from "../data/demoData";
+import { createClient } from "@/utils/supabase/client";
+import { usePageTitle } from "@/hooks/usePageTitle";
 
 // Fallback theme in case ANALYZE_THEME is partially defined
 const DEFAULT_THEME = {
@@ -23,26 +24,47 @@ const DEFAULT_THEME = {
 
 const THEME = typeof ANALYZE_THEME !== "undefined" ? ANALYZE_THEME : DEFAULT_THEME;
 
-// Demo admin data used for fallback resolution
-const MOCK_ADMINS: Admin[] = ADMIN_DEMO_DATA.admins as Admin[];
-
-const findAdminByEmail = (email: string): Admin | null => {
-  const normalizedEmail = email.trim().toLowerCase();
-  return MOCK_ADMINS.find((a) => a.email.toLowerCase() === normalizedEmail) || null;
-};
-
-import { usePageTitle } from "@/hooks/usePageTitle";
-
 export default function AdminPage() {
   usePageTitle("Admin Dashboard");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [currentAdmin, setCurrentAdmin] = useState<Admin | null>(null);
   const [market, setMarket] = useState<"dambulla" | "kappetipola" | null>(null);
   const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [isAuthenticating, setIsAuthenticating] = useState(false);
 
-  const handleLogin = (e: React.FormEvent) => {
+  // Check for active admin session on mount
+  useEffect(() => {
+    const supabase = createClient();
+    const checkActiveSession = async () => {
+      try {
+        const { data: { session } } = await supabase.auth.getSession();
+        if (session?.user) {
+          const { data: adminProfile, error: profileError } = await supabase
+            .from("admins")
+            .select("*")
+            .eq("id", session.user.id)
+            .single();
+
+          if (!profileError && adminProfile && (adminProfile.role === "super" || adminProfile.role === "market")) {
+            setCurrentAdmin(adminProfile as Admin);
+            if (adminProfile.role === "super") {
+              setMarket(null);
+            } else if (adminProfile.market_id) {
+              setMarket(adminProfile.market_id as "dambulla" | "kappetipola");
+            }
+            setIsLoggedIn(true);
+          }
+        }
+      } catch (err) {
+        console.error("Session restoration error:", err);
+      }
+    };
+    checkActiveSession();
+  }, []);
+
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
 
@@ -51,33 +73,76 @@ export default function AdminPage() {
       return;
     }
 
+    if (!password) {
+      setError("Please enter your password.");
+      return;
+    }
+
     setIsAuthenticating(true);
+    const supabase = createClient();
 
-    // Simulate backend auth check
-    setTimeout(() => {
-      const admin = findAdminByEmail(email);
+    try {
+      // 1. Authenticate with Supabase Auth
+      const { data: authData, error: authError } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
 
-      if (admin) {
-        setCurrentAdmin(admin);
-        if (admin.role === "super") {
+      if (authError) {
+        throw new Error(authError.message);
+      }
+
+      if (!authData.user) {
+        throw new Error("Authentication failed.");
+      }
+
+      // 2. Fetch corresponding profile from public.admins
+      const { data: adminProfile, error: profileError } = await supabase
+        .from("admins")
+        .select("*")
+        .eq("id", authData.user.id)
+        .single();
+
+      if (profileError || !adminProfile) {
+        // Sign out if they successfully authenticated but are not registered in the admin table
+        await supabase.auth.signOut();
+        throw new Error("Access denied. You do not have administrator permissions.");
+      }
+
+      // 3. Verify admin role
+      if (adminProfile.role === "super" || adminProfile.role === "market") {
+        setCurrentAdmin(adminProfile as Admin);
+        if (adminProfile.role === "super") {
           setMarket(null);
-        } else if (admin.marketId) {
-          setMarket(admin.marketId as "dambulla" | "kappetipola");
+        } else if (adminProfile.market_id) {
+          setMarket(adminProfile.market_id as "dambulla" | "kappetipola");
         }
         setIsLoggedIn(true);
       } else {
-        setError("Invalid email. Please contact your administrator.");
+        await supabase.auth.signOut();
+        throw new Error("Access denied. You do not have administrator permissions.");
       }
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Invalid credentials. Please try again.");
+    } finally {
       setIsAuthenticating(false);
-    }, 600);
+    }
   };
 
-  const handleLogout = () => {
-    setIsLoggedIn(false);
-    setCurrentAdmin(null);
-    setMarket(null);
-    setEmail("");
-    setError("");
+  const handleLogout = async () => {
+    try {
+      const supabase = createClient();
+      await supabase.auth.signOut();
+    } catch (err) {
+      console.error("Sign out error:", err);
+    } finally {
+      setIsLoggedIn(false);
+      setCurrentAdmin(null);
+      setMarket(null);
+      setEmail("");
+      setPassword("");
+      setError("");
+    }
   };
 
   if (!isLoggedIn) {
@@ -140,6 +205,29 @@ export default function AdminPage() {
                 />
               </div>
 
+              <div>
+                <label className="block text-xs font-bold uppercase tracking-wider mb-2" style={{ color: THEME.ink }}>
+                  Password
+                </label>
+                <input
+                  type="password"
+                  required
+                  autoComplete="current-password"
+                  value={password}
+                  onChange={(e) => {
+                    setPassword(e.target.value);
+                    if (error) setError("");
+                  }}
+                  placeholder="••••••••"
+                  className="w-full px-4 py-3.5 rounded-xl border text-sm font-medium outline-none transition-all focus:ring-2 focus:ring-teal-600/20"
+                  style={{
+                    background: THEME.surface,
+                    borderColor: error ? "#ef4444" : THEME.border,
+                    color: THEME.ink,
+                  }}
+                />
+              </div>
+
               {/* Error Message */}
               {error && (
                 <motion.div
@@ -157,7 +245,7 @@ export default function AdminPage() {
               {/* Submit Button */}
               <button
                 type="submit"
-                disabled={isAuthenticating || !email.trim()}
+                disabled={isAuthenticating || !email.trim() || !password.trim()}
                 className="w-full py-4 rounded-2xl font-bold text-white transition-all active:scale-[0.98] disabled:opacity-50 disabled:active:scale-100 shadow-lg flex items-center justify-center gap-2 cursor-pointer"
                 style={{ background: THEME.accent }}
               >
@@ -175,16 +263,13 @@ export default function AdminPage() {
               </button>
             </form>
 
-            {/* Footer Notice & Quick Test Hint */}
+            {/* Footer Notice */}
             <div
               className="mt-6 pt-6 border-t text-center text-xs space-y-1"
               style={{ borderColor: THEME.border }}
             >
               <p style={{ color: THEME.inkFaint }}>
                 Contact your system administrator for access credentials.
-              </p>
-              <p className="text-[11px] font-mono text-slate-400">
-                Demo: <code className="text-teal-700">admin@agri.lk</code>
               </p>
             </div>
           </div>
