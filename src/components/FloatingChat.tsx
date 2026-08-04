@@ -1,36 +1,116 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ANALYZE_THEME } from "@/lib/chartTheme";
 
+interface ChatMessage {
+  id: number;
+  sender: "user" | "bot";
+  text: string;
+}
+
 export default function FloatingChatWidget() {
   const [isOpen, setIsOpen] = useState(false);
-  const [messages, setMessages] = useState([
-    { id: 1, sender: "bot", text: "Hello! How can I assist with market trends or pricing today?" }
+  const [messages, setMessages] = useState<ChatMessage[]>([
+    {
+      id: 1,
+      sender: "bot",
+      text: "👋 Welcome to **NAMIS Market Intelligence AI**.\n\nAsk me about today's market prices, future commodity trends, or where to sell your crops (like Beans) for maximum profit!"
+    }
   ]);
   const [input, setInput] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  useEffect(() => {
+    if (isOpen) {
+      scrollToBottom();
+    }
+  }, [messages, isOpen, isLoading]);
+
+  const sendQuery = async (queryText: string) => {
+    if (!queryText.trim() || isLoading) return;
+
+    const userMsg: ChatMessage = { id: Date.now(), sender: "user", text: queryText };
+    const updatedMessages = [...messages, userMsg];
+    
+    setMessages(updatedMessages);
+    setInput("");
+    setIsLoading(true);
+
+    try {
+      const res = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ messages: updatedMessages })
+      });
+
+      const data = await res.json();
+      const botReply = data.reply || data.error || "Sorry, I couldn't process that market request right now.";
+
+      setMessages((prev) => [
+        ...prev,
+        { id: Date.now() + 1, sender: "bot", text: botReply }
+      ]);
+    } catch (err) {
+      setMessages((prev) => [
+        ...prev,
+        {
+          id: Date.now() + 1,
+          sender: "bot",
+          text: "⚠️ Network connection error. Please check your connection and try again."
+        }
+      ]);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const handleSend = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!input.trim()) return;
-
-    setMessages((prev) => [...prev, { id: Date.now(), sender: "user", text: input }]);
-    setInput("");
-
-    // Simulated AI response
-    setTimeout(() => {
-      setMessages((prev) => [
-        ...prev,
-        { id: Date.now() + 1, sender: "bot", text: "Thanks for reaching out! Analyzing market data..." }
-      ]);
-    }, 800);
+    sendQuery(input);
   };
+
+  // Helper to format basic markdown (bold **text**, bullet points •, newlines)
+  const renderFormattedText = (text: string) => {
+    const lines = text.split("\n");
+    return lines.map((line, lineIdx) => {
+      // Process bold formatting **text**
+      const parts = line.split(/(\*\*.*?\*\*)/g);
+      const formattedParts = parts.map((part, pIdx) => {
+        if (part.startsWith("**") && part.endsWith("**")) {
+          return (
+            <strong key={pIdx} className="font-semibold text-emerald-300">
+              {part.slice(2, -2)}
+            </strong>
+          );
+        }
+        return part;
+      });
+
+      return (
+        <span key={lineIdx} className="block min-h-[1.15em] my-0.5">
+          {formattedParts}
+        </span>
+      );
+    });
+  };
+
+  const quickPrompts = [
+    "What about today's market & future trends for Beans? Where to sell for high profit?",
+    "Where is the highest market price for Grade A Beans today?",
+    "What are today's top market prices across Economic Centers?"
+  ];
 
   return (
     <div className="fixed bottom-24 md:bottom-6 right-4 md:right-6 z-[40] pointer-events-none">
       <AnimatePresence mode="wait">
-        {/* FLOATING CHAT PANEL (HERO ANIMATION) */}
+        {/* FLOATING CHAT PANEL */}
         {isOpen ? (
           <motion.div
             key="chat-panel"
@@ -38,32 +118,37 @@ export default function FloatingChatWidget() {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.3, y: 40, transition: { duration: 0.2 } }}
             transition={{ type: "spring", stiffness: 350, damping: 25 }}
-            className="pointer-events-auto flex flex-col w-[calc(100vw-2rem)] md:w-96 h-[calc(100vh-120px)] max-h-[480px] rounded-2xl shadow-2xl border overflow-hidden"
+            className="pointer-events-auto flex flex-col w-[calc(100vw-2rem)] sm:w-[410px] h-[calc(100vh-110px)] max-h-[540px] rounded-2xl shadow-2xl border overflow-hidden backdrop-blur-xl"
             style={{
-              background: ANALYZE_THEME.ink,
-              borderColor: "rgba(255,255,255,0.12)",
+              background: "rgba(18, 22, 28, 0.96)",
+              borderColor: "rgba(255,255,255,0.14)",
               color: ANALYZE_THEME.surface
             }}
           >
             {/* Header */}
             <div
-              className="flex items-center justify-between px-4 py-3.5 border-b"
-              style={{ borderColor: "rgba(255,255,255,0.08)" }}
+              className="flex items-center justify-between px-4 py-3.5 border-b select-none"
+              style={{ borderColor: "rgba(255,255,255,0.08)", background: "rgba(255,255,255,0.03)" }}
             >
-              <div className="flex items-center gap-2.5">
+              <div className="flex items-center gap-3">
                 <div
-                  className="w-8 h-8 rounded-xl flex items-center justify-center font-black text-xs"
-                  style={{ background: ANALYZE_THEME.surfaceRaised, color: ANALYZE_THEME.ink }}
+                  className="w-9 h-9 rounded-xl flex items-center justify-center font-black text-xs shadow-md border border-emerald-500/30"
+                  style={{ background: "linear-gradient(135deg, #059669 0%, #10b981 100%)", color: "#ffffff" }}
                 >
                   AI
                 </div>
                 <div>
-                  <h3 className="text-sm font-bold tracking-wide" style={{ color: ANALYZE_THEME.surface }}>
-                    Market Assistant
-                  </h3>
-                  <div className="flex items-center gap-1.5">
+                  <div className="flex items-center gap-2">
+                    <h3 className="text-sm font-bold tracking-wide" style={{ color: ANALYZE_THEME.surface }}>
+                      NAMIS Market Advisor
+                    </h3>
+                    <span className="text-[10px] px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-400 font-mono font-medium">
+                      Gemini 2.0
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-1.5 mt-0.5">
                     <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                    <span className="text-[11px] opacity-60">Online</span>
+                    <span className="text-[11px] opacity-70">Real-time Market Intelligence</span>
                   </div>
                 </div>
               </div>
@@ -84,7 +169,7 @@ export default function FloatingChatWidget() {
             </div>
 
             {/* Messages Body */}
-            <div className="flex-1 p-4 overflow-y-auto space-y-3 scrollbar-none">
+            <div className="flex-1 p-4 overflow-y-auto space-y-3.5 scrollbar-thin scrollbar-thumb-white/10">
               {messages.map((msg) => (
                 <motion.div
                   key={msg.id}
@@ -93,48 +178,84 @@ export default function FloatingChatWidget() {
                   className={`flex ${msg.sender === "user" ? "justify-end" : "justify-start"}`}
                 >
                   <div
-                    className={`max-w-[80%] px-3.5 py-2.5 rounded-2xl text-xs leading-relaxed font-medium ${msg.sender === "user" ? "rounded-br-none" : "rounded-bl-none"
-                      }`}
-                    style={{
-                      background: msg.sender === "user" ? ANALYZE_THEME.surfaceRaised : "rgba(255,255,255,0.08)",
-                      color: msg.sender === "user" ? ANALYZE_THEME.ink : ANALYZE_THEME.surface
-                    }}
+                    className={`max-w-[85%] px-4 py-3 rounded-2xl text-xs leading-relaxed ${
+                      msg.sender === "user"
+                        ? "rounded-br-none bg-emerald-600 text-white font-medium shadow-md"
+                        : "rounded-bl-none bg-white/10 text-slate-100 border border-white/10"
+                    }`}
                   >
-                    {msg.text}
+                    {msg.sender === "user" ? msg.text : renderFormattedText(msg.text)}
                   </div>
                 </motion.div>
               ))}
+
+              {isLoading && (
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="flex justify-start"
+                >
+                  <div className="px-4 py-3 rounded-2xl rounded-bl-none bg-white/10 text-slate-200 border border-white/10 text-xs flex items-center gap-2">
+                    <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
+                    <span>Analyzing market data & profit locations with Gemini AI...</span>
+                  </div>
+                </motion.div>
+              )}
+              
+              <div ref={messagesEndRef} />
             </div>
 
+            {/* Quick Prompts Suggestions */}
+            {messages.length < 3 && !isLoading && (
+              <div className="px-3 py-2 border-t border-white/5 bg-white/[0.02] flex flex-wrap gap-1.5">
+                {quickPrompts.map((prompt, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => sendQuery(prompt)}
+                    className="text-[11px] text-left px-2.5 py-1.5 rounded-lg bg-white/5 hover:bg-emerald-500/20 hover:text-emerald-300 border border-white/10 transition-all cursor-pointer truncate max-w-full"
+                  >
+                    💡 {prompt}
+                  </button>
+                ))}
+              </div>
+            )}
+
             {/* Input Footer */}
-            <form onSubmit={handleSend} className="p-3 border-t flex items-center gap-2" style={{ borderColor: "rgba(255,255,255,0.08)" }}>
+            <form
+              onSubmit={handleSend}
+              className="p-3 border-t flex items-center gap-2"
+              style={{ borderColor: "rgba(255,255,255,0.08)", background: "rgba(0,0,0,0.2)" }}
+            >
               <input
                 type="text"
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                placeholder="Ask a question..."
-                className="flex-1 bg-white/5 border border-white/10 rounded-xl px-3.5 py-2 text-xs focus:outline-none focus:border-white/20 transition-colors"
+                placeholder="Ask about market prices, bean trends, high profits..."
+                disabled={isLoading}
+                className="flex-1 bg-white/5 border border-white/10 rounded-xl px-3.5 py-2.5 text-xs focus:outline-none focus:border-emerald-500/50 transition-colors disabled:opacity-50"
                 style={{ color: ANALYZE_THEME.surface }}
               />
               <motion.button
                 type="submit"
+                disabled={isLoading || !input.trim()}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="w-9 h-9 rounded-xl flex items-center justify-center font-bold cursor-pointer border"
+                className="w-10 h-10 rounded-xl flex items-center justify-center font-bold cursor-pointer border transition-all disabled:opacity-40 disabled:cursor-not-allowed"
                 style={{
-                  background: ANALYZE_THEME.surfaceRaised,
-                  color: ANALYZE_THEME.ink,
+                  background: input.trim() ? "linear-gradient(135deg, #059669 0%, #10b981 100%)" : "rgba(255,255,255,0.1)",
+                  color: "#ffffff",
                   borderColor: "transparent"
                 }}
+                aria-label="Send message"
               >
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M6 12L32 12M12 6l6 6-6 6" />
+                <svg className="w-4 h-4 rotate-90" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 19V5m0 0l-7 7m7-7l7 7" />
                 </svg>
               </motion.button>
             </form>
           </motion.div>
         ) : (
-          /* TRIGGER BUTTON (Matching Back-To-Top Button radii & theme) */
+          /* TRIGGER BUTTON */
           <motion.button
             key="chat-trigger"
             onClick={() => setIsOpen(true)}
@@ -144,15 +265,16 @@ export default function FloatingChatWidget() {
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.92 }}
             transition={{ type: "spring", stiffness: 400, damping: 20 }}
-            className="pointer-events-auto flex items-center justify-center w-12 h-12 rounded-xl shadow-2xl cursor-pointer border focus:outline-none"
+            className="pointer-events-auto relative flex items-center justify-center w-13 h-13 rounded-2xl shadow-2xl cursor-pointer border focus:outline-none"
             style={{
-              background: ANALYZE_THEME.ink,
+              background: "linear-gradient(135deg, #0f172a 0%, #059669 100%)",
               color: ANALYZE_THEME.surface,
-              borderColor: "rgba(255,255,255,0.12)"
+              borderColor: "rgba(255,255,255,0.2)"
             }}
             aria-label="Open chat assistant"
           >
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+            <span className="absolute -top-1 -right-1 w-3.5 h-3.5 bg-emerald-400 rounded-full border-2 border-slate-900 animate-pulse" />
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" d="M8.625 12a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H8.25m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0h-.375m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0h-.375M21 12c0 4.556-4.03 8.25-9 8.25a9.764 9.764 0 01-2.555-.337A5.972 5.972 0 015.41 20.97a.75.75 0 01-.816-.957 6.13 6.13 0 00.741-2.316A7.957 7.957 0 013 12c0-4.556 4.03-8.25 9-8.25s9 3.694 9 8.25z" />
             </svg>
           </motion.button>
