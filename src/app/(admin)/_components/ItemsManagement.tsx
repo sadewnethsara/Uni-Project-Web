@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Save, X, Edit2, Trash2, Package, Plus, Sparkles, Tag, ChevronDown, Banknote, Loader2, Check, AlertCircle } from "lucide-react";
+import { createClient } from "@/utils/supabase/client";
 import { ANALYZE_THEME } from "@/lib/chartTheme";
 import { Category, Item } from "@/lib/types";
 import { ADMIN_SECTION_CONTENT } from "../data/demoData";
@@ -29,30 +30,32 @@ export function ItemsManagement() {
   const fetchData = async () => {
     setIsLoading(true);
     try {
+      const supabase = createClient();
       const [catRes, vegRes] = await Promise.all([
-        fetch('http://localhost/NAMIS/backend/api/categories.php'),
-        fetch('http://localhost/NAMIS/backend/api/vegetables.php')
+        supabase.from('categories').select('*').order('name', { ascending: true }),
+        supabase.from('vegetables').select('*').order('name', { ascending: true })
       ]);
-      const catData = await catRes.json();
-      const vegData = await vegRes.json();
 
-      if (Array.isArray(catData)) {
-        setCategories(catData.map((c: any) => ({
+      if (catRes.error) throw catRes.error;
+      if (vegRes.error) throw vegRes.error;
+
+      if (Array.isArray(catRes.data)) {
+        setCategories(catRes.data.map((c: any) => ({
           id: c.id.toString(),
           name: c.name,
           nameSi: c.name_si || "",
-          emoji: c.image_url || "📁"
+          emoji: c.emoji || "📁"
         })));
       }
       
-      if (Array.isArray(vegData)) {
-        setItems(vegData.map((v: any) => ({
+      if (Array.isArray(vegRes.data)) {
+        setItems(vegRes.data.map((v: any) => ({
           id: v.id.toString(),
           categoryId: v.category_id?.toString() || "",
           name: v.name,
           nameSi: v.name_si || "",
-          emoji: v.image_url || "🥬",
-          unit: "kg",
+          emoji: v.emoji || "🥬",
+          unit: v.unit || "kg",
         })));
       }
     } catch (error) {
@@ -72,28 +75,35 @@ export function ItemsManagement() {
     setIsProcessing(true);
 
     try {
-      const method = editingItem ? 'PUT' : 'POST';
-      const body = {
-        id: editingItem?.id,
+      const supabase = createClient();
+      const payload = {
         category_id: itemForm.categoryId,
         name: itemForm.name,
         name_si: itemForm.nameSi,
-        image_url: itemForm.emoji
+        emoji: itemForm.emoji
       };
 
-      const res = await fetch('http://localhost/NAMIS/backend/api/vegetables.php', {
-        method,
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body)
-      });
-      const result = await res.json();
-      if (result.success) {
-        showToast(editingItem ? "Item updated" : "Item added", "success");
-        handleCancel();
-        fetchData();
+      if (editingItem) {
+        const { error } = await supabase
+          .from('vegetables')
+          .update(payload)
+          .eq('id', editingItem.id);
+
+        if (error) throw error;
+        showToast("Item updated", "success");
       } else {
-        throw new Error(result.error);
+        const { error } = await supabase
+          .from('vegetables')
+          .insert([{
+            id: itemForm.name.toLowerCase().replace(/[^a-z0-9]/g, '-'),
+            ...payload
+          }]);
+
+        if (error) throw error;
+        showToast("Item added", "success");
       }
+      handleCancel();
+      fetchData();
     } catch (error) {
       showToast("Failed to save item", "error");
     } finally {
@@ -106,19 +116,17 @@ export function ItemsManagement() {
     setIsProcessing(true);
     
     try {
-      const res = await fetch('http://localhost/NAMIS/backend/api/vegetables.php', {
-        method: 'DELETE',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ id })
-      });
-      const result = await res.json();
-      if (result.success) {
-        showToast("Item deleted", "success");
-        if (editingItem?.id === id) handleCancel();
-        fetchData();
-      } else {
-        throw new Error(result.error);
-      }
+      const supabase = createClient();
+      const { error } = await supabase
+        .from('vegetables')
+        .delete()
+        .eq('id', id);
+
+      if (error) throw error;
+
+      showToast("Item deleted", "success");
+      if (editingItem?.id === id) handleCancel();
+      fetchData();
     } catch (error) {
       showToast("Failed to delete item", "error");
     } finally {

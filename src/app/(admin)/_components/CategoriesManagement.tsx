@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Save, X, Edit2, Trash2, Layers, Plus, Sparkles, Package, Loader2, Check, AlertCircle } from "lucide-react";
+import { createClient } from "@/utils/supabase/client";
 import { ANALYZE_THEME } from "@/lib/chartTheme";
 import { Category, Item } from "@/lib/types";
 import { ADMIN_SECTION_CONTENT } from "../data/demoData";
@@ -23,30 +24,32 @@ export function CategoriesManagement() {
   const fetchData = async () => {
     setIsLoading(true);
     try {
+      const supabase = createClient();
       const [catRes, vegRes] = await Promise.all([
-        fetch('http://localhost/NAMIS/backend/api/categories.php'),
-        fetch('http://localhost/NAMIS/backend/api/vegetables.php')
+        supabase.from('categories').select('*').order('name', { ascending: true }),
+        supabase.from('vegetables').select('*').order('name', { ascending: true })
       ]);
-      const catData = await catRes.json();
-      const vegData = await vegRes.json();
 
-      if (Array.isArray(catData)) {
-        setCategories(catData.map((c: any) => ({
+      if (catRes.error) throw catRes.error;
+      if (vegRes.error) throw vegRes.error;
+
+      if (Array.isArray(catRes.data)) {
+        setCategories(catRes.data.map((c: any) => ({
           id: c.id.toString(),
           name: c.name,
           nameSi: c.name_si || "",
-          emoji: c.image_url || "📁"
+          emoji: c.emoji || "📁"
         })));
       }
       
-      if (Array.isArray(vegData)) {
-        setItems(vegData.map((v: any) => ({
+      if (Array.isArray(vegRes.data)) {
+        setItems(vegRes.data.map((v: any) => ({
           id: v.id.toString(),
           categoryId: v.category_id?.toString() || "",
           name: v.name,
           nameSi: v.name_si || "",
-          emoji: v.image_url || "🥬",
-          unit: "kg",
+          emoji: v.emoji || "🥬",
+          unit: v.unit || "kg",
         })));
       }
     } catch (error) {
@@ -66,27 +69,34 @@ export function CategoriesManagement() {
     setIsProcessing(true);
 
     try {
-      const method = editingCategory ? 'PUT' : 'POST';
-      const body = {
-        id: editingCategory?.id,
+      const supabase = createClient();
+      const payload = {
         name: categoryForm.name,
         name_si: categoryForm.nameSi,
-        image_url: categoryForm.emoji
+        emoji: categoryForm.emoji
       };
 
-      const res = await fetch('http://localhost/NAMIS/backend/api/categories.php', {
-        method,
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body)
-      });
-      const result = await res.json();
-      if (result.success) {
-        showToast(editingCategory ? "Category updated" : "Category added", "success");
-        handleCancel();
-        fetchData();
+      if (editingCategory) {
+        const { error } = await supabase
+          .from('categories')
+          .update(payload)
+          .eq('id', editingCategory.id);
+
+        if (error) throw error;
+        showToast("Category updated", "success");
       } else {
-        throw new Error(result.error);
+        const { error } = await supabase
+          .from('categories')
+          .insert([{
+            id: categoryForm.name.toLowerCase().replace(/[^a-z0-9]/g, '-'),
+            ...payload
+          }]);
+
+        if (error) throw error;
+        showToast("Category added", "success");
       }
+      handleCancel();
+      fetchData();
     } catch (error) {
       showToast("Failed to save category", "error");
     } finally {
@@ -99,19 +109,17 @@ export function CategoriesManagement() {
     setIsProcessing(true);
     
     try {
-      const res = await fetch('http://localhost/NAMIS/backend/api/categories.php', {
-        method: 'DELETE',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ id })
-      });
-      const result = await res.json();
-      if (result.success) {
-        showToast("Category deleted", "success");
-        if (editingCategory?.id === id) handleCancel();
-        fetchData();
-      } else {
-        throw new Error(result.error);
-      }
+      const supabase = createClient();
+      const { error } = await supabase
+        .from('categories')
+        .delete()
+        .eq('id', id);
+
+      if (error) throw error;
+
+      showToast("Category deleted", "success");
+      if (editingCategory?.id === id) handleCancel();
+      fetchData();
     } catch (error) {
       showToast("Failed to delete category", "error");
     } finally {

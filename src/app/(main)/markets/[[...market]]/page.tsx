@@ -2,9 +2,11 @@
 
 import { use, useEffect, useMemo, useState, useRef } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+import { createClient } from "@/utils/supabase/client";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import FloatingNavigationDock from "@/components/FloatingNavigationDock";
+import { MarketPageSkeleton } from "@/components/ui/DataLoader";
 import CommoditySidebar from "@/components/CommoditySidebar";
 import MarketDatePicker from "@/components/market/MarketDatePicker";
 import DateRangeCalendar from "@/components/DateRangeCalendar";
@@ -83,12 +85,26 @@ export default function MarketPage({ params }: PageProps) {
   // Fetch prices and vegetables from API
   useEffect(() => {
     setIsLoading(true);
-    Promise.all([
-      fetch(`http://localhost/NAMIS/backend/api/prices.php`),
-      fetch(`http://localhost/NAMIS/backend/api/vegetables.php`)
-    ])
-      .then(responses => Promise.all(responses.map(res => res.json())))
-      .then(([prices, vegetables]) => {
+    const supabase = createClient();
+
+    const loadData = async () => {
+      try {
+        const [pricesRes, veggiesRes] = await Promise.all([
+          supabase.from('price_entries').select('id, price, date, vegetable_id, market_id').order('date', { ascending: false }),
+          supabase.from('vegetables').select('*, categories(name, name_si)').order('name', { ascending: true })
+        ]);
+
+        const prices = (pricesRes.data || []).map((p: any) => ({
+          ...p,
+          price: parseFloat(p.price)
+        }));
+
+        const vegetables = (veggiesRes.data || []).map((v: any) => ({
+          ...v,
+          category_name: v.categories?.name || '',
+          category_name_si: v.categories?.name_si || ''
+        }));
+
         setApiPrices(prices);
 
         // Transform into the board format expected by components
@@ -119,29 +135,34 @@ export default function MarketPage({ params }: PageProps) {
 
           if (pEntry && yEntry) {
             const diff = pEntry.price - yEntry.price;
-            if (diff > 0) trend = "up";
-            else if (diff < 0) trend = "down";
-            else trend = "stable";
-            changeVsPrior = Math.round((diff / yEntry.price) * 100);
+            trend = diff > 0 ? "up" : diff < 0 ? "down" : "stable";
+            changeVsPrior = diff;
           }
 
           return {
-            commodityId: v.id,
-            price: pEntry ? parseFloat(pEntry.price) : null,
-            available: !!pEntry,
+            id: v.id,
+            name: v.name,
+            name_si: v.name_si,
+            emoji: v.emoji || "🥬",
+            category: v.category_name,
+            price: pEntry ? pEntry.price : null,
+            prevPrice: yEntry ? yEntry.price : null,
+            trend,
             changeVsPrior,
-            trend
+            unit: v.unit || "kg"
           };
         });
 
         setApiBoard(newBoard);
+      } catch (err) {
+        console.error("Failed to load markets data from Supabase", err);
+      } finally {
         setIsLoading(false);
-      })
-      .catch(err => {
-        console.error("Error fetching market data", err);
-        setIsLoading(false);
-      });
-  }, [marketId, viewDateLabel]);
+      }
+    };
+
+    loadData();
+  }, [marketId, viewDate]);
 
   const syncCommoditySelection = (commodityId: string | null) => {
     const nextPath = `/markets/${marketId}${commodityId ? `?commodity=${encodeURIComponent(commodityId)}` : ""}`;
@@ -276,11 +297,7 @@ export default function MarketPage({ params }: PageProps) {
   };
 
   if (isLoading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#fdf6e3] via-[#f5edd6] to-[#ebe5d5]">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-emerald-600"></div>
-      </div>
-    );
+    return <MarketPageSkeleton />;
   }
 
   return (

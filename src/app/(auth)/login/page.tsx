@@ -30,7 +30,7 @@ export default function LoginPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const { login } = useAuth();
+  const { login, loginWithGoogle } = useAuth();
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -50,6 +50,17 @@ export default function LoginPage() {
     } catch (err) {
       setError(err instanceof Error ? err.message : "Invalid email or password. Please try again.");
     } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleGoogleLogin = async () => {
+    setError("");
+    setIsLoading(true);
+    try {
+      await loginWithGoogle();
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Google login failed.");
       setIsLoading(false);
     }
   };
@@ -338,6 +349,30 @@ export default function LoginPage() {
                     <ArrowRight size={16} />
                   </>
                 )}
+              </button>
+
+              <div className="relative my-4 flex items-center justify-center">
+                <div className="absolute inset-0 flex items-center">
+                  <div className="w-full border-t border-gray-200" />
+                </div>
+                <span className="relative px-3 bg-[#fdfaf3] text-[10px] font-bold uppercase tracking-wider text-gray-400 z-10">
+                  Or continue with
+                </span>
+              </div>
+
+              <button
+                type="button"
+                onClick={handleGoogleLogin}
+                disabled={isLoading}
+                className="w-full py-3 px-4 rounded-xl border border-gray-300 bg-white hover:bg-gray-50 transition-all flex items-center justify-center gap-2 shadow-xs cursor-pointer text-xs font-bold text-gray-700 disabled:opacity-60"
+              >
+                <svg className="w-4 h-4 shrink-0" viewBox="0 0 24 24">
+                  <path
+                    fill="#EA4335"
+                    d="M12.24 10.285V14.4h6.887c-.275 1.565-1.88 4.604-6.887 4.604-4.33 0-7.866-3.577-7.866-8s3.536-8 7.866-8c2.46 0 4.105 1.025 5.047 1.926l3.227-3.1C18.497 2.06 15.608 1 12.24 1 5.922 1 1 5.922 1 12.24s4.922 11.24 11.24 11.24c6.598 0 11.02-4.637 11.02-11.24 0-.756-.08-1.333-.18-1.955H12.24z"
+                  />
+                </svg>
+                Sign in with Google
               </button>
             </form>
 

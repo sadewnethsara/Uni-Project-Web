@@ -23,46 +23,22 @@ interface MobileBottomSheetProps {
   defaultTab?: "vegetables" | "date";
 }
 
-export default function MobileBottomSheet({
-  isOpen,
-  onClose,
+/* ── Extracted Helper Components (Outside Render Scope for Pure React Lifecycle) ── */
+
+interface VegetableListProps {
+  board: CommodityDayPrice[];
+  selectedCommodityId: string | null;
+  onCommoditySelect: (id: string | null) => void;
+  onClose: () => void;
+}
+
+function VegetableListContent({
   board,
   selectedCommodityId,
   onCommoditySelect,
-  datePreset,
-  customDate,
-  viewDateLabel,
-  onPresetChange,
-  onCustomDateChange,
-  marketId,
-  defaultTab = "vegetables",
-}: MobileBottomSheetProps) {
-  const [activeTab, setActiveTab] = useState<"vegetables" | "date">(defaultTab);
-
-  const todayIso = useMemo(() => toISODate(new Date()), []);
-  const yesterdayIso = useMemo(() => {
-    const d = new Date();
-    d.setDate(d.getDate() - 1);
-    return toISODate(d);
-  }, []);
-
-  const activeSelectedIso = useMemo(() => {
-    if (datePreset === "yesterday") return yesterdayIso;
-    if (datePreset === "today") return todayIso;
-    return customDate || todayIso;
-  }, [datePreset, customDate, todayIso, yesterdayIso]);
-
-  useEffect(() => {
-    if (isOpen) setActiveTab(defaultTab);
-  }, [isOpen, defaultTab]);
-
-  const presets: { id: DatePreset; label: string; iso: string }[] = [
-    { id: "today", label: "Today", iso: todayIso },
-    { id: "yesterday", label: "Yesterday", iso: yesterdayIso },
-  ];
-
-  /* ── Shared content blocks ── */
-  const VegetableList = () => (
+  onClose,
+}: VegetableListProps) {
+  return (
     <div className="px-4 py-4 space-y-2">
       {MARKET_COMMODITIES.map((item) => {
         const row = board.find((b) => b.commodityId === item.id);
@@ -72,7 +48,10 @@ export default function MobileBottomSheet({
           <button
             key={item.id}
             type="button"
-            onClick={() => { onCommoditySelect(item.id); onClose(); }}
+            onClick={() => {
+              onCommoditySelect(item.id);
+              onClose();
+            }}
             className="w-full flex items-center justify-between gap-3 px-4 py-3 rounded-2xl text-left cursor-pointer transition-all active:scale-[0.98] border"
             style={{
               borderColor: isActive ? ANALYZE_THEME.accent : ANALYZE_THEME.border,
@@ -98,7 +77,9 @@ export default function MobileBottomSheet({
             </div>
             <div className="text-right flex-shrink-0">
               {unavailable ? (
-                <span className="text-xs font-semibold" style={{ color: ANALYZE_THEME.inkFaint }}>—</span>
+                <span className="text-xs font-semibold" style={{ color: ANALYZE_THEME.inkFaint }}>
+                  —
+                </span>
               ) : (
                 <>
                   <div className="font-extrabold text-base tabular-nums" style={{ color: ANALYZE_THEME.ink }}>
@@ -108,10 +89,16 @@ export default function MobileBottomSheet({
                     <div
                       className="text-[11px] font-semibold mt-0.5 tabular-nums"
                       style={{
-                        color: row?.trend === "up" ? ANALYZE_THEME.up : row?.trend === "down" ? ANALYZE_THEME.down : ANALYZE_THEME.inkMuted,
+                        color:
+                          row?.trend === "up"
+                            ? ANALYZE_THEME.up
+                            : row?.trend === "down"
+                            ? ANALYZE_THEME.down
+                            : ANALYZE_THEME.inkMuted,
                       }}
                     >
-                      {row?.changeVsPrior >= 0 ? "+" : ""}{row?.changeVsPrior}%
+                      {row?.changeVsPrior >= 0 ? "+" : ""}
+                      {row?.changeVsPrior}%
                     </div>
                   )}
                 </>
@@ -122,8 +109,30 @@ export default function MobileBottomSheet({
       })}
     </div>
   );
+}
 
-  const DatePanel = () => (
+interface DatePanelProps {
+  activeSelectedIso: string;
+  todayIso: string;
+  yesterdayIso: string;
+  datePreset: DatePreset;
+  viewDateLabel: string;
+  presets: { id: DatePreset; label: string; iso: string }[];
+  onPresetChange: (preset: DatePreset) => void;
+  onCustomDateChange: (iso: string) => void;
+}
+
+function DatePanelContent({
+  activeSelectedIso,
+  todayIso,
+  yesterdayIso,
+  datePreset,
+  viewDateLabel,
+  presets,
+  onPresetChange,
+  onCustomDateChange,
+}: DatePanelProps) {
+  return (
     <div className="px-4 py-4 space-y-4">
       <div
         className="w-full rounded-2xl overflow-hidden border p-1"
@@ -154,7 +163,10 @@ export default function MobileBottomSheet({
             <button
               key={p.id}
               type="button"
-              onClick={() => { onPresetChange(p.id); onCustomDateChange(p.iso); }}
+              onClick={() => {
+                onPresetChange(p.id);
+                onCustomDateChange(p.iso);
+              }}
               className="px-4 py-3 rounded-xl text-xs font-bold cursor-pointer transition-all active:scale-[0.98] border"
               style={{
                 background: active ? ANALYZE_THEME.accent : ANALYZE_THEME.surface,
@@ -175,7 +187,9 @@ export default function MobileBottomSheet({
           <p className="text-[10px] font-bold uppercase tracking-wider" style={{ color: ANALYZE_THEME.inkMuted }}>
             Selected Date
           </p>
-          <p className="text-sm font-black" style={{ color: ANALYZE_THEME.ink }}>{viewDateLabel}</p>
+          <p className="text-sm font-black" style={{ color: ANALYZE_THEME.ink }}>
+            {viewDateLabel}
+          </p>
         </div>
         <div
           className="px-2.5 py-1 rounded-full text-[11px] font-bold"
@@ -186,9 +200,15 @@ export default function MobileBottomSheet({
       </div>
     </div>
   );
+}
 
-  /* Shared modal header */
-  const ModalHeader = () => (
+interface ModalHeaderProps {
+  activeTab: "vegetables" | "date";
+  onClose: () => void;
+}
+
+function ModalHeaderContent({ activeTab, onClose }: ModalHeaderProps) {
+  return (
     <div
       className="sticky top-0 z-10 px-4 py-3 border-b flex items-center justify-between"
       style={{ background: ANALYZE_THEME.surfaceRaised, borderColor: ANALYZE_THEME.border }}
@@ -212,12 +232,59 @@ export default function MobileBottomSheet({
       </button>
     </div>
   );
+}
+
+/* ── Main Export Component ── */
+
+export default function MobileBottomSheet({
+  isOpen,
+  onClose,
+  board,
+  selectedCommodityId,
+  onCommoditySelect,
+  datePreset,
+  customDate,
+  viewDateLabel,
+  onPresetChange,
+  onCustomDateChange,
+  defaultTab = "vegetables",
+}: Omit<MobileBottomSheetProps, "marketId"> & { marketId?: string }) {
+  const [activeTab, setActiveTab] = useState<"vegetables" | "date">(defaultTab);
+  const [prevIsOpen, setPrevIsOpen] = useState(isOpen);
+
+  if (isOpen !== prevIsOpen) {
+    setPrevIsOpen(isOpen);
+    if (isOpen) {
+      setActiveTab(defaultTab);
+    }
+  }
+
+  const todayIso = useMemo(() => toISODate(new Date()), []);
+  const yesterdayIso = useMemo(() => {
+    const d = new Date();
+    d.setDate(d.getDate() - 1);
+    return toISODate(d);
+  }, []);
+
+  const activeSelectedIso = useMemo(() => {
+    if (datePreset === "yesterday") return yesterdayIso;
+    if (datePreset === "today") return todayIso;
+    return customDate || todayIso;
+  }, [datePreset, customDate, todayIso, yesterdayIso]);
+
+  const presets: { id: DatePreset; label: string; iso: string }[] = useMemo(
+    () => [
+      { id: "today", label: "Today", iso: todayIso },
+      { id: "yesterday", label: "Yesterday", iso: yesterdayIso },
+    ],
+    [todayIso, yesterdayIso]
+  );
 
   return (
     <AnimatePresence>
       {isOpen && (
         <>
-          {/* ── Backdrop (both mobile & tablet) ── */}
+          {/* Backdrop */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -226,7 +293,7 @@ export default function MobileBottomSheet({
             className="fixed inset-0 bg-black/50 z-50 backdrop-blur-sm"
           />
 
-          {/* ── MOBILE: full-width bottom sheet (hidden on md+) ── */}
+          {/* MOBILE: full-width bottom sheet */}
           <motion.div
             initial={{ y: "100%" }}
             animate={{ y: 0 }}
@@ -235,18 +302,36 @@ export default function MobileBottomSheet({
             className="md:hidden fixed bottom-0 left-0 right-0 z-50 rounded-t-3xl max-h-[90vh] overflow-hidden flex flex-col shadow-2xl"
             style={{ background: ANALYZE_THEME.surfaceRaised, borderTop: `1px solid ${ANALYZE_THEME.border}` }}
           >
-            {/* Drag handle */}
             <div className="w-full flex justify-center pt-2.5 pb-1">
               <div className="w-12 h-1.5 rounded-full opacity-30" style={{ background: ANALYZE_THEME.ink }} />
             </div>
-            <ModalHeader />
+
+            <ModalHeaderContent activeTab={activeTab} onClose={onClose} />
+
             <div className="overflow-y-auto pb-8">
-              {activeTab === "vegetables" && <VegetableList />}
-              {activeTab === "date" && <DatePanel />}
+              {activeTab === "vegetables" ? (
+                <VegetableListContent
+                  board={board}
+                  selectedCommodityId={selectedCommodityId}
+                  onCommoditySelect={onCommoditySelect}
+                  onClose={onClose}
+                />
+              ) : (
+                <DatePanelContent
+                  activeSelectedIso={activeSelectedIso}
+                  todayIso={todayIso}
+                  yesterdayIso={yesterdayIso}
+                  datePreset={datePreset}
+                  viewDateLabel={viewDateLabel}
+                  presets={presets}
+                  onPresetChange={onPresetChange}
+                  onCustomDateChange={onCustomDateChange}
+                />
+              )}
             </div>
           </motion.div>
 
-          {/* ── TABLET+: centered modal dialog (hidden below md) ── */}
+          {/* TABLET+: centered modal dialog */}
           <motion.div
             initial={{ opacity: 0, scale: 0.95, y: 12 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -262,7 +347,6 @@ export default function MobileBottomSheet({
                 maxHeight: "85vh",
               }}
             >
-              {/* Tab switcher */}
               <div
                 className="flex items-center gap-1 p-1 mx-4 mt-4 rounded-xl"
                 style={{ background: ANALYZE_THEME.surfaceMuted }}
@@ -284,11 +368,28 @@ export default function MobileBottomSheet({
                 ))}
               </div>
 
-              <ModalHeader />
+              <ModalHeaderContent activeTab={activeTab} onClose={onClose} />
 
               <div className="overflow-y-auto pb-4">
-                {activeTab === "vegetables" && <VegetableList />}
-                {activeTab === "date" && <DatePanel />}
+                {activeTab === "vegetables" ? (
+                  <VegetableListContent
+                    board={board}
+                    selectedCommodityId={selectedCommodityId}
+                    onCommoditySelect={onCommoditySelect}
+                    onClose={onClose}
+                  />
+                ) : (
+                  <DatePanelContent
+                    activeSelectedIso={activeSelectedIso}
+                    todayIso={todayIso}
+                    yesterdayIso={yesterdayIso}
+                    datePreset={datePreset}
+                    viewDateLabel={viewDateLabel}
+                    presets={presets}
+                    onPresetChange={onPresetChange}
+                    onCustomDateChange={onCustomDateChange}
+                  />
+                )}
               </div>
             </div>
           </motion.div>

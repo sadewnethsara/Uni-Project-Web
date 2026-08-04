@@ -1,7 +1,7 @@
 "use client";
 import { cn } from "@/lib/utils";
 import { motion } from "motion/react";
-import React from "react";
+import React, { useMemo } from "react";
 
 export const BackgroundLines = ({
   children,
@@ -68,29 +68,37 @@ const SVG = ({
   ];
 
   const colors = [
-  "#10B981",
-  "#059669",
-  "#047857",
-  "#34D399",
-  "#065F46",
-  "#22C55E",
-  "#16A34A",
-  "#4ADE80",
-  "#15803D",
-  "#166534",
-  "#86EFAC",
-  "#14532D",
-  "#2DD4BF",
-  "#14B8A6",
-  "#0F766E",
-  "#5EEAD4",
-  "#064E3B",
-  "#3F6212",
-  "#65A30D",
-  "#84CC16",
-  "#A3E635"
-
+    "#10B981",
+    "#059669",
+    "#047857",
+    "#34D399",
+    "#065F46",
+    "#22C55E",
+    "#16A34A",
+    "#4ADE80",
+    "#15803D",
+    "#166534",
+    "#86EFAC",
+    "#14532D",
+    "#2DD4BF",
+    "#14B8A6",
+    "#0F766E",
+    "#5EEAD4",
+    "#064E3B",
+    "#3F6212",
+    "#65A30D",
+    "#84CC16",
+    "#A3E635",
   ];
+
+  // Pure memoized animation timing offsets to avoid calling Math.random during render
+  const timingConfig = useMemo(() => {
+    return paths.map((_, idx) => ({
+      delay: (idx * 3) % 10,
+      repeatDelay: ((idx * 5) % 10) + 2,
+    }));
+  }, [paths.length]);
+
   return (
     <motion.svg
       viewBox="0 0 1440 900"
@@ -104,7 +112,7 @@ const SVG = ({
       {paths.map((path, idx) => (
         <motion.path
           d={path}
-          stroke={colors[idx]}
+          stroke={colors[idx % colors.length]}
           strokeWidth="2.3"
           strokeLinecap="round"
           variants={pathVariants}
@@ -115,18 +123,17 @@ const SVG = ({
             ease: "linear",
             repeat: Infinity,
             repeatType: "loop",
-            delay: Math.floor(Math.random() * 10),
-            repeatDelay: Math.floor(Math.random() * 10 + 2),
+            delay: timingConfig[idx].delay,
+            repeatDelay: timingConfig[idx].repeatDelay,
           }}
           key={`path-first-${idx}`}
         />
       ))}
 
-      {/* duplicate for more paths */}
       {paths.map((path, idx) => (
         <motion.path
           d={path}
-          stroke={colors[idx]}
+          stroke={colors[idx % colors.length]}
           strokeWidth="2.3"
           strokeLinecap="round"
           variants={pathVariants}
@@ -137,8 +144,8 @@ const SVG = ({
             ease: "linear",
             repeat: Infinity,
             repeatType: "loop",
-            delay: Math.floor(Math.random() * 10),
-            repeatDelay: Math.floor(Math.random() * 10 + 2),
+            delay: timingConfig[idx].delay,
+            repeatDelay: timingConfig[idx].repeatDelay,
           }}
           key={`path-second-${idx}`}
         />

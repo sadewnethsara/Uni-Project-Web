@@ -11,9 +11,14 @@ interface MarketAnalyzeLinkProps {
 }
 
 export default function MarketAnalyzeLink({ marketId, commodityId, onNavigate }: MarketAnalyzeLinkProps) {
+  const queryParams = new URLSearchParams();
+  if (marketId) queryParams.set("market", marketId);
+  if (commodityId) queryParams.set("commodity", commodityId);
+  const href = `/analytics${queryParams.toString() ? `?${queryParams.toString()}` : ""}`;
+
   return (
     <Link
-      href="/analytics"
+      href={href}
       onClick={onNavigate}
       className={`${PANEL_CLASS} group flex items-center gap-3 p-4 cursor-pointer transition-transform active:scale-[0.99]`}
       style={{

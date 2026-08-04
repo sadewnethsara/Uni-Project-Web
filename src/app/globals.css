@@ -1,6 +1,5 @@
 @import "tailwindcss";
 @import "tw-animate-css";
-@import "shadcn/tailwind.css";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -212,6 +211,25 @@ body {
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
+
+  /* Warm Agri Analytics Design System Tokens */
+  --agri-page: #f7efe3;
+  --agri-surface: #fff8ee;
+  --agri-surface-raised: #fffdf8;
+  --agri-surface-muted: #f0e6d8;
+  --agri-surface-deep: #e8dccb;
+  --agri-border: rgba(61, 48, 36, 0.10);
+  --agri-border-strong: rgba(61, 48, 36, 0.16);
+  --agri-ink: #2a2118;
+  --agri-ink-muted: #7a6a58;
+  --agri-ink-faint: #a89886;
+  --agri-accent: #0f766e;
+  --agri-accent-soft: #ccfbf1;
+  --agri-accent-ink: #115e59;
+  --agri-up: #0d9488;
+  --agri-down: #e11d48;
+  --agri-chart-bg: #faf4eb;
+  --agri-grid: rgba(61, 48, 36, 0.08);
 }
 
 .dark {
@@ -246,6 +264,25 @@ body {
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
+
+  /* Warm Agri Analytics Dark Mode Design System Tokens */
+  --agri-page: #12161c;
+  --agri-surface: #1a202c;
+  --agri-surface-raised: #242c3d;
+  --agri-surface-muted: #1e2636;
+  --agri-surface-deep: #0f141d;
+  --agri-border: rgba(255, 255, 255, 0.12);
+  --agri-border-strong: rgba(255, 255, 255, 0.20);
+  --agri-ink: #f8fafc;
+  --agri-ink-muted: #94a3b8;
+  --agri-ink-faint: #64748b;
+  --agri-accent: #10b981;
+  --agri-accent-soft: rgba(16, 185, 129, 0.15);
+  --agri-accent-ink: #34d399;
+  --agri-up: #10b981;
+  --agri-down: #f43f5e;
+  --agri-chart-bg: #161b26;
+  --agri-grid: rgba(255, 255, 255, 0.08);
 }
 
 @layer base {

@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useInView, useScroll, useTransform } from "framer-motion";
+import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import Link from "next/link";
 import { ANALYZE_THEME } from "@/lib/chartTheme";
@@ -77,7 +77,7 @@ export default function LandingFooter() {
               </div>
             </div>
             <p className="text-sm leading-relaxed" style={{ color: ANALYZE_THEME.surface }}>
-              Sri Lanka's premier agricultural market intelligence platform, empowering farmers and buyers with real-time data and AI-driven insights.
+              Sri Lanka&apos;s premier agricultural market intelligence platform, empowering farmers and buyers with real-time data and AI-driven insights.
             </p>
           </motion.div>
 

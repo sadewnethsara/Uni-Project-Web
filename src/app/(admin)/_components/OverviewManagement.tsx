@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { motion } from "framer-motion";
+import { createClient } from "@/utils/supabase/client";
 import {
   DollarSign,
   Plus,
@@ -74,21 +75,22 @@ export function OverviewManagement({ market, admin, onNavigate }: OverviewManage
   const fetchDashboardData = async () => {
     setIsLoading(true);
     try {
-      const [dashRes, adminsRes] = await Promise.all([
-        fetch('http://localhost/NAMIS/backend/api/dashboard.php'),
-        fetch('http://localhost/NAMIS/backend/api/admins.php')
+      const supabase = createClient();
+      const [marketsRes, categoriesRes, vegetablesRes, adminsRes] = await Promise.all([
+        supabase.from('markets').select('*', { count: 'exact', head: true }),
+        supabase.from('categories').select('*', { count: 'exact', head: true }),
+        supabase.from('vegetables').select('*', { count: 'exact', head: true }),
+        supabase.from('admins').select('*', { count: 'exact', head: true })
       ]);
-      const dashData = await dashRes.json();
-      const adminsData = await adminsRes.json();
 
       setStats({
-        categories: dashData.total_categories || 0,
-        items: dashData.total_vegetables || 0,
-        markets: dashData.total_markets || 0,
-        admins: Array.isArray(adminsData) ? adminsData.length : 0,
+        categories: categoriesRes.count || 0,
+        items: vegetablesRes.count || 0,
+        markets: marketsRes.count || 0,
+        admins: adminsRes.count || 0,
       });
     } catch (error) {
-      console.error("Failed to fetch overview data:", error);
+      console.error("Failed to fetch overview data from Supabase:", error);
     } finally {
       setIsLoading(false);
     }

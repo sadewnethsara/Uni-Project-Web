@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import { useAuth } from '@/contexts/AuthContext';
+import { createClient } from '@/utils/supabase/client';
 import {
   User,
   Clock,
@@ -42,16 +43,56 @@ export default function DashboardPage() {
   useEffect(() => {
     if (isLoggedIn) {
       setIsLoading(true);
-      fetch('http://localhost/NAMIS/backend/api/dashboard.php')
-        .then(res => res.json())
-        .then(data => {
-          setApiData(data);
+      const supabase = createClient();
+      
+      const fetchDashboardData = async () => {
+        try {
+          const [marketsRes, categoriesRes, vegetablesRes, pricesRes] = await Promise.all([
+            supabase.from('markets').select('*', { count: 'exact', head: true }),
+            supabase.from('categories').select('*', { count: 'exact', head: true }),
+            supabase.from('vegetables').select('*', { count: 'exact', head: true }),
+            supabase.from('price_entries').select(`
+              id,
+              price,
+              date,
+              market_id,
+              vegetable_id,
+              markets ( name ),
+              vegetables ( name, emoji )
+            `)
+            .order('date', { ascending: false })
+            .order('id', { ascending: false })
+            .limit(10)
+          ]);
+
+          const total_markets = marketsRes.count || 0;
+          const total_categories = categoriesRes.count || 0;
+          const total_vegetables = vegetablesRes.count || 0;
+
+          // Map prices to match the previous structure
+          const latest_prices = (pricesRes.data || []).map((p: any) => ({
+            id: p.id,
+            date: p.date,
+            price: p.price,
+            market_name: p.markets?.name || '',
+            vegetable_name: p.vegetables?.name || '',
+            vegetable_emoji: p.vegetables?.emoji || ''
+          }));
+
+          setApiData({
+            total_markets,
+            total_categories,
+            total_vegetables,
+            latest_prices
+          });
+        } catch (err) {
+          console.error("Failed to fetch dashboard data from Supabase", err);
+        } finally {
           setIsLoading(false);
-        })
-        .catch(err => {
-          console.error("Failed to fetch dashboard data", err);
-          setIsLoading(false);
-        });
+        }
+      };
+
+      fetchDashboardData();
     }
   }, [isLoggedIn]);
 

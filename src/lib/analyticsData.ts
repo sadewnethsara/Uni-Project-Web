@@ -134,16 +134,27 @@ export function getMarketLabel(id: string): string {
   return ANALYZE_MARKETS.find((m) => m.id === id)?.shortName ?? id;
 }
 
-let _apiPrices: any[] = [];
+export interface ApiPriceItem {
+  vegetable_id: string;
+  market_id: string;
+  date: string;
+  price: string | number;
+}
+
+let _apiPrices: ApiPriceItem[] = [];
 let _apiPricesMap: Record<string, number> = {};
 
-export function setApiPrices(prices: any[]) {
+export function setApiPrices(prices: ApiPriceItem[]) {
   _apiPrices = prices;
   _apiPricesMap = {};
   for (const p of prices) {
     const key = `${p.vegetable_id}_${p.market_id}_${p.date}`;
-    _apiPricesMap[key] = parseFloat(p.price);
+    _apiPricesMap[key] = typeof p.price === "number" ? p.price : parseFloat(p.price);
   }
+}
+
+export function getApiPricesCount(): number {
+  return _apiPrices.length;
 }
 
 /** Spot price for a commodity at a market on a calendar day (from API data). */
@@ -151,7 +162,7 @@ export function getDailyPrice(
   commodityId: string,
   marketId: string,
   date: Date,
-  grade: GradeFilter = "all"
+  _grade: GradeFilter = "all"
 ): number {
   const normCommId = commodityId === "chilli" ? "green_chilli" : commodityId;
   const normMarketId = marketId === "thambuttegama" ? "thambuththegama" : marketId;

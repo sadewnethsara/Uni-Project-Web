@@ -1,6 +1,7 @@
 "use client";
 
 import { createContext, useContext, useState, useEffect, ReactNode, useCallback } from 'react';
+import { createClient } from '@/utils/supabase/client';
 
 interface User {
   id: string;
@@ -31,6 +32,7 @@ interface AuthContextType {
   isLoggedIn: boolean;
   isInitialized: boolean;
   login: (email: string, password: string) => Promise<void>;
+  loginWithGoogle: () => Promise<void>;
   register: (name: string, email: string, password: string, role: string, phone?: string) => Promise<void>;
   logout: () => void;
   userHistory: UserHistory[];
@@ -42,80 +44,129 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [user, setUser] = useState<User | null>(null);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [isInitialized, setIsInitialized] = useState(false);
-  const [userHistory, setUserHistory] = useState<UserHistory[]>([]);
-  const [notificationSettings, setNotificationSettings] = useState<NotificationSettings>({
-    email: true,
-    marketing: false,
-    mobile: true,
-    updates: true
+  const [user, setUser] = useState<User | null>(() => {
+    if (typeof window !== "undefined") {
+      try {
+        const savedUser = localStorage.getItem('user');
+        return savedUser ? JSON.parse(savedUser) : null;
+      } catch (err) {
+        console.warn("Failed to load user state:", err);
+      }
+    }
+    return null;
   });
 
-  // Load persisted data on mount
-  useEffect(() => {
-    const savedUser = localStorage.getItem('user');
-    const savedHistory = localStorage.getItem('userHistory');
-    const savedSettings = localStorage.getItem('notificationSettings');
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(() => !!user);
+  const [isInitialized, setIsInitialized] = useState(false);
 
-    if (savedUser) {
-      setUser(JSON.parse(savedUser));
-      setIsLoggedIn(true);
+  const [userHistory, setUserHistory] = useState<UserHistory[]>(() => {
+    if (typeof window !== "undefined") {
+      try {
+        const savedHistory = localStorage.getItem('userHistory');
+        return savedHistory ? JSON.parse(savedHistory) : [];
+      } catch (err) {
+        console.warn("Failed to load history state:", err);
+      }
     }
+    return [];
+  });
 
-    if (savedHistory) {
-      setUserHistory(JSON.parse(savedHistory));
+  const [notificationSettings, setNotificationSettings] = useState<NotificationSettings>(() => {
+    const defaults = { email: true, marketing: false, mobile: true, updates: true };
+    if (typeof window !== "undefined") {
+      try {
+        const savedSettings = localStorage.getItem('notificationSettings');
+        return savedSettings ? JSON.parse(savedSettings) : defaults;
+      } catch (err) {
+        console.warn("Failed to load notification settings:", err);
+      }
     }
+    return defaults;
+  });
 
-    if (savedSettings) {
-      setNotificationSettings(JSON.parse(savedSettings));
-    }
-
-    setIsInitialized(true);
-  }, []);
+  const supabase = createClient();
 
   // Sync userHistory to localStorage whenever it changes
   useEffect(() => {
     localStorage.setItem('userHistory', JSON.stringify(userHistory));
   }, [userHistory]);
 
+  // Auth state change handler
+  useEffect(() => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
+      if (session?.user) {
+        // Fetch or create profile
+        const { data: profile, error } = await supabase
+          .from('admins')
+          .select('*')
+          .eq('id', session.user.id)
+          .single();
+
+        if (profile) {
+          const newUser: User = {
+            id: profile.id,
+            email: profile.email,
+            name: profile.name,
+            role: profile.role || 'viewer',
+            phone: profile.phone || undefined,
+          };
+          setUser(newUser);
+          setIsLoggedIn(true);
+          localStorage.setItem('user', JSON.stringify(newUser));
+        } else {
+          // Provision a new profile for OAuth users
+          const name = session.user.user_metadata?.full_name || session.user.user_metadata?.name || session.user.email?.split('@')[0] || 'User';
+          const email = session.user.email!;
+          const newUser: User = {
+            id: session.user.id,
+            email,
+            name,
+            role: 'viewer',
+          };
+          
+          await supabase.from('admins').insert([{
+            id: session.user.id,
+            email,
+            name,
+            role: 'viewer',
+            password_hash: '',
+            is_active: true
+          }]);
+
+          setUser(newUser);
+          setIsLoggedIn(true);
+          localStorage.setItem('user', JSON.stringify(newUser));
+        }
+      } else {
+        setUser(null);
+        setIsLoggedIn(false);
+        localStorage.removeItem('user');
+      }
+      setIsInitialized(true);
+    });
+
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, []);
+
   const login = useCallback(async (email: string, password: string) => {
     try {
-      const apiBase = process.env.NEXT_PUBLIC_API_BASE || 'http://localhost/NAMIS/backend/api';
-      const response = await fetch(`${apiBase}/auth/login.php`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email, password }),
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
       });
 
-      const data = await response.json();
-
-      if (!response.ok || !data.success) {
-        throw new Error(data.error || 'Login failed');
+      if (error) {
+        throw new Error(error.message);
       }
-
-      const newUser: User = {
-        id: data.user.id.toString(),
-        email: data.user.email,
-        name: data.user.name,
-        role: data.user.role,
-        phone: data.user.phone,
-        avatar: undefined
-      };
-
-      setUser(newUser);
-      setIsLoggedIn(true);
-      localStorage.setItem('user', JSON.stringify(newUser));
 
       // Add login to history
       const loginEntry: UserHistory = {
         id: Date.now().toString(),
         date: new Date().toISOString(),
         action: 'Login',
-        details: 'User logged in successfully',
+        details: 'User logged in successfully with email',
         category: 'settings'
       };
       setUserHistory(prev => [loginEntry, ...prev]);
@@ -125,42 +176,59 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   }, []);
 
+  const loginWithGoogle = useCallback(async () => {
+    try {
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+          redirectTo: `${window.location.origin}/dashboard`
+        }
+      });
+      if (error) throw error;
+    } catch (error) {
+      console.error('Google login error:', error);
+      throw error;
+    }
+  }, []);
+
   const register = useCallback(async (name: string, email: string, password: string, role: string, phone?: string) => {
     try {
-      const apiBase = process.env.NEXT_PUBLIC_API_BASE || 'http://localhost/NAMIS/backend/api';
-      const response = await fetch(`${apiBase}/auth/register.php`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ name, email, password, role, phone }),
+      const { data, error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          data: {
+            full_name: name,
+          }
+        }
       });
 
-      const data = await response.json();
-
-      if (!response.ok || !data.success) {
-        throw new Error(data.error || 'Registration failed');
+      if (error) {
+        throw new Error(error.message);
       }
 
-      const newUser: User = {
-        id: data.user.id.toString(),
-        email: data.user.email,
-        name: data.user.name,
-        role: data.user.role,
-        phone: data.user.phone,
-        avatar: undefined
-      };
+      if (data.user) {
+        // Create user profile in public.admins
+        const { error: profileError } = await supabase.from('admins').insert([{
+          id: data.user.id,
+          email,
+          name,
+          role,
+          password_hash: '', // Handled by Supabase Auth
+          is_active: true
+        }]);
 
-      setUser(newUser);
-      setIsLoggedIn(true);
-      localStorage.setItem('user', JSON.stringify(newUser));
+        if (profileError) {
+          console.error("Failed to insert profile record:", profileError);
+        }
+      }
 
       // Add registration to history
       const registerEntry: UserHistory = {
         id: Date.now().toString(),
         date: new Date().toISOString(),
         action: 'Registration',
-        details: 'New user account created',
+        details: 'New user account created via email signup',
         category: 'settings'
       };
       setUserHistory(prev => [registerEntry, ...prev]);
@@ -170,7 +238,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   }, []);
 
-  const logout = useCallback(() => {
+  const logout = useCallback(async () => {
     // Add logout to history before clearing
     const logoutEntry: UserHistory = {
       id: Date.now().toString(),
@@ -181,6 +249,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     };
     setUserHistory(prev => [logoutEntry, ...prev]);
 
+    await supabase.auth.signOut();
     setUser(null);
     setIsLoggedIn(false);
     localStorage.removeItem('user');
@@ -218,6 +287,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       isLoggedIn,
       isInitialized,
       login,
+      loginWithGoogle,
       register,
       logout,
       userHistory,

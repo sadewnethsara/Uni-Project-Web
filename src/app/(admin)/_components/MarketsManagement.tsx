@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Save, X, MapPin, Edit2, Trash2, Building2, Plus, Sparkles, Loader2, Check, AlertCircle } from "lucide-react";
+import { createClient } from "@/utils/supabase/client";
 import { ANALYZE_THEME } from "@/lib/chartTheme";
 import { MarketCenter } from "@/lib/types";
 import { ADMIN_SECTION_CONTENT } from "../data/demoData";
@@ -22,16 +23,21 @@ export function MarketsManagement() {
   const fetchData = async () => {
     setIsLoading(true);
     try {
-      const res = await fetch('http://localhost/NAMIS/backend/api/markets.php');
-      const data = await res.json();
-      
+      const supabase = createClient();
+      const { data, error } = await supabase
+        .from('markets')
+        .select('*')
+        .order('name', { ascending: true });
+
+      if (error) throw error;
+
       if (Array.isArray(data)) {
         setMarkets(data.map((m: any) => ({
-          id: m.id.toString(),
+          id: m.id,
           name: m.name,
           nameSi: m.name_si || "",
-          district: m.short_name || "Unknown",
-          emoji: "🏛️"
+          district: m.district || "Unknown",
+          emoji: m.emoji || "🏛️"
         })));
       }
     } catch (error) {
@@ -51,27 +57,35 @@ export function MarketsManagement() {
     setIsProcessing(true);
 
     try {
-      const method = editingMarket ? 'PUT' : 'POST';
-      const body = {
-        id: editingMarket?.id,
+      const supabase = createClient();
+      const payload = {
         name: marketForm.name,
         name_si: marketForm.nameSi,
-        short_name: marketForm.district
+        district: marketForm.district,
+        emoji: marketForm.emoji
       };
 
-      const res = await fetch('http://localhost/NAMIS/backend/api/markets.php', {
-        method,
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body)
-      });
-      const result = await res.json();
-      if (result.success) {
-        showToast(editingMarket ? "Market updated" : "Market added", "success");
-        handleCancel();
-        fetchData();
+      if (editingMarket) {
+        const { error } = await supabase
+          .from('markets')
+          .update(payload)
+          .eq('id', editingMarket.id);
+
+        if (error) throw error;
+        showToast("Market updated", "success");
       } else {
-        throw new Error(result.error);
+        const { error } = await supabase
+          .from('markets')
+          .insert([{
+            id: marketForm.name.toLowerCase().replace(/[^a-z0-9]/g, '-'),
+            ...payload
+          }]);
+
+        if (error) throw error;
+        showToast("Market added", "success");
       }
+      handleCancel();
+      fetchData();
     } catch (error) {
       showToast("Failed to save market", "error");
     } finally {
@@ -84,19 +98,17 @@ export function MarketsManagement() {
     setIsProcessing(true);
     
     try {
-      const res = await fetch('http://localhost/NAMIS/backend/api/markets.php', {
-        method: 'DELETE',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ id })
-      });
-      const result = await res.json();
-      if (result.success) {
-        showToast("Market deleted", "success");
-        if (editingMarket?.id === id) handleCancel();
-        fetchData();
-      } else {
-        throw new Error(result.error);
-      }
+      const supabase = createClient();
+      const { error } = await supabase
+        .from('markets')
+        .delete()
+        .eq('id', id);
+
+      if (error) throw error;
+
+      showToast("Market deleted", "success");
+      if (editingMarket?.id === id) handleCancel();
+      fetchData();
     } catch (error) {
       showToast("Failed to delete market", "error");
     } finally {

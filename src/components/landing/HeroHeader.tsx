@@ -18,7 +18,7 @@ export default function HeroHeader({
 }: Props) {
     return (
         <motion.div
-            style={{ opacity: introOpacity, scale: introScale, pointerEvents: introPointer as any, display: introDisplay }}
+            style={{ opacity: introOpacity, scale: introScale, pointerEvents: introPointer as unknown as React.CSSProperties["pointerEvents"], display: introDisplay }}
             className="absolute inset-0 flex flex-col items-center justify-center text-center px-6 z-50 w-full max-w-7xl mx-auto"
         >
             {/* Floating Cards to fill empty space */}

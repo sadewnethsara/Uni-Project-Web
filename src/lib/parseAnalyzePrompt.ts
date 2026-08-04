@@ -100,7 +100,6 @@ export function parseAnalyzePrompt(raw: string, today = new Date()): ParsedAnaly
   let customTo: string | undefined;
   let selectedDates: string[] | undefined;
 
-  const todayISO = toISODate(today);
   const yISO = yesterdayISO(today);
 
   if (/\byesterday\b/.test(text)) {

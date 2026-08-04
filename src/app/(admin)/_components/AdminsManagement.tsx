@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { createClient } from "@/utils/supabase/client";
 import { ANALYZE_THEME } from "@/lib/chartTheme";
 import { Admin, AdminRole } from "@/lib/types";
 import { ADMIN_SECTION_CONTENT } from "../data/demoData";
@@ -55,18 +56,23 @@ export function AdminsManagement() {
   const fetchData = async () => {
     setIsLoading(true);
     try {
-      const res = await fetch('http://localhost/NAMIS/backend/api/admins.php');
-      const data = await res.json();
-      
+      const supabase = createClient();
+      const { data, error } = await supabase
+        .from('admins')
+        .select('*')
+        .order('name', { ascending: true });
+
+      if (error) throw error;
+
       if (Array.isArray(data)) {
         setAdmins(data.map((a: any) => ({
           id: a.id.toString(),
           email: a.email,
           name: a.name,
           role: a.role as AdminRole,
-          marketId: a.role === 'market' ? "dambulla" : undefined, // Simplify mapping for now, ideally backend stores market_id
+          marketId: a.market_id || undefined,
           createdAt: a.created_at,
-          isActive: true // Fallback since it might not be in DB yet
+          isActive: a.is_active !== false
         })));
       }
     } catch (error) {
@@ -98,29 +104,37 @@ export function AdminsManagement() {
     setIsProcessing(true);
 
     try {
-      const method = editingAdmin ? 'PUT' : 'POST';
-      const body = {
-        id: editingAdmin?.id,
+      const supabase = createClient();
+      const payload = {
         email: adminForm.email,
         name: adminForm.name,
         role: adminForm.role,
-        password: adminForm.password,
-        phone: adminForm.phone
+        market_id: adminForm.role === 'market' ? adminForm.marketId : null
       };
 
-      const res = await fetch('http://localhost/NAMIS/backend/api/admins.php', {
-        method,
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body)
-      });
-      const result = await res.json();
-      if (result.success) {
-        showToast(editingAdmin ? "Admin updated" : "Admin added", "success");
-        resetForm();
-        fetchData();
+      if (editingAdmin) {
+        const { error } = await supabase
+          .from('admins')
+          .update(payload)
+          .eq('id', editingAdmin.id);
+
+        if (error) throw error;
+        showToast("Admin updated", "success");
       } else {
-        throw new Error(result.error);
+        const { error } = await supabase
+          .from('admins')
+          .insert([{
+            id: adminForm.email.toLowerCase().replace(/[^a-z0-9]/g, '-'),
+            password_hash: '',
+            is_active: true,
+            ...payload
+          }]);
+
+        if (error) throw error;
+        showToast("Admin added", "success");
       }
+      resetForm();
+      fetchData();
     } catch (error) {
       showToast("Failed to save admin", "error");
     } finally {
@@ -133,19 +147,17 @@ export function AdminsManagement() {
     setIsProcessing(true);
     
     try {
-      const res = await fetch('http://localhost/NAMIS/backend/api/admins.php', {
-        method: 'DELETE',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ id })
-      });
-      const result = await res.json();
-      if (result.success) {
-        showToast("Admin deleted", "success");
-        if (editingAdmin?.id === id) resetForm();
-        fetchData();
-      } else {
-        throw new Error(result.error);
-      }
+      const supabase = createClient();
+      const { error } = await supabase
+        .from('admins')
+        .delete()
+        .eq('id', id);
+
+      if (error) throw error;
+
+      showToast("Admin deleted", "success");
+      if (editingAdmin?.id === id) resetForm();
+      fetchData();
     } catch (error) {
       showToast("Failed to delete admin", "error");
     } finally {

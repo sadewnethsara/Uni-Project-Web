@@ -1,12 +1,9 @@
 
 import Header from "@/components/Header";
 import ConditionalFooter from "@/components/ConditionalFooter";
-import FloatingLanguageSwitcher from "@/components/FloatingLanguageSwitcher";
 import ConditionalFloatingChat from "@/components/ConditionalFloatingChat";
 import { cn } from "@/lib/utils";
 import { AuthProvider } from "@/contexts/AuthContext";
-
-
 
 export default function RootLayout({
   children,
@@ -17,7 +14,6 @@ export default function RootLayout({
     <div>
       <div suppressHydrationWarning className="min-h-full flex flex-col bg-[#fdf6e3]">
         <AuthProvider>
-          {/*<FloatingLanguageSwitcher />*/}
           <ConditionalFloatingChat />
           {/* Note: removed the class string 'suppressHydrationWarning' here since it is an attribute, not a class name */}
           <main className="flex-1 w-full max-w-8xl mx-auto px-4 sm:px-6 lg:px-4 pb-4 sm:pb-6 lg:pb-4">

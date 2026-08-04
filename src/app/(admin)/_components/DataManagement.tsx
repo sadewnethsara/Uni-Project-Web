@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { createClient } from "@/utils/supabase/client";
 import { 
   Search, Upload, Download, Edit2, Trash2, X, Check, 
   ChevronLeft, ChevronRight, FileSpreadsheet, Loader2, AlertCircle
@@ -45,13 +46,37 @@ export function DataManagement() {
   const fetchData = async () => {
     setIsLoading(true);
     try {
-      const res = await fetch('http://localhost/NAMIS/backend/api/prices.php');
-      const json = await res.json();
-      if (Array.isArray(json)) {
-        setData(json);
+      const supabase = createClient();
+      const { data: resData, error } = await supabase
+        .from('price_entries')
+        .select(`
+          id,
+          price,
+          date,
+          market_id,
+          vegetable_id,
+          markets ( name ),
+          vegetables ( name, emoji )
+        `)
+        .order('date', { ascending: false });
+
+      if (error) throw error;
+
+      if (Array.isArray(resData)) {
+        const formatted = resData.map((p: any) => ({
+          id: p.id,
+          price: parseFloat(p.price),
+          date: p.date,
+          market_id: p.market_id,
+          vegetable_id: p.vegetable_id,
+          market_name: p.markets?.name || '',
+          vegetable_name: p.vegetables?.name || '',
+          vegetable_emoji: p.vegetables?.emoji || '🥬'
+        }));
+        setData(formatted);
       }
     } catch (error) {
-      showToast("Failed to fetch data", "error");
+      showToast("Failed to fetch data from Supabase", "error");
     } finally {
       setIsLoading(false);
     }
@@ -97,19 +122,17 @@ export function DataManagement() {
 
     setIsProcessing(true);
     try {
-      const res = await fetch('http://localhost/NAMIS/backend/api/prices.php', {
-        method: 'DELETE',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ids: Array.from(selectedIds) })
-      });
-      const result = await res.json();
-      if (result.success) {
-        showToast(`Successfully deleted ${selectedIds.size} items`, 'success');
-        setSelectedIds(new Set());
-        fetchData();
-      } else {
-        throw new Error(result.error);
-      }
+      const supabase = createClient();
+      const { error } = await supabase
+        .from('price_entries')
+        .delete()
+        .in('id', Array.from(selectedIds));
+
+      if (error) throw error;
+
+      showToast(`Successfully deleted ${selectedIds.size} items`, 'success');
+      setSelectedIds(new Set());
+      fetchData();
     } catch (error) {
       showToast("Failed to delete items", "error");
     } finally {
@@ -121,18 +144,16 @@ export function DataManagement() {
     if (!confirm("Are you sure you want to delete this item?")) return;
     setIsProcessing(true);
     try {
-      const res = await fetch('http://localhost/NAMIS/backend/api/prices.php', {
-        method: 'DELETE',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ id })
-      });
-      const result = await res.json();
-      if (result.success) {
-        showToast("Item deleted successfully", "success");
-        fetchData();
-      } else {
-        throw new Error(result.error);
-      }
+      const supabase = createClient();
+      const { error } = await supabase
+        .from('price_entries')
+        .delete()
+        .eq('id', id);
+
+      if (error) throw error;
+
+      showToast("Item deleted successfully", "success");
+      fetchData();
     } catch (error) {
       showToast("Failed to delete item", "error");
     } finally {
@@ -145,23 +166,20 @@ export function DataManagement() {
     if (!editItem) return;
     setIsProcessing(true);
     try {
-      const res = await fetch('http://localhost/NAMIS/backend/api/prices.php', {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          id: editItem.id,
-          price: editItem.price,
+      const supabase = createClient();
+      const { error } = await supabase
+        .from('price_entries')
+        .update({
+          price: parseFloat(editItem.price as string),
           note: editItem.note
         })
-      });
-      const result = await res.json();
-      if (result.success) {
-        showToast("Item updated successfully", "success");
-        setEditItem(null);
-        fetchData();
-      } else {
-        throw new Error(result.error);
-      }
+        .eq('id', editItem.id);
+
+      if (error) throw error;
+
+      showToast("Item updated successfully", "success");
+      setEditItem(null);
+      fetchData();
     } catch (error) {
       showToast("Failed to update item", "error");
     } finally {
@@ -199,19 +217,24 @@ export function DataManagement() {
 
       setIsProcessing(true);
       try {
-        const res = await fetch('http://localhost/NAMIS/backend/api/prices.php', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ bulk: bulkData })
-        });
-        const result = await res.json();
-        if (result.success) {
-          showToast(`Successfully imported ${bulkData.length} records`, "success");
-          setShowUpload(false);
-          fetchData();
-        } else {
-          throw new Error(result.error);
-        }
+        const supabase = createClient();
+        const payload = bulkData.map((d: any) => ({
+          market_id: d.market_id,
+          vegetable_id: d.vegetable_id,
+          price: parseFloat(d.price),
+          date: d.date,
+          note: d.note || null
+        }));
+
+        const { error } = await supabase
+          .from('price_entries')
+          .upsert(payload, { onConflict: 'market_id,vegetable_id,date' });
+
+        if (error) throw error;
+
+        showToast(`Successfully imported ${bulkData.length} records`, "success");
+        setShowUpload(false);
+        fetchData();
       } catch (error) {
         showToast("Failed to import CSV", "error");
       } finally {

@@ -1,6 +1,6 @@
 /** Advanced analytics utilities for data analysis */
 
-import type { PricePoint, MarketSeries } from "./analyticsData";
+import type { MarketSeries } from "./analyticsData";
 
 export interface CorrelationResult {
   correlation: number;

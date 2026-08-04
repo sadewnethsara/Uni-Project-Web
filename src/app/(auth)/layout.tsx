@@ -1,6 +1,5 @@
 "use client";
 
-import FloatingLanguageSwitcher from "@/components/FloatingLanguageSwitcher";
 import ConditionalFloatingChat from "@/components/ConditionalFloatingChat";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { ANALYZE_THEME } from "@/lib/chartTheme";

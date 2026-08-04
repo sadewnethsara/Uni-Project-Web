@@ -2,7 +2,9 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { createClient } from "@/utils/supabase/client";
 import FloatingNavigationDock from "@/components/FloatingNavigationDock";
+import { AnalyticsPageSkeleton } from "@/components/ui/DataLoader";
 import AnalyzeFilterBar from "@/components/AnalyzeFilterBar";
 import AdvancedChart, { type ChartDrawing, type DrawTool } from "@/components/analyze/AdvancedChart";
 import CollapsibleSection from "@/components/analyze/CollapsibleSection";
@@ -212,18 +214,31 @@ export default function AnalyzePage() {
   }, [filterSig]);
 
   useEffect(() => {
-    const apiBase = process.env.NEXT_PUBLIC_API_BASE || 'http://localhost/NAMIS/backend/api';
-    fetch(`${apiBase}/prices.php`)
-      .then(res => res.json())
-      .then(data => {
-        setApiPrices(data);
+    const supabase = createClient();
+    const fetchPrices = async () => {
+      try {
+        const { data, error } = await supabase
+          .from('price_entries')
+          .select('id, price, date, vegetable_id, market_id')
+          .order('date', { ascending: false });
+
+        if (error) throw error;
+
+        // Map numeric price to float if needed
+        const mappedPrices = (data || []).map((p: any) => ({
+          ...p,
+          price: parseFloat(p.price)
+        }));
+
+        setApiPrices(mappedPrices);
         setDataVersion(v => v + 1);
+      } catch (err) {
+        console.error("Failed to fetch prices for analytics from Supabase", err);
+      } finally {
         const t = window.setTimeout(() => setPageReady(true), 80);
-      })
-      .catch(err => {
-        console.error("Failed to fetch prices for analytics", err);
-        const t = window.setTimeout(() => setPageReady(true), 80);
-      });
+      }
+    };
+    fetchPrices();
   }, []);
 
   const seriesTruncated =
@@ -245,26 +260,10 @@ export default function AnalyzePage() {
             initial={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.35 }}
-            className="absolute inset-0 z-[45] flex flex-col items-center justify-center gap-4 rounded-3xl"
+            className="absolute inset-0 z-[45] rounded-3xl p-4 md:p-6 overflow-hidden"
             style={{ background: ANALYZE_THEME.page }}
           >
-            <div className="relative w-12 h-12">
-              <span
-                className="absolute inset-0 rounded-full border-2 border-transparent animate-spin"
-                style={{ borderTopColor: ANALYZE_THEME.accent, borderRightColor: ANALYZE_THEME.accent }}
-              />
-              <span
-                className="absolute inset-2 rounded-full border-2 border-transparent animate-spin"
-                style={{
-                  borderBottomColor: ANALYZE_THEME.up,
-                  animationDirection: "reverse",
-                  animationDuration: "0.8s",
-                }}
-              />
-            </div>
-            <p className="text-xs font-black uppercase tracking-[0.18em]" style={{ color: ANALYZE_THEME.inkMuted }}>
-              Loading analytics
-            </p>
+            <AnalyticsPageSkeleton />
           </motion.div>
         )}
       </AnimatePresence>

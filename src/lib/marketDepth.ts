@@ -96,7 +96,7 @@ export function buildWatchlistQuotes(
   commodityId: string,
   basePrices: Record<string, number>
 ): { marketId: string; price: number; change: number }[] {
-  return Object.entries(basePrices).map(([marketId, price], i) => {
+  return Object.entries(basePrices).map(([marketId, price]) => {
     const seed = hash(`${commodityId}|${marketId}|wl`);
     const change = Math.round(((unit(seed) - 0.45) * 8) * 100) / 100;
     return { marketId, price, change };

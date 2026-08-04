@@ -7,6 +7,7 @@ import Header from "@/components/Header";
 import ConditionalFloatingChat from "@/components/ConditionalFloatingChat";
 import { cn } from "@/lib/utils";
 import { AuthProvider } from "@/contexts/AuthContext";
+import { LanguageProvider } from "@/contexts/LanguageContext";
 
 const geist = Geist({ subsets: ['latin'], variable: '--font-sans' });
 
@@ -27,7 +28,7 @@ const rocGrotesk = localFont({
 });
 
 const spaceGrotesk = Space_Grotesk({
-  variable: "--font-geist-sans",
+  variable: "--font-space-grotesk",
   subsets: ["latin"],
 });
 
@@ -37,8 +38,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Agri - Light & Pastel",
-  description: "A beautiful pastel themed application",
+  title: "NAMIS - National Agricultural Market Information System",
+  description: "Real-time agricultural commodity prices, trends, and market intelligence",
 };
 
 export default function RootLayout({
@@ -53,14 +54,15 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body suppressHydrationWarning className="min-h-full flex flex-col bg-[#fdf6e3]">
-        <AuthProvider>
-          <Header />
-          <ConditionalFloatingChat />
-          {/* Note: removed the class string 'suppressHydrationWarning' here since it is an attribute, not a class name */}
-          <main className="flex-1 w-full max-w-8xl mx-auto">
-            {children}
-          </main>
-        </AuthProvider>
+        <LanguageProvider>
+          <AuthProvider>
+            <Header />
+            <ConditionalFloatingChat />
+            <main className="flex-1 w-full max-w-8xl mx-auto">
+              {children}
+            </main>
+          </AuthProvider>
+        </LanguageProvider>
       </body>
     </html>
   );
