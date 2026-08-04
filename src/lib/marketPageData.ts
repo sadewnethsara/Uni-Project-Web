@@ -40,6 +40,23 @@ export interface SparkPoint {
   price: number | null;
 }
 
+export interface MarketPriceInfo {
+  marketId?: string;
+  marketName?: string;
+  price: number | null;
+  available?: boolean;
+}
+
+export interface WeeklyMarketPrice {
+  date: string;
+  label: string;
+  lowest?: MarketPriceInfo | null;
+  highest?: MarketPriceInfo | null;
+  average?: number | null;
+  selectedMarket?: MarketPriceInfo | null;
+  marketCount?: number;
+}
+
 export const MARKET_COMMODITIES: MarketCommodity[] = [
   {
     id: "carrot",

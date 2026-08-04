@@ -35,6 +35,7 @@ import {
   getMarketLabel,
   getSeriesColor,
   resolveDateRange,
+  setApiPrices,
   toISODate,
   type MarketSeries,
   type TimeframePreset,
@@ -85,6 +86,7 @@ export default function AnalyzePage() {
   const [mobileTab, setMobileTab] = useState<"chart" | "analytics" | "ledger">("chart");
   const [isUpdating, setIsUpdating] = useState(false);
   const [pageReady, setPageReady] = useState(false);
+  const [dataVersion, setDataVersion] = useState(0);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
   const [bottomSheetTab, setBottomSheetTab] = useState<"commodities" | "markets" | "timeframe">("commodities");
@@ -136,7 +138,7 @@ export default function AnalyzePage() {
         dash.gradeFilter,
         dates
       ),
-    [dash.commodities, dash.markets, from, to, grain, dash.gradeFilter, dates]
+    [dash.commodities, dash.markets, from, to, grain, dash.gradeFilter, dates, dataVersion]
   );
 
   const primary = seriesList[0];
@@ -166,7 +168,7 @@ export default function AnalyzePage() {
       const change = prev ? Math.round(((price - prev) / prev) * 10000) / 100 : 0;
       return { marketId: m.id, price, change };
     });
-  }, [primaryCommodity, dash.gradeFilter]);
+  }, [primaryCommodity, dash.gradeFilter, dataVersion]);
 
   const changeColor = primaryStats.changePct >= 0 ? ANALYZE_THEME.up : ANALYZE_THEME.down;
 
@@ -210,13 +212,13 @@ export default function AnalyzePage() {
   }, [filterSig]);
 
   useEffect(() => {
-    fetch('http://localhost/NAMIS/backend/api/prices.php')
+    const apiBase = process.env.NEXT_PUBLIC_API_BASE || 'http://localhost/NAMIS/backend/api';
+    fetch(`${apiBase}/prices.php`)
       .then(res => res.json())
       .then(data => {
-        import('@/lib/analyticsData').then(m => {
-          m.setApiPrices(data);
-          const t = window.setTimeout(() => setPageReady(true), 80);
-        });
+        setApiPrices(data);
+        setDataVersion(v => v + 1);
+        const t = window.setTimeout(() => setPageReady(true), 80);
       })
       .catch(err => {
         console.error("Failed to fetch prices for analytics", err);
@@ -588,7 +590,7 @@ export default function AnalyzePage() {
                   {
                     market: getMarketLabel(primaryMarket),
                     trend: (primaryStats.changePct >= 0 ? "up" : "down") as "up" | "down" | "stable",
-                    confidence: 75 + Math.floor(Math.random() * 15),
+                    confidence: 75 + (Math.abs(Math.floor(primaryStats.latest)) % 15),
                     timeframe: dash.timeframe === "1D" ? "24h" : dash.timeframe === "7D" ? "7 days" : dash.timeframe === "1M" ? "30 days" : "90 days",
                     reasoning: primaryStats.changePct >= 0
                       ? `Strong ${commodityName} demand observed at ${getMarketLabel(primaryMarket)}. Historical patterns suggest continued upward trend based on seasonal factors and current supply constraints.`
@@ -598,12 +600,12 @@ export default function AnalyzePage() {
                   },
                   ...(dash.markets.length > 1 ? [{
                     market: getMarketLabel(dash.markets[1]),
-                    trend: (Math.random() > 0.5 ? "up" : "down") as "up" | "down",
-                    confidence: 70 + Math.floor(Math.random() * 20),
+                    trend: ((statsList[1]?.stats.changePct || 0) >= 0 ? "up" : "down") as "up" | "down",
+                    confidence: 70 + (Math.abs(Math.floor(statsList[1]?.stats.latest || primaryStats.latest)) % 20),
                     timeframe: dash.timeframe === "1D" ? "24h" : dash.timeframe === "7D" ? "7 days" : dash.timeframe === "1M" ? "30 days" : "90 days",
                     reasoning: `Cross-market analysis shows correlation with ${getMarketLabel(primaryMarket)}. Price differentials may normalize as traders arbitrage opportunities.`,
                     currentPrice: statsList[1]?.stats.latest || primaryStats.latest * 0.95,
-                    predictedPrice: (statsList[1]?.stats.latest || primaryStats.latest * 0.95) * (1 + (Math.random() - 0.5) * 0.1),
+                    predictedPrice: (statsList[1]?.stats.latest || primaryStats.latest * 0.95) * (1 + (((Math.abs(Math.floor(primaryStats.latest)) % 10) - 5) * 0.01)),
                   }] : []),
                 ]}
               />
@@ -853,12 +855,6 @@ export default function AnalyzePage() {
           </div>
         </motion.div>
       </div>
-
-      <FloatingNavigationDock
-        locations={locationList}
-        activeLocation={activeMarketLocation}
-        onLocationChange={handleMarketChange}
-      />
 
       <AnalyticsMobileBottomSheet
         isOpen={isBottomSheetOpen}

@@ -170,7 +170,7 @@ export default function AnalyticsSimpleChart({ points, seriesName, color }: Anal
               const isHovered = hoverIndex === i;
               return (
                 <motion.rect
-                  key={p.date}
+                  key={`bar-${p.date}-${i}`}
                   x={barX}
                   y={barY}
                   width={barW}
@@ -190,7 +190,7 @@ export default function AnalyticsSimpleChart({ points, seriesName, color }: Anal
               const isHovered = hoverIndex === i;
               return (
                 <motion.circle
-                  key={c.date}
+                  key={`circle-${c.date}-${i}`}
                   cx={c.x}
                   cy={c.y}
                   r={isHovered ? 6 : chartType === "scatter" ? 5 : 4}

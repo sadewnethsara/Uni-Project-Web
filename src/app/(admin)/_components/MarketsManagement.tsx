@@ -1,44 +1,106 @@
-import React, { useState } from "react";
-import { Save, X, MapPin, Edit2, Trash2, Building2, Plus, Sparkles } from "lucide-react";
+import React, { useState, useEffect } from "react";
+import { Save, X, MapPin, Edit2, Trash2, Building2, Plus, Sparkles, Loader2, Check, AlertCircle } from "lucide-react";
 import { ANALYZE_THEME } from "@/lib/chartTheme";
-import { loadMarkets, generateId, saveMarkets } from "@/lib/storage";
 import { MarketCenter } from "@/lib/types";
-import { ADMIN_DEMO_DATA, ADMIN_SECTION_CONTENT } from "../data/demoData";
+import { ADMIN_SECTION_CONTENT } from "../data/demoData";
 import { AdminPageLayout } from "./AdminPageLayout";
+import { AnimatePresence, motion } from "framer-motion";
 
 export function MarketsManagement() {
-  const [markets, setMarkets] = useState<MarketCenter[]>(() => {
-    const stored = loadMarkets();
-    return stored.length > 0 ? stored : ADMIN_DEMO_DATA.markets;
-  });
+  const [markets, setMarkets] = useState<MarketCenter[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isProcessing, setIsProcessing] = useState(false);
+  const [toast, setToast] = useState<{message: string, type: 'success' | 'error'} | null>(null);
+
   const [editingMarket, setEditingMarket] = useState<MarketCenter | null>(null);
   const [marketForm, setMarketForm] = useState({ name: "", nameSi: "", district: "", emoji: "" });
 
-  const handleSave = () => {
-    if (!marketForm.name.trim() || !marketForm.district.trim() || !marketForm.emoji.trim()) return;
+  useEffect(() => {
+    fetchData();
+  }, []);
 
-    let updated: MarketCenter[];
-    if (editingMarket) {
-      updated = markets.map((m) =>
-        m.id === editingMarket.id ? { ...m, ...marketForm } : m
-      );
-    } else {
-      const newMkt: MarketCenter = { id: generateId(), ...marketForm };
-      updated = [...markets, newMkt];
+  const fetchData = async () => {
+    setIsLoading(true);
+    try {
+      const res = await fetch('http://localhost/NAMIS/backend/api/markets.php');
+      const data = await res.json();
+      
+      if (Array.isArray(data)) {
+        setMarkets(data.map((m: any) => ({
+          id: m.id.toString(),
+          name: m.name,
+          nameSi: m.name_si || "",
+          district: m.short_name || "Unknown",
+          emoji: "🏛️"
+        })));
+      }
+    } catch (error) {
+      showToast("Failed to fetch data", "error");
+    } finally {
+      setIsLoading(false);
     }
-    setMarkets(updated);
-    saveMarkets(updated);
-    handleCancel();
   };
 
-  const handleDelete = (id: string) => {
-    if (confirm("Are you sure you want to delete this market center?")) {
-      const updated = markets.filter((m) => m.id !== id);
-      setMarkets(updated);
-      saveMarkets(updated);
-      if (editingMarket?.id === id) {
+  const showToast = (message: string, type: 'success' | 'error' = 'success') => {
+    setToast({ message, type });
+    setTimeout(() => setToast(null), 3000);
+  };
+
+  const handleSave = async () => {
+    if (!marketForm.name.trim() || !marketForm.district.trim() || !marketForm.emoji.trim()) return;
+    setIsProcessing(true);
+
+    try {
+      const method = editingMarket ? 'PUT' : 'POST';
+      const body = {
+        id: editingMarket?.id,
+        name: marketForm.name,
+        name_si: marketForm.nameSi,
+        short_name: marketForm.district
+      };
+
+      const res = await fetch('http://localhost/NAMIS/backend/api/markets.php', {
+        method,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
+      });
+      const result = await res.json();
+      if (result.success) {
+        showToast(editingMarket ? "Market updated" : "Market added", "success");
         handleCancel();
+        fetchData();
+      } else {
+        throw new Error(result.error);
       }
+    } catch (error) {
+      showToast("Failed to save market", "error");
+    } finally {
+      setIsProcessing(false);
+    }
+  };
+
+  const handleDelete = async (id: string) => {
+    if (!confirm("Are you sure you want to delete this market center?")) return;
+    setIsProcessing(true);
+    
+    try {
+      const res = await fetch('http://localhost/NAMIS/backend/api/markets.php', {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id })
+      });
+      const result = await res.json();
+      if (result.success) {
+        showToast("Market deleted", "success");
+        if (editingMarket?.id === id) handleCancel();
+        fetchData();
+      } else {
+        throw new Error(result.error);
+      }
+    } catch (error) {
+      showToast("Failed to delete market", "error");
+    } finally {
+      setIsProcessing(false);
     }
   };
 
@@ -69,6 +131,24 @@ export function MarketsManagement() {
       inkColor={ANALYZE_THEME.ink}
       inkMutedColor={ANALYZE_THEME.inkMuted}
     >
+      <AnimatePresence>
+        {toast && (
+          <motion.div
+            initial={{ opacity: 0, y: -50, x: '-50%' }}
+            animate={{ opacity: 1, y: 0, x: '-50%' }}
+            exit={{ opacity: 0, y: -20, x: '-50%' }}
+            className={`fixed top-6 left-1/2 z-50 px-6 py-3 rounded-full shadow-lg flex items-center gap-3 backdrop-blur-md border ${
+              toast.type === 'success' 
+                ? 'bg-emerald-500/10 border-emerald-500/20 text-emerald-700' 
+                : 'bg-red-500/10 border-red-500/20 text-red-700'
+            }`}
+          >
+            {toast.type === 'success' ? <Check size={18} /> : <AlertCircle size={18} />}
+            <span className="font-medium">{toast.message}</span>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       <div className="p-6 sm:p-7 transition-all duration-300 relative overflow-hidden">
         <div className="flex items-center justify-between mb-5">
           <div className="flex items-center gap-2">
@@ -77,15 +157,9 @@ export function MarketsManagement() {
               {editingMarket ? "Edit Market Center" : "Add New Market Center"}
             </h3>
           </div>
-          {editingMarket && (
-            <span className="text-xs px-2.5 py-1 rounded-full font-medium" style={{ background: `${ANALYZE_THEME.accent}15`, color: ANALYZE_THEME.accent }}>
-              Editing #{editingMarket.id}
-            </span>
-          )}
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-12 gap-4">
-          {/* Emoji Field */}
           <div className="sm:col-span-3 lg:col-span-2">
             <label className="block text-xs font-bold mb-1.5" style={{ color: ANALYZE_THEME.inkMuted }}>
               Emoji / Icon
@@ -106,7 +180,6 @@ export function MarketsManagement() {
             </div>
           </div>
 
-          {/* District Field */}
           <div className="sm:col-span-9 lg:col-span-4">
             <label className="block text-xs font-bold mb-1.5" style={{ color: ANALYZE_THEME.inkMuted }}>
               District
@@ -125,7 +198,6 @@ export function MarketsManagement() {
             />
           </div>
 
-          {/* English Name Field */}
           <div className="sm:col-span-6 lg:col-span-3">
             <label className="block text-xs font-bold mb-1.5" style={{ color: ANALYZE_THEME.inkMuted }}>
               Market Name (English)
@@ -144,7 +216,6 @@ export function MarketsManagement() {
             />
           </div>
 
-          {/* Sinhala Name Field */}
           <div className="sm:col-span-6 lg:col-span-3">
             <label className="block text-xs font-bold mb-1.5" style={{ color: ANALYZE_THEME.inkMuted }}>
               Name (Sinhala)
@@ -164,12 +235,12 @@ export function MarketsManagement() {
           </div>
         </div>
 
-        {/* Form Actions */}
         <div className="flex items-center justify-end gap-3 pt-5 mt-2 border-t" style={{ borderColor: `${ANALYZE_THEME.border}80` }}>
           {editingMarket && (
             <button
               onClick={handleCancel}
-              className="flex items-center gap-2 px-5 py-2.5 rounded-2xl font-semibold text-sm transition-all border active:scale-95"
+              disabled={isProcessing}
+              className="flex items-center gap-2 px-5 py-2.5 rounded-2xl font-semibold text-sm transition-all border active:scale-95 cursor-pointer"
               style={{ background: ANALYZE_THEME.surface, borderColor: ANALYZE_THEME.border, color: ANALYZE_THEME.inkMuted }}
             >
               <X className="w-4 h-4" />
@@ -178,19 +249,23 @@ export function MarketsManagement() {
           )}
           <button
             onClick={handleSave}
-            disabled={!isFormValid}
-            className="flex items-center gap-2 px-6 py-2.5 rounded-2xl font-bold text-sm text-white transition-all shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed active:scale-95"
+            disabled={!isFormValid || isProcessing}
+            className="flex items-center gap-2 px-6 py-2.5 rounded-2xl font-bold text-sm text-white transition-all shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed active:scale-95 cursor-pointer"
             style={{ background: ANALYZE_THEME.accent }}
           >
-            {editingMarket ? <Save className="w-4 h-4" /> : <Plus className="w-4 h-4" />}
+            {isProcessing ? <Loader2 className="w-4 h-4 animate-spin" /> : (editingMarket ? <Save className="w-4 h-4" /> : <Plus className="w-4 h-4" />)}
             {editingMarket ? "Update Market" : "Add Market"}
           </button>
         </div>
       </div>
 
-      {/* Grid List Section */}
-      {markets.length === 0 ? (
-        <div className="p-12 text-center rounded-3xl border border-dashed flex flex-col items-center justify-center gap-3" style={{ background: ANALYZE_THEME.surface, borderColor: ANALYZE_THEME.border }}>
+      {isLoading ? (
+        <div className="p-12 text-center flex flex-col items-center">
+          <Loader2 className="w-8 h-8 animate-spin text-emerald-500 mb-4" />
+          <p className="text-gray-500 font-medium">Loading markets...</p>
+        </div>
+      ) : markets.length === 0 ? (
+        <div className="p-12 text-center rounded-3xl border border-dashed flex flex-col items-center justify-center gap-3 m-6" style={{ background: ANALYZE_THEME.surface, borderColor: ANALYZE_THEME.border }}>
           <div className="p-4 rounded-full" style={{ background: `${ANALYZE_THEME.accent}10`, color: ANALYZE_THEME.accent }}>
             <Sparkles className="w-8 h-8" />
           </div>
@@ -200,7 +275,7 @@ export function MarketsManagement() {
           </p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 p-6">
           {markets.map((m) => (
             <div
               key={m.id}
@@ -224,12 +299,11 @@ export function MarketsManagement() {
                   </div>
                 </div>
 
-                {/* Actions */}
                 <div className="flex items-center gap-1 shrink-0 opacity-80 group-hover:opacity-100 transition-opacity">
                   <button
                     onClick={() => handleEdit(m)}
                     title="Edit"
-                    className="p-2 rounded-xl transition-all hover:bg-black/5 active:scale-90"
+                    className="p-2 rounded-xl transition-all hover:bg-black/5 active:scale-90 cursor-pointer"
                     style={{ color: ANALYZE_THEME.inkMuted }}
                   >
                     <Edit2 className="w-4 h-4" />
@@ -237,7 +311,7 @@ export function MarketsManagement() {
                   <button
                     onClick={() => handleDelete(m.id)}
                     title="Delete"
-                    className="p-2 rounded-xl transition-all hover:bg-rose-50 hover:text-rose-600 active:scale-90"
+                    className="p-2 rounded-xl transition-all hover:bg-rose-50 hover:text-rose-600 active:scale-90 cursor-pointer"
                     style={{ color: ANALYZE_THEME.inkFaint }}
                   >
                     <Trash2 className="w-4 h-4" />
@@ -245,7 +319,6 @@ export function MarketsManagement() {
                 </div>
               </div>
 
-              {/* District Badge */}
               <div className="pt-3 border-t flex items-center justify-between" style={{ borderColor: `${ANALYZE_THEME.border}60` }}>
                 <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold" style={{ background: `${ANALYZE_THEME.accent}12`, color: ANALYZE_THEME.accent }}>
                   <MapPin className="w-3 h-3" />

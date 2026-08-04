@@ -135,9 +135,15 @@ export function getMarketLabel(id: string): string {
 }
 
 let _apiPrices: any[] = [];
+let _apiPricesMap: Record<string, number> = {};
 
 export function setApiPrices(prices: any[]) {
   _apiPrices = prices;
+  _apiPricesMap = {};
+  for (const p of prices) {
+    const key = `${p.vegetable_id}_${p.market_id}_${p.date}`;
+    _apiPricesMap[key] = parseFloat(p.price);
+  }
 }
 
 /** Spot price for a commodity at a market on a calendar day (from API data). */
@@ -147,14 +153,28 @@ export function getDailyPrice(
   date: Date,
   grade: GradeFilter = "all"
 ): number {
+  const normCommId = commodityId === "chilli" ? "green_chilli" : commodityId;
+  const normMarketId = marketId === "thambuttegama" ? "thambuththegama" : marketId;
   const dayKey = toISODate(date);
+  const key = `${normCommId}_${normMarketId}_${dayKey}`;
   
-  if (_apiPrices.length > 0) {
-    const entry = _apiPrices.find(p => p.vegetable_id === commodityId && p.market_id === marketId && p.date === dayKey);
-    if (entry) return parseFloat(entry.price);
+  if (_apiPricesMap[key] !== undefined) {
+    return _apiPricesMap[key];
   }
 
-  // Return default price if no data available
+  const rawKey = `${commodityId}_${marketId}_${dayKey}`;
+  if (_apiPricesMap[rawKey] !== undefined) {
+    return _apiPricesMap[rawKey];
+  }
+
+  // Fallback: Return closest available price entry for this vegetable & market
+  const prefix1 = `${normCommId}_${normMarketId}_`;
+  const prefix2 = `${commodityId}_${marketId}_`;
+  const matchingKeys = Object.keys(_apiPricesMap).filter(k => k.startsWith(prefix1) || k.startsWith(prefix2));
+  if (matchingKeys.length > 0) {
+    return _apiPricesMap[matchingKeys[matchingKeys.length - 1]];
+  }
+
   return 0;
 }
 
@@ -211,7 +231,8 @@ export function resolveDateRange(
     const to = endOfToday;
     const from = new Date(endOfToday);
     if (opts.timeframe === "1D") {
-      return { from: endOfToday, to: endOfToday, grain: "hour" };
+      from.setDate(from.getDate() - 6);
+      return { from, to, grain: "day" };
     }
     if (opts.timeframe === "7D") from.setDate(from.getDate() - 6);
     else if (opts.timeframe === "1M") from.setMonth(from.getMonth() - 1);
@@ -239,7 +260,9 @@ export function resolveDateRange(
   }
 
   if (mode === "today") {
-    return { from: endOfToday, to: endOfToday, grain: "hour" };
+    const from = new Date(endOfToday);
+    from.setDate(from.getDate() - 6);
+    return { from, to: endOfToday, grain: "day" };
   }
 
   if (mode === "week") {
@@ -292,7 +315,7 @@ function aggregatePoints(
 ): PricePoint[] {
   const days = eachDay(from, to);
 
-  if (grain === "day") {
+  if (grain === "day" || grain === "hour") {
     return days.map((d) => {
       const ohlc = getDailyOHLC(commodityId, marketId, d, grade);
       return {

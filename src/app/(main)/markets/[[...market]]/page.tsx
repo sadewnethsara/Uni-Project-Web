@@ -92,16 +92,27 @@ export default function MarketPage({ params }: PageProps) {
         setApiPrices(prices);
 
         // Transform into the board format expected by components
-        const currentMarketPrices = prices.filter((p: any) => p.market_id === marketId && p.date === toISODate(viewDate));
+        let targetDateStr = toISODate(viewDate);
+        let currentMarketPrices = prices.filter((p: any) => p.market_id === marketId && p.date === targetDateStr);
+
+        // Fallback: If selected viewDate has no entries, use latest available date for this market
+        if (currentMarketPrices.length === 0) {
+          const marketEntries = prices.filter((p: any) => p.market_id === marketId);
+          if (marketEntries.length > 0) {
+            targetDateStr = marketEntries[0].date;
+            currentMarketPrices = prices.filter((p: any) => p.market_id === marketId && p.date === targetDateStr);
+          }
+        }
 
         const newBoard = vegetables.map((v: any) => {
-          const pEntry = currentMarketPrices.find((p: any) => p.vegetable_id === v.id);
+          let pEntry = currentMarketPrices.find((p: any) => p.vegetable_id === v.id);
+          // If still null, find any latest entry for this vegetable in this market
+          if (!pEntry) {
+            pEntry = prices.find((p: any) => p.market_id === marketId && p.vegetable_id === v.id);
+          }
 
           // Find yesterday's price for trend
-          const yesterday = new Date(viewDate);
-          yesterday.setDate(yesterday.getDate() - 1);
-          const yDateStr = toISODate(yesterday);
-          const yEntry = prices.find((p: any) => p.market_id === marketId && p.vegetable_id === v.id && p.date === yDateStr);
+          const yEntry = prices.find((p: any) => p.market_id === marketId && p.vegetable_id === v.id && p.date !== (pEntry?.date ?? targetDateStr));
 
           let trend: "up" | "down" | "stable" | "none" = "none";
           let changeVsPrior = null;
@@ -188,12 +199,14 @@ export default function MarketPage({ params }: PageProps) {
 
   const sparkline = useMemo(() => {
     if (!selectedCommodityId || apiPrices.length === 0) return [];
+    const todayStr = toISODate(viewDate);
     return apiPrices
-      .filter(p => p.market_id === marketId && p.vegetable_id === selectedCommodityId)
+      .filter(p => p.market_id === marketId && p.vegetable_id === selectedCommodityId && p.date <= todayStr)
+      .sort((a, b) => b.date.localeCompare(a.date))
       .slice(0, 7)
       .map(p => ({ date: p.date, label: formatDisplayDate(p.date), price: parseFloat(p.price) }))
       .reverse();
-  }, [selectedCommodityId, apiPrices, marketId]);
+  }, [selectedCommodityId, apiPrices, marketId, viewDate]);
 
   const lowestPrice = useMemo(() => {
     if (!selectedCommodityId || apiPrices.length === 0) return null;

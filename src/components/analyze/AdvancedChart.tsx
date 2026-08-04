@@ -401,7 +401,7 @@ export default function AdvancedChart({
               const bodyTop = Math.min(yO, yC);
               const bodyH = Math.max(Math.abs(yC - yO), 1.2);
               return (
-                <g key={p.date}>
+                <g key={`candle-${p.date}-${idx}`}>
                   <line x1={cx} y1={priceY(h)} x2={cx} y2={priceY(l)} stroke={color} strokeWidth={1.2} />
                   <rect x={cx - candleW / 2} y={bodyTop} width={candleW} height={bodyH} fill={color} rx={0.5} />
                 </g>

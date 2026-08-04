@@ -4,8 +4,6 @@ import localFont from "next/font/local";
 import "./globals.css";
 
 import Header from "@/components/Header";
-import ConditionalFooter from "@/components/ConditionalFooter";
-import FloatingLanguageSwitcher from "@/components/FloatingLanguageSwitcher";
 import ConditionalFloatingChat from "@/components/ConditionalFloatingChat";
 import { cn } from "@/lib/utils";
 import { AuthProvider } from "@/contexts/AuthContext";
@@ -52,7 +50,6 @@ export default function RootLayout({
     <html
       lang="en"
       className={cn("h-full", "antialiased", spaceGrotesk.variable, geistMono.variable, rocGrotesk.variable, "font-sans", geist.variable)}
-      // 💡 ADD THIS RIGHT HERE TO BYPASS BROWSER EXTENSION INJECTIONS:
       suppressHydrationWarning
     >
       <body suppressHydrationWarning className="min-h-full flex flex-col bg-[#fdf6e3]">

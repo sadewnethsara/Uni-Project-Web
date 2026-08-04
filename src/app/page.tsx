@@ -13,7 +13,6 @@ import HeroBackground from "@/components/landing/HeroBackground";
 import HeroHeader from "@/components/landing/HeroHeader";
 import HeroMap from "@/components/landing/HeroMap";
 import HeroAnalyticsPanel from "@/components/landing/HeroAnalyticsPanel";
-import HeroSlider from "@/components/landing/HeroSlider";
 import HeroBottomSheet from "@/components/landing/HeroBottomSheet";
 import Newsletter from "@/components/NewsletterSection";
 
@@ -86,15 +85,18 @@ export default function Home() {
     const initY = useTransform(scrollYProgress, [0.1, 0.4], [100, -100]);
     const baseMapOpacity = useTransform(scrollYProgress, [0.12, 0.18], [0, 1]);
 
-    // Map Shift & Analytics Panel
-    const mapX = useTransform(scrollYProgress, [0.86, 0.92], ["0%", "-25%"]);
-    const mapY = useTransform(scrollYProgress, [0.86, 0.92], ["0%", "0%"]);
-    const mapScale = useTransform(scrollYProgress, [0.86, 0.92], [1, 0.9]);
-    const panelOpacity = useTransform(scrollYProgress, [0.86, 0.92, 0.98, 1], [0, 1, 1, 0]);
-    const panelX = useTransform(scrollYProgress, [0.86, 0.92], [100, 0]);
+    // Map Shift & 3D Motion transforms for scrolling
+    const mapX = useTransform(scrollYProgress, [0.85, 0.92], ["0%", "-24%"]);
+    const mapY = useTransform(scrollYProgress, [0.85, 0.92], ["0%", "0%"]);
+    const mapScale = useTransform(scrollYProgress, [0.85, 0.92], [1, 0.92]);
+    const mapRotateY = useTransform(scrollYProgress, [0.85, 0.92], [0, -6]);
 
-    // Image Slider
-    const sliderY = useTransform(scrollYProgress, [0.86, 0.92], [100, 0]);
+    const panelOpacity = useTransform(scrollYProgress, [0.85, 0.92, 0.98, 1], [0, 1, 1, 0]);
+    const panelX = useTransform(scrollYProgress, [0.85, 0.92], [120, 0]);
+    const panelScale = useTransform(scrollYProgress, [0.85, 0.92], [0.88, 1]);
+    const panelRotateY = useTransform(scrollYProgress, [0.85, 0.92], [18, 0]);
+    const panelRotateX = useTransform(scrollYProgress, [0.85, 0.92], [8, 0]);
+
     const waterOpacity = useTransform(scrollYProgress, [0.12, 0.22, 0.75, 0.85], [0, 1, 1, 0]);
 
     return (
@@ -134,6 +136,7 @@ export default function Home() {
                         mapX={mapX}
                         mapY={mapY}
                         mapScale={mapScale}
+                        mapRotateY={mapRotateY}
                         waterOpacity={waterOpacity}
                         baseMapOpacity={baseMapOpacity}
                         outlinePathLength={outlinePathLength}
@@ -145,12 +148,9 @@ export default function Home() {
                     <HeroAnalyticsPanel
                         panelOpacity={panelOpacity}
                         panelX={panelX}
-                        locations={locations}
-                    />
-
-                    <HeroSlider
-                        panelOpacity={panelOpacity}
-                        sliderY={sliderY}
+                        panelScale={panelScale}
+                        panelRotateY={panelRotateY}
+                        panelRotateX={panelRotateX}
                         locations={locations}
                     />
 

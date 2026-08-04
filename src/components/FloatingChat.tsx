@@ -28,7 +28,7 @@ export default function FloatingChatWidget() {
   };
 
   return (
-    <div className="fixed bottom-24 md:bottom-6 right-4 md:right-6 z-[100] pointer-events-none">
+    <div className="fixed bottom-24 md:bottom-6 right-4 md:right-6 z-[40] pointer-events-none">
       <AnimatePresence mode="wait">
         {/* FLOATING CHAT PANEL (HERO ANIMATION) */}
         {isOpen ? (
@@ -38,7 +38,7 @@ export default function FloatingChatWidget() {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.3, y: 40, transition: { duration: 0.2 } }}
             transition={{ type: "spring", stiffness: 350, damping: 25 }}
-            className="pointer-events-auto flex flex-col w-[calc(100vw-2rem)] md:w-96 h-[480px] rounded-2xl shadow-2xl border overflow-hidden"
+            className="pointer-events-auto flex flex-col w-[calc(100vw-2rem)] md:w-96 h-[calc(100vh-120px)] max-h-[480px] rounded-2xl shadow-2xl border overflow-hidden"
             style={{
               background: ANALYZE_THEME.ink,
               borderColor: "rgba(255,255,255,0.12)",

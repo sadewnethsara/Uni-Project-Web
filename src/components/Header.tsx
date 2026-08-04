@@ -11,9 +11,9 @@ import { useRouter, usePathname } from "next/navigation";
 export default function Header() {
   const pathname = usePathname();
 
-  // Hide header on admin pages
-  if (pathname?.startsWith("/admin")) {
-    return null;
+  // Hide header on admin and dashboard pages
+  if (pathname?.startsWith("/admin") || pathname?.startsWith("/dashboard")) {
+    return <></>;
   }
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);

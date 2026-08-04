@@ -16,6 +16,7 @@ import {
   ChevronRight,
   LucideIcon,
   Store,
+  Database,
 } from "lucide-react";
 import { ANALYZE_THEME } from "@/lib/chartTheme";
 import { AdminsManagement } from "./AdminsManagement";
@@ -26,6 +27,7 @@ import { OverviewManagement } from "./OverviewManagement";
 import { PriceManagement } from "./PriceManagement";
 import { QuickAddManagement } from "./QuickAddManagement";
 import { SettingsManagement } from "./SettingsManagement";
+import { DataManagement } from "./DataManagement";
 
 // Types
 export type AdminView =
@@ -35,6 +37,7 @@ export type AdminView =
   | "categories"
   | "items"
   | "markets"
+  | "dataManagement"
   | "settings";
 
 export type MarketType = "dambulla" | "kappetipola" | null;
@@ -251,6 +254,7 @@ export function AdminPanel({ market, admin, onLogout }: AdminPanelProps) {
       { id: "categories", label: "Categories", icon: FolderOpen },
       { id: "items", label: "Items", icon: Package },
       ...(isSuperAdmin ? [{ id: "markets" as AdminView, label: "Markets", icon: MapPin }] : []),
+      { id: "dataManagement", label: "Data Management", icon: Database },
       { id: "settings", label: "Settings", icon: Settings },
     ];
 
@@ -428,6 +432,14 @@ export function AdminPanel({ market, admin, onLogout }: AdminPanelProps) {
                   <MarketsManagement />
                 ) : (
                   <FallbackView name="Markets Management" />
+                )
+              )}
+
+              {activeTab === "dataManagement" && (
+                typeof DataManagement !== "undefined" ? (
+                  <DataManagement />
+                ) : (
+                  <FallbackView name="Data Management" />
                 )
               )}
 

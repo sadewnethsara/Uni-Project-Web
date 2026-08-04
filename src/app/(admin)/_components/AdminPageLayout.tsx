@@ -33,7 +33,7 @@ export function AdminPageLayout({
   inkMutedColor = "#4b5563",
 }: AdminPageLayoutProps) {
   return (
-    <div className="space-y-5 max-w-8xl mx-auto px-2 sm:px-4 lg:px-6 py-2 sm:py-4">
+    <div className="space-y-5 max-w-8xl mx-auto px-1 sm:px-0">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
         <div className="space-y-1">
           <div className="flex items-center gap-2">

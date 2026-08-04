@@ -1,0 +1,1025 @@
+date,market_id,market_name,district,vegetable_id,vegetable_name,category,price_per_kg,arrival_volume_tons,min_price,max_price,trend,note
+2026-07-28,dambulla,Dambulla Economic Center,Matale,carrot,Carrot,Upcountry,195,153.0,171,218,stable,Wholesale session recorded for Dambulla Economic Center
+2026-07-28,dambulla,Dambulla Economic Center,Matale,leeks,Leeks,Upcountry,144,128.8,126,161,down,Wholesale session recorded for Dambulla Economic Center
+2026-07-28,dambulla,Dambulla Economic Center,Matale,cabbage,Cabbage,Upcountry,106,186.9,93,118,stable,Wholesale session recorded for Dambulla Economic Center
+2026-07-28,dambulla,Dambulla Economic Center,Matale,beans,Beans,Upcountry,227,169.6,199,254,down,Wholesale session recorded for Dambulla Economic Center
+2026-07-28,dambulla,Dambulla Economic Center,Matale,beetroot,Beetroot,Upcountry,175,123.6,154,196,stable,Wholesale session recorded for Dambulla Economic Center
+2026-07-28,dambulla,Dambulla Economic Center,Matale,knol_khol,Knol Khol,Upcountry,145,77.4,127,162,stable,Wholesale session recorded for Dambulla Economic Center
+2026-07-28,dambulla,Dambulla Economic Center,Matale,brinjal,Brinjal,Lowcountry,178,217.5,156,199,stable,Wholesale session recorded for Dambulla Economic Center
+2026-07-28,dambulla,Dambulla Economic Center,Matale,pumpkin,Pumpkin,Lowcountry,74,285.2,65,82,stable,Wholesale session recorded for Dambulla Economic Center
+2026-07-28,dambulla,Dambulla Economic Center,Matale,tomato,Tomato,Lowcountry,279,197.6,245,312,stable,Wholesale session recorded for Dambulla Economic Center
+2026-07-28,dambulla,Dambulla Economic Center,Matale,green_chilli,Green Chilli,Lowcountry,398,112.2,350,445,stable,Wholesale session recorded for Dambulla Economic Center
+2026-07-28,dambulla,Dambulla Economic Center,Matale,lime,Lime,Lowcountry,314,91.0,276,351,down,Wholesale session recorded for Dambulla Economic Center
+2026-07-28,dambulla,Dambulla Economic Center,Matale,banana,Banana (Ambul),Fruits,117,257.6,102,131,stable,Wholesale session recorded for Dambulla Economic Center
+2026-07-28,dambulla,Dambulla Economic Center,Matale,mango,Mango (Karthakolomban),Fruits,300,97.9,264,336,down,Wholesale session recorded for Dambulla Economic Center
+2026-07-28,dambulla,Dambulla Economic Center,Matale,papaya,Papaya,Fruits,95,242.0,83,106,stable,Wholesale session recorded for Dambulla Economic Center
+2026-07-28,dambulla,Dambulla Economic Center,Matale,coconut,Coconut (Nuts),Other,81,490.5,71,90,stable,Wholesale session recorded for Dambulla Economic Center
+2026-07-28,dambulla,Dambulla Economic Center,Matale,rice_samba,Samba Rice,Grains,202,556.4,177,226,stable,Wholesale session recorded for Dambulla Economic Center
+2026-07-28,keppetipola,Keppetipola Economic Center,Badulla,carrot,Carrot,Upcountry,198,171.0,174,221,stable,Wholesale session recorded for Keppetipola Economic Center
+2026-07-28,keppetipola,Keppetipola Economic Center,Badulla,leeks,Leeks,Upcountry,139,124.6,122,155,down,Wholesale session recorded for Keppetipola Economic Center
+2026-07-28,keppetipola,Keppetipola Economic Center,Badulla,cabbage,Cabbage,Upcountry,101,241.5,88,113,stable,Wholesale session recorded for Keppetipola Economic Center
+2026-07-28,keppetipola,Keppetipola Economic Center,Badulla,beans,Beans,Upcountry,226,140.8,198,253,down,Wholesale session recorded for Keppetipola Economic Center
+2026-07-28,keppetipola,Keppetipola Economic Center,Badulla,beetroot,Beetroot,Upcountry,169,116.4,148,189,stable,Wholesale session recorded for Keppetipola Economic Center
+2026-07-28,keppetipola,Keppetipola Economic Center,Badulla,knol_khol,Knol Khol,Upcountry,131,86.4,115,146,stable,Wholesale session recorded for Keppetipola Economic Center
+2026-07-28,keppetipola,Keppetipola Economic Center,Badulla,brinjal,Brinjal,Lowcountry,183,260.0,161,204,stable,Wholesale session recorded for Keppetipola Economic Center
+2026-07-28,keppetipola,Keppetipola Economic Center,Badulla,pumpkin,Pumpkin,Lowcountry,73,341.0,64,81,stable,Wholesale session recorded for Keppetipola Economic Center
+2026-07-28,keppetipola,Keppetipola Economic Center,Badulla,tomato,Tomato,Lowcountry,254,205.2,223,284,stable,Wholesale session recorded for Keppetipola Economic Center
+2026-07-28,keppetipola,Keppetipola Economic Center,Badulla,green_chilli,Green Chilli,Lowcountry,399,112.2,351,446,stable,Wholesale session recorded for Keppetipola Economic Center
+2026-07-28,keppetipola,Keppetipola Economic Center,Badulla,lime,Lime,Lowcountry,300,96.9,264,336,down,Wholesale session recorded for Keppetipola Economic Center
+2026-07-28,keppetipola,Keppetipola Economic Center,Badulla,banana,Banana (Ambul),Fruits,112,243.6,98,125,stable,Wholesale session recorded for Keppetipola Economic Center
+2026-07-28,keppetipola,Keppetipola Economic Center,Badulla,mango,Mango (Karthakolomban),Fruits,284,105.4,249,318,down,Wholesale session recorded for Keppetipola Economic Center
+2026-07-28,keppetipola,Keppetipola Economic Center,Badulla,papaya,Papaya,Fruits,94,226.6,82,105,stable,Wholesale session recorded for Keppetipola Economic Center
+2026-07-28,keppetipola,Keppetipola Economic Center,Badulla,coconut,Coconut (Nuts),Other,84,481.5,73,94,stable,Wholesale session recorded for Keppetipola Economic Center
+2026-07-28,keppetipola,Keppetipola Economic Center,Badulla,rice_samba,Samba Rice,Grains,193,447.2,169,216,stable,Wholesale session recorded for Keppetipola Economic Center
+2026-07-28,manning,Manning Market (Colombo),Colombo,carrot,Carrot,Upcountry,264,196.2,232,295,stable,Wholesale session recorded for Manning Market (Colombo)
+2026-07-28,manning,Manning Market (Colombo),Colombo,leeks,Leeks,Upcountry,193,121.8,169,216,down,Wholesale session recorded for Manning Market (Colombo)
+2026-07-28,manning,Manning Market (Colombo),Colombo,cabbage,Cabbage,Upcountry,141,235.2,124,157,stable,Wholesale session recorded for Manning Market (Colombo)
+2026-07-28,manning,Manning Market (Colombo),Colombo,beans,Beans,Upcountry,303,155.2,266,339,down,Wholesale session recorded for Manning Market (Colombo)
+2026-07-28,manning,Manning Market (Colombo),Colombo,beetroot,Beetroot,Upcountry,237,118.8,208,265,stable,Wholesale session recorded for Manning Market (Colombo)
+2026-07-28,manning,Manning Market (Colombo),Colombo,knol_khol,Knol Khol,Upcountry,187,81.0,164,209,stable,Wholesale session recorded for Manning Market (Colombo)
+2026-07-28,manning,Manning Market (Colombo),Colombo,brinjal,Brinjal,Lowcountry,248,240.0,218,277,stable,Wholesale session recorded for Manning Market (Colombo)
+2026-07-28,manning,Manning Market (Colombo),Colombo,pumpkin,Pumpkin,Lowcountry,100,328.6,88,112,stable,Wholesale session recorded for Manning Market (Colombo)
+2026-07-28,manning,Manning Market (Colombo),Colombo,tomato,Tomato,Lowcountry,357,203.3,314,399,stable,Wholesale session recorded for Manning Market (Colombo)
+2026-07-28,manning,Manning Market (Colombo),Colombo,green_chilli,Green Chilli,Lowcountry,522,114.4,459,584,stable,Wholesale session recorded for Manning Market (Colombo)
+2026-07-28,manning,Manning Market (Colombo),Colombo,lime,Lime,Lowcountry,416,86.7,366,465,down,Wholesale session recorded for Manning Market (Colombo)
+2026-07-28,manning,Manning Market (Colombo),Colombo,banana,Banana (Ambul),Fruits,149,252.0,131,166,stable,Wholesale session recorded for Manning Market (Colombo)
+2026-07-28,manning,Manning Market (Colombo),Colombo,mango,Mango (Karthakolomban),Fruits,394,92.1,346,441,down,Wholesale session recorded for Manning Market (Colombo)
+2026-07-28,manning,Manning Market (Colombo),Colombo,papaya,Papaya,Fruits,127,250.8,111,142,stable,Wholesale session recorded for Manning Market (Colombo)
+2026-07-28,manning,Manning Market (Colombo),Colombo,coconut,Coconut (Nuts),Other,118,477.0,103,132,stable,Wholesale session recorded for Manning Market (Colombo)
+2026-07-28,manning,Manning Market (Colombo),Colombo,rice_samba,Samba Rice,Grains,270,577.2,237,302,stable,Wholesale session recorded for Manning Market (Colombo)
+2026-07-28,meegoda,Meegoda Economic Center,Colombo,carrot,Carrot,Upcountry,241,165.6,212,269,stable,Wholesale session recorded for Meegoda Economic Center
+2026-07-28,meegoda,Meegoda Economic Center,Colombo,leeks,Leeks,Upcountry,173,154.0,152,193,down,Wholesale session recorded for Meegoda Economic Center
+2026-07-28,meegoda,Meegoda Economic Center,Colombo,cabbage,Cabbage,Upcountry,135,203.7,118,151,stable,Wholesale session recorded for Meegoda Economic Center
+2026-07-28,meegoda,Meegoda Economic Center,Colombo,beans,Beans,Upcountry,288,139.2,253,322,down,Wholesale session recorded for Meegoda Economic Center
+2026-07-28,meegoda,Meegoda Economic Center,Colombo,beetroot,Beetroot,Upcountry,221,136.8,194,247,stable,Wholesale session recorded for Meegoda Economic Center
+2026-07-28,meegoda,Meegoda Economic Center,Colombo,knol_khol,Knol Khol,Upcountry,174,81.9,153,194,stable,Wholesale session recorded for Meegoda Economic Center
+2026-07-28,meegoda,Meegoda Economic Center,Colombo,brinjal,Brinjal,Lowcountry,237,242.5,208,265,stable,Wholesale session recorded for Meegoda Economic Center
+2026-07-28,meegoda,Meegoda Economic Center,Colombo,pumpkin,Pumpkin,Lowcountry,101,275.9,88,113,stable,Wholesale session recorded for Meegoda Economic Center
+2026-07-28,meegoda,Meegoda Economic Center,Colombo,tomato,Tomato,Lowcountry,335,169.1,294,375,stable,Wholesale session recorded for Meegoda Economic Center
+2026-07-28,meegoda,Meegoda Economic Center,Colombo,green_chilli,Green Chilli,Lowcountry,495,118.8,435,554,stable,Wholesale session recorded for Meegoda Economic Center
+2026-07-28,meegoda,Meegoda Economic Center,Colombo,lime,Lime,Lowcountry,392,91.8,344,439,down,Wholesale session recorded for Meegoda Economic Center
+2026-07-28,meegoda,Meegoda Economic Center,Colombo,banana,Banana (Ambul),Fruits,145,316.4,127,162,stable,Wholesale session recorded for Meegoda Economic Center
+2026-07-28,meegoda,Meegoda Economic Center,Colombo,mango,Mango (Karthakolomban),Fruits,368,91.2,323,412,down,Wholesale session recorded for Meegoda Economic Center
+2026-07-28,meegoda,Meegoda Economic Center,Colombo,papaya,Papaya,Fruits,118,195.8,103,132,stable,Wholesale session recorded for Meegoda Economic Center
+2026-07-28,meegoda,Meegoda Economic Center,Colombo,coconut,Coconut (Nuts),Other,119,450.0,104,133,stable,Wholesale session recorded for Meegoda Economic Center
+2026-07-28,meegoda,Meegoda Economic Center,Colombo,rice_samba,Samba Rice,Grains,245,566.8,215,274,stable,Wholesale session recorded for Meegoda Economic Center
+2026-07-28,veyangoda,Veyangoda Economic Center,Gampaha,carrot,Carrot,Upcountry,227,201.6,199,254,stable,Wholesale session recorded for Veyangoda Economic Center
+2026-07-28,veyangoda,Veyangoda Economic Center,Gampaha,leeks,Leeks,Upcountry,164,124.6,144,183,down,Wholesale session recorded for Veyangoda Economic Center
+2026-07-28,veyangoda,Veyangoda Economic Center,Gampaha,cabbage,Cabbage,Upcountry,122,231.0,107,136,stable,Wholesale session recorded for Veyangoda Economic Center
+2026-07-28,veyangoda,Veyangoda Economic Center,Gampaha,beans,Beans,Upcountry,276,166.4,242,309,down,Wholesale session recorded for Veyangoda Economic Center
+2026-07-28,veyangoda,Veyangoda Economic Center,Gampaha,beetroot,Beetroot,Upcountry,204,116.4,179,228,stable,Wholesale session recorded for Veyangoda Economic Center
+2026-07-28,veyangoda,Veyangoda Economic Center,Gampaha,knol_khol,Knol Khol,Upcountry,167,93.6,146,187,stable,Wholesale session recorded for Veyangoda Economic Center
+2026-07-28,veyangoda,Veyangoda Economic Center,Gampaha,brinjal,Brinjal,Lowcountry,223,252.5,196,249,stable,Wholesale session recorded for Veyangoda Economic Center
+2026-07-28,veyangoda,Veyangoda Economic Center,Gampaha,pumpkin,Pumpkin,Lowcountry,89,316.2,78,99,stable,Wholesale session recorded for Veyangoda Economic Center
+2026-07-28,veyangoda,Veyangoda Economic Center,Gampaha,tomato,Tomato,Lowcountry,307,201.4,270,343,stable,Wholesale session recorded for Veyangoda Economic Center
+2026-07-28,veyangoda,Veyangoda Economic Center,Gampaha,green_chilli,Green Chilli,Lowcountry,464,116.6,408,519,stable,Wholesale session recorded for Veyangoda Economic Center
+2026-07-28,veyangoda,Veyangoda Economic Center,Gampaha,lime,Lime,Lowcountry,370,92.6,325,414,down,Wholesale session recorded for Veyangoda Economic Center
+2026-07-28,veyangoda,Veyangoda Economic Center,Gampaha,banana,Banana (Ambul),Fruits,134,246.4,117,150,stable,Wholesale session recorded for Veyangoda Economic Center
+2026-07-28,veyangoda,Veyangoda Economic Center,Gampaha,mango,Mango (Karthakolomban),Fruits,344,93.1,302,385,down,Wholesale session recorded for Veyangoda Economic Center
+2026-07-28,veyangoda,Veyangoda Economic Center,Gampaha,papaya,Papaya,Fruits,108,217.8,95,120,stable,Wholesale session recorded for Veyangoda Economic Center
+2026-07-28,veyangoda,Veyangoda Economic Center,Gampaha,coconut,Coconut (Nuts),Other,97,517.5,85,108,stable,Wholesale session recorded for Veyangoda Economic Center
+2026-07-28,veyangoda,Veyangoda Economic Center,Gampaha,rice_samba,Samba Rice,Grains,238,525.2,209,266,stable,Wholesale session recorded for Veyangoda Economic Center
+2026-07-28,thambuththegama,Thambuththegama Economic Center,Anuradhapura,carrot,Carrot,Upcountry,202,181.8,177,226,stable,Wholesale session recorded for Thambuththegama Economic Center
+2026-07-28,thambuththegama,Thambuththegama Economic Center,Anuradhapura,leeks,Leeks,Upcountry,143,156.8,125,160,down,Wholesale session recorded for Thambuththegama Economic Center
+2026-07-28,thambuththegama,Thambuththegama Economic Center,Anuradhapura,cabbage,Cabbage,Upcountry,111,233.1,97,124,stable,Wholesale session recorded for Thambuththegama Economic Center
+2026-07-28,thambuththegama,Thambuththegama Economic Center,Anuradhapura,beans,Beans,Upcountry,246,166.4,216,275,down,Wholesale session recorded for Thambuththegama Economic Center
+2026-07-28,thambuththegama,Thambuththegama Economic Center,Anuradhapura,beetroot,Beetroot,Upcountry,183,106.8,161,204,stable,Wholesale session recorded for Thambuththegama Economic Center
+2026-07-28,thambuththegama,Thambuththegama Economic Center,Anuradhapura,knol_khol,Knol Khol,Upcountry,147,98.1,129,164,stable,Wholesale session recorded for Thambuththegama Economic Center
+2026-07-28,thambuththegama,Thambuththegama Economic Center,Anuradhapura,brinjal,Brinjal,Lowcountry,188,255.0,165,210,stable,Wholesale session recorded for Thambuththegama Economic Center
+2026-07-28,thambuththegama,Thambuththegama Economic Center,Anuradhapura,pumpkin,Pumpkin,Lowcountry,86,353.4,75,96,stable,Wholesale session recorded for Thambuththegama Economic Center
+2026-07-28,thambuththegama,Thambuththegama Economic Center,Anuradhapura,tomato,Tomato,Lowcountry,269,197.6,236,301,stable,Wholesale session recorded for Thambuththegama Economic Center
+2026-07-28,thambuththegama,Thambuththegama Economic Center,Anuradhapura,green_chilli,Green Chilli,Lowcountry,417,110.0,366,467,stable,Wholesale session recorded for Thambuththegama Economic Center
+2026-07-28,thambuththegama,Thambuththegama Economic Center,Anuradhapura,lime,Lime,Lowcountry,316,74.8,278,353,down,Wholesale session recorded for Thambuththegama Economic Center
+2026-07-28,thambuththegama,Thambuththegama Economic Center,Anuradhapura,banana,Banana (Ambul),Fruits,118,316.4,103,132,stable,Wholesale session recorded for Thambuththegama Economic Center
+2026-07-28,thambuththegama,Thambuththegama Economic Center,Anuradhapura,mango,Mango (Karthakolomban),Fruits,302,87.4,265,338,down,Wholesale session recorded for Thambuththegama Economic Center
+2026-07-28,thambuththegama,Thambuththegama Economic Center,Anuradhapura,papaya,Papaya,Fruits,90,202.4,79,100,stable,Wholesale session recorded for Thambuththegama Economic Center
+2026-07-28,thambuththegama,Thambuththegama Economic Center,Anuradhapura,coconut,Coconut (Nuts),Other,86,391.5,75,96,stable,Wholesale session recorded for Thambuththegama Economic Center
+2026-07-28,thambuththegama,Thambuththegama Economic Center,Anuradhapura,rice_samba,Samba Rice,Grains,217,577.2,190,243,stable,Wholesale session recorded for Thambuththegama Economic Center
+2026-07-28,nuwara-eliya,Nuwara Eliya Economic Center,Nuwara Eliya,carrot,Carrot,Upcountry,185,196.2,162,207,stable,Wholesale session recorded for Nuwara Eliya Economic Center
+2026-07-28,nuwara-eliya,Nuwara Eliya Economic Center,Nuwara Eliya,leeks,Leeks,Upcountry,133,124.6,117,148,down,Wholesale session recorded for Nuwara Eliya Economic Center
+2026-07-28,nuwara-eliya,Nuwara Eliya Economic Center,Nuwara Eliya,cabbage,Cabbage,Upcountry,109,241.5,95,122,stable,Wholesale session recorded for Nuwara Eliya Economic Center
+2026-07-28,nuwara-eliya,Nuwara Eliya Economic Center,Nuwara Eliya,beans,Beans,Upcountry,218,148.8,191,244,down,Wholesale session recorded for Nuwara Eliya Economic Center
+2026-07-28,nuwara-eliya,Nuwara Eliya Economic Center,Nuwara Eliya,beetroot,Beetroot,Upcountry,180,134.4,158,201,stable,Wholesale session recorded for Nuwara Eliya Economic Center
+2026-07-28,nuwara-eliya,Nuwara Eliya Economic Center,Nuwara Eliya,knol_khol,Knol Khol,Upcountry,139,103.5,122,155,stable,Wholesale session recorded for Nuwara Eliya Economic Center
+2026-07-28,nuwara-eliya,Nuwara Eliya Economic Center,Nuwara Eliya,brinjal,Brinjal,Lowcountry,175,285.0,154,196,stable,Wholesale session recorded for Nuwara Eliya Economic Center
+2026-07-28,nuwara-eliya,Nuwara Eliya Economic Center,Nuwara Eliya,pumpkin,Pumpkin,Lowcountry,70,331.7,61,78,stable,Wholesale session recorded for Nuwara Eliya Economic Center
+2026-07-28,nuwara-eliya,Nuwara Eliya Economic Center,Nuwara Eliya,tomato,Tomato,Lowcountry,259,184.3,227,290,stable,Wholesale session recorded for Nuwara Eliya Economic Center
+2026-07-28,nuwara-eliya,Nuwara Eliya Economic Center,Nuwara Eliya,green_chilli,Green Chilli,Lowcountry,391,108.9,344,437,stable,Wholesale session recorded for Nuwara Eliya Economic Center
+2026-07-28,nuwara-eliya,Nuwara Eliya Economic Center,Nuwara Eliya,lime,Lime,Lowcountry,309,84.2,271,346,down,Wholesale session recorded for Nuwara Eliya Economic Center
+2026-07-28,nuwara-eliya,Nuwara Eliya Economic Center,Nuwara Eliya,banana,Banana (Ambul),Fruits,102,257.6,89,114,stable,Wholesale session recorded for Nuwara Eliya Economic Center
+2026-07-28,nuwara-eliya,Nuwara Eliya Economic Center,Nuwara Eliya,mango,Mango (Karthakolomban),Fruits,279,82.7,245,312,down,Wholesale session recorded for Nuwara Eliya Economic Center
+2026-07-28,nuwara-eliya,Nuwara Eliya Economic Center,Nuwara Eliya,papaya,Papaya,Fruits,92,187.0,80,103,stable,Wholesale session recorded for Nuwara Eliya Economic Center
+2026-07-28,nuwara-eliya,Nuwara Eliya Economic Center,Nuwara Eliya,coconut,Coconut (Nuts),Other,84,463.5,73,94,stable,Wholesale session recorded for Nuwara Eliya Economic Center
+2026-07-28,nuwara-eliya,Nuwara Eliya Economic Center,Nuwara Eliya,rice_samba,Samba Rice,Grains,195,442.0,171,218,stable,Wholesale session recorded for Nuwara Eliya Economic Center
+2026-07-28,kandy,Kandy Central Market,Kandy,carrot,Carrot,Upcountry,235,192.6,206,263,stable,Wholesale session recorded for Kandy Central Market
+2026-07-28,kandy,Kandy Central Market,Kandy,leeks,Leeks,Upcountry,168,128.8,147,188,down,Wholesale session recorded for Kandy Central Market
+2026-07-28,kandy,Kandy Central Market,Kandy,cabbage,Cabbage,Upcountry,123,237.3,108,137,stable,Wholesale session recorded for Kandy Central Market
+2026-07-28,kandy,Kandy Central Market,Kandy,beans,Beans,Upcountry,273,179.2,240,305,down,Wholesale session recorded for Kandy Central Market
+2026-07-28,kandy,Kandy Central Market,Kandy,beetroot,Beetroot,Upcountry,219,104.4,192,245,stable,Wholesale session recorded for Kandy Central Market
+2026-07-28,kandy,Kandy Central Market,Kandy,knol_khol,Knol Khol,Upcountry,176,82.8,154,197,stable,Wholesale session recorded for Kandy Central Market
+2026-07-28,kandy,Kandy Central Market,Kandy,brinjal,Brinjal,Lowcountry,224,265.0,197,250,stable,Wholesale session recorded for Kandy Central Market
+2026-07-28,kandy,Kandy Central Market,Kandy,pumpkin,Pumpkin,Lowcountry,99,282.1,87,110,stable,Wholesale session recorded for Kandy Central Market
+2026-07-28,kandy,Kandy Central Market,Kandy,tomato,Tomato,Lowcountry,321,205.2,282,359,stable,Wholesale session recorded for Kandy Central Market
+2026-07-28,kandy,Kandy Central Market,Kandy,green_chilli,Green Chilli,Lowcountry,490,101.2,431,548,stable,Wholesale session recorded for Kandy Central Market
+2026-07-28,kandy,Kandy Central Market,Kandy,lime,Lime,Lowcountry,388,93.5,341,434,down,Wholesale session recorded for Kandy Central Market
+2026-07-28,kandy,Kandy Central Market,Kandy,banana,Banana (Ambul),Fruits,141,254.8,124,157,stable,Wholesale session recorded for Kandy Central Market
+2026-07-28,kandy,Kandy Central Market,Kandy,mango,Mango (Karthakolomban),Fruits,348,83.6,306,389,down,Wholesale session recorded for Kandy Central Market
+2026-07-28,kandy,Kandy Central Market,Kandy,papaya,Papaya,Fruits,120,211.2,105,134,stable,Wholesale session recorded for Kandy Central Market
+2026-07-28,kandy,Kandy Central Market,Kandy,coconut,Coconut (Nuts),Other,113,441.0,99,126,stable,Wholesale session recorded for Kandy Central Market
+2026-07-28,kandy,Kandy Central Market,Kandy,rice_samba,Samba Rice,Grains,251,582.4,220,281,stable,Wholesale session recorded for Kandy Central Market
+2026-07-29,dambulla,Dambulla Economic Center,Matale,carrot,Carrot,Upcountry,204,190.8,179,228,stable,Wholesale session recorded for Dambulla Economic Center
+2026-07-29,dambulla,Dambulla Economic Center,Matale,leeks,Leeks,Upcountry,149,120.4,131,166,stable,Wholesale session recorded for Dambulla Economic Center
+2026-07-29,dambulla,Dambulla Economic Center,Matale,cabbage,Cabbage,Upcountry,121,226.8,106,135,stable,Wholesale session recorded for Dambulla Economic Center
+2026-07-29,dambulla,Dambulla Economic Center,Matale,beans,Beans,Upcountry,244,176.0,214,273,stable,Wholesale session recorded for Dambulla Economic Center
+2026-07-29,dambulla,Dambulla Economic Center,Matale,beetroot,Beetroot,Upcountry,186,110.4,163,208,stable,Wholesale session recorded for Dambulla Economic Center
+2026-07-29,dambulla,Dambulla Economic Center,Matale,knol_khol,Knol Khol,Upcountry,149,81.9,131,166,stable,Wholesale session recorded for Dambulla Economic Center
+2026-07-29,dambulla,Dambulla Economic Center,Matale,brinjal,Brinjal,Lowcountry,203,222.5,178,227,stable,Wholesale session recorded for Dambulla Economic Center
+2026-07-29,dambulla,Dambulla Economic Center,Matale,pumpkin,Pumpkin,Lowcountry,92,279.0,80,103,stable,Wholesale session recorded for Dambulla Economic Center
+2026-07-29,dambulla,Dambulla Economic Center,Matale,tomato,Tomato,Lowcountry,281,188.1,247,314,stable,Wholesale session recorded for Dambulla Economic Center
+2026-07-29,dambulla,Dambulla Economic Center,Matale,green_chilli,Green Chilli,Lowcountry,416,123.2,366,465,up,Wholesale session recorded for Dambulla Economic Center
+2026-07-29,dambulla,Dambulla Economic Center,Matale,lime,Lime,Lowcountry,321,84.2,282,359,stable,Wholesale session recorded for Dambulla Economic Center
+2026-07-29,dambulla,Dambulla Economic Center,Matale,banana,Banana (Ambul),Fruits,118,240.8,103,132,stable,Wholesale session recorded for Dambulla Economic Center
+2026-07-29,dambulla,Dambulla Economic Center,Matale,mango,Mango (Karthakolomban),Fruits,296,82.7,260,331,stable,Wholesale session recorded for Dambulla Economic Center
+2026-07-29,dambulla,Dambulla Economic Center,Matale,papaya,Papaya,Fruits,104,198.0,91,116,stable,Wholesale session recorded for Dambulla Economic Center
+2026-07-29,dambulla,Dambulla Economic Center,Matale,coconut,Coconut (Nuts),Other,105,450.0,92,117,stable,Wholesale session recorded for Dambulla Economic Center
+2026-07-29,dambulla,Dambulla Economic Center,Matale,rice_samba,Samba Rice,Grains,223,473.2,196,249,up,Wholesale session recorded for Dambulla Economic Center
+2026-07-29,keppetipola,Keppetipola Economic Center,Badulla,carrot,Carrot,Upcountry,208,203.4,183,232,stable,Wholesale session recorded for Keppetipola Economic Center
+2026-07-29,keppetipola,Keppetipola Economic Center,Badulla,leeks,Leeks,Upcountry,142,126.0,124,159,stable,Wholesale session recorded for Keppetipola Economic Center
+2026-07-29,keppetipola,Keppetipola Economic Center,Badulla,cabbage,Cabbage,Upcountry,118,178.5,103,132,stable,Wholesale session recorded for Keppetipola Economic Center
+2026-07-29,keppetipola,Keppetipola Economic Center,Badulla,beans,Beans,Upcountry,238,148.8,209,266,stable,Wholesale session recorded for Keppetipola Economic Center
+2026-07-29,keppetipola,Keppetipola Economic Center,Badulla,beetroot,Beetroot,Upcountry,191,112.8,168,213,stable,Wholesale session recorded for Keppetipola Economic Center
+2026-07-29,keppetipola,Keppetipola Economic Center,Badulla,knol_khol,Knol Khol,Upcountry,151,96.3,132,169,stable,Wholesale session recorded for Keppetipola Economic Center
+2026-07-29,keppetipola,Keppetipola Economic Center,Badulla,brinjal,Brinjal,Lowcountry,197,222.5,173,220,stable,Wholesale session recorded for Keppetipola Economic Center
+2026-07-29,keppetipola,Keppetipola Economic Center,Badulla,pumpkin,Pumpkin,Lowcountry,82,291.4,72,91,stable,Wholesale session recorded for Keppetipola Economic Center
+2026-07-29,keppetipola,Keppetipola Economic Center,Badulla,tomato,Tomato,Lowcountry,270,218.5,237,302,stable,Wholesale session recorded for Keppetipola Economic Center
+2026-07-29,keppetipola,Keppetipola Economic Center,Badulla,green_chilli,Green Chilli,Lowcountry,396,113.3,348,443,up,Wholesale session recorded for Keppetipola Economic Center
+2026-07-29,keppetipola,Keppetipola Economic Center,Badulla,lime,Lime,Lowcountry,309,91.8,271,346,stable,Wholesale session recorded for Keppetipola Economic Center
+2026-07-29,keppetipola,Keppetipola Economic Center,Badulla,banana,Banana (Ambul),Fruits,121,240.8,106,135,stable,Wholesale session recorded for Keppetipola Economic Center
+2026-07-29,keppetipola,Keppetipola Economic Center,Badulla,mango,Mango (Karthakolomban),Fruits,287,97.9,252,321,stable,Wholesale session recorded for Keppetipola Economic Center
+2026-07-29,keppetipola,Keppetipola Economic Center,Badulla,papaya,Papaya,Fruits,109,222.2,95,122,stable,Wholesale session recorded for Keppetipola Economic Center
+2026-07-29,keppetipola,Keppetipola Economic Center,Badulla,coconut,Coconut (Nuts),Other,105,405.0,92,117,stable,Wholesale session recorded for Keppetipola Economic Center
+2026-07-29,keppetipola,Keppetipola Economic Center,Badulla,rice_samba,Samba Rice,Grains,202,598.0,177,226,up,Wholesale session recorded for Keppetipola Economic Center
+2026-07-29,manning,Manning Market (Colombo),Colombo,carrot,Carrot,Upcountry,284,156.6,249,318,stable,Wholesale session recorded for Manning Market (Colombo)
+2026-07-29,manning,Manning Market (Colombo),Colombo,leeks,Leeks,Upcountry,200,121.8,176,224,stable,Wholesale session recorded for Manning Market (Colombo)
+2026-07-29,manning,Manning Market (Colombo),Colombo,cabbage,Cabbage,Upcountry,147,222.6,129,164,stable,Wholesale session recorded for Manning Market (Colombo)
+2026-07-29,manning,Manning Market (Colombo),Colombo,beans,Beans,Upcountry,317,155.2,278,355,stable,Wholesale session recorded for Manning Market (Colombo)
+2026-07-29,manning,Manning Market (Colombo),Colombo,beetroot,Beetroot,Upcountry,243,138.0,213,272,stable,Wholesale session recorded for Manning Market (Colombo)
+2026-07-29,manning,Manning Market (Colombo),Colombo,knol_khol,Knol Khol,Upcountry,193,92.7,169,216,stable,Wholesale session recorded for Manning Market (Colombo)
+2026-07-29,manning,Manning Market (Colombo),Colombo,brinjal,Brinjal,Lowcountry,249,260.0,219,278,stable,Wholesale session recorded for Manning Market (Colombo)
+2026-07-29,manning,Manning Market (Colombo),Colombo,pumpkin,Pumpkin,Lowcountry,106,303.8,93,118,stable,Wholesale session recorded for Manning Market (Colombo)
+2026-07-29,manning,Manning Market (Colombo),Colombo,tomato,Tomato,Lowcountry,376,180.5,330,421,stable,Wholesale session recorded for Manning Market (Colombo)
+2026-07-29,manning,Manning Market (Colombo),Colombo,green_chilli,Green Chilli,Lowcountry,538,100.1,473,602,up,Wholesale session recorded for Manning Market (Colombo)
+2026-07-29,manning,Manning Market (Colombo),Colombo,lime,Lime,Lowcountry,431,78.2,379,482,stable,Wholesale session recorded for Manning Market (Colombo)
+2026-07-29,manning,Manning Market (Colombo),Colombo,banana,Banana (Ambul),Fruits,161,271.6,141,180,stable,Wholesale session recorded for Manning Market (Colombo)
+2026-07-29,manning,Manning Market (Colombo),Colombo,mango,Mango (Karthakolomban),Fruits,394,100.7,346,441,stable,Wholesale session recorded for Manning Market (Colombo)
+2026-07-29,manning,Manning Market (Colombo),Colombo,papaya,Papaya,Fruits,139,217.8,122,155,stable,Wholesale session recorded for Manning Market (Colombo)
+2026-07-29,manning,Manning Market (Colombo),Colombo,coconut,Coconut (Nuts),Other,132,513.0,116,147,stable,Wholesale session recorded for Manning Market (Colombo)
+2026-07-29,manning,Manning Market (Colombo),Colombo,rice_samba,Samba Rice,Grains,272,442.0,239,304,up,Wholesale session recorded for Manning Market (Colombo)
+2026-07-29,meegoda,Meegoda Economic Center,Colombo,carrot,Carrot,Upcountry,265,187.2,233,296,stable,Wholesale session recorded for Meegoda Economic Center
+2026-07-29,meegoda,Meegoda Economic Center,Colombo,leeks,Leeks,Upcountry,185,121.8,162,207,stable,Wholesale session recorded for Meegoda Economic Center
+2026-07-29,meegoda,Meegoda Economic Center,Colombo,cabbage,Cabbage,Upcountry,141,212.1,124,157,stable,Wholesale session recorded for Meegoda Economic Center
+2026-07-29,meegoda,Meegoda Economic Center,Colombo,beans,Beans,Upcountry,298,142.4,262,333,stable,Wholesale session recorded for Meegoda Economic Center
+2026-07-29,meegoda,Meegoda Economic Center,Colombo,beetroot,Beetroot,Upcountry,236,135.6,207,264,stable,Wholesale session recorded for Meegoda Economic Center
+2026-07-29,meegoda,Meegoda Economic Center,Colombo,knol_khol,Knol Khol,Upcountry,177,101.7,155,198,stable,Wholesale session recorded for Meegoda Economic Center
+2026-07-29,meegoda,Meegoda Economic Center,Colombo,brinjal,Brinjal,Lowcountry,240,240.0,211,268,stable,Wholesale session recorded for Meegoda Economic Center
+2026-07-29,meegoda,Meegoda Economic Center,Colombo,pumpkin,Pumpkin,Lowcountry,107,279.0,94,119,stable,Wholesale session recorded for Meegoda Economic Center
+2026-07-29,meegoda,Meegoda Economic Center,Colombo,tomato,Tomato,Lowcountry,351,210.9,308,393,stable,Wholesale session recorded for Meegoda Economic Center
+2026-07-29,meegoda,Meegoda Economic Center,Colombo,green_chilli,Green Chilli,Lowcountry,508,114.4,447,568,up,Wholesale session recorded for Meegoda Economic Center
+2026-07-29,meegoda,Meegoda Economic Center,Colombo,lime,Lime,Lowcountry,411,72.2,361,460,stable,Wholesale session recorded for Meegoda Economic Center
+2026-07-29,meegoda,Meegoda Economic Center,Colombo,banana,Banana (Ambul),Fruits,152,319.2,133,170,stable,Wholesale session recorded for Meegoda Economic Center
+2026-07-29,meegoda,Meegoda Economic Center,Colombo,mango,Mango (Karthakolomban),Fruits,369,109.2,324,413,stable,Wholesale session recorded for Meegoda Economic Center
+2026-07-29,meegoda,Meegoda Economic Center,Colombo,papaya,Papaya,Fruits,125,204.6,110,140,stable,Wholesale session recorded for Meegoda Economic Center
+2026-07-29,meegoda,Meegoda Economic Center,Colombo,coconut,Coconut (Nuts),Other,117,508.5,102,131,stable,Wholesale session recorded for Meegoda Economic Center
+2026-07-29,meegoda,Meegoda Economic Center,Colombo,rice_samba,Samba Rice,Grains,257,561.6,226,287,up,Wholesale session recorded for Meegoda Economic Center
+2026-07-29,veyangoda,Veyangoda Economic Center,Gampaha,carrot,Carrot,Upcountry,240,167.4,211,268,stable,Wholesale session recorded for Veyangoda Economic Center
+2026-07-29,veyangoda,Veyangoda Economic Center,Gampaha,leeks,Leeks,Upcountry,181,145.6,159,202,stable,Wholesale session recorded for Veyangoda Economic Center
+2026-07-29,veyangoda,Veyangoda Economic Center,Gampaha,cabbage,Cabbage,Upcountry,134,224.7,117,150,stable,Wholesale session recorded for Veyangoda Economic Center
+2026-07-29,veyangoda,Veyangoda Economic Center,Gampaha,beans,Beans,Upcountry,284,145.6,249,318,stable,Wholesale session recorded for Veyangoda Economic Center
+2026-07-29,veyangoda,Veyangoda Economic Center,Gampaha,beetroot,Beetroot,Upcountry,221,121.2,194,247,stable,Wholesale session recorded for Veyangoda Economic Center
+2026-07-29,veyangoda,Veyangoda Economic Center,Gampaha,knol_khol,Knol Khol,Upcountry,180,83.7,158,201,stable,Wholesale session recorded for Veyangoda Economic Center
+2026-07-29,veyangoda,Veyangoda Economic Center,Gampaha,brinjal,Brinjal,Lowcountry,220,217.5,193,246,stable,Wholesale session recorded for Veyangoda Economic Center
+2026-07-29,veyangoda,Veyangoda Economic Center,Gampaha,pumpkin,Pumpkin,Lowcountry,105,344.1,92,117,stable,Wholesale session recorded for Veyangoda Economic Center
+2026-07-29,veyangoda,Veyangoda Economic Center,Gampaha,tomato,Tomato,Lowcountry,326,163.4,286,365,stable,Wholesale session recorded for Veyangoda Economic Center
+2026-07-29,veyangoda,Veyangoda Economic Center,Gampaha,green_chilli,Green Chilli,Lowcountry,472,104.5,415,528,up,Wholesale session recorded for Veyangoda Economic Center
+2026-07-29,veyangoda,Veyangoda Economic Center,Gampaha,lime,Lime,Lowcountry,376,89.2,330,421,stable,Wholesale session recorded for Veyangoda Economic Center
+2026-07-29,veyangoda,Veyangoda Economic Center,Gampaha,banana,Banana (Ambul),Fruits,142,252.0,124,159,stable,Wholesale session recorded for Veyangoda Economic Center
+2026-07-29,veyangoda,Veyangoda Economic Center,Gampaha,mango,Mango (Karthakolomban),Fruits,359,96.9,315,402,stable,Wholesale session recorded for Veyangoda Economic Center
+2026-07-29,veyangoda,Veyangoda Economic Center,Gampaha,papaya,Papaya,Fruits,127,224.4,111,142,stable,Wholesale session recorded for Veyangoda Economic Center
+2026-07-29,veyangoda,Veyangoda Economic Center,Gampaha,coconut,Coconut (Nuts),Other,107,396.0,94,119,stable,Wholesale session recorded for Veyangoda Economic Center
+2026-07-29,veyangoda,Veyangoda Economic Center,Gampaha,rice_samba,Samba Rice,Grains,242,598.0,212,271,up,Wholesale session recorded for Veyangoda Economic Center
+2026-07-29,thambuththegama,Thambuththegama Economic Center,Anuradhapura,carrot,Carrot,Upcountry,212,183.6,186,237,stable,Wholesale session recorded for Thambuththegama Economic Center
+2026-07-29,thambuththegama,Thambuththegama Economic Center,Anuradhapura,leeks,Leeks,Upcountry,151,155.4,132,169,stable,Wholesale session recorded for Thambuththegama Economic Center
+2026-07-29,thambuththegama,Thambuththegama Economic Center,Anuradhapura,cabbage,Cabbage,Upcountry,123,216.3,108,137,stable,Wholesale session recorded for Thambuththegama Economic Center
+2026-07-29,thambuththegama,Thambuththegama Economic Center,Anuradhapura,beans,Beans,Upcountry,244,156.8,214,273,stable,Wholesale session recorded for Thambuththegama Economic Center
+2026-07-29,thambuththegama,Thambuththegama Economic Center,Anuradhapura,beetroot,Beetroot,Upcountry,192,103.2,168,215,stable,Wholesale session recorded for Thambuththegama Economic Center
+2026-07-29,thambuththegama,Thambuththegama Economic Center,Anuradhapura,knol_khol,Knol Khol,Upcountry,155,86.4,136,173,stable,Wholesale session recorded for Thambuththegama Economic Center
+2026-07-29,thambuththegama,Thambuththegama Economic Center,Anuradhapura,brinjal,Brinjal,Lowcountry,194,282.5,170,217,stable,Wholesale session recorded for Thambuththegama Economic Center
+2026-07-29,thambuththegama,Thambuththegama Economic Center,Anuradhapura,pumpkin,Pumpkin,Lowcountry,92,282.1,80,103,stable,Wholesale session recorded for Thambuththegama Economic Center
+2026-07-29,thambuththegama,Thambuththegama Economic Center,Anuradhapura,tomato,Tomato,Lowcountry,287,201.4,252,321,stable,Wholesale session recorded for Thambuththegama Economic Center
+2026-07-29,thambuththegama,Thambuththegama Economic Center,Anuradhapura,green_chilli,Green Chilli,Lowcountry,421,105.6,370,471,up,Wholesale session recorded for Thambuththegama Economic Center
+2026-07-29,thambuththegama,Thambuththegama Economic Center,Anuradhapura,lime,Lime,Lowcountry,340,88.4,299,380,stable,Wholesale session recorded for Thambuththegama Economic Center
+2026-07-29,thambuththegama,Thambuththegama Economic Center,Anuradhapura,banana,Banana (Ambul),Fruits,122,319.2,107,136,stable,Wholesale session recorded for Thambuththegama Economic Center
+2026-07-29,thambuththegama,Thambuththegama Economic Center,Anuradhapura,mango,Mango (Karthakolomban),Fruits,310,106.4,272,347,stable,Wholesale session recorded for Thambuththegama Economic Center
+2026-07-29,thambuththegama,Thambuththegama Economic Center,Anuradhapura,papaya,Papaya,Fruits,105,242.0,92,117,stable,Wholesale session recorded for Thambuththegama Economic Center
+2026-07-29,thambuththegama,Thambuththegama Economic Center,Anuradhapura,coconut,Coconut (Nuts),Other,99,508.5,87,110,stable,Wholesale session recorded for Thambuththegama Economic Center
+2026-07-29,thambuththegama,Thambuththegama Economic Center,Anuradhapura,rice_samba,Samba Rice,Grains,226,442.0,198,253,up,Wholesale session recorded for Thambuththegama Economic Center
+2026-07-29,nuwara-eliya,Nuwara Eliya Economic Center,Nuwara Eliya,carrot,Carrot,Upcountry,198,194.4,174,221,stable,Wholesale session recorded for Nuwara Eliya Economic Center
+2026-07-29,nuwara-eliya,Nuwara Eliya Economic Center,Nuwara Eliya,leeks,Leeks,Upcountry,149,154.0,131,166,stable,Wholesale session recorded for Nuwara Eliya Economic Center
+2026-07-29,nuwara-eliya,Nuwara Eliya Economic Center,Nuwara Eliya,cabbage,Cabbage,Upcountry,117,231.0,102,131,stable,Wholesale session recorded for Nuwara Eliya Economic Center
+2026-07-29,nuwara-eliya,Nuwara Eliya Economic Center,Nuwara Eliya,beans,Beans,Upcountry,230,148.8,202,257,stable,Wholesale session recorded for Nuwara Eliya Economic Center
+2026-07-29,nuwara-eliya,Nuwara Eliya Economic Center,Nuwara Eliya,beetroot,Beetroot,Upcountry,180,132.0,158,201,stable,Wholesale session recorded for Nuwara Eliya Economic Center
+2026-07-29,nuwara-eliya,Nuwara Eliya Economic Center,Nuwara Eliya,knol_khol,Knol Khol,Upcountry,139,87.3,122,155,stable,Wholesale session recorded for Nuwara Eliya Economic Center
+2026-07-29,nuwara-eliya,Nuwara Eliya Economic Center,Nuwara Eliya,brinjal,Brinjal,Lowcountry,181,280.0,159,202,stable,Wholesale session recorded for Nuwara Eliya Economic Center
+2026-07-29,nuwara-eliya,Nuwara Eliya Economic Center,Nuwara Eliya,pumpkin,Pumpkin,Lowcountry,90,285.2,79,100,stable,Wholesale session recorded for Nuwara Eliya Economic Center
+2026-07-29,nuwara-eliya,Nuwara Eliya Economic Center,Nuwara Eliya,tomato,Tomato,Lowcountry,266,210.9,234,297,stable,Wholesale session recorded for Nuwara Eliya Economic Center
+2026-07-29,nuwara-eliya,Nuwara Eliya Economic Center,Nuwara Eliya,green_chilli,Green Chilli,Lowcountry,405,105.6,356,453,up,Wholesale session recorded for Nuwara Eliya Economic Center
+2026-07-29,nuwara-eliya,Nuwara Eliya Economic Center,Nuwara Eliya,lime,Lime,Lowcountry,313,94.3,275,350,stable,Wholesale session recorded for Nuwara Eliya Economic Center
+2026-07-29,nuwara-eliya,Nuwara Eliya Economic Center,Nuwara Eliya,banana,Banana (Ambul),Fruits,116,257.6,102,129,stable,Wholesale session recorded for Nuwara Eliya Economic Center
+2026-07-29,nuwara-eliya,Nuwara Eliya Economic Center,Nuwara Eliya,mango,Mango (Karthakolomban),Fruits,282,100.7,248,315,stable,Wholesale session recorded for Nuwara Eliya Economic Center
+2026-07-29,nuwara-eliya,Nuwara Eliya Economic Center,Nuwara Eliya,papaya,Papaya,Fruits,98,213.4,86,109,stable,Wholesale session recorded for Nuwara Eliya Economic Center
+2026-07-29,nuwara-eliya,Nuwara Eliya Economic Center,Nuwara Eliya,coconut,Coconut (Nuts),Other,97,418.5,85,108,stable,Wholesale session recorded for Nuwara Eliya Economic Center
+2026-07-29,nuwara-eliya,Nuwara Eliya Economic Center,Nuwara Eliya,rice_samba,Samba Rice,Grains,201,598.0,176,225,up,Wholesale session recorded for Nuwara Eliya Economic Center
+2026-07-29,kandy,Kandy Central Market,Kandy,carrot,Carrot,Upcountry,252,172.8,221,282,stable,Wholesale session recorded for Kandy Central Market
+2026-07-29,kandy,Kandy Central Market,Kandy,leeks,Leeks,Upcountry,193,135.8,169,216,stable,Wholesale session recorded for Kandy Central Market
+2026-07-29,kandy,Kandy Central Market,Kandy,cabbage,Cabbage,Upcountry,142,241.5,124,159,stable,Wholesale session recorded for Kandy Central Market
+2026-07-29,kandy,Kandy Central Market,Kandy,beans,Beans,Upcountry,282,140.8,248,315,stable,Wholesale session recorded for Kandy Central Market
+2026-07-29,kandy,Kandy Central Market,Kandy,beetroot,Beetroot,Upcountry,227,108.0,199,254,stable,Wholesale session recorded for Kandy Central Market
+2026-07-29,kandy,Kandy Central Market,Kandy,knol_khol,Knol Khol,Upcountry,178,77.4,156,199,stable,Wholesale session recorded for Kandy Central Market
+2026-07-29,kandy,Kandy Central Market,Kandy,brinjal,Brinjal,Lowcountry,229,260.0,201,256,stable,Wholesale session recorded for Kandy Central Market
+2026-07-29,kandy,Kandy Central Market,Kandy,pumpkin,Pumpkin,Lowcountry,108,297.6,95,120,stable,Wholesale session recorded for Kandy Central Market
+2026-07-29,kandy,Kandy Central Market,Kandy,tomato,Tomato,Lowcountry,338,186.2,297,378,stable,Wholesale session recorded for Kandy Central Market
+2026-07-29,kandy,Kandy Central Market,Kandy,green_chilli,Green Chilli,Lowcountry,501,96.8,440,561,up,Wholesale session recorded for Kandy Central Market
+2026-07-29,kandy,Kandy Central Market,Kandy,lime,Lime,Lowcountry,396,96.0,348,443,stable,Wholesale session recorded for Kandy Central Market
+2026-07-29,kandy,Kandy Central Market,Kandy,banana,Banana (Ambul),Fruits,145,260.4,127,162,stable,Wholesale session recorded for Kandy Central Market
+2026-07-29,kandy,Kandy Central Market,Kandy,mango,Mango (Karthakolomban),Fruits,357,101.7,314,399,stable,Wholesale session recorded for Kandy Central Market
+2026-07-29,kandy,Kandy Central Market,Kandy,papaya,Papaya,Fruits,131,187.0,115,146,stable,Wholesale session recorded for Kandy Central Market
+2026-07-29,kandy,Kandy Central Market,Kandy,coconut,Coconut (Nuts),Other,127,513.0,111,142,stable,Wholesale session recorded for Kandy Central Market
+2026-07-29,kandy,Kandy Central Market,Kandy,rice_samba,Samba Rice,Grains,253,499.2,222,283,up,Wholesale session recorded for Kandy Central Market
+2026-07-30,dambulla,Dambulla Economic Center,Matale,carrot,Carrot,Upcountry,226,156.6,198,253,stable,Wholesale session recorded for Dambulla Economic Center
+2026-07-30,dambulla,Dambulla Economic Center,Matale,leeks,Leeks,Upcountry,167,145.6,146,187,stable,Wholesale session recorded for Dambulla Economic Center
+2026-07-30,dambulla,Dambulla Economic Center,Matale,cabbage,Cabbage,Upcountry,130,222.6,114,145,up,Wholesale session recorded for Dambulla Economic Center
+2026-07-30,dambulla,Dambulla Economic Center,Matale,beans,Beans,Upcountry,248,172.8,218,277,stable,Wholesale session recorded for Dambulla Economic Center
+2026-07-30,dambulla,Dambulla Economic Center,Matale,beetroot,Beetroot,Upcountry,203,121.2,178,227,up,Wholesale session recorded for Dambulla Economic Center
+2026-07-30,dambulla,Dambulla Economic Center,Matale,knol_khol,Knol Khol,Upcountry,162,95.4,142,181,up,Wholesale session recorded for Dambulla Economic Center
+2026-07-30,dambulla,Dambulla Economic Center,Matale,brinjal,Brinjal,Lowcountry,212,237.5,186,237,up,Wholesale session recorded for Dambulla Economic Center
+2026-07-30,dambulla,Dambulla Economic Center,Matale,pumpkin,Pumpkin,Lowcountry,101,331.7,88,113,up,Wholesale session recorded for Dambulla Economic Center
+2026-07-30,dambulla,Dambulla Economic Center,Matale,tomato,Tomato,Lowcountry,293,193.8,257,328,stable,Wholesale session recorded for Dambulla Economic Center
+2026-07-30,dambulla,Dambulla Economic Center,Matale,green_chilli,Green Chilli,Lowcountry,364,100.1,320,407,down,Wholesale session recorded for Dambulla Economic Center
+2026-07-30,dambulla,Dambulla Economic Center,Matale,lime,Lime,Lowcountry,342,90.1,300,383,stable,Wholesale session recorded for Dambulla Economic Center
+2026-07-30,dambulla,Dambulla Economic Center,Matale,banana,Banana (Ambul),Fruits,137,296.8,120,153,stable,Wholesale session recorded for Dambulla Economic Center
+2026-07-30,dambulla,Dambulla Economic Center,Matale,mango,Mango (Karthakolomban),Fruits,312,98.8,274,349,stable,Wholesale session recorded for Dambulla Economic Center
+2026-07-30,dambulla,Dambulla Economic Center,Matale,papaya,Papaya,Fruits,117,213.4,102,131,stable,Wholesale session recorded for Dambulla Economic Center
+2026-07-30,dambulla,Dambulla Economic Center,Matale,coconut,Coconut (Nuts),Other,102,423.0,89,114,up,Wholesale session recorded for Dambulla Economic Center
+2026-07-30,dambulla,Dambulla Economic Center,Matale,rice_samba,Samba Rice,Grains,227,473.2,199,254,up,Wholesale session recorded for Dambulla Economic Center
+2026-07-30,keppetipola,Keppetipola Economic Center,Badulla,carrot,Carrot,Upcountry,219,198.0,192,245,stable,Wholesale session recorded for Keppetipola Economic Center
+2026-07-30,keppetipola,Keppetipola Economic Center,Badulla,leeks,Leeks,Upcountry,162,138.6,142,181,stable,Wholesale session recorded for Keppetipola Economic Center
+2026-07-30,keppetipola,Keppetipola Economic Center,Badulla,cabbage,Cabbage,Upcountry,130,207.9,114,145,up,Wholesale session recorded for Keppetipola Economic Center
+2026-07-30,keppetipola,Keppetipola Economic Center,Badulla,beans,Beans,Upcountry,243,161.6,213,272,stable,Wholesale session recorded for Keppetipola Economic Center
+2026-07-30,keppetipola,Keppetipola Economic Center,Badulla,beetroot,Beetroot,Upcountry,203,132.0,178,227,up,Wholesale session recorded for Keppetipola Economic Center
+2026-07-30,keppetipola,Keppetipola Economic Center,Badulla,knol_khol,Knol Khol,Upcountry,154,95.4,135,172,up,Wholesale session recorded for Keppetipola Economic Center
+2026-07-30,keppetipola,Keppetipola Economic Center,Badulla,brinjal,Brinjal,Lowcountry,195,235.0,171,218,up,Wholesale session recorded for Keppetipola Economic Center
+2026-07-30,keppetipola,Keppetipola Economic Center,Badulla,pumpkin,Pumpkin,Lowcountry,102,328.6,89,114,up,Wholesale session recorded for Keppetipola Economic Center
+2026-07-30,keppetipola,Keppetipola Economic Center,Badulla,tomato,Tomato,Lowcountry,284,165.3,249,318,stable,Wholesale session recorded for Keppetipola Economic Center
+2026-07-30,keppetipola,Keppetipola Economic Center,Badulla,green_chilli,Green Chilli,Lowcountry,353,116.6,310,395,down,Wholesale session recorded for Keppetipola Economic Center
+2026-07-30,keppetipola,Keppetipola Economic Center,Badulla,lime,Lime,Lowcountry,327,78.2,287,366,stable,Wholesale session recorded for Keppetipola Economic Center
+2026-07-30,keppetipola,Keppetipola Economic Center,Badulla,banana,Banana (Ambul),Fruits,127,249.2,111,142,stable,Wholesale session recorded for Keppetipola Economic Center
+2026-07-30,keppetipola,Keppetipola Economic Center,Badulla,mango,Mango (Karthakolomban),Fruits,296,81.7,260,331,stable,Wholesale session recorded for Keppetipola Economic Center
+2026-07-30,keppetipola,Keppetipola Economic Center,Badulla,papaya,Papaya,Fruits,111,220.0,97,124,stable,Wholesale session recorded for Keppetipola Economic Center
+2026-07-30,keppetipola,Keppetipola Economic Center,Badulla,coconut,Coconut (Nuts),Other,101,445.5,88,113,up,Wholesale session recorded for Keppetipola Economic Center
+2026-07-30,keppetipola,Keppetipola Economic Center,Badulla,rice_samba,Samba Rice,Grains,225,587.6,198,252,up,Wholesale session recorded for Keppetipola Economic Center
+2026-07-30,manning,Manning Market (Colombo),Colombo,carrot,Carrot,Upcountry,284,192.6,249,318,stable,Wholesale session recorded for Manning Market (Colombo)
+2026-07-30,manning,Manning Market (Colombo),Colombo,leeks,Leeks,Upcountry,217,140.0,190,243,stable,Wholesale session recorded for Manning Market (Colombo)
+2026-07-30,manning,Manning Market (Colombo),Colombo,cabbage,Cabbage,Upcountry,167,193.2,146,187,up,Wholesale session recorded for Manning Market (Colombo)
+2026-07-30,manning,Manning Market (Colombo),Colombo,beans,Beans,Upcountry,325,168.0,286,364,stable,Wholesale session recorded for Manning Market (Colombo)
+2026-07-30,manning,Manning Market (Colombo),Colombo,beetroot,Beetroot,Upcountry,251,135.6,220,281,up,Wholesale session recorded for Manning Market (Colombo)
+2026-07-30,manning,Manning Market (Colombo),Colombo,knol_khol,Knol Khol,Upcountry,200,98.1,176,224,up,Wholesale session recorded for Manning Market (Colombo)
+2026-07-30,manning,Manning Market (Colombo),Colombo,brinjal,Brinjal,Lowcountry,272,230.0,239,304,up,Wholesale session recorded for Manning Market (Colombo)
+2026-07-30,manning,Manning Market (Colombo),Colombo,pumpkin,Pumpkin,Lowcountry,120,341.0,105,134,up,Wholesale session recorded for Manning Market (Colombo)
+2026-07-30,manning,Manning Market (Colombo),Colombo,tomato,Tomato,Lowcountry,386,188.1,339,432,stable,Wholesale session recorded for Manning Market (Colombo)
+2026-07-30,manning,Manning Market (Colombo),Colombo,green_chilli,Green Chilli,Lowcountry,482,112.2,424,539,down,Wholesale session recorded for Manning Market (Colombo)
+2026-07-30,manning,Manning Market (Colombo),Colombo,lime,Lime,Lowcountry,439,96.9,386,491,stable,Wholesale session recorded for Manning Market (Colombo)
+2026-07-30,manning,Manning Market (Colombo),Colombo,banana,Banana (Ambul),Fruits,166,277.2,146,185,stable,Wholesale session recorded for Manning Market (Colombo)
+2026-07-30,manning,Manning Market (Colombo),Colombo,mango,Mango (Karthakolomban),Fruits,405,104.5,356,453,stable,Wholesale session recorded for Manning Market (Colombo)
+2026-07-30,manning,Manning Market (Colombo),Colombo,papaya,Papaya,Fruits,154,233.2,135,172,stable,Wholesale session recorded for Manning Market (Colombo)
+2026-07-30,manning,Manning Market (Colombo),Colombo,coconut,Coconut (Nuts),Other,148,459.0,130,165,up,Wholesale session recorded for Manning Market (Colombo)
+2026-07-30,manning,Manning Market (Colombo),Colombo,rice_samba,Samba Rice,Grains,291,598.0,256,325,up,Wholesale session recorded for Manning Market (Colombo)
+2026-07-30,meegoda,Meegoda Economic Center,Colombo,carrot,Carrot,Upcountry,275,187.2,242,308,stable,Wholesale session recorded for Meegoda Economic Center
+2026-07-30,meegoda,Meegoda Economic Center,Colombo,leeks,Leeks,Upcountry,209,137.2,183,234,stable,Wholesale session recorded for Meegoda Economic Center
+2026-07-30,meegoda,Meegoda Economic Center,Colombo,cabbage,Cabbage,Upcountry,160,237.3,140,179,up,Wholesale session recorded for Meegoda Economic Center
+2026-07-30,meegoda,Meegoda Economic Center,Colombo,beans,Beans,Upcountry,306,172.8,269,342,stable,Wholesale session recorded for Meegoda Economic Center
+2026-07-30,meegoda,Meegoda Economic Center,Colombo,beetroot,Beetroot,Upcountry,251,118.8,220,281,up,Wholesale session recorded for Meegoda Economic Center
+2026-07-30,meegoda,Meegoda Economic Center,Colombo,knol_khol,Knol Khol,Upcountry,193,98.1,169,216,up,Wholesale session recorded for Meegoda Economic Center
+2026-07-30,meegoda,Meegoda Economic Center,Colombo,brinjal,Brinjal,Lowcountry,250,277.5,220,280,up,Wholesale session recorded for Meegoda Economic Center
+2026-07-30,meegoda,Meegoda Economic Center,Colombo,pumpkin,Pumpkin,Lowcountry,116,337.9,102,129,up,Wholesale session recorded for Meegoda Economic Center
+2026-07-30,meegoda,Meegoda Economic Center,Colombo,tomato,Tomato,Lowcountry,364,190.0,320,407,stable,Wholesale session recorded for Meegoda Economic Center
+2026-07-30,meegoda,Meegoda Economic Center,Colombo,green_chilli,Green Chilli,Lowcountry,457,102.3,402,511,down,Wholesale session recorded for Meegoda Economic Center
+2026-07-30,meegoda,Meegoda Economic Center,Colombo,lime,Lime,Lowcountry,419,74.0,368,469,stable,Wholesale session recorded for Meegoda Economic Center
+2026-07-30,meegoda,Meegoda Economic Center,Colombo,banana,Banana (Ambul),Fruits,162,257.6,142,181,stable,Wholesale session recorded for Meegoda Economic Center
+2026-07-30,meegoda,Meegoda Economic Center,Colombo,mango,Mango (Karthakolomban),Fruits,385,90.2,338,431,stable,Wholesale session recorded for Meegoda Economic Center
+2026-07-30,meegoda,Meegoda Economic Center,Colombo,papaya,Papaya,Fruits,142,248.6,124,159,stable,Wholesale session recorded for Meegoda Economic Center
+2026-07-30,meegoda,Meegoda Economic Center,Colombo,coconut,Coconut (Nuts),Other,126,400.5,110,141,up,Wholesale session recorded for Meegoda Economic Center
+2026-07-30,meegoda,Meegoda Economic Center,Colombo,rice_samba,Samba Rice,Grains,268,478.4,235,300,up,Wholesale session recorded for Meegoda Economic Center
+2026-07-30,veyangoda,Veyangoda Economic Center,Gampaha,carrot,Carrot,Upcountry,259,192.6,227,290,stable,Wholesale session recorded for Veyangoda Economic Center
+2026-07-30,veyangoda,Veyangoda Economic Center,Gampaha,leeks,Leeks,Upcountry,186,149.8,163,208,stable,Wholesale session recorded for Veyangoda Economic Center
+2026-07-30,veyangoda,Veyangoda Economic Center,Gampaha,cabbage,Cabbage,Upcountry,144,182.7,126,161,up,Wholesale session recorded for Veyangoda Economic Center
+2026-07-30,veyangoda,Veyangoda Economic Center,Gampaha,beans,Beans,Upcountry,297,156.8,261,332,stable,Wholesale session recorded for Veyangoda Economic Center
+2026-07-30,veyangoda,Veyangoda Economic Center,Gampaha,beetroot,Beetroot,Upcountry,233,122.4,205,260,up,Wholesale session recorded for Veyangoda Economic Center
+2026-07-30,veyangoda,Veyangoda Economic Center,Gampaha,knol_khol,Knol Khol,Upcountry,190,88.2,167,212,up,Wholesale session recorded for Veyangoda Economic Center
+2026-07-30,veyangoda,Veyangoda Economic Center,Gampaha,brinjal,Brinjal,Lowcountry,231,227.5,203,258,up,Wholesale session recorded for Veyangoda Economic Center
+2026-07-30,veyangoda,Veyangoda Economic Center,Gampaha,pumpkin,Pumpkin,Lowcountry,115,300.7,101,128,up,Wholesale session recorded for Veyangoda Economic Center
+2026-07-30,veyangoda,Veyangoda Economic Center,Gampaha,tomato,Tomato,Lowcountry,328,212.8,288,367,stable,Wholesale session recorded for Veyangoda Economic Center
+2026-07-30,veyangoda,Veyangoda Economic Center,Gampaha,green_chilli,Green Chilli,Lowcountry,435,110.0,382,487,down,Wholesale session recorded for Veyangoda Economic Center
+2026-07-30,veyangoda,Veyangoda Economic Center,Gampaha,lime,Lime,Lowcountry,383,97.7,337,428,stable,Wholesale session recorded for Veyangoda Economic Center
+2026-07-30,veyangoda,Veyangoda Economic Center,Gampaha,banana,Banana (Ambul),Fruits,156,263.2,137,174,stable,Wholesale session recorded for Veyangoda Economic Center
+2026-07-30,veyangoda,Veyangoda Economic Center,Gampaha,mango,Mango (Karthakolomban),Fruits,368,106.4,323,412,stable,Wholesale session recorded for Veyangoda Economic Center
+2026-07-30,veyangoda,Veyangoda Economic Center,Gampaha,papaya,Papaya,Fruits,137,224.4,120,153,stable,Wholesale session recorded for Veyangoda Economic Center
+2026-07-30,veyangoda,Veyangoda Economic Center,Gampaha,coconut,Coconut (Nuts),Other,125,450.0,110,140,up,Wholesale session recorded for Veyangoda Economic Center
+2026-07-30,veyangoda,Veyangoda Economic Center,Gampaha,rice_samba,Samba Rice,Grains,258,483.6,227,288,up,Wholesale session recorded for Veyangoda Economic Center
+2026-07-30,thambuththegama,Thambuththegama Economic Center,Anuradhapura,carrot,Carrot,Upcountry,231,180.0,203,258,stable,Wholesale session recorded for Thambuththegama Economic Center
+2026-07-30,thambuththegama,Thambuththegama Economic Center,Anuradhapura,leeks,Leeks,Upcountry,161,135.8,141,180,stable,Wholesale session recorded for Thambuththegama Economic Center
+2026-07-30,thambuththegama,Thambuththegama Economic Center,Anuradhapura,cabbage,Cabbage,Upcountry,133,222.6,117,148,up,Wholesale session recorded for Thambuththegama Economic Center
+2026-07-30,thambuththegama,Thambuththegama Economic Center,Anuradhapura,beans,Beans,Upcountry,263,172.8,231,294,stable,Wholesale session recorded for Thambuththegama Economic Center
+2026-07-30,thambuththegama,Thambuththegama Economic Center,Anuradhapura,beetroot,Beetroot,Upcountry,203,133.2,178,227,up,Wholesale session recorded for Thambuththegama Economic Center
+2026-07-30,thambuththegama,Thambuththegama Economic Center,Anuradhapura,knol_khol,Knol Khol,Upcountry,171,102.6,150,191,up,Wholesale session recorded for Thambuththegama Economic Center
+2026-07-30,thambuththegama,Thambuththegama Economic Center,Anuradhapura,brinjal,Brinjal,Lowcountry,208,260.0,183,232,up,Wholesale session recorded for Thambuththegama Economic Center
+2026-07-30,thambuththegama,Thambuththegama Economic Center,Anuradhapura,pumpkin,Pumpkin,Lowcountry,91,353.4,80,101,up,Wholesale session recorded for Thambuththegama Economic Center
+2026-07-30,thambuththegama,Thambuththegama Economic Center,Anuradhapura,tomato,Tomato,Lowcountry,302,195.7,265,338,stable,Wholesale session recorded for Thambuththegama Economic Center
+2026-07-30,thambuththegama,Thambuththegama Economic Center,Anuradhapura,green_chilli,Green Chilli,Lowcountry,369,95.7,324,413,down,Wholesale session recorded for Thambuththegama Economic Center
+2026-07-30,thambuththegama,Thambuththegama Economic Center,Anuradhapura,lime,Lime,Lowcountry,350,75.7,308,392,stable,Wholesale session recorded for Thambuththegama Economic Center
+2026-07-30,thambuththegama,Thambuththegama Economic Center,Anuradhapura,banana,Banana (Ambul),Fruits,142,252.0,124,159,stable,Wholesale session recorded for Thambuththegama Economic Center
+2026-07-30,thambuththegama,Thambuththegama Economic Center,Anuradhapura,mango,Mango (Karthakolomban),Fruits,315,88.3,277,352,stable,Wholesale session recorded for Thambuththegama Economic Center
+2026-07-30,thambuththegama,Thambuththegama Economic Center,Anuradhapura,papaya,Papaya,Fruits,122,209.0,107,136,stable,Wholesale session recorded for Thambuththegama Economic Center
+2026-07-30,thambuththegama,Thambuththegama Economic Center,Anuradhapura,coconut,Coconut (Nuts),Other,111,445.5,97,124,up,Wholesale session recorded for Thambuththegama Economic Center
+2026-07-30,thambuththegama,Thambuththegama Economic Center,Anuradhapura,rice_samba,Samba Rice,Grains,233,494.0,205,260,up,Wholesale session recorded for Thambuththegama Economic Center
+2026-07-30,nuwara-eliya,Nuwara Eliya Economic Center,Nuwara Eliya,carrot,Carrot,Upcountry,216,167.4,190,241,stable,Wholesale session recorded for Nuwara Eliya Economic Center
+2026-07-30,nuwara-eliya,Nuwara Eliya Economic Center,Nuwara Eliya,leeks,Leeks,Upcountry,163,130.2,143,182,stable,Wholesale session recorded for Nuwara Eliya Economic Center
+2026-07-30,nuwara-eliya,Nuwara Eliya Economic Center,Nuwara Eliya,cabbage,Cabbage,Upcountry,117,210.0,102,131,up,Wholesale session recorded for Nuwara Eliya Economic Center
+2026-07-30,nuwara-eliya,Nuwara Eliya Economic Center,Nuwara Eliya,beans,Beans,Upcountry,234,172.8,205,262,stable,Wholesale session recorded for Nuwara Eliya Economic Center
+2026-07-30,nuwara-eliya,Nuwara Eliya Economic Center,Nuwara Eliya,beetroot,Beetroot,Upcountry,186,138.0,163,208,up,Wholesale session recorded for Nuwara Eliya Economic Center
+2026-07-30,nuwara-eliya,Nuwara Eliya Economic Center,Nuwara Eliya,knol_khol,Knol Khol,Upcountry,158,82.8,139,176,up,Wholesale session recorded for Nuwara Eliya Economic Center
+2026-07-30,nuwara-eliya,Nuwara Eliya Economic Center,Nuwara Eliya,brinjal,Brinjal,Lowcountry,192,272.5,168,215,up,Wholesale session recorded for Nuwara Eliya Economic Center
+2026-07-30,nuwara-eliya,Nuwara Eliya Economic Center,Nuwara Eliya,pumpkin,Pumpkin,Lowcountry,86,337.9,75,96,up,Wholesale session recorded for Nuwara Eliya Economic Center
+2026-07-30,nuwara-eliya,Nuwara Eliya Economic Center,Nuwara Eliya,tomato,Tomato,Lowcountry,271,218.5,238,303,stable,Wholesale session recorded for Nuwara Eliya Economic Center
+2026-07-30,nuwara-eliya,Nuwara Eliya Economic Center,Nuwara Eliya,green_chilli,Green Chilli,Lowcountry,349,100.1,307,390,down,Wholesale session recorded for Nuwara Eliya Economic Center
+2026-07-30,nuwara-eliya,Nuwara Eliya Economic Center,Nuwara Eliya,lime,Lime,Lowcountry,314,88.4,276,351,stable,Wholesale session recorded for Nuwara Eliya Economic Center
+2026-07-30,nuwara-eliya,Nuwara Eliya Economic Center,Nuwara Eliya,banana,Banana (Ambul),Fruits,124,257.6,109,138,stable,Wholesale session recorded for Nuwara Eliya Economic Center
+2026-07-30,nuwara-eliya,Nuwara Eliya Economic Center,Nuwara Eliya,mango,Mango (Karthakolomban),Fruits,297,95.0,261,332,stable,Wholesale session recorded for Nuwara Eliya Economic Center
+2026-07-30,nuwara-eliya,Nuwara Eliya Economic Center,Nuwara Eliya,papaya,Papaya,Fruits,106,226.6,93,118,stable,Wholesale session recorded for Nuwara Eliya Economic Center
+2026-07-30,nuwara-eliya,Nuwara Eliya Economic Center,Nuwara Eliya,coconut,Coconut (Nuts),Other,104,445.5,91,116,up,Wholesale session recorded for Nuwara Eliya Economic Center
+2026-07-30,nuwara-eliya,Nuwara Eliya Economic Center,Nuwara Eliya,rice_samba,Samba Rice,Grains,217,566.8,190,243,up,Wholesale session recorded for Nuwara Eliya Economic Center
+2026-07-30,kandy,Kandy Central Market,Kandy,carrot,Carrot,Upcountry,265,162.0,233,296,stable,Wholesale session recorded for Kandy Central Market
+2026-07-30,kandy,Kandy Central Market,Kandy,leeks,Leeks,Upcountry,191,152.6,168,213,stable,Wholesale session recorded for Kandy Central Market
+2026-07-30,kandy,Kandy Central Market,Kandy,cabbage,Cabbage,Upcountry,147,241.5,129,164,up,Wholesale session recorded for Kandy Central Market
+2026-07-30,kandy,Kandy Central Market,Kandy,beans,Beans,Upcountry,302,140.8,265,338,stable,Wholesale session recorded for Kandy Central Market
+2026-07-30,kandy,Kandy Central Market,Kandy,beetroot,Beetroot,Upcountry,230,136.8,202,257,up,Wholesale session recorded for Kandy Central Market
+2026-07-30,kandy,Kandy Central Market,Kandy,knol_khol,Knol Khol,Upcountry,190,92.7,167,212,up,Wholesale session recorded for Kandy Central Market
+2026-07-30,kandy,Kandy Central Market,Kandy,brinjal,Brinjal,Lowcountry,249,242.5,219,278,up,Wholesale session recorded for Kandy Central Market
+2026-07-30,kandy,Kandy Central Market,Kandy,pumpkin,Pumpkin,Lowcountry,111,269.7,97,124,up,Wholesale session recorded for Kandy Central Market
+2026-07-30,kandy,Kandy Central Market,Kandy,tomato,Tomato,Lowcountry,345,167.2,303,386,stable,Wholesale session recorded for Kandy Central Market
+2026-07-30,kandy,Kandy Central Market,Kandy,green_chilli,Green Chilli,Lowcountry,445,123.2,391,498,down,Wholesale session recorded for Kandy Central Market
+2026-07-30,kandy,Kandy Central Market,Kandy,lime,Lime,Lowcountry,397,93.5,349,444,stable,Wholesale session recorded for Kandy Central Market
+2026-07-30,kandy,Kandy Central Market,Kandy,banana,Banana (Ambul),Fruits,150,268.8,132,168,stable,Wholesale session recorded for Kandy Central Market
+2026-07-30,kandy,Kandy Central Market,Kandy,mango,Mango (Karthakolomban),Fruits,379,100.7,333,424,stable,Wholesale session recorded for Kandy Central Market
+2026-07-30,kandy,Kandy Central Market,Kandy,papaya,Papaya,Fruits,139,191.4,122,155,stable,Wholesale session recorded for Kandy Central Market
+2026-07-30,kandy,Kandy Central Market,Kandy,coconut,Coconut (Nuts),Other,137,472.5,120,153,up,Wholesale session recorded for Kandy Central Market
+2026-07-30,kandy,Kandy Central Market,Kandy,rice_samba,Samba Rice,Grains,268,442.0,235,300,up,Wholesale session recorded for Kandy Central Market
+2026-07-31,dambulla,Dambulla Economic Center,Matale,carrot,Carrot,Upcountry,237,199.8,208,265,up,Wholesale session recorded for Dambulla Economic Center
+2026-07-31,dambulla,Dambulla Economic Center,Matale,leeks,Leeks,Upcountry,182,123.2,160,203,up,Wholesale session recorded for Dambulla Economic Center
+2026-07-31,dambulla,Dambulla Economic Center,Matale,cabbage,Cabbage,Upcountry,143,241.5,125,160,up,Wholesale session recorded for Dambulla Economic Center
+2026-07-31,dambulla,Dambulla Economic Center,Matale,beans,Beans,Upcountry,266,168.0,234,297,up,Wholesale session recorded for Dambulla Economic Center
+2026-07-31,dambulla,Dambulla Economic Center,Matale,beetroot,Beetroot,Upcountry,218,128.4,191,244,up,Wholesale session recorded for Dambulla Economic Center
+2026-07-31,dambulla,Dambulla Economic Center,Matale,knol_khol,Knol Khol,Upcountry,108,88.2,95,120,down,Wholesale session recorded for Dambulla Economic Center
+2026-07-31,dambulla,Dambulla Economic Center,Matale,brinjal,Brinjal,Lowcountry,215,270.0,189,240,up,Wholesale session recorded for Dambulla Economic Center
+2026-07-31,dambulla,Dambulla Economic Center,Matale,pumpkin,Pumpkin,Lowcountry,116,356.5,102,129,up,Wholesale session recorded for Dambulla Economic Center
+2026-07-31,dambulla,Dambulla Economic Center,Matale,tomato,Tomato,Lowcountry,302,197.6,265,338,up,Wholesale session recorded for Dambulla Economic Center
+2026-07-31,dambulla,Dambulla Economic Center,Matale,green_chilli,Green Chilli,Lowcountry,385,108.9,338,431,down,Wholesale session recorded for Dambulla Economic Center
+2026-07-31,dambulla,Dambulla Economic Center,Matale,lime,Lime,Lowcountry,353,94.3,310,395,up,Wholesale session recorded for Dambulla Economic Center
+2026-07-31,dambulla,Dambulla Economic Center,Matale,banana,Banana (Ambul),Fruits,144,266.0,126,161,up,Wholesale session recorded for Dambulla Economic Center
+2026-07-31,dambulla,Dambulla Economic Center,Matale,mango,Mango (Karthakolomban),Fruits,324,105.4,285,362,up,Wholesale session recorded for Dambulla Economic Center
+2026-07-31,dambulla,Dambulla Economic Center,Matale,papaya,Papaya,Fruits,120,204.6,105,134,up,Wholesale session recorded for Dambulla Economic Center
+2026-07-31,dambulla,Dambulla Economic Center,Matale,coconut,Coconut (Nuts),Other,127,414.0,111,142,up,Wholesale session recorded for Dambulla Economic Center
+2026-07-31,dambulla,Dambulla Economic Center,Matale,rice_samba,Samba Rice,Grains,183,535.6,161,204,down,Wholesale session recorded for Dambulla Economic Center
+2026-07-31,keppetipola,Keppetipola Economic Center,Badulla,carrot,Carrot,Upcountry,229,171.0,201,256,up,Wholesale session recorded for Keppetipola Economic Center
+2026-07-31,keppetipola,Keppetipola Economic Center,Badulla,leeks,Leeks,Upcountry,162,140.0,142,181,up,Wholesale session recorded for Keppetipola Economic Center
+2026-07-31,keppetipola,Keppetipola Economic Center,Badulla,cabbage,Cabbage,Upcountry,137,189.0,120,153,up,Wholesale session recorded for Keppetipola Economic Center
+2026-07-31,keppetipola,Keppetipola Economic Center,Badulla,beans,Beans,Upcountry,262,145.6,230,293,up,Wholesale session recorded for Keppetipola Economic Center
+2026-07-31,keppetipola,Keppetipola Economic Center,Badulla,beetroot,Beetroot,Upcountry,209,132.0,183,234,up,Wholesale session recorded for Keppetipola Economic Center
+2026-07-31,keppetipola,Keppetipola Economic Center,Badulla,knol_khol,Knol Khol,Upcountry,108,85.5,95,120,down,Wholesale session recorded for Keppetipola Economic Center
+2026-07-31,keppetipola,Keppetipola Economic Center,Badulla,brinjal,Brinjal,Lowcountry,211,282.5,185,236,up,Wholesale session recorded for Keppetipola Economic Center
+2026-07-31,keppetipola,Keppetipola Economic Center,Badulla,pumpkin,Pumpkin,Lowcountry,105,316.2,92,117,up,Wholesale session recorded for Keppetipola Economic Center
+2026-07-31,keppetipola,Keppetipola Economic Center,Badulla,tomato,Tomato,Lowcountry,285,191.9,250,319,up,Wholesale session recorded for Keppetipola Economic Center
+2026-07-31,keppetipola,Keppetipola Economic Center,Badulla,green_chilli,Green Chilli,Lowcountry,363,95.7,319,406,down,Wholesale session recorded for Keppetipola Economic Center
+2026-07-31,keppetipola,Keppetipola Economic Center,Badulla,lime,Lime,Lowcountry,336,91.8,295,376,up,Wholesale session recorded for Keppetipola Economic Center
+2026-07-31,keppetipola,Keppetipola Economic Center,Badulla,banana,Banana (Ambul),Fruits,145,280.0,127,162,up,Wholesale session recorded for Keppetipola Economic Center
+2026-07-31,keppetipola,Keppetipola Economic Center,Badulla,mango,Mango (Karthakolomban),Fruits,314,101.7,276,351,up,Wholesale session recorded for Keppetipola Economic Center
+2026-07-31,keppetipola,Keppetipola Economic Center,Badulla,papaya,Papaya,Fruits,130,231.0,114,145,up,Wholesale session recorded for Keppetipola Economic Center
+2026-07-31,keppetipola,Keppetipola Economic Center,Badulla,coconut,Coconut (Nuts),Other,125,445.5,110,140,up,Wholesale session recorded for Keppetipola Economic Center
+2026-07-31,keppetipola,Keppetipola Economic Center,Badulla,rice_samba,Samba Rice,Grains,163,452.4,143,182,down,Wholesale session recorded for Keppetipola Economic Center
+2026-07-31,manning,Manning Market (Colombo),Colombo,carrot,Carrot,Upcountry,298,165.6,262,333,up,Wholesale session recorded for Manning Market (Colombo)
+2026-07-31,manning,Manning Market (Colombo),Colombo,leeks,Leeks,Upcountry,228,149.8,200,255,up,Wholesale session recorded for Manning Market (Colombo)
+2026-07-31,manning,Manning Market (Colombo),Colombo,cabbage,Cabbage,Upcountry,173,197.4,152,193,up,Wholesale session recorded for Manning Market (Colombo)
+2026-07-31,manning,Manning Market (Colombo),Colombo,beans,Beans,Upcountry,342,160.0,300,383,up,Wholesale session recorded for Manning Market (Colombo)
+2026-07-31,manning,Manning Market (Colombo),Colombo,beetroot,Beetroot,Upcountry,277,115.2,243,310,up,Wholesale session recorded for Manning Market (Colombo)
+2026-07-31,manning,Manning Market (Colombo),Colombo,knol_khol,Knol Khol,Upcountry,161,97.2,141,180,down,Wholesale session recorded for Manning Market (Colombo)
+2026-07-31,manning,Manning Market (Colombo),Colombo,brinjal,Brinjal,Lowcountry,279,240.0,245,312,up,Wholesale session recorded for Manning Market (Colombo)
+2026-07-31,manning,Manning Market (Colombo),Colombo,pumpkin,Pumpkin,Lowcountry,139,288.3,122,155,up,Wholesale session recorded for Manning Market (Colombo)
+2026-07-31,manning,Manning Market (Colombo),Colombo,tomato,Tomato,Lowcountry,390,176.7,343,436,up,Wholesale session recorded for Manning Market (Colombo)
+2026-07-31,manning,Manning Market (Colombo),Colombo,green_chilli,Green Chilli,Lowcountry,499,96.8,439,558,down,Wholesale session recorded for Manning Market (Colombo)
+2026-07-31,manning,Manning Market (Colombo),Colombo,lime,Lime,Lowcountry,448,80.8,394,501,up,Wholesale session recorded for Manning Market (Colombo)
+2026-07-31,manning,Manning Market (Colombo),Colombo,banana,Banana (Ambul),Fruits,177,302.4,155,198,up,Wholesale session recorded for Manning Market (Colombo)
+2026-07-31,manning,Manning Market (Colombo),Colombo,mango,Mango (Karthakolomban),Fruits,416,86.4,366,465,up,Wholesale session recorded for Manning Market (Colombo)
+2026-07-31,manning,Manning Market (Colombo),Colombo,papaya,Papaya,Fruits,157,237.6,138,175,up,Wholesale session recorded for Manning Market (Colombo)
+2026-07-31,manning,Manning Market (Colombo),Colombo,coconut,Coconut (Nuts),Other,158,418.5,139,176,up,Wholesale session recorded for Manning Market (Colombo)
+2026-07-31,manning,Manning Market (Colombo),Colombo,rice_samba,Samba Rice,Grains,248,540.8,218,277,down,Wholesale session recorded for Manning Market (Colombo)
+2026-07-31,meegoda,Meegoda Economic Center,Colombo,carrot,Carrot,Upcountry,281,158.4,247,314,up,Wholesale session recorded for Meegoda Economic Center
+2026-07-31,meegoda,Meegoda Economic Center,Colombo,leeks,Leeks,Upcountry,209,131.6,183,234,up,Wholesale session recorded for Meegoda Economic Center
+2026-07-31,meegoda,Meegoda Economic Center,Colombo,cabbage,Cabbage,Upcountry,163,201.6,143,182,up,Wholesale session recorded for Meegoda Economic Center
+2026-07-31,meegoda,Meegoda Economic Center,Colombo,beans,Beans,Upcountry,316,150.4,278,353,up,Wholesale session recorded for Meegoda Economic Center
+2026-07-31,meegoda,Meegoda Economic Center,Colombo,beetroot,Beetroot,Upcountry,246,128.4,216,275,up,Wholesale session recorded for Meegoda Economic Center
+2026-07-31,meegoda,Meegoda Economic Center,Colombo,knol_khol,Knol Khol,Upcountry,140,83.7,123,156,down,Wholesale session recorded for Meegoda Economic Center
+2026-07-31,meegoda,Meegoda Economic Center,Colombo,brinjal,Brinjal,Lowcountry,255,215.0,224,285,up,Wholesale session recorded for Meegoda Economic Center
+2026-07-31,meegoda,Meegoda Economic Center,Colombo,pumpkin,Pumpkin,Lowcountry,128,331.7,112,143,up,Wholesale session recorded for Meegoda Economic Center
+2026-07-31,meegoda,Meegoda Economic Center,Colombo,tomato,Tomato,Lowcountry,362,199.5,318,405,up,Wholesale session recorded for Meegoda Economic Center
+2026-07-31,meegoda,Meegoda Economic Center,Colombo,green_chilli,Green Chilli,Lowcountry,475,96.8,418,532,down,Wholesale session recorded for Meegoda Economic Center
+2026-07-31,meegoda,Meegoda Economic Center,Colombo,lime,Lime,Lowcountry,416,87.5,366,465,up,Wholesale session recorded for Meegoda Economic Center
+2026-07-31,meegoda,Meegoda Economic Center,Colombo,banana,Banana (Ambul),Fruits,173,280.0,152,193,up,Wholesale session recorded for Meegoda Economic Center
+2026-07-31,meegoda,Meegoda Economic Center,Colombo,mango,Mango (Karthakolomban),Fruits,402,94.0,353,450,up,Wholesale session recorded for Meegoda Economic Center
+2026-07-31,meegoda,Meegoda Economic Center,Colombo,papaya,Papaya,Fruits,152,198.0,133,170,up,Wholesale session recorded for Meegoda Economic Center
+2026-07-31,meegoda,Meegoda Economic Center,Colombo,coconut,Coconut (Nuts),Other,136,418.5,119,152,up,Wholesale session recorded for Meegoda Economic Center
+2026-07-31,meegoda,Meegoda Economic Center,Colombo,rice_samba,Samba Rice,Grains,230,457.6,202,257,down,Wholesale session recorded for Meegoda Economic Center
+2026-07-31,veyangoda,Veyangoda Economic Center,Gampaha,carrot,Carrot,Upcountry,259,174.6,227,290,up,Wholesale session recorded for Veyangoda Economic Center
+2026-07-31,veyangoda,Veyangoda Economic Center,Gampaha,leeks,Leeks,Upcountry,208,121.8,183,232,up,Wholesale session recorded for Veyangoda Economic Center
+2026-07-31,veyangoda,Veyangoda Economic Center,Gampaha,cabbage,Cabbage,Upcountry,150,186.9,132,168,up,Wholesale session recorded for Veyangoda Economic Center
+2026-07-31,veyangoda,Veyangoda Economic Center,Gampaha,beans,Beans,Upcountry,299,176.0,263,334,up,Wholesale session recorded for Veyangoda Economic Center
+2026-07-31,veyangoda,Veyangoda Economic Center,Gampaha,beetroot,Beetroot,Upcountry,243,104.4,213,272,up,Wholesale session recorded for Veyangoda Economic Center
+2026-07-31,veyangoda,Veyangoda Economic Center,Gampaha,knol_khol,Knol Khol,Upcountry,134,79.2,117,150,down,Wholesale session recorded for Veyangoda Economic Center
+2026-07-31,veyangoda,Veyangoda Economic Center,Gampaha,brinjal,Brinjal,Lowcountry,253,260.0,222,283,up,Wholesale session recorded for Veyangoda Economic Center
+2026-07-31,veyangoda,Veyangoda Economic Center,Gampaha,pumpkin,Pumpkin,Lowcountry,120,337.9,105,134,up,Wholesale session recorded for Veyangoda Economic Center
+2026-07-31,veyangoda,Veyangoda Economic Center,Gampaha,tomato,Tomato,Lowcountry,355,184.3,312,397,up,Wholesale session recorded for Veyangoda Economic Center
+2026-07-31,veyangoda,Veyangoda Economic Center,Gampaha,green_chilli,Green Chilli,Lowcountry,447,125.4,393,500,down,Wholesale session recorded for Veyangoda Economic Center
+2026-07-31,veyangoda,Veyangoda Economic Center,Gampaha,lime,Lime,Lowcountry,407,79.9,358,455,up,Wholesale session recorded for Veyangoda Economic Center
+2026-07-31,veyangoda,Veyangoda Economic Center,Gampaha,banana,Banana (Ambul),Fruits,168,263.2,147,188,up,Wholesale session recorded for Veyangoda Economic Center
+2026-07-31,veyangoda,Veyangoda Economic Center,Gampaha,mango,Mango (Karthakolomban),Fruits,367,98.8,322,411,up,Wholesale session recorded for Veyangoda Economic Center
+2026-07-31,veyangoda,Veyangoda Economic Center,Gampaha,papaya,Papaya,Fruits,138,253.0,121,154,up,Wholesale session recorded for Veyangoda Economic Center
+2026-07-31,veyangoda,Veyangoda Economic Center,Gampaha,coconut,Coconut (Nuts),Other,134,472.5,117,150,up,Wholesale session recorded for Veyangoda Economic Center
+2026-07-31,veyangoda,Veyangoda Economic Center,Gampaha,rice_samba,Samba Rice,Grains,208,483.6,183,232,down,Wholesale session recorded for Veyangoda Economic Center
+2026-07-31,thambuththegama,Thambuththegama Economic Center,Anuradhapura,carrot,Carrot,Upcountry,231,162.0,203,258,up,Wholesale session recorded for Thambuththegama Economic Center
+2026-07-31,thambuththegama,Thambuththegama Economic Center,Anuradhapura,leeks,Leeks,Upcountry,178,126.0,156,199,up,Wholesale session recorded for Thambuththegama Economic Center
+2026-07-31,thambuththegama,Thambuththegama Economic Center,Anuradhapura,cabbage,Cabbage,Upcountry,135,189.0,118,151,up,Wholesale session recorded for Thambuththegama Economic Center
+2026-07-31,thambuththegama,Thambuththegama Economic Center,Anuradhapura,beans,Beans,Upcountry,261,156.8,229,292,up,Wholesale session recorded for Thambuththegama Economic Center
+2026-07-31,thambuththegama,Thambuththegama Economic Center,Anuradhapura,beetroot,Beetroot,Upcountry,223,128.4,196,249,up,Wholesale session recorded for Thambuththegama Economic Center
+2026-07-31,thambuththegama,Thambuththegama Economic Center,Anuradhapura,knol_khol,Knol Khol,Upcountry,123,84.6,108,137,down,Wholesale session recorded for Thambuththegama Economic Center
+2026-07-31,thambuththegama,Thambuththegama Economic Center,Anuradhapura,brinjal,Brinjal,Lowcountry,215,230.0,189,240,up,Wholesale session recorded for Thambuththegama Economic Center
+2026-07-31,thambuththegama,Thambuththegama Economic Center,Anuradhapura,pumpkin,Pumpkin,Lowcountry,111,331.7,97,124,up,Wholesale session recorded for Thambuththegama Economic Center
+2026-07-31,thambuththegama,Thambuththegama Economic Center,Anuradhapura,tomato,Tomato,Lowcountry,310,203.3,272,347,up,Wholesale session recorded for Thambuththegama Economic Center
+2026-07-31,thambuththegama,Thambuththegama Economic Center,Anuradhapura,green_chilli,Green Chilli,Lowcountry,393,95.7,345,440,down,Wholesale session recorded for Thambuththegama Economic Center
+2026-07-31,thambuththegama,Thambuththegama Economic Center,Anuradhapura,lime,Lime,Lowcountry,355,96.9,312,397,up,Wholesale session recorded for Thambuththegama Economic Center
+2026-07-31,thambuththegama,Thambuththegama Economic Center,Anuradhapura,banana,Banana (Ambul),Fruits,147,308.0,129,164,up,Wholesale session recorded for Thambuththegama Economic Center
+2026-07-31,thambuththegama,Thambuththegama Economic Center,Anuradhapura,mango,Mango (Karthakolomban),Fruits,330,93.1,290,369,up,Wholesale session recorded for Thambuththegama Economic Center
+2026-07-31,thambuththegama,Thambuththegama Economic Center,Anuradhapura,papaya,Papaya,Fruits,124,224.4,109,138,up,Wholesale session recorded for Thambuththegama Economic Center
+2026-07-31,thambuththegama,Thambuththegama Economic Center,Anuradhapura,coconut,Coconut (Nuts),Other,122,472.5,107,136,up,Wholesale session recorded for Thambuththegama Economic Center
+2026-07-31,thambuththegama,Thambuththegama Economic Center,Anuradhapura,rice_samba,Samba Rice,Grains,178,592.8,156,199,down,Wholesale session recorded for Thambuththegama Economic Center
+2026-07-31,nuwara-eliya,Nuwara Eliya Economic Center,Nuwara Eliya,carrot,Carrot,Upcountry,222,199.8,195,248,up,Wholesale session recorded for Nuwara Eliya Economic Center
+2026-07-31,nuwara-eliya,Nuwara Eliya Economic Center,Nuwara Eliya,leeks,Leeks,Upcountry,164,121.8,144,183,up,Wholesale session recorded for Nuwara Eliya Economic Center
+2026-07-31,nuwara-eliya,Nuwara Eliya Economic Center,Nuwara Eliya,cabbage,Cabbage,Upcountry,126,189.0,110,141,up,Wholesale session recorded for Nuwara Eliya Economic Center
+2026-07-31,nuwara-eliya,Nuwara Eliya Economic Center,Nuwara Eliya,beans,Beans,Upcountry,253,166.4,222,283,up,Wholesale session recorded for Nuwara Eliya Economic Center
+2026-07-31,nuwara-eliya,Nuwara Eliya Economic Center,Nuwara Eliya,beetroot,Beetroot,Upcountry,205,118.8,180,229,up,Wholesale session recorded for Nuwara Eliya Economic Center
+2026-07-31,nuwara-eliya,Nuwara Eliya Economic Center,Nuwara Eliya,knol_khol,Knol Khol,Upcountry,101,89.1,88,113,down,Wholesale session recorded for Nuwara Eliya Economic Center
+2026-07-31,nuwara-eliya,Nuwara Eliya Economic Center,Nuwara Eliya,brinjal,Brinjal,Lowcountry,210,267.5,184,235,up,Wholesale session recorded for Nuwara Eliya Economic Center
+2026-07-31,nuwara-eliya,Nuwara Eliya Economic Center,Nuwara Eliya,pumpkin,Pumpkin,Lowcountry,108,356.5,95,120,up,Wholesale session recorded for Nuwara Eliya Economic Center
+2026-07-31,nuwara-eliya,Nuwara Eliya Economic Center,Nuwara Eliya,tomato,Tomato,Lowcountry,289,191.9,254,323,up,Wholesale session recorded for Nuwara Eliya Economic Center
+2026-07-31,nuwara-eliya,Nuwara Eliya Economic Center,Nuwara Eliya,green_chilli,Green Chilli,Lowcountry,367,108.9,322,411,down,Wholesale session recorded for Nuwara Eliya Economic Center
+2026-07-31,nuwara-eliya,Nuwara Eliya Economic Center,Nuwara Eliya,lime,Lime,Lowcountry,327,88.4,287,366,up,Wholesale session recorded for Nuwara Eliya Economic Center
+2026-07-31,nuwara-eliya,Nuwara Eliya Economic Center,Nuwara Eliya,banana,Banana (Ambul),Fruits,131,316.4,115,146,up,Wholesale session recorded for Nuwara Eliya Economic Center
+2026-07-31,nuwara-eliya,Nuwara Eliya Economic Center,Nuwara Eliya,mango,Mango (Karthakolomban),Fruits,316,102.6,278,353,up,Wholesale session recorded for Nuwara Eliya Economic Center
+2026-07-31,nuwara-eliya,Nuwara Eliya Economic Center,Nuwara Eliya,papaya,Papaya,Fruits,123,228.8,108,137,up,Wholesale session recorded for Nuwara Eliya Economic Center
+2026-07-31,nuwara-eliya,Nuwara Eliya Economic Center,Nuwara Eliya,coconut,Coconut (Nuts),Other,116,382.5,102,129,up,Wholesale session recorded for Nuwara Eliya Economic Center
+2026-07-31,nuwara-eliya,Nuwara Eliya Economic Center,Nuwara Eliya,rice_samba,Samba Rice,Grains,162,478.4,142,181,down,Wholesale session recorded for Nuwara Eliya Economic Center
+2026-07-31,kandy,Kandy Central Market,Kandy,carrot,Carrot,Upcountry,265,196.2,233,296,up,Wholesale session recorded for Kandy Central Market
+2026-07-31,kandy,Kandy Central Market,Kandy,leeks,Leeks,Upcountry,206,144.2,181,230,up,Wholesale session recorded for Kandy Central Market
+2026-07-31,kandy,Kandy Central Market,Kandy,cabbage,Cabbage,Upcountry,154,228.9,135,172,up,Wholesale session recorded for Kandy Central Market
+2026-07-31,kandy,Kandy Central Market,Kandy,beans,Beans,Upcountry,308,160.0,271,344,up,Wholesale session recorded for Kandy Central Market
+2026-07-31,kandy,Kandy Central Market,Kandy,beetroot,Beetroot,Upcountry,256,126.0,225,286,up,Wholesale session recorded for Kandy Central Market
+2026-07-31,kandy,Kandy Central Market,Kandy,knol_khol,Knol Khol,Upcountry,146,102.6,128,163,down,Wholesale session recorded for Kandy Central Market
+2026-07-31,kandy,Kandy Central Market,Kandy,brinjal,Brinjal,Lowcountry,255,225.0,224,285,up,Wholesale session recorded for Kandy Central Market
+2026-07-31,kandy,Kandy Central Market,Kandy,pumpkin,Pumpkin,Lowcountry,129,325.5,113,144,up,Wholesale session recorded for Kandy Central Market
+2026-07-31,kandy,Kandy Central Market,Kandy,tomato,Tomato,Lowcountry,364,165.3,320,407,up,Wholesale session recorded for Kandy Central Market
+2026-07-31,kandy,Kandy Central Market,Kandy,green_chilli,Green Chilli,Lowcountry,462,105.6,406,517,down,Wholesale session recorded for Kandy Central Market
+2026-07-31,kandy,Kandy Central Market,Kandy,lime,Lime,Lowcountry,418,80.8,367,468,up,Wholesale session recorded for Kandy Central Market
+2026-07-31,kandy,Kandy Central Market,Kandy,banana,Banana (Ambul),Fruits,170,296.8,149,190,up,Wholesale session recorded for Kandy Central Market
+2026-07-31,kandy,Kandy Central Market,Kandy,mango,Mango (Karthakolomban),Fruits,380,106.4,334,425,up,Wholesale session recorded for Kandy Central Market
+2026-07-31,kandy,Kandy Central Market,Kandy,papaya,Papaya,Fruits,144,209.0,126,161,up,Wholesale session recorded for Kandy Central Market
+2026-07-31,kandy,Kandy Central Market,Kandy,coconut,Coconut (Nuts),Other,145,481.5,127,162,up,Wholesale session recorded for Kandy Central Market
+2026-07-31,kandy,Kandy Central Market,Kandy,rice_samba,Samba Rice,Grains,224,488.8,197,250,down,Wholesale session recorded for Kandy Central Market
+2026-08-01,dambulla,Dambulla Economic Center,Matale,carrot,Carrot,Upcountry,218,199.8,191,244,stable,Wholesale session recorded for Dambulla Economic Center
+2026-08-01,dambulla,Dambulla Economic Center,Matale,leeks,Leeks,Upcountry,151,138.6,132,169,stable,Wholesale session recorded for Dambulla Economic Center
+2026-08-01,dambulla,Dambulla Economic Center,Matale,cabbage,Cabbage,Upcountry,115,199.5,101,128,stable,Wholesale session recorded for Dambulla Economic Center
+2026-08-01,dambulla,Dambulla Economic Center,Matale,beans,Beans,Upcountry,246,152.0,216,275,stable,Wholesale session recorded for Dambulla Economic Center
+2026-08-01,dambulla,Dambulla Economic Center,Matale,beetroot,Beetroot,Upcountry,190,130.8,167,212,stable,Wholesale session recorded for Dambulla Economic Center
+2026-08-01,dambulla,Dambulla Economic Center,Matale,knol_khol,Knol Khol,Upcountry,158,100.8,139,176,up,Wholesale session recorded for Dambulla Economic Center
+2026-08-01,dambulla,Dambulla Economic Center,Matale,brinjal,Brinjal,Lowcountry,208,277.5,183,232,stable,Wholesale session recorded for Dambulla Economic Center
+2026-08-01,dambulla,Dambulla Economic Center,Matale,pumpkin,Pumpkin,Lowcountry,82,328.6,72,91,stable,Wholesale session recorded for Dambulla Economic Center
+2026-08-01,dambulla,Dambulla Economic Center,Matale,tomato,Tomato,Lowcountry,291,186.2,256,325,stable,Wholesale session recorded for Dambulla Economic Center
+2026-08-01,dambulla,Dambulla Economic Center,Matale,green_chilli,Green Chilli,Lowcountry,413,100.1,363,462,up,Wholesale session recorded for Dambulla Economic Center
+2026-08-01,dambulla,Dambulla Economic Center,Matale,lime,Lime,Lowcountry,338,81.6,297,378,stable,Wholesale session recorded for Dambulla Economic Center
+2026-08-01,dambulla,Dambulla Economic Center,Matale,banana,Banana (Ambul),Fruits,133,294.0,117,148,stable,Wholesale session recorded for Dambulla Economic Center
+2026-08-01,dambulla,Dambulla Economic Center,Matale,mango,Mango (Karthakolomban),Fruits,314,103.5,276,351,stable,Wholesale session recorded for Dambulla Economic Center
+2026-08-01,dambulla,Dambulla Economic Center,Matale,papaya,Papaya,Fruits,102,200.2,89,114,stable,Wholesale session recorded for Dambulla Economic Center
+2026-08-01,dambulla,Dambulla Economic Center,Matale,coconut,Coconut (Nuts),Other,103,459.0,90,115,stable,Wholesale session recorded for Dambulla Economic Center
+2026-08-01,dambulla,Dambulla Economic Center,Matale,rice_samba,Samba Rice,Grains,215,592.8,189,240,up,Wholesale session recorded for Dambulla Economic Center
+2026-08-01,keppetipola,Keppetipola Economic Center,Badulla,carrot,Carrot,Upcountry,208,178.2,183,232,stable,Wholesale session recorded for Keppetipola Economic Center
+2026-08-01,keppetipola,Keppetipola Economic Center,Badulla,leeks,Leeks,Upcountry,160,123.2,140,179,stable,Wholesale session recorded for Keppetipola Economic Center
+2026-08-01,keppetipola,Keppetipola Economic Center,Badulla,cabbage,Cabbage,Upcountry,109,220.5,95,122,stable,Wholesale session recorded for Keppetipola Economic Center
+2026-08-01,keppetipola,Keppetipola Economic Center,Badulla,beans,Beans,Upcountry,237,171.2,208,265,stable,Wholesale session recorded for Keppetipola Economic Center
+2026-08-01,keppetipola,Keppetipola Economic Center,Badulla,beetroot,Beetroot,Upcountry,186,112.8,163,208,stable,Wholesale session recorded for Keppetipola Economic Center
+2026-08-01,keppetipola,Keppetipola Economic Center,Badulla,knol_khol,Knol Khol,Upcountry,142,91.8,124,159,up,Wholesale session recorded for Keppetipola Economic Center
+2026-08-01,keppetipola,Keppetipola Economic Center,Badulla,brinjal,Brinjal,Lowcountry,199,217.5,175,222,stable,Wholesale session recorded for Keppetipola Economic Center
+2026-08-01,keppetipola,Keppetipola Economic Center,Badulla,pumpkin,Pumpkin,Lowcountry,86,344.1,75,96,stable,Wholesale session recorded for Keppetipola Economic Center
+2026-08-01,keppetipola,Keppetipola Economic Center,Badulla,tomato,Tomato,Lowcountry,270,188.1,237,302,stable,Wholesale session recorded for Keppetipola Economic Center
+2026-08-01,keppetipola,Keppetipola Economic Center,Badulla,green_chilli,Green Chilli,Lowcountry,402,115.5,353,450,up,Wholesale session recorded for Keppetipola Economic Center
+2026-08-01,keppetipola,Keppetipola Economic Center,Badulla,lime,Lime,Lowcountry,315,85.0,277,352,stable,Wholesale session recorded for Keppetipola Economic Center
+2026-08-01,keppetipola,Keppetipola Economic Center,Badulla,banana,Banana (Ambul),Fruits,123,282.8,108,137,stable,Wholesale session recorded for Keppetipola Economic Center
+2026-08-01,keppetipola,Keppetipola Economic Center,Badulla,mango,Mango (Karthakolomban),Fruits,297,93.1,261,332,stable,Wholesale session recorded for Keppetipola Economic Center
+2026-08-01,keppetipola,Keppetipola Economic Center,Badulla,papaya,Papaya,Fruits,112,220.0,98,125,stable,Wholesale session recorded for Keppetipola Economic Center
+2026-08-01,keppetipola,Keppetipola Economic Center,Badulla,coconut,Coconut (Nuts),Other,99,445.5,87,110,stable,Wholesale session recorded for Keppetipola Economic Center
+2026-08-01,keppetipola,Keppetipola Economic Center,Badulla,rice_samba,Samba Rice,Grains,209,504.4,183,234,up,Wholesale session recorded for Keppetipola Economic Center
+2026-08-01,manning,Manning Market (Colombo),Colombo,carrot,Carrot,Upcountry,277,205.2,243,310,stable,Wholesale session recorded for Manning Market (Colombo)
+2026-08-01,manning,Manning Market (Colombo),Colombo,leeks,Leeks,Upcountry,214,151.2,188,239,stable,Wholesale session recorded for Manning Market (Colombo)
+2026-08-01,manning,Manning Market (Colombo),Colombo,cabbage,Cabbage,Upcountry,152,235.2,133,170,stable,Wholesale session recorded for Manning Market (Colombo)
+2026-08-01,manning,Manning Market (Colombo),Colombo,beans,Beans,Upcountry,316,148.8,278,353,stable,Wholesale session recorded for Manning Market (Colombo)
+2026-08-01,manning,Manning Market (Colombo),Colombo,beetroot,Beetroot,Upcountry,257,114.0,226,287,stable,Wholesale session recorded for Manning Market (Colombo)
+2026-08-01,manning,Manning Market (Colombo),Colombo,knol_khol,Knol Khol,Upcountry,206,83.7,181,230,up,Wholesale session recorded for Manning Market (Colombo)
+2026-08-01,manning,Manning Market (Colombo),Colombo,brinjal,Brinjal,Lowcountry,252,235.0,221,282,stable,Wholesale session recorded for Manning Market (Colombo)
+2026-08-01,manning,Manning Market (Colombo),Colombo,pumpkin,Pumpkin,Lowcountry,117,344.1,102,131,stable,Wholesale session recorded for Manning Market (Colombo)
+2026-08-01,manning,Manning Market (Colombo),Colombo,tomato,Tomato,Lowcountry,378,212.8,332,423,stable,Wholesale session recorded for Manning Market (Colombo)
+2026-08-01,manning,Manning Market (Colombo),Colombo,green_chilli,Green Chilli,Lowcountry,538,108.9,473,602,up,Wholesale session recorded for Manning Market (Colombo)
+2026-08-01,manning,Manning Market (Colombo),Colombo,lime,Lime,Lowcountry,440,81.6,387,492,stable,Wholesale session recorded for Manning Market (Colombo)
+2026-08-01,manning,Manning Market (Colombo),Colombo,banana,Banana (Ambul),Fruits,166,285.6,146,185,stable,Wholesale session recorded for Manning Market (Colombo)
+2026-08-01,manning,Manning Market (Colombo),Colombo,mango,Mango (Karthakolomban),Fruits,406,94.0,357,454,stable,Wholesale session recorded for Manning Market (Colombo)
+2026-08-01,manning,Manning Market (Colombo),Colombo,papaya,Papaya,Fruits,143,246.4,125,160,stable,Wholesale session recorded for Manning Market (Colombo)
+2026-08-01,manning,Manning Market (Colombo),Colombo,coconut,Coconut (Nuts),Other,131,481.5,115,146,stable,Wholesale session recorded for Manning Market (Colombo)
+2026-08-01,manning,Manning Market (Colombo),Colombo,rice_samba,Samba Rice,Grains,281,535.6,247,314,up,Wholesale session recorded for Manning Market (Colombo)
+2026-08-01,meegoda,Meegoda Economic Center,Colombo,carrot,Carrot,Upcountry,266,165.6,234,297,stable,Wholesale session recorded for Meegoda Economic Center
+2026-08-01,meegoda,Meegoda Economic Center,Colombo,leeks,Leeks,Upcountry,199,120.4,175,222,stable,Wholesale session recorded for Meegoda Economic Center
+2026-08-01,meegoda,Meegoda Economic Center,Colombo,cabbage,Cabbage,Upcountry,149,226.8,131,166,stable,Wholesale session recorded for Meegoda Economic Center
+2026-08-01,meegoda,Meegoda Economic Center,Colombo,beans,Beans,Upcountry,309,171.2,271,346,stable,Wholesale session recorded for Meegoda Economic Center
+2026-08-01,meegoda,Meegoda Economic Center,Colombo,beetroot,Beetroot,Upcountry,241,116.4,212,269,stable,Wholesale session recorded for Meegoda Economic Center
+2026-08-01,meegoda,Meegoda Economic Center,Colombo,knol_khol,Knol Khol,Upcountry,182,90.0,160,203,up,Wholesale session recorded for Meegoda Economic Center
+2026-08-01,meegoda,Meegoda Economic Center,Colombo,brinjal,Brinjal,Lowcountry,237,222.5,208,265,stable,Wholesale session recorded for Meegoda Economic Center
+2026-08-01,meegoda,Meegoda Economic Center,Colombo,pumpkin,Pumpkin,Lowcountry,117,356.5,102,131,stable,Wholesale session recorded for Meegoda Economic Center
+2026-08-01,meegoda,Meegoda Economic Center,Colombo,tomato,Tomato,Lowcountry,351,212.8,308,393,stable,Wholesale session recorded for Meegoda Economic Center
+2026-08-01,meegoda,Meegoda Economic Center,Colombo,green_chilli,Green Chilli,Lowcountry,505,123.2,444,565,up,Wholesale session recorded for Meegoda Economic Center
+2026-08-01,meegoda,Meegoda Economic Center,Colombo,lime,Lime,Lowcountry,412,74.8,362,461,stable,Wholesale session recorded for Meegoda Economic Center
+2026-08-01,meegoda,Meegoda Economic Center,Colombo,banana,Banana (Ambul),Fruits,162,319.2,142,181,stable,Wholesale session recorded for Meegoda Economic Center
+2026-08-01,meegoda,Meegoda Economic Center,Colombo,mango,Mango (Karthakolomban),Fruits,384,80.8,337,430,stable,Wholesale session recorded for Meegoda Economic Center
+2026-08-01,meegoda,Meegoda Economic Center,Colombo,papaya,Papaya,Fruits,129,215.6,113,144,stable,Wholesale session recorded for Meegoda Economic Center
+2026-08-01,meegoda,Meegoda Economic Center,Colombo,coconut,Coconut (Nuts),Other,121,391.5,106,135,stable,Wholesale session recorded for Meegoda Economic Center
+2026-08-01,meegoda,Meegoda Economic Center,Colombo,rice_samba,Samba Rice,Grains,272,572.0,239,304,up,Wholesale session recorded for Meegoda Economic Center
+2026-08-01,veyangoda,Veyangoda Economic Center,Gampaha,carrot,Carrot,Upcountry,248,171.0,218,277,stable,Wholesale session recorded for Veyangoda Economic Center
+2026-08-01,veyangoda,Veyangoda Economic Center,Gampaha,leeks,Leeks,Upcountry,187,147.0,164,209,stable,Wholesale session recorded for Veyangoda Economic Center
+2026-08-01,veyangoda,Veyangoda Economic Center,Gampaha,cabbage,Cabbage,Upcountry,133,235.2,117,148,stable,Wholesale session recorded for Veyangoda Economic Center
+2026-08-01,veyangoda,Veyangoda Economic Center,Gampaha,beans,Beans,Upcountry,287,179.2,252,321,stable,Wholesale session recorded for Veyangoda Economic Center
+2026-08-01,veyangoda,Veyangoda Economic Center,Gampaha,beetroot,Beetroot,Upcountry,228,138.0,200,255,stable,Wholesale session recorded for Veyangoda Economic Center
+2026-08-01,veyangoda,Veyangoda Economic Center,Gampaha,knol_khol,Knol Khol,Upcountry,179,94.5,157,200,up,Wholesale session recorded for Veyangoda Economic Center
+2026-08-01,veyangoda,Veyangoda Economic Center,Gampaha,brinjal,Brinjal,Lowcountry,238,280.0,209,266,stable,Wholesale session recorded for Veyangoda Economic Center
+2026-08-01,veyangoda,Veyangoda Economic Center,Gampaha,pumpkin,Pumpkin,Lowcountry,96,322.4,84,107,stable,Wholesale session recorded for Veyangoda Economic Center
+2026-08-01,veyangoda,Veyangoda Economic Center,Gampaha,tomato,Tomato,Lowcountry,323,174.8,284,361,stable,Wholesale session recorded for Veyangoda Economic Center
+2026-08-01,veyangoda,Veyangoda Economic Center,Gampaha,green_chilli,Green Chilli,Lowcountry,484,101.2,425,542,up,Wholesale session recorded for Veyangoda Economic Center
+2026-08-01,veyangoda,Veyangoda Economic Center,Gampaha,lime,Lime,Lowcountry,378,83.3,332,423,stable,Wholesale session recorded for Veyangoda Economic Center
+2026-08-01,veyangoda,Veyangoda Economic Center,Gampaha,banana,Banana (Ambul),Fruits,141,305.2,124,157,stable,Wholesale session recorded for Veyangoda Economic Center
+2026-08-01,veyangoda,Veyangoda Economic Center,Gampaha,mango,Mango (Karthakolomban),Fruits,352,94.0,309,394,stable,Wholesale session recorded for Veyangoda Economic Center
+2026-08-01,veyangoda,Veyangoda Economic Center,Gampaha,papaya,Papaya,Fruits,122,235.4,107,136,stable,Wholesale session recorded for Veyangoda Economic Center
+2026-08-01,veyangoda,Veyangoda Economic Center,Gampaha,coconut,Coconut (Nuts),Other,120,508.5,105,134,stable,Wholesale session recorded for Veyangoda Economic Center
+2026-08-01,veyangoda,Veyangoda Economic Center,Gampaha,rice_samba,Samba Rice,Grains,244,447.2,214,273,up,Wholesale session recorded for Veyangoda Economic Center
+2026-08-01,thambuththegama,Thambuththegama Economic Center,Anuradhapura,carrot,Carrot,Upcountry,221,198.0,194,247,stable,Wholesale session recorded for Thambuththegama Economic Center
+2026-08-01,thambuththegama,Thambuththegama Economic Center,Anuradhapura,leeks,Leeks,Upcountry,155,131.6,136,173,stable,Wholesale session recorded for Thambuththegama Economic Center
+2026-08-01,thambuththegama,Thambuththegama Economic Center,Anuradhapura,cabbage,Cabbage,Upcountry,127,201.6,111,142,stable,Wholesale session recorded for Thambuththegama Economic Center
+2026-08-01,thambuththegama,Thambuththegama Economic Center,Anuradhapura,beans,Beans,Upcountry,257,142.4,226,287,stable,Wholesale session recorded for Thambuththegama Economic Center
+2026-08-01,thambuththegama,Thambuththegama Economic Center,Anuradhapura,beetroot,Beetroot,Upcountry,198,121.2,174,221,stable,Wholesale session recorded for Thambuththegama Economic Center
+2026-08-01,thambuththegama,Thambuththegama Economic Center,Anuradhapura,knol_khol,Knol Khol,Upcountry,163,92.7,143,182,up,Wholesale session recorded for Thambuththegama Economic Center
+2026-08-01,thambuththegama,Thambuththegama Economic Center,Anuradhapura,brinjal,Brinjal,Lowcountry,202,225.0,177,226,stable,Wholesale session recorded for Thambuththegama Economic Center
+2026-08-01,thambuththegama,Thambuththegama Economic Center,Anuradhapura,pumpkin,Pumpkin,Lowcountry,89,269.7,78,99,stable,Wholesale session recorded for Thambuththegama Economic Center
+2026-08-01,thambuththegama,Thambuththegama Economic Center,Anuradhapura,tomato,Tomato,Lowcountry,295,197.6,259,330,stable,Wholesale session recorded for Thambuththegama Economic Center
+2026-08-01,thambuththegama,Thambuththegama Economic Center,Anuradhapura,green_chilli,Green Chilli,Lowcountry,428,110.0,376,479,up,Wholesale session recorded for Thambuththegama Economic Center
+2026-08-01,thambuththegama,Thambuththegama Economic Center,Anuradhapura,lime,Lime,Lowcountry,334,78.2,293,374,stable,Wholesale session recorded for Thambuththegama Economic Center
+2026-08-01,thambuththegama,Thambuththegama Economic Center,Anuradhapura,banana,Banana (Ambul),Fruits,135,294.0,118,151,stable,Wholesale session recorded for Thambuththegama Economic Center
+2026-08-01,thambuththegama,Thambuththegama Economic Center,Anuradhapura,mango,Mango (Karthakolomban),Fruits,315,94.0,277,352,stable,Wholesale session recorded for Thambuththegama Economic Center
+2026-08-01,thambuththegama,Thambuththegama Economic Center,Anuradhapura,papaya,Papaya,Fruits,111,233.2,97,124,stable,Wholesale session recorded for Thambuththegama Economic Center
+2026-08-01,thambuththegama,Thambuththegama Economic Center,Anuradhapura,coconut,Coconut (Nuts),Other,98,508.5,86,109,stable,Wholesale session recorded for Thambuththegama Economic Center
+2026-08-01,thambuththegama,Thambuththegama Economic Center,Anuradhapura,rice_samba,Samba Rice,Grains,230,587.6,202,257,up,Wholesale session recorded for Thambuththegama Economic Center
+2026-08-01,nuwara-eliya,Nuwara Eliya Economic Center,Nuwara Eliya,carrot,Carrot,Upcountry,206,190.8,181,230,stable,Wholesale session recorded for Nuwara Eliya Economic Center
+2026-08-01,nuwara-eliya,Nuwara Eliya Economic Center,Nuwara Eliya,leeks,Leeks,Upcountry,148,121.8,130,165,stable,Wholesale session recorded for Nuwara Eliya Economic Center
+2026-08-01,nuwara-eliya,Nuwara Eliya Economic Center,Nuwara Eliya,cabbage,Cabbage,Upcountry,122,241.5,107,136,stable,Wholesale session recorded for Nuwara Eliya Economic Center
+2026-08-01,nuwara-eliya,Nuwara Eliya Economic Center,Nuwara Eliya,beans,Beans,Upcountry,238,164.8,209,266,stable,Wholesale session recorded for Nuwara Eliya Economic Center
+2026-08-01,nuwara-eliya,Nuwara Eliya Economic Center,Nuwara Eliya,beetroot,Beetroot,Upcountry,187,126.0,164,209,stable,Wholesale session recorded for Nuwara Eliya Economic Center
+2026-08-01,nuwara-eliya,Nuwara Eliya Economic Center,Nuwara Eliya,knol_khol,Knol Khol,Upcountry,153,96.3,134,171,up,Wholesale session recorded for Nuwara Eliya Economic Center
+2026-08-01,nuwara-eliya,Nuwara Eliya Economic Center,Nuwara Eliya,brinjal,Brinjal,Lowcountry,191,247.5,168,213,stable,Wholesale session recorded for Nuwara Eliya Economic Center
+2026-08-01,nuwara-eliya,Nuwara Eliya Economic Center,Nuwara Eliya,pumpkin,Pumpkin,Lowcountry,87,282.1,76,97,stable,Wholesale session recorded for Nuwara Eliya Economic Center
+2026-08-01,nuwara-eliya,Nuwara Eliya Economic Center,Nuwara Eliya,tomato,Tomato,Lowcountry,276,212.8,242,309,stable,Wholesale session recorded for Nuwara Eliya Economic Center
+2026-08-01,nuwara-eliya,Nuwara Eliya Economic Center,Nuwara Eliya,green_chilli,Green Chilli,Lowcountry,409,96.8,359,458,up,Wholesale session recorded for Nuwara Eliya Economic Center
+2026-08-01,nuwara-eliya,Nuwara Eliya Economic Center,Nuwara Eliya,lime,Lime,Lowcountry,314,82.5,276,351,stable,Wholesale session recorded for Nuwara Eliya Economic Center
+2026-08-01,nuwara-eliya,Nuwara Eliya Economic Center,Nuwara Eliya,banana,Banana (Ambul),Fruits,124,288.4,109,138,stable,Wholesale session recorded for Nuwara Eliya Economic Center
+2026-08-01,nuwara-eliya,Nuwara Eliya Economic Center,Nuwara Eliya,mango,Mango (Karthakolomban),Fruits,295,101.7,259,330,stable,Wholesale session recorded for Nuwara Eliya Economic Center
+2026-08-01,nuwara-eliya,Nuwara Eliya Economic Center,Nuwara Eliya,papaya,Papaya,Fruits,105,187.0,92,117,stable,Wholesale session recorded for Nuwara Eliya Economic Center
+2026-08-01,nuwara-eliya,Nuwara Eliya Economic Center,Nuwara Eliya,coconut,Coconut (Nuts),Other,103,418.5,90,115,stable,Wholesale session recorded for Nuwara Eliya Economic Center
+2026-08-01,nuwara-eliya,Nuwara Eliya Economic Center,Nuwara Eliya,rice_samba,Samba Rice,Grains,202,535.6,177,226,up,Wholesale session recorded for Nuwara Eliya Economic Center
+2026-08-01,kandy,Kandy Central Market,Kandy,carrot,Carrot,Upcountry,248,205.2,218,277,stable,Wholesale session recorded for Kandy Central Market
+2026-08-01,kandy,Kandy Central Market,Kandy,leeks,Leeks,Upcountry,196,155.4,172,219,stable,Wholesale session recorded for Kandy Central Market
+2026-08-01,kandy,Kandy Central Market,Kandy,cabbage,Cabbage,Upcountry,144,228.9,126,161,stable,Wholesale session recorded for Kandy Central Market
+2026-08-01,kandy,Kandy Central Market,Kandy,beans,Beans,Upcountry,293,166.4,257,328,stable,Wholesale session recorded for Kandy Central Market
+2026-08-01,kandy,Kandy Central Market,Kandy,beetroot,Beetroot,Upcountry,234,110.4,205,262,stable,Wholesale session recorded for Kandy Central Market
+2026-08-01,kandy,Kandy Central Market,Kandy,knol_khol,Knol Khol,Upcountry,180,93.6,158,201,up,Wholesale session recorded for Kandy Central Market
+2026-08-01,kandy,Kandy Central Market,Kandy,brinjal,Brinjal,Lowcountry,238,265.0,209,266,stable,Wholesale session recorded for Kandy Central Market
+2026-08-01,kandy,Kandy Central Market,Kandy,pumpkin,Pumpkin,Lowcountry,102,325.5,89,114,stable,Wholesale session recorded for Kandy Central Market
+2026-08-01,kandy,Kandy Central Market,Kandy,tomato,Tomato,Lowcountry,334,214.7,293,374,stable,Wholesale session recorded for Kandy Central Market
+2026-08-01,kandy,Kandy Central Market,Kandy,green_chilli,Green Chilli,Lowcountry,490,103.4,431,548,up,Wholesale session recorded for Kandy Central Market
+2026-08-01,kandy,Kandy Central Market,Kandy,lime,Lime,Lowcountry,401,73.1,352,449,stable,Wholesale session recorded for Kandy Central Market
+2026-08-01,kandy,Kandy Central Market,Kandy,banana,Banana (Ambul),Fruits,153,302.4,134,171,stable,Wholesale session recorded for Kandy Central Market
+2026-08-01,kandy,Kandy Central Market,Kandy,mango,Mango (Karthakolomban),Fruits,363,82.7,319,406,stable,Wholesale session recorded for Kandy Central Market
+2026-08-01,kandy,Kandy Central Market,Kandy,papaya,Papaya,Fruits,130,209.0,114,145,stable,Wholesale session recorded for Kandy Central Market
+2026-08-01,kandy,Kandy Central Market,Kandy,coconut,Coconut (Nuts),Other,127,405.0,111,142,stable,Wholesale session recorded for Kandy Central Market
+2026-08-01,kandy,Kandy Central Market,Kandy,rice_samba,Samba Rice,Grains,257,462.8,226,287,up,Wholesale session recorded for Kandy Central Market
+2026-08-02,dambulla,Dambulla Economic Center,Matale,carrot,Carrot,Upcountry,228,181.8,200,255,up,Wholesale session recorded for Dambulla Economic Center
+2026-08-02,dambulla,Dambulla Economic Center,Matale,leeks,Leeks,Upcountry,176,159.6,154,197,stable,Wholesale session recorded for Dambulla Economic Center
+2026-08-02,dambulla,Dambulla Economic Center,Matale,cabbage,Cabbage,Upcountry,131,233.1,115,146,up,Wholesale session recorded for Dambulla Economic Center
+2026-08-02,dambulla,Dambulla Economic Center,Matale,beans,Beans,Upcountry,253,148.8,222,283,stable,Wholesale session recorded for Dambulla Economic Center
+2026-08-02,dambulla,Dambulla Economic Center,Matale,beetroot,Beetroot,Upcountry,212,138.0,186,237,up,Wholesale session recorded for Dambulla Economic Center
+2026-08-02,dambulla,Dambulla Economic Center,Matale,knol_khol,Knol Khol,Upcountry,166,97.2,146,185,up,Wholesale session recorded for Dambulla Economic Center
+2026-08-02,dambulla,Dambulla Economic Center,Matale,brinjal,Brinjal,Lowcountry,213,275.0,187,238,up,Wholesale session recorded for Dambulla Economic Center
+2026-08-02,dambulla,Dambulla Economic Center,Matale,pumpkin,Pumpkin,Lowcountry,96,306.9,84,107,up,Wholesale session recorded for Dambulla Economic Center
+2026-08-02,dambulla,Dambulla Economic Center,Matale,tomato,Tomato,Lowcountry,289,169.1,254,323,up,Wholesale session recorded for Dambulla Economic Center
+2026-08-02,dambulla,Dambulla Economic Center,Matale,green_chilli,Green Chilli,Lowcountry,370,123.2,325,414,down,Wholesale session recorded for Dambulla Economic Center
+2026-08-02,dambulla,Dambulla Economic Center,Matale,lime,Lime,Lowcountry,345,97.7,303,386,stable,Wholesale session recorded for Dambulla Economic Center
+2026-08-02,dambulla,Dambulla Economic Center,Matale,banana,Banana (Ambul),Fruits,140,243.6,123,156,up,Wholesale session recorded for Dambulla Economic Center
+2026-08-02,dambulla,Dambulla Economic Center,Matale,mango,Mango (Karthakolomban),Fruits,322,80.8,283,360,stable,Wholesale session recorded for Dambulla Economic Center
+2026-08-02,dambulla,Dambulla Economic Center,Matale,papaya,Papaya,Fruits,119,224.4,104,133,up,Wholesale session recorded for Dambulla Economic Center
+2026-08-02,dambulla,Dambulla Economic Center,Matale,coconut,Coconut (Nuts),Other,109,445.5,95,122,up,Wholesale session recorded for Dambulla Economic Center
+2026-08-02,dambulla,Dambulla Economic Center,Matale,rice_samba,Samba Rice,Grains,233,551.2,205,260,up,Wholesale session recorded for Dambulla Economic Center
+2026-08-02,keppetipola,Keppetipola Economic Center,Badulla,carrot,Carrot,Upcountry,218,185.4,191,244,up,Wholesale session recorded for Keppetipola Economic Center
+2026-08-02,keppetipola,Keppetipola Economic Center,Badulla,leeks,Leeks,Upcountry,167,155.4,146,187,stable,Wholesale session recorded for Keppetipola Economic Center
+2026-08-02,keppetipola,Keppetipola Economic Center,Badulla,cabbage,Cabbage,Upcountry,131,184.8,115,146,up,Wholesale session recorded for Keppetipola Economic Center
+2026-08-02,keppetipola,Keppetipola Economic Center,Badulla,beans,Beans,Upcountry,247,160.0,217,276,stable,Wholesale session recorded for Keppetipola Economic Center
+2026-08-02,keppetipola,Keppetipola Economic Center,Badulla,beetroot,Beetroot,Upcountry,191,124.8,168,213,up,Wholesale session recorded for Keppetipola Economic Center
+2026-08-02,keppetipola,Keppetipola Economic Center,Badulla,knol_khol,Knol Khol,Upcountry,162,102.6,142,181,up,Wholesale session recorded for Keppetipola Economic Center
+2026-08-02,keppetipola,Keppetipola Economic Center,Badulla,brinjal,Brinjal,Lowcountry,203,262.5,178,227,up,Wholesale session recorded for Keppetipola Economic Center
+2026-08-02,keppetipola,Keppetipola Economic Center,Badulla,pumpkin,Pumpkin,Lowcountry,92,325.5,80,103,up,Wholesale session recorded for Keppetipola Economic Center
+2026-08-02,keppetipola,Keppetipola Economic Center,Badulla,tomato,Tomato,Lowcountry,292,216.6,256,327,up,Wholesale session recorded for Keppetipola Economic Center
+2026-08-02,keppetipola,Keppetipola Economic Center,Badulla,green_chilli,Green Chilli,Lowcountry,359,115.5,315,402,down,Wholesale session recorded for Keppetipola Economic Center
+2026-08-02,keppetipola,Keppetipola Economic Center,Badulla,lime,Lime,Lowcountry,335,74.8,294,375,stable,Wholesale session recorded for Keppetipola Economic Center
+2026-08-02,keppetipola,Keppetipola Economic Center,Badulla,banana,Banana (Ambul),Fruits,129,240.8,113,144,up,Wholesale session recorded for Keppetipola Economic Center
+2026-08-02,keppetipola,Keppetipola Economic Center,Badulla,mango,Mango (Karthakolomban),Fruits,301,89.3,264,337,stable,Wholesale session recorded for Keppetipola Economic Center
+2026-08-02,keppetipola,Keppetipola Economic Center,Badulla,papaya,Papaya,Fruits,123,193.6,108,137,up,Wholesale session recorded for Keppetipola Economic Center
+2026-08-02,keppetipola,Keppetipola Economic Center,Badulla,coconut,Coconut (Nuts),Other,106,414.0,93,118,up,Wholesale session recorded for Keppetipola Economic Center
+2026-08-02,keppetipola,Keppetipola Economic Center,Badulla,rice_samba,Samba Rice,Grains,219,504.4,192,245,up,Wholesale session recorded for Keppetipola Economic Center
+2026-08-02,manning,Manning Market (Colombo),Colombo,carrot,Carrot,Upcountry,296,172.8,260,331,up,Wholesale session recorded for Manning Market (Colombo)
+2026-08-02,manning,Manning Market (Colombo),Colombo,leeks,Leeks,Upcountry,222,144.2,195,248,stable,Wholesale session recorded for Manning Market (Colombo)
+2026-08-02,manning,Manning Market (Colombo),Colombo,cabbage,Cabbage,Upcountry,163,237.3,143,182,up,Wholesale session recorded for Manning Market (Colombo)
+2026-08-02,manning,Manning Market (Colombo),Colombo,beans,Beans,Upcountry,337,168.0,296,377,stable,Wholesale session recorded for Manning Market (Colombo)
+2026-08-02,manning,Manning Market (Colombo),Colombo,beetroot,Beetroot,Upcountry,257,133.2,226,287,up,Wholesale session recorded for Manning Market (Colombo)
+2026-08-02,manning,Manning Market (Colombo),Colombo,knol_khol,Knol Khol,Upcountry,215,93.6,189,240,up,Wholesale session recorded for Manning Market (Colombo)
+2026-08-02,manning,Manning Market (Colombo),Colombo,brinjal,Brinjal,Lowcountry,275,287.5,242,308,up,Wholesale session recorded for Manning Market (Colombo)
+2026-08-02,manning,Manning Market (Colombo),Colombo,pumpkin,Pumpkin,Lowcountry,126,266.6,110,141,up,Wholesale session recorded for Manning Market (Colombo)
+2026-08-02,manning,Manning Market (Colombo),Colombo,tomato,Tomato,Lowcountry,385,172.9,338,431,up,Wholesale session recorded for Manning Market (Colombo)
+2026-08-02,manning,Manning Market (Colombo),Colombo,green_chilli,Green Chilli,Lowcountry,499,108.9,439,558,down,Wholesale session recorded for Manning Market (Colombo)
+2026-08-02,manning,Manning Market (Colombo),Colombo,lime,Lime,Lowcountry,442,95.2,388,495,stable,Wholesale session recorded for Manning Market (Colombo)
+2026-08-02,manning,Manning Market (Colombo),Colombo,banana,Banana (Ambul),Fruits,178,246.4,156,199,up,Wholesale session recorded for Manning Market (Colombo)
+2026-08-02,manning,Manning Market (Colombo),Colombo,mango,Mango (Karthakolomban),Fruits,415,96.9,365,464,stable,Wholesale session recorded for Manning Market (Colombo)
+2026-08-02,manning,Manning Market (Colombo),Colombo,papaya,Papaya,Fruits,155,189.2,136,173,up,Wholesale session recorded for Manning Market (Colombo)
+2026-08-02,manning,Manning Market (Colombo),Colombo,coconut,Coconut (Nuts),Other,148,418.5,130,165,up,Wholesale session recorded for Manning Market (Colombo)
+2026-08-02,manning,Manning Market (Colombo),Colombo,rice_samba,Samba Rice,Grains,290,598.0,255,324,up,Wholesale session recorded for Manning Market (Colombo)
+2026-08-02,meegoda,Meegoda Economic Center,Colombo,carrot,Carrot,Upcountry,268,207.0,235,300,up,Wholesale session recorded for Meegoda Economic Center
+2026-08-02,meegoda,Meegoda Economic Center,Colombo,leeks,Leeks,Upcountry,210,121.8,184,235,stable,Wholesale session recorded for Meegoda Economic Center
+2026-08-02,meegoda,Meegoda Economic Center,Colombo,cabbage,Cabbage,Upcountry,155,220.5,136,173,up,Wholesale session recorded for Meegoda Economic Center
+2026-08-02,meegoda,Meegoda Economic Center,Colombo,beans,Beans,Upcountry,304,137.6,267,340,stable,Wholesale session recorded for Meegoda Economic Center
+2026-08-02,meegoda,Meegoda Economic Center,Colombo,beetroot,Beetroot,Upcountry,249,110.4,219,278,up,Wholesale session recorded for Meegoda Economic Center
+2026-08-02,meegoda,Meegoda Economic Center,Colombo,knol_khol,Knol Khol,Upcountry,193,99.0,169,216,up,Wholesale session recorded for Meegoda Economic Center
+2026-08-02,meegoda,Meegoda Economic Center,Colombo,brinjal,Brinjal,Lowcountry,253,217.5,222,283,up,Wholesale session recorded for Meegoda Economic Center
+2026-08-02,meegoda,Meegoda Economic Center,Colombo,pumpkin,Pumpkin,Lowcountry,118,319.3,103,132,up,Wholesale session recorded for Meegoda Economic Center
+2026-08-02,meegoda,Meegoda Economic Center,Colombo,tomato,Tomato,Lowcountry,357,210.9,314,399,up,Wholesale session recorded for Meegoda Economic Center
+2026-08-02,meegoda,Meegoda Economic Center,Colombo,green_chilli,Green Chilli,Lowcountry,460,104.5,404,515,down,Wholesale session recorded for Meegoda Economic Center
+2026-08-02,meegoda,Meegoda Economic Center,Colombo,lime,Lime,Lowcountry,413,93.5,363,462,stable,Wholesale session recorded for Meegoda Economic Center
+2026-08-02,meegoda,Meegoda Economic Center,Colombo,banana,Banana (Ambul),Fruits,157,260.4,138,175,up,Wholesale session recorded for Meegoda Economic Center
+2026-08-02,meegoda,Meegoda Economic Center,Colombo,mango,Mango (Karthakolomban),Fruits,384,84.5,337,430,stable,Wholesale session recorded for Meegoda Economic Center
+2026-08-02,meegoda,Meegoda Economic Center,Colombo,papaya,Papaya,Fruits,143,242.0,125,160,up,Wholesale session recorded for Meegoda Economic Center
+2026-08-02,meegoda,Meegoda Economic Center,Colombo,coconut,Coconut (Nuts),Other,133,396.0,117,148,up,Wholesale session recorded for Meegoda Economic Center
+2026-08-02,meegoda,Meegoda Economic Center,Colombo,rice_samba,Samba Rice,Grains,268,462.8,235,300,up,Wholesale session recorded for Meegoda Economic Center
+2026-08-02,veyangoda,Veyangoda Economic Center,Gampaha,carrot,Carrot,Upcountry,250,172.8,220,280,up,Wholesale session recorded for Veyangoda Economic Center
+2026-08-02,veyangoda,Veyangoda Economic Center,Gampaha,leeks,Leeks,Upcountry,193,144.2,169,216,stable,Wholesale session recorded for Veyangoda Economic Center
+2026-08-02,veyangoda,Veyangoda Economic Center,Gampaha,cabbage,Cabbage,Upcountry,152,178.5,133,170,up,Wholesale session recorded for Veyangoda Economic Center
+2026-08-02,veyangoda,Veyangoda Economic Center,Gampaha,beans,Beans,Upcountry,293,148.8,257,328,stable,Wholesale session recorded for Veyangoda Economic Center
+2026-08-02,veyangoda,Veyangoda Economic Center,Gampaha,beetroot,Beetroot,Upcountry,228,106.8,200,255,up,Wholesale session recorded for Veyangoda Economic Center
+2026-08-02,veyangoda,Veyangoda Economic Center,Gampaha,knol_khol,Knol Khol,Upcountry,192,90.9,168,215,up,Wholesale session recorded for Veyangoda Economic Center
+2026-08-02,veyangoda,Veyangoda Economic Center,Gampaha,brinjal,Brinjal,Lowcountry,236,270.0,207,264,up,Wholesale session recorded for Veyangoda Economic Center
+2026-08-02,veyangoda,Veyangoda Economic Center,Gampaha,pumpkin,Pumpkin,Lowcountry,108,310.0,95,120,up,Wholesale session recorded for Veyangoda Economic Center
+2026-08-02,veyangoda,Veyangoda Economic Center,Gampaha,tomato,Tomato,Lowcountry,346,207.1,304,387,up,Wholesale session recorded for Veyangoda Economic Center
+2026-08-02,veyangoda,Veyangoda Economic Center,Gampaha,green_chilli,Green Chilli,Lowcountry,437,111.1,384,489,down,Wholesale session recorded for Veyangoda Economic Center
+2026-08-02,veyangoda,Veyangoda Economic Center,Gampaha,lime,Lime,Lowcountry,389,84.2,342,435,stable,Wholesale session recorded for Veyangoda Economic Center
+2026-08-02,veyangoda,Veyangoda Economic Center,Gampaha,banana,Banana (Ambul),Fruits,164,257.6,144,183,up,Wholesale session recorded for Veyangoda Economic Center
+2026-08-02,veyangoda,Veyangoda Economic Center,Gampaha,mango,Mango (Karthakolomban),Fruits,360,102.6,316,403,stable,Wholesale session recorded for Veyangoda Economic Center
+2026-08-02,veyangoda,Veyangoda Economic Center,Gampaha,papaya,Papaya,Fruits,144,206.8,126,161,up,Wholesale session recorded for Veyangoda Economic Center
+2026-08-02,veyangoda,Veyangoda Economic Center,Gampaha,coconut,Coconut (Nuts),Other,135,472.5,118,151,up,Wholesale session recorded for Veyangoda Economic Center
+2026-08-02,veyangoda,Veyangoda Economic Center,Gampaha,rice_samba,Samba Rice,Grains,254,447.2,223,284,up,Wholesale session recorded for Veyangoda Economic Center
+2026-08-02,thambuththegama,Thambuththegama Economic Center,Anuradhapura,carrot,Carrot,Upcountry,237,201.6,208,265,up,Wholesale session recorded for Thambuththegama Economic Center
+2026-08-02,thambuththegama,Thambuththegama Economic Center,Anuradhapura,leeks,Leeks,Upcountry,176,137.2,154,197,stable,Wholesale session recorded for Thambuththegama Economic Center
+2026-08-02,thambuththegama,Thambuththegama Economic Center,Anuradhapura,cabbage,Cabbage,Upcountry,129,210.0,113,144,up,Wholesale session recorded for Thambuththegama Economic Center
+2026-08-02,thambuththegama,Thambuththegama Economic Center,Anuradhapura,beans,Beans,Upcountry,268,139.2,235,300,stable,Wholesale session recorded for Thambuththegama Economic Center
+2026-08-02,thambuththegama,Thambuththegama Economic Center,Anuradhapura,beetroot,Beetroot,Upcountry,204,114.0,179,228,up,Wholesale session recorded for Thambuththegama Economic Center
+2026-08-02,thambuththegama,Thambuththegama Economic Center,Anuradhapura,knol_khol,Knol Khol,Upcountry,164,78.3,144,183,up,Wholesale session recorded for Thambuththegama Economic Center
+2026-08-02,thambuththegama,Thambuththegama Economic Center,Anuradhapura,brinjal,Brinjal,Lowcountry,211,232.5,185,236,up,Wholesale session recorded for Thambuththegama Economic Center
+2026-08-02,thambuththegama,Thambuththegama Economic Center,Anuradhapura,pumpkin,Pumpkin,Lowcountry,105,300.7,92,117,up,Wholesale session recorded for Thambuththegama Economic Center
+2026-08-02,thambuththegama,Thambuththegama Economic Center,Anuradhapura,tomato,Tomato,Lowcountry,310,178.6,272,347,up,Wholesale session recorded for Thambuththegama Economic Center
+2026-08-02,thambuththegama,Thambuththegama Economic Center,Anuradhapura,green_chilli,Green Chilli,Lowcountry,386,111.1,339,432,down,Wholesale session recorded for Thambuththegama Economic Center
+2026-08-02,thambuththegama,Thambuththegama Economic Center,Anuradhapura,lime,Lime,Lowcountry,354,74.8,311,396,stable,Wholesale session recorded for Thambuththegama Economic Center
+2026-08-02,thambuththegama,Thambuththegama Economic Center,Anuradhapura,banana,Banana (Ambul),Fruits,135,313.6,118,151,up,Wholesale session recorded for Thambuththegama Economic Center
+2026-08-02,thambuththegama,Thambuththegama Economic Center,Anuradhapura,mango,Mango (Karthakolomban),Fruits,323,93.1,284,361,stable,Wholesale session recorded for Thambuththegama Economic Center
+2026-08-02,thambuththegama,Thambuththegama Economic Center,Anuradhapura,papaya,Papaya,Fruits,128,248.6,112,143,up,Wholesale session recorded for Thambuththegama Economic Center
+2026-08-02,thambuththegama,Thambuththegama Economic Center,Anuradhapura,coconut,Coconut (Nuts),Other,115,441.0,101,128,up,Wholesale session recorded for Thambuththegama Economic Center
+2026-08-02,thambuththegama,Thambuththegama Economic Center,Anuradhapura,rice_samba,Samba Rice,Grains,237,577.2,208,265,up,Wholesale session recorded for Thambuththegama Economic Center
+2026-08-02,nuwara-eliya,Nuwara Eliya Economic Center,Nuwara Eliya,carrot,Carrot,Upcountry,221,174.6,194,247,up,Wholesale session recorded for Nuwara Eliya Economic Center
+2026-08-02,nuwara-eliya,Nuwara Eliya Economic Center,Nuwara Eliya,leeks,Leeks,Upcountry,166,151.2,146,185,stable,Wholesale session recorded for Nuwara Eliya Economic Center
+2026-08-02,nuwara-eliya,Nuwara Eliya Economic Center,Nuwara Eliya,cabbage,Cabbage,Upcountry,121,199.5,106,135,up,Wholesale session recorded for Nuwara Eliya Economic Center
+2026-08-02,nuwara-eliya,Nuwara Eliya Economic Center,Nuwara Eliya,beans,Beans,Upcountry,250,152.0,220,280,stable,Wholesale session recorded for Nuwara Eliya Economic Center
+2026-08-02,nuwara-eliya,Nuwara Eliya Economic Center,Nuwara Eliya,beetroot,Beetroot,Upcountry,197,115.2,173,220,up,Wholesale session recorded for Nuwara Eliya Economic Center
+2026-08-02,nuwara-eliya,Nuwara Eliya Economic Center,Nuwara Eliya,knol_khol,Knol Khol,Upcountry,154,95.4,135,172,up,Wholesale session recorded for Nuwara Eliya Economic Center
+2026-08-02,nuwara-eliya,Nuwara Eliya Economic Center,Nuwara Eliya,brinjal,Brinjal,Lowcountry,209,217.5,183,234,up,Wholesale session recorded for Nuwara Eliya Economic Center
+2026-08-02,nuwara-eliya,Nuwara Eliya Economic Center,Nuwara Eliya,pumpkin,Pumpkin,Lowcountry,91,344.1,80,101,up,Wholesale session recorded for Nuwara Eliya Economic Center
+2026-08-02,nuwara-eliya,Nuwara Eliya Economic Center,Nuwara Eliya,tomato,Tomato,Lowcountry,276,165.3,242,309,up,Wholesale session recorded for Nuwara Eliya Economic Center
+2026-08-02,nuwara-eliya,Nuwara Eliya Economic Center,Nuwara Eliya,green_chilli,Green Chilli,Lowcountry,358,96.8,315,400,down,Wholesale session recorded for Nuwara Eliya Economic Center
+2026-08-02,nuwara-eliya,Nuwara Eliya Economic Center,Nuwara Eliya,lime,Lime,Lowcountry,329,93.5,289,368,stable,Wholesale session recorded for Nuwara Eliya Economic Center
+2026-08-02,nuwara-eliya,Nuwara Eliya Economic Center,Nuwara Eliya,banana,Banana (Ambul),Fruits,127,285.6,111,142,up,Wholesale session recorded for Nuwara Eliya Economic Center
+2026-08-02,nuwara-eliya,Nuwara Eliya Economic Center,Nuwara Eliya,mango,Mango (Karthakolomban),Fruits,297,97.9,261,332,stable,Wholesale session recorded for Nuwara Eliya Economic Center
+2026-08-02,nuwara-eliya,Nuwara Eliya Economic Center,Nuwara Eliya,papaya,Papaya,Fruits,116,233.2,102,129,up,Wholesale session recorded for Nuwara Eliya Economic Center
+2026-08-02,nuwara-eliya,Nuwara Eliya Economic Center,Nuwara Eliya,coconut,Coconut (Nuts),Other,104,441.0,91,116,up,Wholesale session recorded for Nuwara Eliya Economic Center
+2026-08-02,nuwara-eliya,Nuwara Eliya Economic Center,Nuwara Eliya,rice_samba,Samba Rice,Grains,224,582.4,197,250,up,Wholesale session recorded for Nuwara Eliya Economic Center
+2026-08-02,kandy,Kandy Central Market,Kandy,carrot,Carrot,Upcountry,271,201.6,238,303,up,Wholesale session recorded for Kandy Central Market
+2026-08-02,kandy,Kandy Central Market,Kandy,leeks,Leeks,Upcountry,192,161.0,168,215,stable,Wholesale session recorded for Kandy Central Market
+2026-08-02,kandy,Kandy Central Market,Kandy,cabbage,Cabbage,Upcountry,155,218.4,136,173,up,Wholesale session recorded for Kandy Central Market
+2026-08-02,kandy,Kandy Central Market,Kandy,beans,Beans,Upcountry,305,153.6,268,341,stable,Wholesale session recorded for Kandy Central Market
+2026-08-02,kandy,Kandy Central Market,Kandy,beetroot,Beetroot,Upcountry,236,123.6,207,264,up,Wholesale session recorded for Kandy Central Market
+2026-08-02,kandy,Kandy Central Market,Kandy,knol_khol,Knol Khol,Upcountry,200,81.9,176,224,up,Wholesale session recorded for Kandy Central Market
+2026-08-02,kandy,Kandy Central Market,Kandy,brinjal,Brinjal,Lowcountry,244,265.0,214,273,up,Wholesale session recorded for Kandy Central Market
+2026-08-02,kandy,Kandy Central Market,Kandy,pumpkin,Pumpkin,Lowcountry,124,285.2,109,138,up,Wholesale session recorded for Kandy Central Market
+2026-08-02,kandy,Kandy Central Market,Kandy,tomato,Tomato,Lowcountry,345,182.4,303,386,up,Wholesale session recorded for Kandy Central Market
+2026-08-02,kandy,Kandy Central Market,Kandy,green_chilli,Green Chilli,Lowcountry,451,96.8,396,505,down,Wholesale session recorded for Kandy Central Market
+2026-08-02,kandy,Kandy Central Market,Kandy,lime,Lime,Lowcountry,406,87.5,357,454,stable,Wholesale session recorded for Kandy Central Market
+2026-08-02,kandy,Kandy Central Market,Kandy,banana,Banana (Ambul),Fruits,160,308.0,140,179,up,Wholesale session recorded for Kandy Central Market
+2026-08-02,kandy,Kandy Central Market,Kandy,mango,Mango (Karthakolomban),Fruits,383,106.4,337,428,stable,Wholesale session recorded for Kandy Central Market
+2026-08-02,kandy,Kandy Central Market,Kandy,papaya,Papaya,Fruits,132,228.8,116,147,up,Wholesale session recorded for Kandy Central Market
+2026-08-02,kandy,Kandy Central Market,Kandy,coconut,Coconut (Nuts),Other,133,382.5,117,148,up,Wholesale session recorded for Kandy Central Market
+2026-08-02,kandy,Kandy Central Market,Kandy,rice_samba,Samba Rice,Grains,266,483.6,234,297,up,Wholesale session recorded for Kandy Central Market
+2026-08-03,dambulla,Dambulla Economic Center,Matale,carrot,Carrot,Upcountry,236,205.2,207,264,up,Wholesale session recorded for Dambulla Economic Center
+2026-08-03,dambulla,Dambulla Economic Center,Matale,leeks,Leeks,Upcountry,181,134.4,159,202,up,Wholesale session recorded for Dambulla Economic Center
+2026-08-03,dambulla,Dambulla Economic Center,Matale,cabbage,Cabbage,Upcountry,134,189.0,117,150,up,Wholesale session recorded for Dambulla Economic Center
+2026-08-03,dambulla,Dambulla Economic Center,Matale,beans,Beans,Upcountry,263,164.8,231,294,up,Wholesale session recorded for Dambulla Economic Center
+2026-08-03,dambulla,Dambulla Economic Center,Matale,beetroot,Beetroot,Upcountry,160,104.4,140,179,down,Wholesale session recorded for Dambulla Economic Center
+2026-08-03,dambulla,Dambulla Economic Center,Matale,knol_khol,Knol Khol,Upcountry,112,97.2,98,125,down,Wholesale session recorded for Dambulla Economic Center
+2026-08-03,dambulla,Dambulla Economic Center,Matale,brinjal,Brinjal,Lowcountry,213,217.5,187,238,up,Wholesale session recorded for Dambulla Economic Center
+2026-08-03,dambulla,Dambulla Economic Center,Matale,pumpkin,Pumpkin,Lowcountry,119,282.1,104,133,up,Wholesale session recorded for Dambulla Economic Center
+2026-08-03,dambulla,Dambulla Economic Center,Matale,tomato,Tomato,Lowcountry,310,186.2,272,347,up,Wholesale session recorded for Dambulla Economic Center
+2026-08-03,dambulla,Dambulla Economic Center,Matale,green_chilli,Green Chilli,Lowcountry,388,104.5,341,434,down,Wholesale session recorded for Dambulla Economic Center
+2026-08-03,dambulla,Dambulla Economic Center,Matale,lime,Lime,Lowcountry,348,81.6,306,389,up,Wholesale session recorded for Dambulla Economic Center
+2026-08-03,dambulla,Dambulla Economic Center,Matale,banana,Banana (Ambul),Fruits,148,302.4,130,165,up,Wholesale session recorded for Dambulla Economic Center
+2026-08-03,dambulla,Dambulla Economic Center,Matale,mango,Mango (Karthakolomban),Fruits,331,103.5,291,370,up,Wholesale session recorded for Dambulla Economic Center
+2026-08-03,dambulla,Dambulla Economic Center,Matale,papaya,Papaya,Fruits,124,248.6,109,138,up,Wholesale session recorded for Dambulla Economic Center
+2026-08-03,dambulla,Dambulla Economic Center,Matale,coconut,Coconut (Nuts),Other,117,400.5,102,131,up,Wholesale session recorded for Dambulla Economic Center
+2026-08-03,dambulla,Dambulla Economic Center,Matale,rice_samba,Samba Rice,Grains,178,566.8,156,199,down,Wholesale session recorded for Dambulla Economic Center
+2026-08-03,keppetipola,Keppetipola Economic Center,Badulla,carrot,Carrot,Upcountry,221,190.8,194,247,up,Wholesale session recorded for Keppetipola Economic Center
+2026-08-03,keppetipola,Keppetipola Economic Center,Badulla,leeks,Leeks,Upcountry,168,130.2,147,188,up,Wholesale session recorded for Keppetipola Economic Center
+2026-08-03,keppetipola,Keppetipola Economic Center,Badulla,cabbage,Cabbage,Upcountry,144,222.6,126,161,up,Wholesale session recorded for Keppetipola Economic Center
+2026-08-03,keppetipola,Keppetipola Economic Center,Badulla,beans,Beans,Upcountry,264,160.0,232,295,up,Wholesale session recorded for Keppetipola Economic Center
+2026-08-03,keppetipola,Keppetipola Economic Center,Badulla,beetroot,Beetroot,Upcountry,156,117.6,137,174,down,Wholesale session recorded for Keppetipola Economic Center
+2026-08-03,keppetipola,Keppetipola Economic Center,Badulla,knol_khol,Knol Khol,Upcountry,111,81.9,97,124,down,Wholesale session recorded for Keppetipola Economic Center
+2026-08-03,keppetipola,Keppetipola Economic Center,Badulla,brinjal,Brinjal,Lowcountry,223,220.0,196,249,up,Wholesale session recorded for Keppetipola Economic Center
+2026-08-03,keppetipola,Keppetipola Economic Center,Badulla,pumpkin,Pumpkin,Lowcountry,111,303.8,97,124,up,Wholesale session recorded for Keppetipola Economic Center
+2026-08-03,keppetipola,Keppetipola Economic Center,Badulla,tomato,Tomato,Lowcountry,291,178.6,256,325,up,Wholesale session recorded for Keppetipola Economic Center
+2026-08-03,keppetipola,Keppetipola Economic Center,Badulla,green_chilli,Green Chilli,Lowcountry,375,111.1,330,420,down,Wholesale session recorded for Keppetipola Economic Center
+2026-08-03,keppetipola,Keppetipola Economic Center,Badulla,lime,Lime,Lowcountry,341,73.1,300,381,up,Wholesale session recorded for Keppetipola Economic Center
+2026-08-03,keppetipola,Keppetipola Economic Center,Badulla,banana,Banana (Ambul),Fruits,142,271.6,124,159,up,Wholesale session recorded for Keppetipola Economic Center
+2026-08-03,keppetipola,Keppetipola Economic Center,Badulla,mango,Mango (Karthakolomban),Fruits,311,80.8,273,348,up,Wholesale session recorded for Keppetipola Economic Center
+2026-08-03,keppetipola,Keppetipola Economic Center,Badulla,papaya,Papaya,Fruits,124,206.8,109,138,up,Wholesale session recorded for Keppetipola Economic Center
+2026-08-03,keppetipola,Keppetipola Economic Center,Badulla,coconut,Coconut (Nuts),Other,119,490.5,104,133,up,Wholesale session recorded for Keppetipola Economic Center
+2026-08-03,keppetipola,Keppetipola Economic Center,Badulla,rice_samba,Samba Rice,Grains,170,566.8,149,190,down,Wholesale session recorded for Keppetipola Economic Center
+2026-08-03,manning,Manning Market (Colombo),Colombo,carrot,Carrot,Upcountry,300,169.2,264,336,up,Wholesale session recorded for Manning Market (Colombo)
+2026-08-03,manning,Manning Market (Colombo),Colombo,leeks,Leeks,Upcountry,229,123.2,201,256,up,Wholesale session recorded for Manning Market (Colombo)
+2026-08-03,manning,Manning Market (Colombo),Colombo,cabbage,Cabbage,Upcountry,169,210.0,148,189,up,Wholesale session recorded for Manning Market (Colombo)
+2026-08-03,manning,Manning Market (Colombo),Colombo,beans,Beans,Upcountry,348,144.0,306,389,up,Wholesale session recorded for Manning Market (Colombo)
+2026-08-03,manning,Manning Market (Colombo),Colombo,beetroot,Beetroot,Upcountry,209,116.4,183,234,down,Wholesale session recorded for Manning Market (Colombo)
+2026-08-03,manning,Manning Market (Colombo),Colombo,knol_khol,Knol Khol,Upcountry,158,90.9,139,176,down,Wholesale session recorded for Manning Market (Colombo)
+2026-08-03,manning,Manning Market (Colombo),Colombo,brinjal,Brinjal,Lowcountry,284,217.5,249,318,up,Wholesale session recorded for Manning Market (Colombo)
+2026-08-03,manning,Manning Market (Colombo),Colombo,pumpkin,Pumpkin,Lowcountry,141,347.2,124,157,up,Wholesale session recorded for Manning Market (Colombo)
+2026-08-03,manning,Manning Market (Colombo),Colombo,tomato,Tomato,Lowcountry,385,186.2,338,431,up,Wholesale session recorded for Manning Market (Colombo)
+2026-08-03,manning,Manning Market (Colombo),Colombo,green_chilli,Green Chilli,Lowcountry,495,108.9,435,554,down,Wholesale session recorded for Manning Market (Colombo)
+2026-08-03,manning,Manning Market (Colombo),Colombo,lime,Lime,Lowcountry,448,95.2,394,501,up,Wholesale session recorded for Manning Market (Colombo)
+2026-08-03,manning,Manning Market (Colombo),Colombo,banana,Banana (Ambul),Fruits,187,288.4,164,209,up,Wholesale session recorded for Manning Market (Colombo)
+2026-08-03,manning,Manning Market (Colombo),Colombo,mango,Mango (Karthakolomban),Fruits,428,97.9,376,479,up,Wholesale session recorded for Manning Market (Colombo)
+2026-08-03,manning,Manning Market (Colombo),Colombo,papaya,Papaya,Fruits,166,235.4,146,185,up,Wholesale session recorded for Manning Market (Colombo)
+2026-08-03,manning,Manning Market (Colombo),Colombo,coconut,Coconut (Nuts),Other,159,423.0,139,178,up,Wholesale session recorded for Manning Market (Colombo)
+2026-08-03,manning,Manning Market (Colombo),Colombo,rice_samba,Samba Rice,Grains,238,504.4,209,266,down,Wholesale session recorded for Manning Market (Colombo)
+2026-08-03,meegoda,Meegoda Economic Center,Colombo,carrot,Carrot,Upcountry,275,207.0,242,308,up,Wholesale session recorded for Meegoda Economic Center
+2026-08-03,meegoda,Meegoda Economic Center,Colombo,leeks,Leeks,Upcountry,217,126.0,190,243,up,Wholesale session recorded for Meegoda Economic Center
+2026-08-03,meegoda,Meegoda Economic Center,Colombo,cabbage,Cabbage,Upcountry,174,233.1,153,194,up,Wholesale session recorded for Meegoda Economic Center
+2026-08-03,meegoda,Meegoda Economic Center,Colombo,beans,Beans,Upcountry,326,139.2,286,365,up,Wholesale session recorded for Meegoda Economic Center
+2026-08-03,meegoda,Meegoda Economic Center,Colombo,beetroot,Beetroot,Upcountry,203,134.4,178,227,down,Wholesale session recorded for Meegoda Economic Center
+2026-08-03,meegoda,Meegoda Economic Center,Colombo,knol_khol,Knol Khol,Upcountry,143,82.8,125,160,down,Wholesale session recorded for Meegoda Economic Center
+2026-08-03,meegoda,Meegoda Economic Center,Colombo,brinjal,Brinjal,Lowcountry,270,257.5,237,302,up,Wholesale session recorded for Meegoda Economic Center
+2026-08-03,meegoda,Meegoda Economic Center,Colombo,pumpkin,Pumpkin,Lowcountry,134,313.1,117,150,up,Wholesale session recorded for Meegoda Economic Center
+2026-08-03,meegoda,Meegoda Economic Center,Colombo,tomato,Tomato,Lowcountry,364,184.3,320,407,up,Wholesale session recorded for Meegoda Economic Center
+2026-08-03,meegoda,Meegoda Economic Center,Colombo,green_chilli,Green Chilli,Lowcountry,473,118.8,416,529,down,Wholesale session recorded for Meegoda Economic Center
+2026-08-03,meegoda,Meegoda Economic Center,Colombo,lime,Lime,Lowcountry,429,78.2,377,480,up,Wholesale session recorded for Meegoda Economic Center
+2026-08-03,meegoda,Meegoda Economic Center,Colombo,banana,Banana (Ambul),Fruits,177,305.2,155,198,up,Wholesale session recorded for Meegoda Economic Center
+2026-08-03,meegoda,Meegoda Economic Center,Colombo,mango,Mango (Karthakolomban),Fruits,396,82.7,348,443,up,Wholesale session recorded for Meegoda Economic Center
+2026-08-03,meegoda,Meegoda Economic Center,Colombo,papaya,Papaya,Fruits,162,231.0,142,181,up,Wholesale session recorded for Meegoda Economic Center
+2026-08-03,meegoda,Meegoda Economic Center,Colombo,coconut,Coconut (Nuts),Other,141,454.5,124,157,up,Wholesale session recorded for Meegoda Economic Center
+2026-08-03,meegoda,Meegoda Economic Center,Colombo,rice_samba,Samba Rice,Grains,235,473.2,206,263,down,Wholesale session recorded for Meegoda Economic Center
+2026-08-03,veyangoda,Veyangoda Economic Center,Gampaha,carrot,Carrot,Upcountry,272,172.8,239,304,up,Wholesale session recorded for Veyangoda Economic Center
+2026-08-03,veyangoda,Veyangoda Economic Center,Gampaha,leeks,Leeks,Upcountry,200,128.8,176,224,up,Wholesale session recorded for Veyangoda Economic Center
+2026-08-03,veyangoda,Veyangoda Economic Center,Gampaha,cabbage,Cabbage,Upcountry,155,186.9,136,173,up,Wholesale session recorded for Veyangoda Economic Center
+2026-08-03,veyangoda,Veyangoda Economic Center,Gampaha,beans,Beans,Upcountry,306,145.6,269,342,up,Wholesale session recorded for Veyangoda Economic Center
+2026-08-03,veyangoda,Veyangoda Economic Center,Gampaha,beetroot,Beetroot,Upcountry,183,124.8,161,204,down,Wholesale session recorded for Veyangoda Economic Center
+2026-08-03,veyangoda,Veyangoda Economic Center,Gampaha,knol_khol,Knol Khol,Upcountry,134,98.1,117,150,down,Wholesale session recorded for Veyangoda Economic Center
+2026-08-03,veyangoda,Veyangoda Economic Center,Gampaha,brinjal,Brinjal,Lowcountry,246,225.0,216,275,up,Wholesale session recorded for Veyangoda Economic Center
+2026-08-03,veyangoda,Veyangoda Economic Center,Gampaha,pumpkin,Pumpkin,Lowcountry,131,306.9,115,146,up,Wholesale session recorded for Veyangoda Economic Center
+2026-08-03,veyangoda,Veyangoda Economic Center,Gampaha,tomato,Tomato,Lowcountry,356,201.4,313,398,up,Wholesale session recorded for Veyangoda Economic Center
+2026-08-03,veyangoda,Veyangoda Economic Center,Gampaha,green_chilli,Green Chilli,Lowcountry,447,123.2,393,500,down,Wholesale session recorded for Veyangoda Economic Center
+2026-08-03,veyangoda,Veyangoda Economic Center,Gampaha,lime,Lime,Lowcountry,407,75.7,358,455,up,Wholesale session recorded for Veyangoda Economic Center
+2026-08-03,veyangoda,Veyangoda Economic Center,Gampaha,banana,Banana (Ambul),Fruits,173,243.6,152,193,up,Wholesale session recorded for Veyangoda Economic Center
+2026-08-03,veyangoda,Veyangoda Economic Center,Gampaha,mango,Mango (Karthakolomban),Fruits,385,94.0,338,431,up,Wholesale session recorded for Veyangoda Economic Center
+2026-08-03,veyangoda,Veyangoda Economic Center,Gampaha,papaya,Papaya,Fruits,147,242.0,129,164,up,Wholesale session recorded for Veyangoda Economic Center
+2026-08-03,veyangoda,Veyangoda Economic Center,Gampaha,coconut,Coconut (Nuts),Other,140,463.5,123,156,up,Wholesale session recorded for Veyangoda Economic Center
+2026-08-03,veyangoda,Veyangoda Economic Center,Gampaha,rice_samba,Samba Rice,Grains,206,499.2,181,230,down,Wholesale session recorded for Veyangoda Economic Center
+2026-08-03,thambuththegama,Thambuththegama Economic Center,Anuradhapura,carrot,Carrot,Upcountry,248,156.6,218,277,up,Wholesale session recorded for Thambuththegama Economic Center
+2026-08-03,thambuththegama,Thambuththegama Economic Center,Anuradhapura,leeks,Leeks,Upcountry,184,138.6,161,206,up,Wholesale session recorded for Thambuththegama Economic Center
+2026-08-03,thambuththegama,Thambuththegama Economic Center,Anuradhapura,cabbage,Cabbage,Upcountry,151,180.6,132,169,up,Wholesale session recorded for Thambuththegama Economic Center
+2026-08-03,thambuththegama,Thambuththegama Economic Center,Anuradhapura,beans,Beans,Upcountry,266,153.6,234,297,up,Wholesale session recorded for Thambuththegama Economic Center
+2026-08-03,thambuththegama,Thambuththegama Economic Center,Anuradhapura,beetroot,Beetroot,Upcountry,162,104.4,142,181,down,Wholesale session recorded for Thambuththegama Economic Center
+2026-08-03,thambuththegama,Thambuththegama Economic Center,Anuradhapura,knol_khol,Knol Khol,Upcountry,113,93.6,99,126,down,Wholesale session recorded for Thambuththegama Economic Center
+2026-08-03,thambuththegama,Thambuththegama Economic Center,Anuradhapura,brinjal,Brinjal,Lowcountry,234,242.5,205,262,up,Wholesale session recorded for Thambuththegama Economic Center
+2026-08-03,thambuththegama,Thambuththegama Economic Center,Anuradhapura,pumpkin,Pumpkin,Lowcountry,119,319.3,104,133,up,Wholesale session recorded for Thambuththegama Economic Center
+2026-08-03,thambuththegama,Thambuththegama Economic Center,Anuradhapura,tomato,Tomato,Lowcountry,305,188.1,268,341,up,Wholesale session recorded for Thambuththegama Economic Center
+2026-08-03,thambuththegama,Thambuththegama Economic Center,Anuradhapura,green_chilli,Green Chilli,Lowcountry,389,104.5,342,435,down,Wholesale session recorded for Thambuththegama Economic Center
+2026-08-03,thambuththegama,Thambuththegama Economic Center,Anuradhapura,lime,Lime,Lowcountry,366,85.8,322,409,up,Wholesale session recorded for Thambuththegama Economic Center
+2026-08-03,thambuththegama,Thambuththegama Economic Center,Anuradhapura,banana,Banana (Ambul),Fruits,146,322.0,128,163,up,Wholesale session recorded for Thambuththegama Economic Center
+2026-08-03,thambuththegama,Thambuththegama Economic Center,Anuradhapura,mango,Mango (Karthakolomban),Fruits,329,94.0,289,368,up,Wholesale session recorded for Thambuththegama Economic Center
+2026-08-03,thambuththegama,Thambuththegama Economic Center,Anuradhapura,papaya,Papaya,Fruits,127,242.0,111,142,up,Wholesale session recorded for Thambuththegama Economic Center
+2026-08-03,thambuththegama,Thambuththegama Economic Center,Anuradhapura,coconut,Coconut (Nuts),Other,129,481.5,113,144,up,Wholesale session recorded for Thambuththegama Economic Center
+2026-08-03,thambuththegama,Thambuththegama Economic Center,Anuradhapura,rice_samba,Samba Rice,Grains,180,525.2,158,201,down,Wholesale session recorded for Thambuththegama Economic Center
+2026-08-03,nuwara-eliya,Nuwara Eliya Economic Center,Nuwara Eliya,carrot,Carrot,Upcountry,223,154.8,196,249,up,Wholesale session recorded for Nuwara Eliya Economic Center
+2026-08-03,nuwara-eliya,Nuwara Eliya Economic Center,Nuwara Eliya,leeks,Leeks,Upcountry,171,149.8,150,191,up,Wholesale session recorded for Nuwara Eliya Economic Center
+2026-08-03,nuwara-eliya,Nuwara Eliya Economic Center,Nuwara Eliya,cabbage,Cabbage,Upcountry,143,207.9,125,160,up,Wholesale session recorded for Nuwara Eliya Economic Center
+2026-08-03,nuwara-eliya,Nuwara Eliya Economic Center,Nuwara Eliya,beans,Beans,Upcountry,264,161.6,232,295,up,Wholesale session recorded for Nuwara Eliya Economic Center
+2026-08-03,nuwara-eliya,Nuwara Eliya Economic Center,Nuwara Eliya,beetroot,Beetroot,Upcountry,145,115.2,127,162,down,Wholesale session recorded for Nuwara Eliya Economic Center
+2026-08-03,nuwara-eliya,Nuwara Eliya Economic Center,Nuwara Eliya,knol_khol,Knol Khol,Upcountry,112,102.6,98,125,down,Wholesale session recorded for Nuwara Eliya Economic Center
+2026-08-03,nuwara-eliya,Nuwara Eliya Economic Center,Nuwara Eliya,brinjal,Brinjal,Lowcountry,213,242.5,187,238,up,Wholesale session recorded for Nuwara Eliya Economic Center
+2026-08-03,nuwara-eliya,Nuwara Eliya Economic Center,Nuwara Eliya,pumpkin,Pumpkin,Lowcountry,112,337.9,98,125,up,Wholesale session recorded for Nuwara Eliya Economic Center
+2026-08-03,nuwara-eliya,Nuwara Eliya Economic Center,Nuwara Eliya,tomato,Tomato,Lowcountry,295,201.4,259,330,up,Wholesale session recorded for Nuwara Eliya Economic Center
+2026-08-03,nuwara-eliya,Nuwara Eliya Economic Center,Nuwara Eliya,green_chilli,Green Chilli,Lowcountry,357,121.0,314,399,down,Wholesale session recorded for Nuwara Eliya Economic Center
+2026-08-03,nuwara-eliya,Nuwara Eliya Economic Center,Nuwara Eliya,lime,Lime,Lowcountry,338,74.0,297,378,up,Wholesale session recorded for Nuwara Eliya Economic Center
+2026-08-03,nuwara-eliya,Nuwara Eliya Economic Center,Nuwara Eliya,banana,Banana (Ambul),Fruits,144,246.4,126,161,up,Wholesale session recorded for Nuwara Eliya Economic Center
+2026-08-03,nuwara-eliya,Nuwara Eliya Economic Center,Nuwara Eliya,mango,Mango (Karthakolomban),Fruits,319,89.3,280,357,up,Wholesale session recorded for Nuwara Eliya Economic Center
+2026-08-03,nuwara-eliya,Nuwara Eliya Economic Center,Nuwara Eliya,papaya,Papaya,Fruits,125,237.6,110,140,up,Wholesale session recorded for Nuwara Eliya Economic Center
+2026-08-03,nuwara-eliya,Nuwara Eliya Economic Center,Nuwara Eliya,coconut,Coconut (Nuts),Other,116,427.5,102,129,up,Wholesale session recorded for Nuwara Eliya Economic Center
+2026-08-03,nuwara-eliya,Nuwara Eliya Economic Center,Nuwara Eliya,rice_samba,Samba Rice,Grains,166,535.6,146,185,down,Wholesale session recorded for Nuwara Eliya Economic Center
+2026-08-03,kandy,Kandy Central Market,Kandy,carrot,Carrot,Upcountry,272,205.2,239,304,up,Wholesale session recorded for Kandy Central Market
+2026-08-03,kandy,Kandy Central Market,Kandy,leeks,Leeks,Upcountry,213,131.6,187,238,up,Wholesale session recorded for Kandy Central Market
+2026-08-03,kandy,Kandy Central Market,Kandy,cabbage,Cabbage,Upcountry,168,186.9,147,188,up,Wholesale session recorded for Kandy Central Market
+2026-08-03,kandy,Kandy Central Market,Kandy,beans,Beans,Upcountry,309,150.4,271,346,up,Wholesale session recorded for Kandy Central Market
+2026-08-03,kandy,Kandy Central Market,Kandy,beetroot,Beetroot,Upcountry,196,126.0,172,219,down,Wholesale session recorded for Kandy Central Market
+2026-08-03,kandy,Kandy Central Market,Kandy,knol_khol,Knol Khol,Upcountry,145,99.9,127,162,down,Wholesale session recorded for Kandy Central Market
+2026-08-03,kandy,Kandy Central Market,Kandy,brinjal,Brinjal,Lowcountry,255,265.0,224,285,up,Wholesale session recorded for Kandy Central Market
+2026-08-03,kandy,Kandy Central Market,Kandy,pumpkin,Pumpkin,Lowcountry,135,269.7,118,151,up,Wholesale session recorded for Kandy Central Market
+2026-08-03,kandy,Kandy Central Market,Kandy,tomato,Tomato,Lowcountry,365,191.9,321,408,up,Wholesale session recorded for Kandy Central Market
+2026-08-03,kandy,Kandy Central Market,Kandy,green_chilli,Green Chilli,Lowcountry,461,93.5,405,516,down,Wholesale session recorded for Kandy Central Market
+2026-08-03,kandy,Kandy Central Market,Kandy,lime,Lime,Lowcountry,419,79.9,368,469,up,Wholesale session recorded for Kandy Central Market
+2026-08-03,kandy,Kandy Central Market,Kandy,banana,Banana (Ambul),Fruits,168,322.0,147,188,up,Wholesale session recorded for Kandy Central Market
+2026-08-03,kandy,Kandy Central Market,Kandy,mango,Mango (Karthakolomban),Fruits,386,90.2,339,432,up,Wholesale session recorded for Kandy Central Market
+2026-08-03,kandy,Kandy Central Market,Kandy,papaya,Papaya,Fruits,157,200.2,138,175,up,Wholesale session recorded for Kandy Central Market
+2026-08-03,kandy,Kandy Central Market,Kandy,coconut,Coconut (Nuts),Other,142,400.5,124,159,up,Wholesale session recorded for Kandy Central Market
+2026-08-03,kandy,Kandy Central Market,Kandy,rice_samba,Samba Rice,Grains,216,452.4,190,241,down,Wholesale session recorded for Kandy Central Market
+2026-08-04,dambulla,Dambulla Economic Center,Matale,carrot,Carrot,Upcountry,187,201.6,164,209,down,Wholesale session recorded for Dambulla Economic Center
+2026-08-04,dambulla,Dambulla Economic Center,Matale,leeks,Leeks,Upcountry,125,141.4,110,140,down,Wholesale session recorded for Dambulla Economic Center
+2026-08-04,dambulla,Dambulla Economic Center,Matale,cabbage,Cabbage,Upcountry,101,180.6,88,113,down,Wholesale session recorded for Dambulla Economic Center
+2026-08-04,dambulla,Dambulla Economic Center,Matale,beans,Beans,Upcountry,220,180.8,193,246,down,Wholesale session recorded for Dambulla Economic Center
+2026-08-04,dambulla,Dambulla Economic Center,Matale,beetroot,Beetroot,Upcountry,163,124.8,143,182,down,Wholesale session recorded for Dambulla Economic Center
+2026-08-04,dambulla,Dambulla Economic Center,Matale,knol_khol,Knol Khol,Upcountry,130,80.1,114,145,down,Wholesale session recorded for Dambulla Economic Center
+2026-08-04,dambulla,Dambulla Economic Center,Matale,brinjal,Brinjal,Lowcountry,169,225.0,148,189,down,Wholesale session recorded for Dambulla Economic Center
+2026-08-04,dambulla,Dambulla Economic Center,Matale,pumpkin,Pumpkin,Lowcountry,59,334.8,51,66,down,Wholesale session recorded for Dambulla Economic Center
+2026-08-04,dambulla,Dambulla Economic Center,Matale,tomato,Tomato,Lowcountry,263,163.4,231,294,down,Wholesale session recorded for Dambulla Economic Center
+2026-08-04,dambulla,Dambulla Economic Center,Matale,green_chilli,Green Chilli,Lowcountry,397,105.6,349,444,stable,Wholesale session recorded for Dambulla Economic Center
+2026-08-04,dambulla,Dambulla Economic Center,Matale,lime,Lime,Lowcountry,361,84.2,317,404,up,Wholesale session recorded for Dambulla Economic Center
+2026-08-04,dambulla,Dambulla Economic Center,Matale,banana,Banana (Ambul),Fruits,99,305.2,87,110,down,Wholesale session recorded for Dambulla Economic Center
+2026-08-04,dambulla,Dambulla Economic Center,Matale,mango,Mango (Karthakolomban),Fruits,286,87.4,251,320,down,Wholesale session recorded for Dambulla Economic Center
+2026-08-04,dambulla,Dambulla Economic Center,Matale,papaya,Papaya,Fruits,80,206.8,70,89,down,Wholesale session recorded for Dambulla Economic Center
+2026-08-04,dambulla,Dambulla Economic Center,Matale,coconut,Coconut (Nuts),Other,82,508.5,72,91,down,Wholesale session recorded for Dambulla Economic Center
+2026-08-04,dambulla,Dambulla Economic Center,Matale,rice_samba,Samba Rice,Grains,189,499.2,166,211,stable,Wholesale session recorded for Dambulla Economic Center
+2026-08-04,keppetipola,Keppetipola Economic Center,Badulla,carrot,Carrot,Upcountry,185,178.2,162,207,down,Wholesale session recorded for Keppetipola Economic Center
+2026-08-04,keppetipola,Keppetipola Economic Center,Badulla,leeks,Leeks,Upcountry,126,152.6,110,141,down,Wholesale session recorded for Keppetipola Economic Center
+2026-08-04,keppetipola,Keppetipola Economic Center,Badulla,cabbage,Cabbage,Upcountry,93,212.1,81,104,down,Wholesale session recorded for Keppetipola Economic Center
+2026-08-04,keppetipola,Keppetipola Economic Center,Badulla,beans,Beans,Upcountry,218,156.8,191,244,down,Wholesale session recorded for Keppetipola Economic Center
+2026-08-04,keppetipola,Keppetipola Economic Center,Badulla,beetroot,Beetroot,Upcountry,158,133.2,139,176,down,Wholesale session recorded for Keppetipola Economic Center
+2026-08-04,keppetipola,Keppetipola Economic Center,Badulla,knol_khol,Knol Khol,Upcountry,120,99.0,105,134,down,Wholesale session recorded for Keppetipola Economic Center
+2026-08-04,keppetipola,Keppetipola Economic Center,Badulla,brinjal,Brinjal,Lowcountry,162,280.0,142,181,down,Wholesale session recorded for Keppetipola Economic Center
+2026-08-04,keppetipola,Keppetipola Economic Center,Badulla,pumpkin,Pumpkin,Lowcountry,59,266.6,51,66,down,Wholesale session recorded for Keppetipola Economic Center
+2026-08-04,keppetipola,Keppetipola Economic Center,Badulla,tomato,Tomato,Lowcountry,254,212.8,223,284,down,Wholesale session recorded for Keppetipola Economic Center
+2026-08-04,keppetipola,Keppetipola Economic Center,Badulla,green_chilli,Green Chilli,Lowcountry,382,112.2,336,427,stable,Wholesale session recorded for Keppetipola Economic Center
+2026-08-04,keppetipola,Keppetipola Economic Center,Badulla,lime,Lime,Lowcountry,346,91.0,304,387,up,Wholesale session recorded for Keppetipola Economic Center
+2026-08-04,keppetipola,Keppetipola Economic Center,Badulla,banana,Banana (Ambul),Fruits,102,313.6,89,114,down,Wholesale session recorded for Keppetipola Economic Center
+2026-08-04,keppetipola,Keppetipola Economic Center,Badulla,mango,Mango (Karthakolomban),Fruits,264,89.3,232,295,down,Wholesale session recorded for Keppetipola Economic Center
+2026-08-04,keppetipola,Keppetipola Economic Center,Badulla,papaya,Papaya,Fruits,71,239.8,62,79,down,Wholesale session recorded for Keppetipola Economic Center
+2026-08-04,keppetipola,Keppetipola Economic Center,Badulla,coconut,Coconut (Nuts),Other,69,418.5,60,77,down,Wholesale session recorded for Keppetipola Economic Center
+2026-08-04,keppetipola,Keppetipola Economic Center,Badulla,rice_samba,Samba Rice,Grains,191,587.6,168,213,stable,Wholesale session recorded for Keppetipola Economic Center
+2026-08-04,manning,Manning Market (Colombo),Colombo,carrot,Carrot,Upcountry,259,160.2,227,290,down,Wholesale session recorded for Manning Market (Colombo)
+2026-08-04,manning,Manning Market (Colombo),Colombo,leeks,Leeks,Upcountry,183,121.8,161,204,down,Wholesale session recorded for Manning Market (Colombo)
+2026-08-04,manning,Manning Market (Colombo),Colombo,cabbage,Cabbage,Upcountry,127,233.1,111,142,down,Wholesale session recorded for Manning Market (Colombo)
+2026-08-04,manning,Manning Market (Colombo),Colombo,beans,Beans,Upcountry,300,180.8,264,336,down,Wholesale session recorded for Manning Market (Colombo)
+2026-08-04,manning,Manning Market (Colombo),Colombo,beetroot,Beetroot,Upcountry,226,136.8,198,253,down,Wholesale session recorded for Manning Market (Colombo)
+2026-08-04,manning,Manning Market (Colombo),Colombo,knol_khol,Knol Khol,Upcountry,162,88.2,142,181,down,Wholesale session recorded for Manning Market (Colombo)
+2026-08-04,manning,Manning Market (Colombo),Colombo,brinjal,Brinjal,Lowcountry,224,242.5,197,250,down,Wholesale session recorded for Manning Market (Colombo)
+2026-08-04,manning,Manning Market (Colombo),Colombo,pumpkin,Pumpkin,Lowcountry,96,297.6,84,107,down,Wholesale session recorded for Manning Market (Colombo)
+2026-08-04,manning,Manning Market (Colombo),Colombo,tomato,Tomato,Lowcountry,342,184.3,300,383,down,Wholesale session recorded for Manning Market (Colombo)
+2026-08-04,manning,Manning Market (Colombo),Colombo,green_chilli,Green Chilli,Lowcountry,508,105.6,447,568,stable,Wholesale session recorded for Manning Market (Colombo)
+2026-08-04,manning,Manning Market (Colombo),Colombo,lime,Lime,Lowcountry,463,72.2,407,518,up,Wholesale session recorded for Manning Market (Colombo)
+2026-08-04,manning,Manning Market (Colombo),Colombo,banana,Banana (Ambul),Fruits,138,319.2,121,154,down,Wholesale session recorded for Manning Market (Colombo)
+2026-08-04,manning,Manning Market (Colombo),Colombo,mango,Mango (Karthakolomban),Fruits,369,105.4,324,413,down,Wholesale session recorded for Manning Market (Colombo)
+2026-08-04,manning,Manning Market (Colombo),Colombo,papaya,Papaya,Fruits,115,242.0,101,128,down,Wholesale session recorded for Manning Market (Colombo)
+2026-08-04,manning,Manning Market (Colombo),Colombo,coconut,Coconut (Nuts),Other,101,400.5,88,113,down,Wholesale session recorded for Manning Market (Colombo)
+2026-08-04,manning,Manning Market (Colombo),Colombo,rice_samba,Samba Rice,Grains,247,488.8,217,276,stable,Wholesale session recorded for Manning Market (Colombo)
+2026-08-04,meegoda,Meegoda Economic Center,Colombo,carrot,Carrot,Upcountry,241,192.6,212,269,down,Wholesale session recorded for Meegoda Economic Center
+2026-08-04,meegoda,Meegoda Economic Center,Colombo,leeks,Leeks,Upcountry,162,152.6,142,181,down,Wholesale session recorded for Meegoda Economic Center
+2026-08-04,meegoda,Meegoda Economic Center,Colombo,cabbage,Cabbage,Upcountry,126,207.9,110,141,down,Wholesale session recorded for Meegoda Economic Center
+2026-08-04,meegoda,Meegoda Economic Center,Colombo,beans,Beans,Upcountry,266,180.8,234,297,down,Wholesale session recorded for Meegoda Economic Center
+2026-08-04,meegoda,Meegoda Economic Center,Colombo,beetroot,Beetroot,Upcountry,203,102.0,178,227,down,Wholesale session recorded for Meegoda Economic Center
+2026-08-04,meegoda,Meegoda Economic Center,Colombo,knol_khol,Knol Khol,Upcountry,158,81.9,139,176,down,Wholesale session recorded for Meegoda Economic Center
+2026-08-04,meegoda,Meegoda Economic Center,Colombo,brinjal,Brinjal,Lowcountry,212,255.0,186,237,down,Wholesale session recorded for Meegoda Economic Center
+2026-08-04,meegoda,Meegoda Economic Center,Colombo,pumpkin,Pumpkin,Lowcountry,89,303.8,78,99,down,Wholesale session recorded for Meegoda Economic Center
+2026-08-04,meegoda,Meegoda Economic Center,Colombo,tomato,Tomato,Lowcountry,316,207.1,278,353,down,Wholesale session recorded for Meegoda Economic Center
+2026-08-04,meegoda,Meegoda Economic Center,Colombo,green_chilli,Green Chilli,Lowcountry,483,101.2,425,540,stable,Wholesale session recorded for Meegoda Economic Center
+2026-08-04,meegoda,Meegoda Economic Center,Colombo,lime,Lime,Lowcountry,439,74.8,386,491,up,Wholesale session recorded for Meegoda Economic Center
+2026-08-04,meegoda,Meegoda Economic Center,Colombo,banana,Banana (Ambul),Fruits,119,257.6,104,133,down,Wholesale session recorded for Meegoda Economic Center
+2026-08-04,meegoda,Meegoda Economic Center,Colombo,mango,Mango (Karthakolomban),Fruits,355,99.8,312,397,down,Wholesale session recorded for Meegoda Economic Center
+2026-08-04,meegoda,Meegoda Economic Center,Colombo,papaya,Papaya,Fruits,111,191.4,97,124,down,Wholesale session recorded for Meegoda Economic Center
+2026-08-04,meegoda,Meegoda Economic Center,Colombo,coconut,Coconut (Nuts),Other,92,499.5,80,103,down,Wholesale session recorded for Meegoda Economic Center
+2026-08-04,meegoda,Meegoda Economic Center,Colombo,rice_samba,Samba Rice,Grains,244,540.8,214,273,stable,Wholesale session recorded for Meegoda Economic Center
+2026-08-04,veyangoda,Veyangoda Economic Center,Gampaha,carrot,Carrot,Upcountry,212,189.0,186,237,down,Wholesale session recorded for Veyangoda Economic Center
+2026-08-04,veyangoda,Veyangoda Economic Center,Gampaha,leeks,Leeks,Upcountry,163,144.2,143,182,down,Wholesale session recorded for Veyangoda Economic Center
+2026-08-04,veyangoda,Veyangoda Economic Center,Gampaha,cabbage,Cabbage,Upcountry,110,224.7,96,123,down,Wholesale session recorded for Veyangoda Economic Center
+2026-08-04,veyangoda,Veyangoda Economic Center,Gampaha,beans,Beans,Upcountry,253,150.4,222,283,down,Wholesale session recorded for Veyangoda Economic Center
+2026-08-04,veyangoda,Veyangoda Economic Center,Gampaha,beetroot,Beetroot,Upcountry,201,102.0,176,225,down,Wholesale session recorded for Veyangoda Economic Center
+2026-08-04,veyangoda,Veyangoda Economic Center,Gampaha,knol_khol,Knol Khol,Upcountry,152,82.8,133,170,down,Wholesale session recorded for Veyangoda Economic Center
+2026-08-04,veyangoda,Veyangoda Economic Center,Gampaha,brinjal,Brinjal,Lowcountry,208,225.0,183,232,down,Wholesale session recorded for Veyangoda Economic Center
+2026-08-04,veyangoda,Veyangoda Economic Center,Gampaha,pumpkin,Pumpkin,Lowcountry,69,313.1,60,77,down,Wholesale session recorded for Veyangoda Economic Center
+2026-08-04,veyangoda,Veyangoda Economic Center,Gampaha,tomato,Tomato,Lowcountry,304,165.3,267,340,down,Wholesale session recorded for Veyangoda Economic Center
+2026-08-04,veyangoda,Veyangoda Economic Center,Gampaha,green_chilli,Green Chilli,Lowcountry,463,112.2,407,518,stable,Wholesale session recorded for Veyangoda Economic Center
+2026-08-04,veyangoda,Veyangoda Economic Center,Gampaha,lime,Lime,Lowcountry,423,93.5,372,473,up,Wholesale session recorded for Veyangoda Economic Center
+2026-08-04,veyangoda,Veyangoda Economic Center,Gampaha,banana,Banana (Ambul),Fruits,126,285.6,110,141,down,Wholesale session recorded for Veyangoda Economic Center
+2026-08-04,veyangoda,Veyangoda Economic Center,Gampaha,mango,Mango (Karthakolomban),Fruits,321,92.1,282,359,down,Wholesale session recorded for Veyangoda Economic Center
+2026-08-04,veyangoda,Veyangoda Economic Center,Gampaha,papaya,Papaya,Fruits,104,189.2,91,116,down,Wholesale session recorded for Veyangoda Economic Center
+2026-08-04,veyangoda,Veyangoda Economic Center,Gampaha,coconut,Coconut (Nuts),Other,95,432.0,83,106,down,Wholesale session recorded for Veyangoda Economic Center
+2026-08-04,veyangoda,Veyangoda Economic Center,Gampaha,rice_samba,Samba Rice,Grains,224,561.6,197,250,stable,Wholesale session recorded for Veyangoda Economic Center
+2026-08-04,thambuththegama,Thambuththegama Economic Center,Anuradhapura,carrot,Carrot,Upcountry,183,172.8,161,204,down,Wholesale session recorded for Thambuththegama Economic Center
+2026-08-04,thambuththegama,Thambuththegama Economic Center,Anuradhapura,leeks,Leeks,Upcountry,128,134.4,112,143,down,Wholesale session recorded for Thambuththegama Economic Center
+2026-08-04,thambuththegama,Thambuththegama Economic Center,Anuradhapura,cabbage,Cabbage,Upcountry,95,226.8,83,106,down,Wholesale session recorded for Thambuththegama Economic Center
+2026-08-04,thambuththegama,Thambuththegama Economic Center,Anuradhapura,beans,Beans,Upcountry,219,174.4,192,245,down,Wholesale session recorded for Thambuththegama Economic Center
+2026-08-04,thambuththegama,Thambuththegama Economic Center,Anuradhapura,beetroot,Beetroot,Upcountry,173,106.8,152,193,down,Wholesale session recorded for Thambuththegama Economic Center
+2026-08-04,thambuththegama,Thambuththegama Economic Center,Anuradhapura,knol_khol,Knol Khol,Upcountry,123,86.4,108,137,down,Wholesale session recorded for Thambuththegama Economic Center
+2026-08-04,thambuththegama,Thambuththegama Economic Center,Anuradhapura,brinjal,Brinjal,Lowcountry,179,277.5,157,200,down,Wholesale session recorded for Thambuththegama Economic Center
+2026-08-04,thambuththegama,Thambuththegama Economic Center,Anuradhapura,pumpkin,Pumpkin,Lowcountry,61,344.1,53,68,down,Wholesale session recorded for Thambuththegama Economic Center
+2026-08-04,thambuththegama,Thambuththegama Economic Center,Anuradhapura,tomato,Tomato,Lowcountry,269,203.3,236,301,down,Wholesale session recorded for Thambuththegama Economic Center
+2026-08-04,thambuththegama,Thambuththegama Economic Center,Anuradhapura,green_chilli,Green Chilli,Lowcountry,408,115.5,359,456,stable,Wholesale session recorded for Thambuththegama Economic Center
+2026-08-04,thambuththegama,Thambuththegama Economic Center,Anuradhapura,lime,Lime,Lowcountry,367,93.5,322,411,up,Wholesale session recorded for Thambuththegama Economic Center
+2026-08-04,thambuththegama,Thambuththegama Economic Center,Anuradhapura,banana,Banana (Ambul),Fruits,97,243.6,85,108,down,Wholesale session recorded for Thambuththegama Economic Center
+2026-08-04,thambuththegama,Thambuththegama Economic Center,Anuradhapura,mango,Mango (Karthakolomban),Fruits,293,81.7,257,328,down,Wholesale session recorded for Thambuththegama Economic Center
+2026-08-04,thambuththegama,Thambuththegama Economic Center,Anuradhapura,papaya,Papaya,Fruits,84,200.2,73,94,down,Wholesale session recorded for Thambuththegama Economic Center
+2026-08-04,thambuththegama,Thambuththegama Economic Center,Anuradhapura,coconut,Coconut (Nuts),Other,71,495.0,62,79,down,Wholesale session recorded for Thambuththegama Economic Center
+2026-08-04,thambuththegama,Thambuththegama Economic Center,Anuradhapura,rice_samba,Samba Rice,Grains,194,587.6,170,217,stable,Wholesale session recorded for Thambuththegama Economic Center
+2026-08-04,nuwara-eliya,Nuwara Eliya Economic Center,Nuwara Eliya,carrot,Carrot,Upcountry,170,171.0,149,190,down,Wholesale session recorded for Nuwara Eliya Economic Center
+2026-08-04,nuwara-eliya,Nuwara Eliya Economic Center,Nuwara Eliya,leeks,Leeks,Upcountry,124,141.4,109,138,down,Wholesale session recorded for Nuwara Eliya Economic Center
+2026-08-04,nuwara-eliya,Nuwara Eliya Economic Center,Nuwara Eliya,cabbage,Cabbage,Upcountry,92,233.1,80,103,down,Wholesale session recorded for Nuwara Eliya Economic Center
+2026-08-04,nuwara-eliya,Nuwara Eliya Economic Center,Nuwara Eliya,beans,Beans,Upcountry,214,148.8,188,239,down,Wholesale session recorded for Nuwara Eliya Economic Center
+2026-08-04,nuwara-eliya,Nuwara Eliya Economic Center,Nuwara Eliya,beetroot,Beetroot,Upcountry,151,130.8,132,169,down,Wholesale session recorded for Nuwara Eliya Economic Center
+2026-08-04,nuwara-eliya,Nuwara Eliya Economic Center,Nuwara Eliya,knol_khol,Knol Khol,Upcountry,118,84.6,103,132,down,Wholesale session recorded for Nuwara Eliya Economic Center
+2026-08-04,nuwara-eliya,Nuwara Eliya Economic Center,Nuwara Eliya,brinjal,Brinjal,Lowcountry,166,280.0,146,185,down,Wholesale session recorded for Nuwara Eliya Economic Center
+2026-08-04,nuwara-eliya,Nuwara Eliya Economic Center,Nuwara Eliya,pumpkin,Pumpkin,Lowcountry,51,347.2,44,57,down,Wholesale session recorded for Nuwara Eliya Economic Center
+2026-08-04,nuwara-eliya,Nuwara Eliya Economic Center,Nuwara Eliya,tomato,Tomato,Lowcountry,246,176.7,216,275,down,Wholesale session recorded for Nuwara Eliya Economic Center
+2026-08-04,nuwara-eliya,Nuwara Eliya Economic Center,Nuwara Eliya,green_chilli,Green Chilli,Lowcountry,369,121.0,324,413,stable,Wholesale session recorded for Nuwara Eliya Economic Center
+2026-08-04,nuwara-eliya,Nuwara Eliya Economic Center,Nuwara Eliya,lime,Lime,Lowcountry,350,83.3,308,392,up,Wholesale session recorded for Nuwara Eliya Economic Center
+2026-08-04,nuwara-eliya,Nuwara Eliya Economic Center,Nuwara Eliya,banana,Banana (Ambul),Fruits,97,302.4,85,108,down,Wholesale session recorded for Nuwara Eliya Economic Center
+2026-08-04,nuwara-eliya,Nuwara Eliya Economic Center,Nuwara Eliya,mango,Mango (Karthakolomban),Fruits,272,107.3,239,304,down,Wholesale session recorded for Nuwara Eliya Economic Center
+2026-08-04,nuwara-eliya,Nuwara Eliya Economic Center,Nuwara Eliya,papaya,Papaya,Fruits,80,209.0,70,89,down,Wholesale session recorded for Nuwara Eliya Economic Center
+2026-08-04,nuwara-eliya,Nuwara Eliya Economic Center,Nuwara Eliya,coconut,Coconut (Nuts),Other,68,450.0,59,76,down,Wholesale session recorded for Nuwara Eliya Economic Center
+2026-08-04,nuwara-eliya,Nuwara Eliya Economic Center,Nuwara Eliya,rice_samba,Samba Rice,Grains,189,499.2,166,211,stable,Wholesale session recorded for Nuwara Eliya Economic Center
+2026-08-04,kandy,Kandy Central Market,Kandy,carrot,Carrot,Upcountry,235,167.4,206,263,down,Wholesale session recorded for Kandy Central Market
+2026-08-04,kandy,Kandy Central Market,Kandy,leeks,Leeks,Upcountry,155,151.2,136,173,down,Wholesale session recorded for Kandy Central Market
+2026-08-04,kandy,Kandy Central Market,Kandy,cabbage,Cabbage,Upcountry,120,182.7,105,134,down,Wholesale session recorded for Kandy Central Market
+2026-08-04,kandy,Kandy Central Market,Kandy,beans,Beans,Upcountry,271,166.4,238,303,down,Wholesale session recorded for Kandy Central Market
+2026-08-04,kandy,Kandy Central Market,Kandy,beetroot,Beetroot,Upcountry,200,122.4,176,224,down,Wholesale session recorded for Kandy Central Market
+2026-08-04,kandy,Kandy Central Market,Kandy,knol_khol,Knol Khol,Upcountry,155,85.5,136,173,down,Wholesale session recorded for Kandy Central Market
+2026-08-04,kandy,Kandy Central Market,Kandy,brinjal,Brinjal,Lowcountry,205,217.5,180,229,down,Wholesale session recorded for Kandy Central Market
+2026-08-04,kandy,Kandy Central Market,Kandy,pumpkin,Pumpkin,Lowcountry,80,328.6,70,89,down,Wholesale session recorded for Kandy Central Market
+2026-08-04,kandy,Kandy Central Market,Kandy,tomato,Tomato,Lowcountry,312,178.6,274,349,down,Wholesale session recorded for Kandy Central Market
+2026-08-04,kandy,Kandy Central Market,Kandy,green_chilli,Green Chilli,Lowcountry,475,114.4,418,532,stable,Wholesale session recorded for Kandy Central Market
+2026-08-04,kandy,Kandy Central Market,Kandy,lime,Lime,Lowcountry,432,76.5,380,483,up,Wholesale session recorded for Kandy Central Market
+2026-08-04,kandy,Kandy Central Market,Kandy,banana,Banana (Ambul),Fruits,128,268.8,112,143,down,Wholesale session recorded for Kandy Central Market
+2026-08-04,kandy,Kandy Central Market,Kandy,mango,Mango (Karthakolomban),Fruits,345,81.7,303,386,down,Wholesale session recorded for Kandy Central Market
+2026-08-04,kandy,Kandy Central Market,Kandy,papaya,Papaya,Fruits,104,228.8,91,116,down,Wholesale session recorded for Kandy Central Market
+2026-08-04,kandy,Kandy Central Market,Kandy,coconut,Coconut (Nuts),Other,99,418.5,87,110,down,Wholesale session recorded for Kandy Central Market
+2026-08-04,kandy,Kandy Central Market,Kandy,rice_samba,Samba Rice,Grains,224,452.4,197,250,stable,Wholesale session recorded for Kandy Central Market

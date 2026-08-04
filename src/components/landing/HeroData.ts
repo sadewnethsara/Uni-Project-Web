@@ -16,37 +16,37 @@ export interface LocationData {
 export const locations: LocationData[] = [
     {
         id: "thambuththegama", name: "Thambuththegama", stat: "220 Tons", cx: 350, cy: 240, color: "#059669",
-        items: ["Grains", "Banana"], range: [0.30, 0.40], tx: 180, ty: 50, align: 'left',
+        items: ["Grains", "Banana"], range: [0.30, 0.40], tx: 70, ty: 100, align: 'left',
         image: "https://images.unsplash.com/photo-1573246123716-6b1782bc49ca?auto=format&fit=crop&q=80&w=500" // Bananas/Grains
     },
     {
         id: "veyangoda", name: "Veyangoda Hub", stat: "180 Tons", cx: 295, cy: 395, color: "#34d399",
-        items: ["Coconut", "Mango"], range: [0.40, 0.50], tx: 30, ty: 200, align: 'left',
+        items: ["Coconut", "Mango"], range: [0.40, 0.50], tx: -70, ty: 240, align: 'left',
         image: "https://images.unsplash.com/photo-1601493700631-2b16ec4b4716?auto=format&fit=crop&q=80&w=500" // Coconut/Mango
     },
     {
         id: "meegoda", name: "Meegoda Center", stat: "290 Tons", cx: 290, cy: 440, color: "#10b981",
-        items: ["Fruits", "Root Veg"], range: [0.50, 0.60], tx: 170, ty: 350, align: 'left',
+        items: ["Fruits", "Root Veg"], range: [0.50, 0.60], tx: 40, ty: 370, align: 'left',
         image: "https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&q=80&w=500" // Vegetables market
     },
     {
         id: "manning", name: "Manning Market", stat: "850 Tons", cx: 275, cy: 425, color: "#047857",
-        items: ["Fish", "Vegetables"], range: [0.45, 0.55], tx: 0, ty: 500, align: 'left',
+        items: ["Fish", "Vegetables"], range: [0.45, 0.55], tx: -80, ty: 500, align: 'left',
         image: "https://images.unsplash.com/photo-1519999482648-25049ddd37b1?auto=format&fit=crop&q=80&w=500" // Fresh produce
     },
     {
         id: "dambulla", name: "Dambulla Center", stat: "340 Tons", cx: 385, cy: 290, color: "#10b981",
-        items: ["Vegetables", "Fruits"], range: [0.35, 0.45], tx: 680, ty: 120, align: 'right',
+        items: ["Vegetables", "Fruits"], range: [0.35, 0.45], tx: 570, ty: 130, align: 'right',
         image: "https://images.unsplash.com/photo-1488459716781-31db52582fe9?auto=format&fit=crop&q=80&w=500" // Open market
     },
     {
         id: "keppetipola", name: "Keppetipola Hub", stat: "180 Tons", cx: 410, cy: 380, color: "#059669",
-        items: ["Carrot", "Potato"], range: [0.55, 0.65], tx: 650, ty: 310, align: 'right',
+        items: ["Carrot", "Potato"], range: [0.55, 0.65], tx: 590, ty: 300, align: 'right',
         image: "https://images.unsplash.com/photo-1596199050105-6d5d32222916?auto=format&fit=crop&q=80&w=500" // Root veggies
     },
     {
         id: "nuwara-eliya", name: "Nuwara Eliya Hub", stat: "150 Tons", cx: 390, cy: 400, color: "#34d399",
-        items: ["Tea", "Leeks"], range: [0.60, 0.70], tx: 680, ty: 520, align: 'right',
+        items: ["Tea", "Leeks"], range: [0.60, 0.70], tx: 570, ty: 470, align: 'right',
         image: "https://images.unsplash.com/photo-1576085898323-218337e3e43c?auto=format&fit=crop&q=80&w=500" // Tea fields
     }
 ];

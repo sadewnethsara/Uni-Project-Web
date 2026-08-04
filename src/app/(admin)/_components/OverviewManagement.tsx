@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { motion } from "framer-motion";
 import {
   DollarSign,
@@ -12,9 +12,9 @@ import {
   TrendingUp,
   Save,
   LucideIcon,
+  Loader2,
 } from "lucide-react";
 import { ANALYZE_THEME } from "@/lib/chartTheme";
-import { loadAdmins, loadCategories, loadItems, loadMarkets } from "@/lib/storage";
 
 // Types
 export interface Admin {
@@ -56,16 +56,43 @@ const DEFAULT_THEME = {
   inkFaint: "#9ca3af",
 };
 
-// Replace with your global ANALYZE_THEME import if available
 const THEME = typeof ANALYZE_THEME !== "undefined" ? ANALYZE_THEME : DEFAULT_THEME;
 
 export function OverviewManagement({ market, admin, onNavigate }: OverviewManagementProps) {
-  const [stats] = useState(() => ({
-    categories: loadCategories().length,
-    items: loadItems().length,
-    markets: loadMarkets().length,
-    admins: loadAdmins().length,
-  }));
+  const [stats, setStats] = useState({
+    categories: 0,
+    items: 0,
+    markets: 0,
+    admins: 0,
+  });
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    fetchDashboardData();
+  }, []);
+
+  const fetchDashboardData = async () => {
+    setIsLoading(true);
+    try {
+      const [dashRes, adminsRes] = await Promise.all([
+        fetch('http://localhost/NAMIS/backend/api/dashboard.php'),
+        fetch('http://localhost/NAMIS/backend/api/admins.php')
+      ]);
+      const dashData = await dashRes.json();
+      const adminsData = await adminsRes.json();
+
+      setStats({
+        categories: dashData.total_categories || 0,
+        items: dashData.total_vegetables || 0,
+        markets: dashData.total_markets || 0,
+        admins: Array.isArray(adminsData) ? adminsData.length : 0,
+      });
+    } catch (error) {
+      console.error("Failed to fetch overview data:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const isSuperAdmin = admin?.role === "super";
 
@@ -83,7 +110,7 @@ export function OverviewManagement({ market, admin, onNavigate }: OverviewManage
   const quickActions = useMemo<QuickAction[]>(() => {
     const baseActions: QuickAction[] = [
       { id: "prices", label: "Update Prices", icon: DollarSign, desc: "Edit today's market prices", color: THEME.accent },
-      { id: "quickadd", label: "Quick Add", icon: Plus, desc: "Fast data entry workflow", color: "#8b5cf6" },
+      { id: "dataManagement", label: "Data Import", icon: Plus, desc: "Fast data entry workflow", color: "#8b5cf6" },
       { id: "categories", label: "Categories", icon: FolderOpen, desc: "Manage produce categories", color: "#f59e0b" },
       { id: "items", label: "Items", icon: Package, desc: "Add or edit produce items", color: "#10b981" },
     ];
@@ -100,10 +127,10 @@ export function OverviewManagement({ market, admin, onNavigate }: OverviewManage
   }, [isSuperAdmin]);
 
   const metrics = [
-    { label: "Categories", value: stats.categories, icon: FolderOpen, badge: "+12%" },
-    { label: "Produce Items", value: stats.items, icon: Package, badge: "+8%" },
-    { label: "Economic Centers", value: stats.markets, icon: MapPin, badge: `+${stats.markets}` },
-    { label: "Active Admins", value: stats.admins, icon: ShieldCheck, badge: "Active" },
+    { label: "Categories", value: stats.categories, icon: FolderOpen, badge: "Active" },
+    { label: "Produce Items", value: stats.items, icon: Package, badge: "Tracked" },
+    { label: "Economic Centers", value: stats.markets, icon: MapPin, badge: "Live" },
+    { label: "Active Admins", value: stats.admins, icon: ShieldCheck, badge: "Secure" },
   ];
 
   const recentActivities = [
@@ -112,6 +139,15 @@ export function OverviewManagement({ market, admin, onNavigate }: OverviewManage
     { action: "Admin user created", time: "1 hour ago", icon: ShieldCheck },
     { action: "System backup completed", time: "3 hours ago", icon: Save },
   ];
+
+  if (isLoading) {
+    return (
+      <div className="flex flex-col items-center justify-center p-20">
+        <Loader2 className="w-10 h-10 animate-spin text-emerald-500 mb-4" />
+        <p className="text-gray-500 font-medium">Loading overview statistics...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-5 max-w-8xl mx-auto px-1 sm:px-0">
@@ -186,7 +222,7 @@ export function OverviewManagement({ market, admin, onNavigate }: OverviewManage
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: idx * 0.05 }}
                 onClick={() => onNavigate?.(action.id)}
-                className="p-4 rounded-2xl border text-left transition-all hover:scale-[1.02] active:scale-[0.98] shadow-sm hover:shadow-md focus:outline-none focus:ring-2 focus:ring-emerald-500/50"
+                className="p-4 rounded-2xl border text-left transition-all hover:scale-[1.02] active:scale-[0.98] shadow-sm hover:shadow-md focus:outline-none focus:ring-2 focus:ring-emerald-500/50 cursor-pointer"
                 style={{
                   background: THEME.surfaceRaised,
                   borderColor: THEME.border,
@@ -255,7 +291,6 @@ export function OverviewManagement({ market, admin, onNavigate }: OverviewManage
 
       {/* System Status & Recent Activity */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* System Status */}
         <motion.div
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
@@ -323,7 +358,6 @@ export function OverviewManagement({ market, admin, onNavigate }: OverviewManage
           </div>
         </motion.div>
 
-        {/* Recent Activity */}
         <motion.div
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}

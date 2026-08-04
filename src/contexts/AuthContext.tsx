@@ -29,6 +29,7 @@ interface NotificationSettings {
 interface AuthContextType {
   user: User | null;
   isLoggedIn: boolean;
+  isInitialized: boolean;
   login: (email: string, password: string) => Promise<void>;
   register: (name: string, email: string, password: string, role: string, phone?: string) => Promise<void>;
   logout: () => void;
@@ -43,6 +44,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isInitialized, setIsInitialized] = useState(false);
   const [userHistory, setUserHistory] = useState<UserHistory[]>([]);
   const [notificationSettings, setNotificationSettings] = useState<NotificationSettings>({
     email: true,
@@ -69,6 +71,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     if (savedSettings) {
       setNotificationSettings(JSON.parse(savedSettings));
     }
+
+    setIsInitialized(true);
   }, []);
 
   // Sync userHistory to localStorage whenever it changes
@@ -78,7 +82,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const login = useCallback(async (email: string, password: string) => {
     try {
-      const response = await fetch('http://localhost/backend/api/auth/login.php', {
+      const apiBase = process.env.NEXT_PUBLIC_API_BASE || 'http://localhost/NAMIS/backend/api';
+      const response = await fetch(`${apiBase}/auth/login.php`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -122,7 +127,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const register = useCallback(async (name: string, email: string, password: string, role: string, phone?: string) => {
     try {
-      const response = await fetch('http://localhost/backend/api/auth/register.php', {
+      const apiBase = process.env.NEXT_PUBLIC_API_BASE || 'http://localhost/NAMIS/backend/api';
+      const response = await fetch(`${apiBase}/auth/register.php`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -210,6 +216,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     <AuthContext.Provider value={{
       user,
       isLoggedIn,
+      isInitialized,
       login,
       register,
       logout,

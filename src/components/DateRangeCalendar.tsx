@@ -345,17 +345,27 @@ export default function DateRangeCalendar({
       {/* Selected tags list (Only rendered during multi-select mode) */}
       {mode === "multi" && selectedDates.length > 0 && (
         <div className="px-3 pb-3 flex flex-wrap gap-1 max-h-16 overflow-y-auto">
-          {selectedDates.map((d) => (
-            <button
-              key={d}
-              type="button"
-              onClick={() => onSelectedDatesChange(selectedDates.filter((x) => x !== d))}
-              className="text-[10px] font-bold px-2 py-1 rounded-lg cursor-pointer flex items-center gap-1"
-              style={{ background: ANALYZE_THEME.surfaceMuted, color: ANALYZE_THEME.ink }}
-            >
-              {parseISODate(d).toLocaleDateString("en-LK", { day: "numeric", month: "short" })} ×
-            </button>
-          ))}
+          {selectedDates.map((d, i) => {
+            let label = d;
+            try {
+              const parsed = parseISODate(d.slice(0, 10));
+              if (!isNaN(parsed.getTime())) {
+                label = parsed.toLocaleDateString("en-LK", { day: "numeric", month: "short" });
+              }
+            } catch (e) {}
+
+            return (
+              <button
+                key={`sel-date-${d}-${i}`}
+                type="button"
+                onClick={() => onSelectedDatesChange(selectedDates.filter((x) => x !== d))}
+                className="text-[10px] font-bold px-2 py-1 rounded-lg cursor-pointer flex items-center gap-1"
+                style={{ background: ANALYZE_THEME.surfaceMuted, color: ANALYZE_THEME.ink }}
+              >
+                {label} ×
+              </button>
+            );
+          })}
         </div>
       )}
 

@@ -53,13 +53,13 @@ export default function MarketComparisonChart({ weeklyData, commodityName }: Mar
 
   const lowestCoords = valid.map((d, i) => {
     const x = padLeft + (i / (valid.length - 1)) * chartW;
-    const y = padY + (h - padY * 2) - ((d.lowest!.price - min) / range) * (h - padY * 2);
+    const y = padY + (h - padY * 2) - (((d.lowest!.price ?? 0) - min) / range) * (h - padY * 2);
     return { x, y, ...d.lowest, date: d.date, label: d.label };
   });
 
   const highestCoords = valid.map((d, i) => {
     const x = padLeft + (i / (valid.length - 1)) * chartW;
-    const y = padY + (h - padY * 2) - ((d.highest!.price - min) / range) * (h - padY * 2);
+    const y = padY + (h - padY * 2) - (((d.highest!.price ?? 0) - min) / range) * (h - padY * 2);
     return { x, y, ...d.highest, date: d.date, label: d.label };
   });
 
@@ -210,8 +210,8 @@ export default function MarketComparisonChart({ weeklyData, commodityName }: Mar
                 const spacing = groupW * 0.05;
                 const groupX = padLeft + i * groupW;
                 
-                const lowestY = d.lowest ? padY + (h - padY * 2) - ((d.lowest.price - min) / range) * (h - padY * 2) : h;
-                const highestY = d.highest ? padY + (h - padY * 2) - ((d.highest.price - min) / range) * (h - padY * 2) : h;
+                const lowestY = d.lowest?.price != null ? padY + (h - padY * 2) - ((d.lowest.price - min) / range) * (h - padY * 2) : h;
+                const highestY = d.highest?.price != null ? padY + (h - padY * 2) - ((d.highest.price - min) / range) * (h - padY * 2) : h;
                 const selectedY = d.selectedMarket?.price ? padY + (h - padY * 2) - ((d.selectedMarket.price - min) / range) * (h - padY * 2) : h;
                 
                 const isHovered = hoverIndex === i;
@@ -325,7 +325,7 @@ export default function MarketComparisonChart({ weeklyData, commodityName }: Mar
                 const isHovered = hoverIndex === i;
                 return (
                   <motion.circle
-                    key={`lowest-${c.date}`}
+                    key={`lowest-${c.date}-${i}`}
                     cx={c.x}
                     cy={c.y}
                     r={isHovered ? 6 : 4}
@@ -343,7 +343,7 @@ export default function MarketComparisonChart({ weeklyData, commodityName }: Mar
                 const isHovered = hoverIndex === i;
                 return (
                   <motion.circle
-                    key={`highest-${c.date}`}
+                    key={`highest-${c.date}-${i}`}
                     cx={c.x}
                     cy={c.y}
                     r={isHovered ? 6 : 4}
@@ -361,7 +361,7 @@ export default function MarketComparisonChart({ weeklyData, commodityName }: Mar
                 const isHovered = hoverIndex === i;
                 return (
                   <motion.circle
-                    key={`selected-${c.date}`}
+                    key={`selected-${c.date}-${i}`}
                     cx={c.x}
                     cy={c.y}
                     r={isHovered ? 6 : 4}

@@ -20,7 +20,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
 export default function DashboardPage() {
-  const { user, isLoggedIn, userHistory, notificationSettings, updateNotificationSettings, logout, addToHistory } = useAuth();
+  const { user, isLoggedIn, isInitialized, userHistory, notificationSettings, updateNotificationSettings, logout, addToHistory } = useAuth();
   const router = useRouter();
   const hasVisitedRef = useRef(false);
 
@@ -28,6 +28,8 @@ export default function DashboardPage() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    if (!isInitialized) return;
+
     if (!isLoggedIn) {
       router.push('/');
     } else if (!hasVisitedRef.current) {
@@ -35,7 +37,7 @@ export default function DashboardPage() {
       addToHistory('Dashboard Viewed', 'User accessed their dashboard', 'settings');
       hasVisitedRef.current = true;
     }
-  }, [isLoggedIn, router, addToHistory]);
+  }, [isLoggedIn, isInitialized, router, addToHistory]);
 
   useEffect(() => {
     if (isLoggedIn) {
@@ -53,8 +55,16 @@ export default function DashboardPage() {
     }
   }, [isLoggedIn]);
 
+  if (!isInitialized) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <div className="w-12 h-12 border-4 border-emerald-500 border-t-transparent rounded-full animate-spin"></div>
+      </div>
+    );
+  }
+
   if (!isLoggedIn || !user) {
-    return null;
+    return <></>;
   }
 
   const handleLogout = () => {

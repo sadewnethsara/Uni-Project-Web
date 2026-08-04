@@ -20,7 +20,7 @@ export default function ConditionalFloatingChat() {
   ];
 
   if (hiddenPaths.includes(pathname)) {
-    return null;
+    return <></>;
   }
   
   return <FloatingChat />;

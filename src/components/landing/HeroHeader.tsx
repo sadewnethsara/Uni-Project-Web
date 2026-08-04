@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Link from "next/link";
 import { motion, MotionValue } from "framer-motion";
 
 interface Props {
@@ -77,14 +78,18 @@ export default function HeroHeader({
                 </motion.div>
             </motion.div>
 
+            {/* Badge */}
             <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 1 }}
+                transition={{ duration: 0.8 }}
                 className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-emerald-50/80 backdrop-blur-md border border-emerald-200/50 text-emerald-700 text-xs font-bold uppercase tracking-[0.2em] mb-10 shadow-sm"
             >
-                Sri Lanka's #1 Agri-Market Platform
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                Sri Lanka&apos;s #1 Agri-Market Platform
             </motion.div>
+
+            {/* Headline */}
             <motion.h1
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -96,6 +101,8 @@ export default function HeroHeader({
                     Intelligence.
                 </span>
             </motion.h1>
+
+            {/* Sub-headline */}
             <motion.p
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -104,11 +111,40 @@ export default function HeroHeader({
             >
                 Track daily vegetable prices, compare regional economic centers, and predict future trends with AI-driven analytics. Designed for farmers, traders, and everyday consumers.
             </motion.p>
+
+            {/* CTA Buttons */}
+            <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.4 }}
+                className="mt-10 flex items-center gap-4 pointer-events-auto"
+            >
+                <Link
+                    href="/markets/dambulla"
+                    className="group flex items-center gap-3 px-7 py-3.5 rounded-2xl text-sm font-bold bg-slate-900 text-white transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_12px_32px_-8px_rgba(0,0,0,0.35)]"
+                >
+                    View Markets
+                    <svg
+                        className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-200"
+                        fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24"
+                    >
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                    </svg>
+                </Link>
+                <Link
+                    href="/analytics"
+                    className="flex items-center gap-2 px-7 py-3.5 rounded-2xl text-sm font-bold text-slate-700 bg-white/70 backdrop-blur-sm border border-slate-200/80 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md"
+                >
+                    Explore Analytics
+                </Link>
+            </motion.div>
+
+            {/* Scroll hint */}
             <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ duration: 1, delay: 1 }}
-                className="mt-16 flex flex-col items-center gap-4"
+                transition={{ duration: 1, delay: 1.2 }}
+                className="mt-14 flex flex-col items-center gap-4"
             >
                 <span className="text-xs font-extrabold uppercase tracking-[0.3em] text-slate-400">Scroll to Explore</span>
                 <div className="w-[1px] h-16 bg-gradient-to-b from-emerald-300 to-transparent" />
