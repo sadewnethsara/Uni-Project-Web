@@ -78,7 +78,7 @@ export default function MarketComparisonChart({ weeklyData, commodityName }: Mar
   const highestArea = `${highestCoords[0]?.x ?? padLeft},${h} ${highestLine} ${highestCoords[highestCoords.length - 1]?.x ?? w},${h}`;
   const selectedArea = selectedCoords.length > 0 ? `${selectedCoords[0]?.x ?? padLeft},${h} ${selectedLine} ${selectedCoords[selectedCoords.length - 1]?.x ?? w},${h}` : "";
 
-  
+
 
   return (
     <div
@@ -116,7 +116,7 @@ export default function MarketComparisonChart({ weeklyData, commodityName }: Mar
               </span>
             </div>
           </div>
-          
+
           <div className="flex gap-0.5 p-0.5 rounded-lg self-end sm:self-auto" style={{ background: ANALYZE_THEME.surfaceMuted }}>
             {(["line", "area", "bar", "scatter"] as const).map((type) => (
               <button
@@ -150,12 +150,12 @@ export default function MarketComparisonChart({ weeklyData, commodityName }: Mar
             return (
               <g key={t}>
                 <line
-                    x1={padLeft}
-                    y1={y}
-                    x2={w - padRight}
-                    y2={y}
-                    stroke={ANALYZE_THEME.grid}
-                    strokeDasharray="4 4"
+                  x1={padLeft}
+                  y1={y}
+                  x2={w - padRight}
+                  y2={y}
+                  stroke={ANALYZE_THEME.grid}
+                  strokeDasharray="4 4"
                 />
                 <text
                   x={padLeft - 6}
@@ -209,13 +209,13 @@ export default function MarketComparisonChart({ weeklyData, commodityName }: Mar
                 const barW = groupW * 0.22;
                 const spacing = groupW * 0.05;
                 const groupX = padLeft + i * groupW;
-                
+
                 const lowestY = d.lowest?.price != null ? padY + (h - padY * 2) - ((d.lowest.price - min) / range) * (h - padY * 2) : h;
                 const highestY = d.highest?.price != null ? padY + (h - padY * 2) - ((d.highest.price - min) / range) * (h - padY * 2) : h;
                 const selectedY = d.selectedMarket?.price ? padY + (h - padY * 2) - ((d.selectedMarket.price - min) / range) * (h - padY * 2) : h;
-                
+
                 const isHovered = hoverIndex === i;
-                
+
                 return (
                   <g key={`bar-group-${i}`}>
                     {d.lowest && (
@@ -271,9 +271,9 @@ export default function MarketComparisonChart({ weeklyData, commodityName }: Mar
             <>
               <motion.polyline
                 initial={{ pathLength: 0, opacity: 0 }}
-                animate={{ 
-                  pathLength: 1, 
-                  opacity: chartType === "scatter" ? 0 : 1 
+                animate={{
+                  pathLength: 1,
+                  opacity: chartType === "scatter" ? 0 : 1
                 }}
                 transition={{ duration: 0.3, ease: "easeInOut" }}
                 fill="none"
@@ -286,9 +286,9 @@ export default function MarketComparisonChart({ weeklyData, commodityName }: Mar
 
               <motion.polyline
                 initial={{ pathLength: 0, opacity: 0 }}
-                animate={{ 
-                  pathLength: 1, 
-                  opacity: chartType === "scatter" ? 0 : 1 
+                animate={{
+                  pathLength: 1,
+                  opacity: chartType === "scatter" ? 0 : 1
                 }}
                 transition={{ duration: 0.3, ease: "easeInOut", delay: 0.1 }}
                 fill="none"
@@ -302,9 +302,9 @@ export default function MarketComparisonChart({ weeklyData, commodityName }: Mar
               {selectedLine && (
                 <motion.polyline
                   initial={{ pathLength: 0, opacity: 0 }}
-                  animate={{ 
-                    pathLength: 1, 
-                    opacity: chartType === "scatter" ? 0 : 1 
+                  animate={{
+                    pathLength: 1,
+                    opacity: chartType === "scatter" ? 0 : 1
                   }}
                   transition={{ duration: 0.3, ease: "easeInOut", delay: 0.15 }}
                   fill="none"
@@ -381,14 +381,14 @@ export default function MarketComparisonChart({ weeklyData, commodityName }: Mar
           {valid.map((_, i) => {
             const left =
               i === 0
-                  ? padLeft
-                  : (lowestCoords[i - 1].x + lowestCoords[i].x) / 2;
+                ? padLeft
+                : (lowestCoords[i - 1].x + lowestCoords[i].x) / 2;
 
             const right =
-                i === valid.length - 1
-                    ? w - padRight
-                    : (lowestCoords[i].x + lowestCoords[i + 1].x) / 2;
-            
+              i === valid.length - 1
+                ? w - padRight
+                : (lowestCoords[i].x + lowestCoords[i + 1].x) / 2;
+
             return (
               <rect
                 key={`zone-${i}`}
@@ -424,14 +424,14 @@ export default function MarketComparisonChart({ weeklyData, commodityName }: Mar
               className="absolute pointer-events-none z-10 w-full"
               style={{
                 left: 0,
-                top: "50%", 
+                top: "50%",
               }}
             >
               {(() => {
                 const progress = hoverIndex / (valid.length - 1);
                 const xOffset = progress < 0.35 ? "12px" : progress > 0.65 ? "calc(-100% - 12px)" : "-50%";
                 const absoluteLeftPct = (padLeft / w) * 100 + progress * ((w - padLeft) / w) * 100;
-                
+
                 return (
                   <motion.div
                     initial={{ opacity: 0, x: xOffset, y: "calc(-100% + 5px)", scale: 0.95 }}
@@ -449,7 +449,7 @@ export default function MarketComparisonChart({ weeklyData, commodityName }: Mar
                     <p className="text-[9px] sm:text-[10px] font-black uppercase tracking-wider" style={{ color: ANALYZE_THEME.inkFaint }}>
                       {lowestCoords[hoverIndex].label}
                     </p>
-                    
+
                     <div className="flex items-center justify-between gap-2">
                       <div className="flex items-center gap-1.5">
                         <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full" style={{ background: ANALYZE_THEME.down }} />
@@ -464,9 +464,9 @@ export default function MarketComparisonChart({ weeklyData, commodityName }: Mar
                     <p className="text-[9px] sm:text-[10px] font-medium truncate" style={{ color: ANALYZE_THEME.accentInk }}>
                       {lowestCoords[hoverIndex]?.marketName ?? "N/A"}
                     </p>
-                    
+
                     <div className="h-px my-0.5" style={{ background: ANALYZE_THEME.border }} />
-                    
+
                     <div className="flex items-center justify-between gap-2">
                       <div className="flex items-center gap-1.5">
                         <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full" style={{ background: "#3b82f6" }} />
@@ -481,9 +481,9 @@ export default function MarketComparisonChart({ weeklyData, commodityName }: Mar
                     <p className="text-[9px] sm:text-[10px] font-medium truncate" style={{ color: ANALYZE_THEME.accentInk }}>
                       {selectedCoords[hoverIndex]?.marketName ?? "N/A"}
                     </p>
-                    
+
                     <div className="h-px my-0.5" style={{ background: ANALYZE_THEME.border }} />
-                    
+
                     <div className="flex items-center justify-between gap-2">
                       <div className="flex items-center gap-1.5">
                         <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full" style={{ background: ANALYZE_THEME.up }} />
@@ -507,24 +507,24 @@ export default function MarketComparisonChart({ weeklyData, commodityName }: Mar
       </motion.div>
 
       <div className="relative mt-3 h-5">
-    {valid.map((d, i) => (
-        <div
+        {valid.map((d, i) => (
+          <div
             key={d.date}
             className="absolute text-[9px] sm:text-[10px] font-bold -translate-x-1/2 whitespace-nowrap"
             style={{
-                left: `${(lowestCoords[i].x / w) * 100}%`,
-                opacity: hoverIndex === i ? 1 : 0.6,
-                color:
-                    hoverIndex === i
-                        ? ANALYZE_THEME.ink
-                        : ANALYZE_THEME.inkFaint,
-                transition: "all .2s",
+              left: `${(lowestCoords[i].x / w) * 100}%`,
+              opacity: hoverIndex === i ? 1 : 0.6,
+              color:
+                hoverIndex === i
+                  ? ANALYZE_THEME.ink
+                  : ANALYZE_THEME.inkFaint,
+              transition: "all .2s",
             }}
-        >
+          >
             {d.label}
-        </div>
-    ))}
-</div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

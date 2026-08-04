@@ -348,8 +348,12 @@ export function ItemsManagement() {
               <div key={cat.id} className="space-y-4">
                 <div className="flex items-center justify-between pb-2 border-b" style={{ borderColor: `${ANALYZE_THEME.border}80` }}>
                   <div className="flex items-center gap-2.5">
-                    <span className="text-xl p-1.5 rounded-xl border" style={{ background: ANALYZE_THEME.surface, borderColor: ANALYZE_THEME.border }}>
-                      {cat.emoji}
+                    <span className="text-xl p-1.5 rounded-xl border flex items-center justify-center shrink-0 w-9 h-9 overflow-hidden" style={{ background: ANALYZE_THEME.surface, borderColor: ANALYZE_THEME.border }}>
+                      {cat.emoji && (cat.emoji.startsWith('/') || cat.emoji.includes('.svg')) ? (
+                        <img src={cat.emoji} alt={cat.name} className="w-6 h-6 object-contain" />
+                      ) : (
+                        cat.emoji
+                      )}
                     </span>
                     <div>
                       <div className="flex items-center gap-2">
@@ -378,8 +382,12 @@ export function ItemsManagement() {
                     >
                       <div className="flex items-start justify-between gap-3">
                         <div className="flex items-start gap-3.5">
-                          <span className="text-2xl p-3 rounded-2xl border shadow-inner flex items-center justify-center shrink-0" style={{ background: ANALYZE_THEME.surface, borderColor: ANALYZE_THEME.border }}>
-                            {item.emoji}
+                          <span className="text-2xl p-2 rounded-2xl border shadow-inner flex items-center justify-center shrink-0 w-12 h-12 overflow-hidden" style={{ background: ANALYZE_THEME.surface, borderColor: ANALYZE_THEME.border }}>
+                            {item.emoji && (item.emoji.startsWith('/') || item.emoji.includes('.svg')) ? (
+                              <img src={item.emoji} alt={item.name} className="w-8 h-8 object-contain" />
+                            ) : (
+                              item.emoji
+                            )}
                           </span>
                           <div className="space-y-0.5">
                             <h4 className="font-bold text-base leading-snug group-hover:opacity-90 transition-opacity" style={{ color: ANALYZE_THEME.ink }}>

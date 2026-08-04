@@ -134,7 +134,7 @@ export default function DashboardPage() {
     id: p.id.toString(),
     date: p.date,
     action: `Price Update: ${p.vegetable_name}`,
-    details: `${p.vegetable_emoji} New price at ${p.market_name}: Rs. ${p.price}`,
+    details: `${p.vegetable_emoji && p.vegetable_emoji.startsWith('/') ? '🥬' : p.vegetable_emoji} New price at ${p.market_name}: Rs. ${p.price}`,
     category: 'market' as const
   })) : [];
 

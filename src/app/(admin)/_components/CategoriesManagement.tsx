@@ -290,8 +290,12 @@ export function CategoriesManagement() {
               >
                 <div className="flex items-start justify-between gap-3">
                   <div className="flex items-start gap-3.5">
-                    <span className="text-2xl p-3 rounded-2xl border shadow-inner flex items-center justify-center shrink-0" style={{ background: ANALYZE_THEME.surface, borderColor: ANALYZE_THEME.border }}>
-                      {cat.emoji}
+                    <span className="text-2xl p-2 rounded-2xl border shadow-inner flex items-center justify-center shrink-0 w-12 h-12 overflow-hidden" style={{ background: ANALYZE_THEME.surface, borderColor: ANALYZE_THEME.border }}>
+                      {cat.emoji && (cat.emoji.startsWith('/') || cat.emoji.includes('.svg')) ? (
+                        <img src={cat.emoji} alt={cat.name} className="w-8 h-8 object-contain" />
+                      ) : (
+                        cat.emoji
+                      )}
                     </span>
                     <div className="space-y-1">
                       <h4 className="font-bold text-base leading-snug group-hover:opacity-90 transition-opacity" style={{ color: ANALYZE_THEME.ink }}>

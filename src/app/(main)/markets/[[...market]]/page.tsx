@@ -141,6 +141,8 @@ export default function MarketPage({ params }: PageProps) {
 
           return {
             id: v.id,
+            commodityId: v.id,
+            available: pEntry !== null,
             name: v.name,
             name_si: v.name_si,
             emoji: v.emoji || "🥬",
