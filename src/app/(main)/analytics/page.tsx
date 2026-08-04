@@ -81,7 +81,10 @@ function buildCompareSeries(
   return out;
 }
 
+import { usePageTitle } from "@/hooks/usePageTitle";
+
 export default function AnalyzePage() {
+  usePageTitle("Analytics");
   const dash = useAnalyzeDashboard();
   const [drawTool, setDrawTool] = useState<DrawTool>("cursor");
   const [drawings, setDrawings] = useState<ChartDrawing[]>([]);

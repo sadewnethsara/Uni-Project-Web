@@ -16,6 +16,8 @@ import HeroAnalyticsPanel from "@/components/landing/HeroAnalyticsPanel";
 import HeroBottomSheet from "@/components/landing/HeroBottomSheet";
 import Newsletter from "@/components/NewsletterSection";
 
+import { usePageTitle } from "@/hooks/usePageTitle";
+
 // Images for bottom sheet
 const CAROUSEL_IMAGES: Record<string, string[]> = {
     thambuththegama: [
@@ -56,6 +58,7 @@ const CAROUSEL_IMAGES: Record<string, string[]> = {
 };
 
 export default function Home() {
+    usePageTitle("Home");
     const containerRef = useRef<HTMLDivElement>(null);
     const [selectedLoc, setSelectedLoc] = useState<LocationData | null>(null);
 

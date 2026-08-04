@@ -31,7 +31,10 @@ const findAdminByEmail = (email: string): Admin | null => {
   return MOCK_ADMINS.find((a) => a.email.toLowerCase() === normalizedEmail) || null;
 };
 
+import { usePageTitle } from "@/hooks/usePageTitle";
+
 export default function AdminPage() {
+  usePageTitle("Admin Dashboard");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [currentAdmin, setCurrentAdmin] = useState<Admin | null>(null);
   const [market, setMarket] = useState<"dambulla" | "kappetipola" | null>(null);

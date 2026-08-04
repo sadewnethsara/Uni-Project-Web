@@ -20,7 +20,10 @@ import {
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
+import { usePageTitle } from '@/hooks/usePageTitle';
+
 export default function DashboardPage() {
+  usePageTitle("Dashboard");
   const { user, isLoggedIn, isInitialized, userHistory, notificationSettings, updateNotificationSettings, logout, addToHistory } = useAuth();
   const router = useRouter();
   const hasVisitedRef = useRef(false);

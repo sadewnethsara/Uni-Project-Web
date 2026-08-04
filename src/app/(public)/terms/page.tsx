@@ -28,7 +28,10 @@ const SECTIONS = [
   { id: "contact", title: "7. Legal Inquiries" },
 ];
 
+import { usePageTitle } from "@/hooks/usePageTitle";
+
 export default function TermsPage() {
+  usePageTitle("Terms of Service");
   const [activeSection, setActiveSection] = useState("acceptance");
 
   const scrollToSection = (id: string) => {

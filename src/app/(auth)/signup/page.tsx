@@ -28,7 +28,10 @@ import { ANALYZE_THEME, PANEL_CLASS } from "@/lib/chartTheme";
 
 type UserRole = "buyer" | "farmer" | "trader";
 
+import { usePageTitle } from "@/hooks/usePageTitle";
+
 export default function SignupPage() {
+  usePageTitle("Create Account");
   const [step, setStep] = useState<1 | 2 | 3>(1);
   const [role, setRole] = useState<UserRole>("buyer");
 

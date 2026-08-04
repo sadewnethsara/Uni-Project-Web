@@ -19,7 +19,10 @@ import {
 } from "lucide-react";
 import { ANALYZE_THEME, PANEL_CLASS } from "@/lib/chartTheme";
 
+import { usePageTitle } from "@/hooks/usePageTitle";
+
 export default function ContactPage() {
+  usePageTitle("Contact Us");
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");

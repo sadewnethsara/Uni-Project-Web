@@ -26,7 +26,10 @@ const SECTIONS = [
   { id: "contact", title: "7. Privacy Desk Contact" },
 ];
 
+import { usePageTitle } from "@/hooks/usePageTitle";
+
 export default function PrivacyPage() {
+  usePageTitle("Privacy Policy");
   const [activeSection, setActiveSection] = useState("collection");
 
   const scrollToSection = (id: string) => {

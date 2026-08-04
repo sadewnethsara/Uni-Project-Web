@@ -22,7 +22,10 @@ import {
 } from "lucide-react";
 import { ANALYZE_THEME, PANEL_CLASS } from "@/lib/chartTheme";
 
+import { usePageTitle } from "@/hooks/usePageTitle";
+
 export default function LoginPage() {
+  usePageTitle("Sign In");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);

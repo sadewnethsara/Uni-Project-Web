@@ -81,7 +81,10 @@ const FAQ_DATA: FAQItem[] = [
   },
 ];
 
+import { usePageTitle } from "@/hooks/usePageTitle";
+
 export default function FaqPage() {
+  usePageTitle("FAQ");
   const [searchQuery, setSearchQuery] = useState("");
   const [activeCategory, setActiveCategory] = useState<Category>("all");
   const [openId, setOpenId] = useState<string | null>("1");

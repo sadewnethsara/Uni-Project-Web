@@ -18,7 +18,10 @@ import {
 } from "lucide-react";
 import { ANALYZE_THEME, PANEL_CLASS } from "@/lib/chartTheme";
 
+import { usePageTitle } from "@/hooks/usePageTitle";
+
 export default function AboutPage() {
+  usePageTitle("About Us");
   return (
     <div
       className="min-h-screen w-full flex flex-col justify-between p-4 sm:p-6 lg:p-10 relative overflow-hidden select-none rounded-t-2xl"

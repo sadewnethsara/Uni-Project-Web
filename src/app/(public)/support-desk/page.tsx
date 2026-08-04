@@ -21,7 +21,10 @@ import {
 } from "lucide-react";
 import { ANALYZE_THEME, PANEL_CLASS } from "@/lib/chartTheme";
 
+import { usePageTitle } from "@/hooks/usePageTitle";
+
 export default function SupportDeskPage() {
+  usePageTitle("Support Desk");
   const [ticketSubject, setTicketSubject] = useState("");
   const [category, setCategory] = useState("feed_issue");
   const [priority, setPriority] = useState("normal");

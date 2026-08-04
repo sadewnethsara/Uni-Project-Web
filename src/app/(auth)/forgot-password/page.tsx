@@ -18,7 +18,10 @@ import {
 } from "lucide-react";
 import { ANALYZE_THEME, PANEL_CLASS } from "@/lib/chartTheme";
 
+import { usePageTitle } from "@/hooks/usePageTitle";
+
 export default function ForgotPasswordPage() {
+  usePageTitle("Reset Password");
   const [step, setStep] = useState<1 | 2>(1);
   const [email, setEmail] = useState("");
   const [otp, setOtp] = useState("");

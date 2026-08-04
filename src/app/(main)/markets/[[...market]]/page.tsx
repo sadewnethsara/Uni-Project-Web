@@ -19,6 +19,7 @@ import MobileBottomSheet from "@/components/market/MobileBottomSheet";
 import { ANALYZE_THEME, PANEL_CLASS } from "@/lib/chartTheme";
 import { formatDisplayDate, toISODate } from "@/lib/analyticsData";
 import { analyzeStore } from "@/lib/analyzeStore";
+import { usePageTitle } from "@/hooks/usePageTitle";
 import {
   getMarketDisplayName,
   getMarketMeta,
@@ -75,6 +76,8 @@ export default function MarketPage({ params }: PageProps) {
   const marketMeta = getMarketMeta(marketId);
   const marketName = getMarketDisplayName(marketId);
   const locationList = MARKET_SLUGS.map((id) => getMarketDisplayName(id));
+
+  usePageTitle(marketName ? `Markets - ${marketName}` : "Markets");
 
   const viewDate = useMemo(
     () => resolveViewDate(datePreset, customDate),
