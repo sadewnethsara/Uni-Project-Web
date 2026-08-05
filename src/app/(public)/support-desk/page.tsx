@@ -20,6 +20,7 @@ import {
   HelpCircle,
 } from "lucide-react";
 import { ANALYZE_THEME, PANEL_CLASS } from "@/lib/chartTheme";
+import { createClient } from "@/utils/supabase/client";
 
 import { usePageTitle } from "@/hooks/usePageTitle";
 
@@ -35,7 +36,7 @@ export default function SupportDeskPage() {
   const [submittedTicketId, setSubmittedTicketId] = useState<string | null>(null);
   const [errorMessage, setErrorMessage] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setErrorMessage("");
 
@@ -46,11 +47,32 @@ export default function SupportDeskPage() {
 
     setIsSubmitting(true);
 
-    setTimeout(() => {
-      setIsSubmitting(false);
+    try {
       const randomTicketId = `AGRI-SUP-${Math.floor(100000 + Math.random() * 900000)}`;
+      const supabase = createClient();
+      const { error: submitError } = await supabase
+        .from("support_tickets")
+        .insert([
+          {
+            ticket_id: randomTicketId,
+            phone_or_email: phoneOrEmail,
+            category: category,
+            subject: ticketSubject,
+            priority: priority,
+            description: description,
+          },
+        ]);
+
+      if (submitError) {
+        throw new Error(submitError.message);
+      }
+
       setSubmittedTicketId(randomTicketId);
-    }, 1200);
+    } catch (err: any) {
+      setErrorMessage(err?.message || "An unexpected error occurred. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (

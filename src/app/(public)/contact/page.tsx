@@ -18,6 +18,7 @@ import {
   HelpCircle,
 } from "lucide-react";
 import { ANALYZE_THEME, PANEL_CLASS } from "@/lib/chartTheme";
+import { createClient } from "@/utils/supabase/client";
 
 import { usePageTitle } from "@/hooks/usePageTitle";
 
@@ -33,7 +34,7 @@ export default function ContactPage() {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [error, setError] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
 
@@ -44,10 +45,30 @@ export default function ContactPage() {
 
     setIsLoading(true);
 
-    setTimeout(() => {
-      setIsLoading(false);
+    try {
+      const supabase = createClient();
+      const { error: submitError } = await supabase
+        .from("contact_messages")
+        .insert([
+          {
+            full_name: fullName,
+            email: email,
+            phone: phone || null,
+            subject: subject,
+            message: message,
+          },
+        ]);
+
+      if (submitError) {
+        throw new Error(submitError.message);
+      }
+
       setIsSubmitted(true);
-    }, 1000);
+    } catch (err: any) {
+      setError(err?.message || "An unexpected error occurred. Please try again.");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (

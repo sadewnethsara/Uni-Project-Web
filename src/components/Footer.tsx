@@ -50,22 +50,22 @@ export default function Footer() {
     >
       {/* PixelBlast Background */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden hidden md:block">
-          <Antigravity
-            count={300}
-            magnetRadius={6}
-            ringRadius={7}
-            waveSpeed={0.4}
-            waveAmplitude={1}
-            particleSize={1.5}
-            lerpSpeed={0.05}
-            color="#f7efe3"
-            autoAnimate={true}
-            particleVariance={1}
-            rotationSpeed={0}
-            depthFactor={1}
-            pulseSpeed={3}
-            particleShape="capsule"
-            fieldStrength={10}
+        <Antigravity
+          count={300}
+          magnetRadius={6}
+          ringRadius={7}
+          waveSpeed={0.4}
+          waveAmplitude={1}
+          particleSize={1.5}
+          lerpSpeed={0.05}
+          color="#f7efe3"
+          autoAnimate={true}
+          particleVariance={1}
+          rotationSpeed={0}
+          depthFactor={1}
+          pulseSpeed={3}
+          particleShape="capsule"
+          fieldStrength={10}
         />
       </div>
 
@@ -271,7 +271,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link
-                  href="/support"
+                  href="/support-desk"
                   className="text-gray-300 transition-colors hover:text-white hover:underline underline-offset-4"
                 >
                   Support Desk
