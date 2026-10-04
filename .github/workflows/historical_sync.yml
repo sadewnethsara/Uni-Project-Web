@@ -68,11 +68,24 @@ jobs:
               # 1. Download PDFs for this specific month
               python scripts/scraper/download_pdfs.py --start-date $START_DATE --end-date $END_DATE --output-dir ./PDFs
               
-              # 2. Extract Prices to JSON
-              python scripts/scraper/batch_process_pdfs.py --pdf-dir ./PDFs --output-dir ./price_data
-              
-              # 3. Sync to Supabase
-              npx tsx scripts/sync_data.ts
+              PDF_COUNT=$(find ./PDFs -type f -name "*.pdf" 2>/dev/null | wc -l)
+              if [ "$PDF_COUNT" -gt 0 ]; then
+                echo "Found $PDF_COUNT PDFs. Proceeding with extraction..."
+                
+                # 2. Extract Prices to JSON
+                python scripts/scraper/batch_process_pdfs.py ./PDFs --output-dir ./price_data
+                
+                JSON_COUNT=$(find ./price_data -type f -name "*.json" 2>/dev/null | wc -l)
+                if [ "$JSON_COUNT" -gt 0 ]; then
+                  echo "Found $JSON_COUNT JSON files. Proceeding with sync..."
+                  # 3. Sync to Supabase
+                  npx tsx scripts/sync_data.ts
+                else
+                  echo "No JSON files generated. Skipping sync."
+                fi
+              else
+                echo "No PDFs found for this month. Skipping extraction and sync."
+              fi
               
               # 4. Clean up cache for the next month to save space and memory
               rm -rf ./PDFs/* ./price_data/*

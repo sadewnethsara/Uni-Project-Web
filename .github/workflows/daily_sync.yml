@@ -23,15 +23,6 @@ jobs:
           pip install -r scripts/scraper/requirements.txt
           sudo apt-get install -y ghostscript
 
-      - name: Run Python Scraper (Download PDFs)
-        run: |
-          START_DATE=$(date -d "7 days ago" +%Y-%m-%d)
-          python scripts/scraper/download_pdfs.py --start-date $START_DATE --output-dir ./PDFs
-        
-      - name: Run Python Scraper (Extract Prices)
-        run: |
-          python scripts/scraper/batch_process_pdfs.py --pdf-dir ./PDFs --output-dir ./price_data
-
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
@@ -41,9 +32,33 @@ jobs:
         run: |
           npm install @supabase/supabase-js tsx
 
-      - name: Run Supabase Sync Script
+      - name: Run Scraper and Sync Data
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
         run: |
-          npx tsx scripts/sync_data.ts
+          START_DATE=$(date -d "7 days ago" +%Y-%m-%d)
+          echo "Starting daily sync from $START_DATE"
+          
+          # 1. Download PDFs
+          python scripts/scraper/download_pdfs.py --start-date $START_DATE --output-dir ./PDFs
+          
+          PDF_COUNT=$(find ./PDFs -type f -name "*.pdf" 2>/dev/null | wc -l)
+          if [ "$PDF_COUNT" -gt 0 ]; then
+            echo "Found $PDF_COUNT PDFs. Proceeding with extraction..."
+            
+            # 2. Extract Prices to JSON
+            python scripts/scraper/batch_process_pdfs.py ./PDFs --output-dir ./price_data
+            
+            JSON_COUNT=$(find ./price_data -type f -name "*.json" 2>/dev/null | wc -l)
+            if [ "$JSON_COUNT" -gt 0 ]; then
+              echo "Found $JSON_COUNT JSON files. Proceeding with sync..."
+              
+              # 3. Sync to Supabase
+              npx tsx scripts/sync_data.ts
+            else
+              echo "No JSON files generated. Skipping sync."
+            fi
+          else
+            echo "No PDFs found for the last 7 days. Skipping extraction and sync."
+          fi
