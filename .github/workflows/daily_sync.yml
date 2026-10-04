@@ -25,7 +25,8 @@ jobs:
 
       - name: Run Python Scraper (Download PDFs)
         run: |
-          python scripts/scraper/download_pdfs.py --output-dir ./PDFs
+          START_DATE=$(date -d "7 days ago" +%Y-%m-%d)
+          python scripts/scraper/download_pdfs.py --start-date $START_DATE --output-dir ./PDFs
         
       - name: Run Python Scraper (Extract Prices)
         run: |
