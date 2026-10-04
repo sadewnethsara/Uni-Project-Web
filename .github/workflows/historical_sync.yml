@@ -1,20 +1,26 @@
 name: Manual Historical Data Sync
 
 on:
-  workflow_dispatch: # Allows manual trigger from GitHub UI
+  workflow_dispatch:
+    inputs:
+      start_year:
+        description: 'Year to start syncing from (e.g. 2015)'
+        required: true
+        default: '2015'
+        type: string
 
 jobs:
   historical_sync:
     runs-on: ubuntu-latest
-    # This might take a while since it downloads hundreds of PDFs
-    timeout-minutes: 60 
+    # This might take a while since it processes year by year
+    timeout-minutes: 360 
 
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: '3.10'
 
@@ -23,17 +29,8 @@ jobs:
           pip install -r scripts/scraper/requirements.txt
           sudo apt-get install -y ghostscript
 
-      - name: Run Python Scraper (Download ALL Historical PDFs)
-        run: |
-          # Downloads PDFs for 2024, 2025, and 2026
-          python scripts/scraper/download_pdfs.py --years 2024 2025 2026 --output-dir ./PDFs
-        
-      - name: Run Python Scraper (Extract Prices)
-        run: |
-          python scripts/scraper/batch_process_pdfs.py --pdf-dir ./PDFs --output-dir ./price_data
-
       - name: Set up Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: '18'
 
@@ -41,9 +38,43 @@ jobs:
         run: |
           npm install @supabase/supabase-js tsx
 
-      - name: Run Supabase Sync Script
+      - name: Month-by-Month Process and Sync
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          START_YEAR: ${{ github.event.inputs.start_year }}
         run: |
-          npx tsx scripts/sync_data.ts
+          mkdir -p ./PDFs
+          mkdir -p ./price_data
+          
+          CURRENT_YEAR=$(date +%Y)
+          
+          for YEAR in $(seq $START_YEAR $CURRENT_YEAR); do
+            for MONTH in {1..12}; do
+              MM=$(printf "%02d" $MONTH)
+              START_DATE="$YEAR-$MM-01"
+              END_DATE=$(date -d "$START_DATE + 1 month - 1 day" +%Y-%m-%d)
+              TODAY=$(date +%Y-%m-%d)
+              
+              if [[ "$START_DATE" > "$TODAY" ]]; then
+                echo "Reached future date $START_DATE. Stopping."
+                exit 0
+              fi
+              
+              echo "=================================================="
+              echo "Processing $START_DATE to $END_DATE..."
+              echo "=================================================="
+              
+              # 1. Download PDFs for this specific month
+              python scripts/scraper/download_pdfs.py --start-date $START_DATE --end-date $END_DATE --output-dir ./PDFs
+              
+              # 2. Extract Prices to JSON
+              python scripts/scraper/batch_process_pdfs.py --pdf-dir ./PDFs --output-dir ./price_data
+              
+              # 3. Sync to Supabase
+              npx tsx scripts/sync_data.ts
+              
+              # 4. Clean up cache for the next month to save space and memory
+              rm -rf ./PDFs/* ./price_data/*
+            done
+          done
