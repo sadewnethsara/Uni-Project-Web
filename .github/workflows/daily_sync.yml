@@ -1,0 +1,40 @@
+name: Daily Supabase Database Sync
+
+on:
+  schedule:
+    - cron: '30 16 * * *' # Runs daily at 10:00 PM Sri Lanka Time (16:30 UTC)
+  workflow_dispatch: # Allows manual trigger from GitHub UI
+
+jobs:
+  sync_database:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Source Data Repository
+        uses: actions/checkout@v3
+        with:
+          repository: 'DasunEdirisinghe/sri-lanka-agricultural-commodity-prices-dataset'
+          path: 'dataset'
+
+      - name: Checkout This Repository (for script)
+        uses: actions/checkout@v3
+        with:
+          path: 'my-scripts'
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: |
+          cd my-scripts
+          npm install @supabase/supabase-js tsx
+
+      - name: Run Supabase Sync Script
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+        run: |
+          cd my-scripts
+          npx tsx scripts/sync_data.ts
