@@ -1,0 +1,49 @@
+name: Manual Historical Data Sync
+
+on:
+  workflow_dispatch: # Allows manual trigger from GitHub UI
+
+jobs:
+  historical_sync:
+    runs-on: ubuntu-latest
+    # This might take a while since it downloads hundreds of PDFs
+    timeout-minutes: 60 
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install Python dependencies
+        run: |
+          pip install -r scripts/scraper/requirements.txt
+          sudo apt-get install -y ghostscript
+
+      - name: Run Python Scraper (Download ALL Historical PDFs)
+        run: |
+          # Downloads PDFs for 2024, 2025, and 2026
+          python scripts/scraper/download_pdfs.py --years 2024 2025 2026 --output-dir ./PDFs
+        
+      - name: Run Python Scraper (Extract Prices)
+        run: |
+          python scripts/scraper/batch_process_pdfs.py --pdf-dir ./PDFs --output-dir ./price_data
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install Node dependencies
+        run: |
+          npm install @supabase/supabase-js tsx
+
+      - name: Run Supabase Sync Script
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+        run: |
+          npx tsx scripts/sync_data.ts
