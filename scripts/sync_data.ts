@@ -61,12 +61,14 @@ async function syncData() {
   const jsonFiles = files.filter((f: any) => f.name.endsWith('.json'));
   console.log(`Found ${jsonFiles.length} files to process.`);
 
-  // Load existing categories and vegetables
+  // Load existing categories, vegetables, and markets
   const { data: existingCats } = await supabase.from('categories').select('*');
   const { data: existingVegs } = await supabase.from('vegetables').select('*');
+  const { data: existingMarkets } = await supabase.from('markets').select('*');
   
   let categories = [...(existingCats || [])];
   let vegetables = [...(existingVegs || [])];
+  let markets = [...(existingMarkets || [])];
 
   for (const file of jsonFiles) {
     console.log(`Processing ${file.name}...`);
@@ -111,6 +113,19 @@ async function syncData() {
         let marketId = entry.market.toLowerCase().trim();
         // Adjust for any mismatch between dataset and UI
         if (marketId === "kappetipola") marketId = "keppetipola";
+        
+        let marketObj = markets.find(m => m.id === marketId);
+        if (!marketObj) {
+          marketObj = {
+            id: marketId,
+            name: entry.market,
+            name_si: "",
+            district: "",
+            emoji: "🏢"
+          };
+          markets.push(marketObj);
+          await supabase.from('markets').upsert([marketObj]);
+        }
         
         priceRecords.push({
           date: entry.date,
