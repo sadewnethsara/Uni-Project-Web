@@ -47,8 +47,11 @@ export default function LoginModal({ isOpen, onClose, onLogin }: LoginModalProps
               }, 800);
             }} className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+                  Email <span className="text-red-500" aria-hidden="true">*</span>
+                </label>
                 <input 
+                  id="email"
                   type="email" 
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
@@ -58,8 +61,11 @@ export default function LoginModal({ isOpen, onClose, onLogin }: LoginModalProps
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Password</label>
+                <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
+                  Password <span className="text-red-500" aria-hidden="true">*</span>
+                </label>
                 <input 
+                  id="password"
                   type="password" 
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}

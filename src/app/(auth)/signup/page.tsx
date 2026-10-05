@@ -74,7 +74,6 @@ export default function SignupPage() {
     setIsSendingOtp(true);
 
     const code = Math.floor(1000 + Math.random() * 9000).toString();
-    console.log("[Dev Info] Generated OTP:", code);
 
     try {
       const response = await fetch("/api/send-otp", {

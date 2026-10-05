@@ -50,7 +50,7 @@ export async function POST(request: Request) {
     if (!response.ok) {
       console.error('Text.lk API Error response:', responseData);
       return NextResponse.json(
-        { error: responseData.message || 'Failed to send SMS OTP.' },
+        { error: 'Failed to send SMS OTP.' },
         { status: response.status }
       );
     }
