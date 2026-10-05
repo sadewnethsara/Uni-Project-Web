@@ -121,7 +121,7 @@ def classify_page(page) -> tuple:
 
     if first_header_cell == "Item" and "Pettah" in header_cells:
         return "pettah", table
-    if first_header_cell == "Variety" and "Peliyagoda" in header_cells:
+    if first_header_cell == "Variety":
         return "peliyagoda", table
     return None, None
 
@@ -245,6 +245,23 @@ def parse_peliyagoda_page(table: list, date: str) -> list:
     records = []
     current_category = "Up Country Vegetable"
 
+    market_names = []
+    if len(table) > 1:
+        num_cols = max((len(r) for r in table), default=0) - 1
+        for i in range(1, num_cols + 1):
+            parts = []
+            if len(table[0]) > i and table[0][i]:
+                parts.append(str(table[0][i]).strip())
+            if len(table[1]) > i and table[1][i]:
+                parts.append(str(table[1][i]).strip())
+            name = " ".join(parts).replace('\n', ' ')
+            name = re.sub(r'\d{1,2}/\d{1,2}/\d{4}', '', name)
+            name = re.sub(r'(?i)market', '', name).strip()
+            market_names.append(name if name else f"Market_{i}")
+    
+    if not market_names:
+        market_names = ["Peliyagoda"]
+
     for row in table[2:]:  # first 2 rows are date/market headers
         if not row or row[0] is None:
             continue
@@ -260,9 +277,6 @@ def parse_peliyagoda_page(table: list, date: str) -> list:
             continue
 
         if all_rest_empty:
-            # Stray metadata row (leftover date, blank separator, or an
-            # unrecognized header) - skip rather than treating it as a
-            # new category.
             continue
 
         peliyagoda_cell = rest[0] if rest else None
@@ -280,7 +294,7 @@ def parse_peliyagoda_page(table: list, date: str) -> list:
                     "item": item_name,
                     "category": current_category,
                     "unit": None,
-                    "market": "Peliyagoda",
+                    "market": market_names[0],
                     "min_price": min_price,
                     "max_price": max_price,
                     "average_price": avg_price,
@@ -289,20 +303,45 @@ def parse_peliyagoda_page(table: list, date: str) -> list:
                 }
             )
         else:
+            item_name = normalize_peliyagoda_name(first_cell)
             records.append(
                 {
                     "date": date,
-                    "item": normalize_peliyagoda_name(first_cell),
+                    "item": item_name,
                     "category": current_category,
                     "unit": None,
-                    "market": "Peliyagoda",
+                    "market": market_names[0],
                     "min_price": None,
                     "max_price": None,
                     "average_price": None,
-                    "average_computed": True,
+                    "average_computed": False,
                     "range": None,
                 }
             )
+
+        # Extract other markets
+        for i, cell in enumerate(rest[1:], start=1):
+            if cell is None or str(cell).strip() in ("", "-"):
+                continue
+            market_name = market_names[i] if i < len(market_names) else f"Market_{i+1}"
+            m_other = RANGE_RE.search(str(cell))
+            if m_other:
+                min_p = float(m_other.group(1))
+                max_p = float(m_other.group(2))
+                avg_p = round((min_p + max_p) / 2, 2)
+                records.append({
+                    "date": date,
+                    "item": item_name,
+                    "category": current_category,
+                    "unit": None,
+                    "market": market_name,
+                    "min_price": min_p,
+                    "max_price": max_p,
+                    "average_price": avg_p,
+                    "average_computed": True,
+                    "range": f"{min_p:.2f} - {max_p:.2f}",
+                })
+
     return records
 
 
