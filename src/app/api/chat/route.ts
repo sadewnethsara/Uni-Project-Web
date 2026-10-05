@@ -113,7 +113,7 @@ Tone & Style Guidelines:
   } catch (error: any) {
     console.error("Chat API error:", error);
     return NextResponse.json(
-      { error: "Internal Server Error", details: error.message },
+      { error: "Internal Server Error" },
       { status: 500 }
     );
   }
