@@ -117,50 +117,27 @@ async function syncData() {
     }
 
     if (priceRecords.length > 0) {
-      const dateStr = priceRecords[0].date;
-      const { data: existingPrices } = await supabase
-        .from('price_entries')
-        .select('*')
-        .eq('date', dateStr);
-        
-      const inserts: any[] = [];
-      const updates: any[] = [];
+      // Deduplicate in memory for this file to avoid sending duplicates in the same payload
+      const uniqueRecordsMap = new Map<string, any>();
+      for (const pr of priceRecords) {
+        const key = `${pr.date}-${pr.market_id}-${pr.vegetable_id}`;
+        uniqueRecordsMap.set(key, pr);
+      }
+      const uniqueRecords = Array.from(uniqueRecordsMap.values());
 
-      priceRecords.forEach(pr => {
-        const existing = existingPrices?.find(ep => ep.vegetable_id === pr.vegetable_id && ep.market_id === pr.market_id);
-        if (existing) {
-          updates.push({ ...pr, id: existing.id });
+      // Upsert in batches of 2000 for maximum performance
+      const batchSize = 2000;
+      for (let i = 0; i < uniqueRecords.length; i += batchSize) {
+        const batch = uniqueRecords.slice(i, i + batchSize);
+        const { error } = await supabase
+          .from('price_entries')
+          .upsert(batch, { onConflict: 'date,market_id,vegetable_id' });
+
+        if (error) {
+          console.error(`Error upserting batch for ${file.name}:`, error.message);
         } else {
-          inserts.push(pr);
+          console.log(`Upserted batch of ${batch.length} prices from ${file.name} (Progress: ${Math.min(i + batchSize, uniqueRecords.length)}/${uniqueRecords.length})`);
         }
-      });
-
-      // Handle inserts (avoiding duplicates inside the same batch)
-      const uniqueInserts: any[] = [];
-      const seen = new Set();
-      for (const item of inserts) {
-        const key = `${item.date}-${item.market_id}-${item.vegetable_id}`;
-        if (!seen.has(key)) {
-          seen.add(key);
-          uniqueInserts.push(item);
-        }
-      }
-
-      if (uniqueInserts.length > 0) {
-        const { error } = await supabase.from('price_entries').insert(uniqueInserts);
-        if (error) console.error(`Error inserting prices for ${file.name}:`, error.message);
-        else console.log(`Inserted ${uniqueInserts.length} prices from ${file.name}`);
-      }
-
-      // Handle updates
-      for (const up of updates) {
-        const { id, ...updateData } = up;
-        const { error } = await supabase.from('price_entries').update(updateData).eq('id', id);
-        if (error) console.error(`Error updating price ${id} for ${file.name}:`, error.message);
-      }
-      
-      if (updates.length > 0) {
-        console.log(`Updated ${updates.length} existing prices from ${file.name}`);
       }
     }
   }
