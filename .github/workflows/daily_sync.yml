@@ -62,3 +62,10 @@ jobs:
           else
             echo "No PDFs found for the last 7 days. Skipping extraction and sync."
           fi
+
+      - name: Run Enterprise Data Quality & Hygiene Audit
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+        run: |
+          python scripts/maintenance/audit_data_quality.py
