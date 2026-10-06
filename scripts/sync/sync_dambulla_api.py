@@ -97,11 +97,23 @@ def fetch_dambulla_prices_for_date(date_str: str) -> list:
         print(f"[{date_str}] Error fetching Dambulla API: {e}")
         return []
 
+def get_valid_vegetable_ids(supabase_url: str, supabase_key: str) -> set:
+    try:
+        url = f"{supabase_url.rstrip('/')}/rest/v1/vegetables?select=id"
+        headers = {"apikey": supabase_key, "Authorization": f"Bearer {supabase_key}"}
+        req = urllib.request.Request(url, headers=headers)
+        with urllib.request.urlopen(req, timeout=20, context=ssl._create_unverified_context()) as resp:
+            data = json.loads(resp.read().decode("utf-8"))
+            return set(v["id"] for v in data)
+    except Exception as e:
+        print(f"Warning: Could not fetch canonical vegetables: {e}")
+        return set()
+
 def upsert_to_supabase(records: list, supabase_url: str, supabase_key: str):
     if not records:
         return 0
     
-    endpoint = f"{supabase_url.rstrip('/')}/rest/v1/price_entries?on_conflict=vegetable_id,market_id,date"
+    endpoint = f"{supabase_url.rstrip('/')}/rest/v1/price_entries?on_conflict=vegetable_id,market_id,date,price_type"
     headers = {
         "apikey": supabase_key,
         "Authorization": f"Bearer {supabase_key}",
@@ -109,11 +121,15 @@ def upsert_to_supabase(records: list, supabase_url: str, supabase_key: str):
         "Prefer": "resolution=merge-duplicates"
     }
     
-    ctx = ssl.create_default_context()
+    ctx = ssl._create_unverified_context()
     req = urllib.request.Request(endpoint, data=json.dumps(records).encode("utf-8"), headers=headers, method="POST")
     try:
         with urllib.request.urlopen(req, timeout=30, context=ctx) as resp:
             return len(records)
+    except urllib.error.HTTPError as e:
+        err_msg = e.read().decode("utf-8", errors="ignore")
+        print(f"Supabase upsert error [HTTP {e.code}]: {err_msg}")
+        return 0
     except Exception as e:
         print(f"Supabase upsert error: {e}")
         return 0
@@ -125,7 +141,11 @@ def sync_date(date_str: str, supabase_url: str = None, supabase_key: str = None)
         print(f"    No items found for {date_str} (Market may be closed / holiday).")
         return 0
     
+    valid_veg_ids = get_valid_vegetable_ids(supabase_url, supabase_key) if (supabase_url and supabase_key) else set()
+    
     parsed_entries = []
+    seen_keys = set()
+    
     for item in raw_items:
         prod = item.get("product", {})
         prod_name = prod.get("name", "").strip()
@@ -138,10 +158,23 @@ def sync_date(date_str: str, supabase_url: str = None, supabase_key: str = None)
         avg_price = round((min_p + max_p) / 2.0, 2) if (min_p > 0 and max_p > 0) else max(min_p, max_p)
         veg_id = normalize_dambulla_product(prod_name)
         
+        # Foreign key validation against canonical vegetables table
+        if valid_veg_ids and veg_id not in valid_veg_ids:
+            continue
+            
+        dedup_key = (veg_id, "dambulla", date_str, "wholesale")
+        if dedup_key in seen_keys:
+            continue
+        seen_keys.add(dedup_key)
+        
         parsed_entries.append({
             "market_id": "dambulla",
             "vegetable_id": veg_id,
             "price": avg_price,
+            "min_price": min_p if min_p > 0 else None,
+            "max_price": max_p if max_p > 0 else None,
+            "price_type": "wholesale",
+            "source": "dambulla_dec",
             "date": date_str,
             "note": f"Dambulla DEC Live API (Min: {min_p}, Max: {max_p})"
         })
