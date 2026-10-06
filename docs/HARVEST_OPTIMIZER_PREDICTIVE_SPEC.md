@@ -36,10 +36,12 @@ To predict future vegetable prices with institutional precision, the model inges
 | **9** | **Seasonal Climate Outlook** | Monsoon onset anomalies (SW/NE Monsoon), flood/drought risk | 1-Year Forward / Agro-Ecological Zone | **📋 Needs Collection** | Dept. of Meteorology Climate Center, ECMWF SEAS5 |
 | **10**| **Agronomic Growth Cycles** | Crop maturity duration (days from planting to harvest), yield/acre | Constant & Variety-specific / Crop-level | **⭐ Forgotten Variable** | Dept. of Agriculture (DOA) Horticultural Center |
 | **11**| **Cultivated Extent (Acreage)** | Target hectares sown in Yala & Maha, mid-season progress | Monthly & Seasonal / District & Agrarian Service Centre | **⭐ Forgotten Variable** | HARTI & DOA Seasonal Crop Forecast Bulletins |
-| **12**| **Cost of Cultivation (Inputs)** | Seeds/tubers, fertilizer (Urea/MOP), agrochemicals, labor man-days | Seasonal / District & Agrarian Division | **⭐ Forgotten Variable** | Dept. of Agriculture Socio-Economic Division (AgEc) |
-| **13**| **Transport & Logistics Energy** | Auto Diesel price per liter (LKR), freight trucking rate per km/ton | Daily & Weekly / Major Inter-district transit corridors | **⭐ Forgotten Variable** | CPC / LIOC Fuel Gazettes, All-Island Truckers Association |
-| **14**| **Cultural & Religious Shocks** | Festive consumption spikes (New Year, Vesak Dansal, Ramadan, Weddings) | Calendar Dates & Auspicious Periods | **⭐ Forgotten Variable** | Government Gazettes, Buddhist & Hindu Lunar Calendars |
-| **15**| **Post-Harvest Loss & Decay** | Perishability decay rates, shelf-life (days without cold chain) | Crop-specific / Storage Condition | **⭐ Forgotten Variable** | National Institute of Post Harvest Management (NIPHM) |
+| **12**| **Cost of Cultivation (Inputs)** | Seeds/tubers, agrochemicals, labor man-days per acre | Seasonal / District & Agrarian Division | **⭐ Forgotten Variable** | Dept. of Agriculture Socio-Economic Division (AgEc) |
+| **13**| **Fertilizer Prices & Subsidies** | Urea (N), MOP (K), TSP (P) 50kg bag prices (Commercial vs Subsidized) | Monthly & Quarterly / National & District | **⭐ Added Critical Variable** | National Fertilizer Secretariat (NFS), Commercial Importers |
+| **14**| **Agro-Ecological Suitability Mask** | Hard Regional Incompatibility Filter (e.g. Lowcountry cucurbits CANNOT grow in Nuwara Eliya) | Static & Variety-specific / District & AEZ | **⭐ Added Critical Variable** | Dept. of Agriculture Agro-Ecological Map & Crop Guidelines |
+| **15**| **Transport & Logistics Energy** | Auto Diesel price per liter (LKR), freight trucking rate per km/ton | Daily & Weekly / Major Inter-district transit corridors | **⭐ Forgotten Variable** | CPC / LIOC Fuel Gazettes, All-Island Truckers Association |
+| **16**| **Cultural & Religious Shocks** | Festive consumption spikes (New Year, Vesak Dansal, Ramadan, Weddings) | Calendar Dates & Auspicious Periods | **⭐ Forgotten Variable** | Government Gazettes, Buddhist & Hindu Lunar Calendars |
+| **17**| **Post-Harvest Loss & Decay** | Perishability decay rates, shelf-life (days without cold chain) | Crop-specific / Storage Condition | **⭐ Forgotten Variable** | National Institute of Post Harvest Management (NIPHM) |
 
 ---
 
@@ -65,7 +67,49 @@ Farmers cannot harvest on command; crops follow strict biological timelines:
 * **The Variable**: Tracking **Hectares Sown by Agrarian Service Centre (ASC)** from the Department of Agriculture's *Pre-Maha* and *Pre-Yala Crop Forecasts* allows the model to warn farmers:  
   * *"Warning: Over 4,200 Ha of Cabbage already sown in Badulla district. High probability of price collapse in 60 days. Plant Beans instead."*
 
-### C. Cost of Cultivation (Production Feasibility & Breakeven Price)
+### C. Fertilizer Prices & Subsidies (Input Cost Dynamics)
+Fertilizer constitutes **25% – 40%** of cash production costs for commercial vegetable farming in Sri Lanka:
+* **The "Big 3" Macro-Nutrients**:
+  * **Urea (46% Nitrogen)**: Drives leafy vegetative growth (crucial for Cabbage, Leeks, Lettuce).
+  * **MOP - Muriate of Potash (60% K₂O)**: Drives tuber swelling, starch storage, and disease resistance (essential for Potato, Carrot, Beetroot).
+  * **TSP - Triple Superphosphate (46% P₂O₅)**: Drives root system establishment and flowering.
+* **Historical Policy Sensitivity**:
+  * During the 2021–2022 chemical fertilizer import ban, black-market Urea prices surged from Rs. 1,500/bag to Rs. 38,000–42,000/bag, collapsing national vegetable yields by 35%–50% and driving headline food inflation to 94.9%.
+  * In 2024–2026, prices normalized to Rs. 8,500 – 10,500 per 50kg bag under targeted cash subsidies.
+* **Model Correlation**:
+  * A 20% increase in MOP/Urea prices shifts the **breakeven floor price** of potato and carrot up by Rs. 28–36/kg. If the market wholesale price cannot support this floor, the model actively flags the crop as *Economically High Risk*.
+
+### D. Agro-Ecological Compatibility & The "Nuwara Eliya Exclusion" Rule
+A recommendation engine is useless if it suggests crops that cannot physically grow in the farmer's microclimate. Sri Lanka is divided into distinct elevation and thermal bands that dictate biological viability:
+
+```text
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                 REGIONAL VEGETABLE COMPATIBILITY MATRIX                     │
+├───────────────────────────────┬─────────────────────────────┬───────────────┤
+│ Upcountry (Exotic / English)  │ Lowcountry (Tropical)       │ Dual-Zone     │
+│ > 1,000m ASL (15°C – 22°C)    │ < 300m ASL (27°C – 34°C)    │ Adaptables    │
+├───────────────────────────────┼─────────────────────────────┼───────────────┤
+│ • Carrot (Nuwara Eliya/Badulla)│ • Okra / Bandakka           │ • Tomato      │
+│ • Leeks                       │ • Snake Gourd (Pathola)     │ • Bush Beans  │
+│ • Beetroot                    │ • Bitter Gourd (Karawila)   │ • Green Chili │
+│ • Cabbage (Upcountry varieties)│ • Ridge Gourd (Wetawalu)    │ • Capsicum    │
+│ • Potato                      │ • Brinjal / Eggplant        │ • Radish      │
+│ • Bell Pepper (Greenhouse)    │ • Pumpkin (Wattakka)        │               │
+│ • Salad Cucumber              │ • Drumstick (Murunga)       │               │
+└───────────────────────────────┴─────────────────────────────┴───────────────┘
+```
+
+#### The Hard Regional Incompatibility Mask:
+* **Why Certain Vegetables CANNOT Grow in Nuwara Eliya**:
+  1. **Okra (Bandakka)**: Requires warm soil (>22°C) and consistent heat. In Nuwara Eliya (<16°C), seeds rot, plants remain stunted, and flowers abort.
+  2. **Cucurbit Gourds (Snake Gourd, Bitter Gourd, Ridge Gourd)**: Tropical vines requiring warm sunshine. Upcountry cold and mist cause severe downy mildew, poor insect pollination, and fruit rot.
+  3. **Brinjal (Wambatu)**: Heat-loving solanaceous plant. Below 18°C, pollen becomes sterile, resulting in zero fruit set.
+  4. **Drumstick (Murunga)**: Semi-arid tree crop that cannot survive frost or heavy waterlogged upcountry soils.
+* **Engine Implementation Rule**:
+  $$\text{Eligible Crops}(\text{Location}) = \{ c \in \text{All Crops} \mid c \notin \text{HardExclusions}(\text{Location}) \}$$
+  If `farmer_district == 'nuwara_eliya'` $\implies$ the engine **strictly filters out** Okra, Snake Gourd, Bitter Gourd, Ridge Gourd, Brinjal, Pumpkin, and Drumstick from the recommendation pipeline, regardless of their market price!
+
+### E. Cost of Cultivation (Production Feasibility & Breakeven Price)
 A peak price is meaningless if production costs exceed revenue:
 * **Labor**: Sri Lankan agricultural wages average Rs. 2,500 – 3,500 per man-day.
 * **Fertilizer**: Chemical fertilizer (Urea 50kg bag price) vs. organic inputs.
@@ -74,13 +118,13 @@ A peak price is meaningless if production costs exceed revenue:
 * The engine only recommends planting if:
   $$\mathbb{E}(P_{\text{wholesale}}) \ge 1.40 \times \text{Breakeven Price} \quad \text{(Targeting a minimum 40\% profit margin)}$$
 
-### D. Special Commodity Levy (SCL) & Import Tariffs
+### F. Special Commodity Levy (SCL) & Import Tariffs
 * For crops with high import substitutability (**Big Onion, Potato, Dried Chili**), price is driven by government gazettes:
 * When local harvest arrives in August (Dambulla big onion harvest), the government typically raises the SCL tax from Rs. 10/kg to Rs. 50/kg to block Indian/Pakistani imports.
 * When local supplies dry up in January, the government cuts the tariff to Rs. 10/kg, causing market prices to stabilize or drop.
 * Tracking gazetted SCL rates provides immediate predictability for tuber and bulb crops.
 
-### E. Cultural, Religious & Tourism Demand Calendars
+### G. Cultural, Religious & Tourism Demand Calendars
 Sri Lanka experiences recurring seasonal consumption surges:
 1. **Mid-April (Sinhala & Tamil New Year)**: Nationwide consumer demand spikes by +35% for all fresh produce.
 2. **May (Vesak)**: 2–3 days of massive vegetarian food distribution (**Dansal**). Meat consumption plummets; vegetable wholesale demand reaches year-high peaks.
@@ -129,11 +173,12 @@ To support this comprehensive intelligence engine, the database is extended with
 ```text
 ├── public.inflation_rates          (Macro indicators: 2015-Present) [ACTIVE]
 ├── public.inflation_forecasts      (Rolling 365-day prediction window) [ACTIVE]
+├── public.fertilizer_prices        (Urea, MOP, TSP 50kg bag commercial & subsidy rates)
+├── public.crop_agronomic_profiles  (Maturity days, yield/acre, regional suitability & exclusions)
 ├── public.market_inflow_volumes    (Daily arrival metric tons per vegetable & DEC)
 ├── public.external_trade_crops     (Monthly imports, exports, CIF value, SCL tax)
 ├── public.demographics_purchasing  (Population, Real Wage Index, district income)
 ├── public.weather_microclimate     (Daily rainfall, temp, moisture by GN/District)
-├── public.crop_agronomic_profiles  (Maturity days, yield/acre, harvest window)
 ├── public.crop_cultivation_costs   (Labor cost, seed cost, fertilizer cost/acre)
 └── public.harvest_recommendations  (Pre-computed optimal planting dates & profit)
 ```
@@ -168,17 +213,44 @@ CREATE TABLE IF NOT EXISTS public.external_trade_crops (
     CONSTRAINT unique_trade_month UNIQUE (year, month, commodity_slug)
 );
 
--- 3. Crop Agronomic Profiles (Growth Duration & Yield)
+-- 3. Fertilizer Prices & Subsidies
+CREATE TABLE IF NOT EXISTS public.fertilizer_prices (
+    id BIGINT GENERATED BY DEFAULT AS IDENTITY PRIMARY KEY,
+    date DATE NOT NULL,
+    fertilizer_type TEXT NOT NULL 
+        CHECK (fertilizer_type IN ('urea', 'mop', 'tsp', 'compost', 'npk_compound')),
+    bag_weight_kg NUMERIC NOT NULL DEFAULT 50,
+    retail_price_lkr NUMERIC NOT NULL,
+    subsidized_price_lkr NUMERIC,
+    is_subsidized BOOLEAN DEFAULT FALSE,
+    source TEXT NOT NULL DEFAULT 'national_fertilizer_secretariat',
+    created_at TIMESTAMPTZ DEFAULT NOW(),
+    CONSTRAINT unique_fertilizer_entry UNIQUE (date, fertilizer_type)
+);
+
+-- 4. Crop Agronomic Profiles (Growth Duration, Yield & Regional Suitability Mask)
 CREATE TABLE IF NOT EXISTS public.crop_agronomic_profiles (
-    id TEXT PRIMARY KEY,                   -- matches vegetables.id (e.g. 'carrot')
+    id TEXT PRIMARY KEY,                   -- matches vegetables.id (e.g. 'carrot', 'okra')
     crop_name TEXT NOT NULL,
-    min_growth_days INT NOT NULL,          -- e.g. 80 days
-    max_growth_days INT NOT NULL,          -- e.g. 100 days
-    avg_growth_days INT NOT NULL,          -- e.g. 90 days
+    sinhala_name TEXT,
+    primary_agro_zone TEXT NOT NULL 
+        CHECK (primary_agro_zone IN ('upcountry', 'lowcountry', 'dual_zone')),
+    min_growth_days INT NOT NULL,          -- e.g. 75 days
+    max_growth_days INT NOT NULL,          -- e.g. 85 days
+    avg_growth_days INT NOT NULL,          -- e.g. 80 days
     harvest_window_days INT NOT NULL,      -- e.g. 14 days
     typical_yield_kg_per_acre NUMERIC NOT NULL,
-    water_requirement_level TEXT CHECK (water_requirement_level IN ('low', 'medium', 'high')),
-    primary_cultivation_districts TEXT[]   -- e.g. {'nuwara_eliya', 'badulla'}
+    
+    -- Thermal & Elevation Biological Limits
+    min_temperature_celsius NUMERIC,       -- Okra/Brinjal: min 20°C
+    max_temperature_celsius NUMERIC,       -- Carrot/Leeks: max 28°C
+    min_elevation_meters INT,              -- Upcountry crops: min 800m
+    max_elevation_meters INT,              -- Lowcountry crops: max 500m
+    
+    -- Regional Incompatibility Exclusion Mask (The Nuwara Eliya Rule)
+    suitable_districts TEXT[] NOT NULL,    -- e.g. {'dambulla', 'matale', 'anuradhapura'}
+    incompatible_districts TEXT[] DEFAULT '{}', -- e.g. Okra/Bandakka has {'nuwara_eliya', 'badulla_upper'}
+    water_requirement_level TEXT CHECK (water_requirement_level IN ('low', 'medium', 'high'))
 );
 
 -- 4. Hyper-Local Weather (GN / District / ASC Level)
