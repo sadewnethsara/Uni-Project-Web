@@ -23,8 +23,23 @@ from typing import Dict, Optional, Tuple
 
 import requests
 
-SUPABASE_URL = os.getenv("NEXT_PUBLIC_SUPABASE_URL") or os.getenv("SUPABASE_URL") or "https://ialefdqxcihpiojjlzyz.supabase.co"
-SUPABASE_KEY = os.getenv("SUPABASE_SERVICE_ROLE_KEY") or "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlhbGVmZHF4Y2locGlvampsenl6Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc4NTgzNTM0MCwiZXhwIjoyMTAxNDExMzQwfQ.Vram3zIbdZv1SAk0hP3vqPkw29FsxcDv9teSDkuuWOE"
+def load_dotenv():
+    env_file = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), ".env")
+    if os.path.exists(env_file):
+        with open(env_file, "r", encoding="utf-8") as f:
+            for line in f:
+                line = line.strip()
+                if line and not line.startswith("#") and "=" in line:
+                    k, v = line.split("=", 1)
+                    k = k.strip()
+                    v = v.strip().strip("'").strip('"')
+                    if k not in os.environ:
+                        os.environ[k] = v
+
+load_dotenv()
+
+SUPABASE_URL = os.getenv("NEXT_PUBLIC_SUPABASE_URL") or os.getenv("SUPABASE_URL")
+SUPABASE_KEY = os.getenv("SUPABASE_SERVICE_ROLE_KEY")
 
 # Known fixed Sri Lankan annual holidays
 FIXED_HOLIDAYS = {

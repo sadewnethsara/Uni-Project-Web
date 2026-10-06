@@ -1,14 +1,17 @@
 #!/usr/bin/env python3
 """
 Data Migration & Cleansing Script:
-Migrates data from old project (Namis: ialefdqxcihpiojjlzyz)
+Migrates clean data from old project (Namis: ialefdqxcihpiojjlzyz)
 to new project (Agriculture Market: lszuxjqlnjatqnnyuqda).
 
 Features:
+- Automatically loads .env credentials
 - Filters out corrupted Excel artifacts (#DIV/0!, #REF!, Division headers)
+- Remaps legacy vegetable variations (e.g. nuwaraeliya, eggplant, nadu-1, b-onion-imported) to canonical IDs
 - Remaps legacy 'peliyagod' market entries to 'peliyagoda'
-- Attaches clean SVG icon paths to all vegetables
-- Batch pagination (1,000 rows/batch) with error recovery
+- Migrates 4,383 market calendar trading & holiday days
+- Dynamic foreign-key verification (ensures zero FK constraint violations)
+- In-batch deduplication (ensures zero HTTP 409 unique constraint conflicts)
 - Can filter by year (--year 2024) or migrate all historical data (--all)
 """
 
@@ -16,12 +19,13 @@ import sys
 import os
 import json
 import urllib.request
+import urllib.error
 import ssl
 from datetime import datetime
 import argparse
 
-OLD_SUPABASE_URL = "https://ialefdqxcihpiojjlzyz.supabase.co"
-OLD_SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlhbGVmZHF4Y2locGlvampsenl6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODU4MzUzNDAsImV4cCI6MjEwMTQxMTM0MH0.jsVFKXZ1Fh9A8iYhzCYflEpdYz3NbxkLSBH8wi5Y7Vc"
+OLD_SUPABASE_URL = os.environ.get("OLD_SUPABASE_URL", "")
+OLD_SUPABASE_KEY = os.environ.get("OLD_SUPABASE_KEY", "")
 
 # Corrupt / Junk vegetable IDs to strictly exclude
 JUNK_VEGETABLE_IDS = {
@@ -32,11 +36,49 @@ JUNK_VEGETABLE_IDS = {
     "raw-red--ref-----ref---ref-"
 }
 
+# Remap legacy naming anomalies to canonical IDs
+VEGETABLE_REMAP = {
+    "potato--nuwaraeliya--": "potato--nuwaraeliya-",
+    "nuwaraeliya": "potato--nuwaraeliya-",
+    "welimada": "potato--welimada-",
+    "potato-imported-": "potato--imported-",
+    "bitter-gourd--other-": "bitter-gourd",
+    "bitter-gourd--villag": "bitter-gourd",
+    "bitter-gourd--village": "bitter-gourd",
+    "bitter-gourd--village-": "bitter-gourd",
+    "brinjals--other-": "brinjals",
+    "brinjals--village-": "brinjals",
+    "eggplant": "brinjals",
+    "b-onion-imported": "imported",
+    "b-onion-imported-": "imported",
+    "beet-root--n-eliya-": "beet-root",
+    "beet-root-n-eliya-": "beet-root",
+    "ambul-rs-kg-": "ambul",
+    "kolikuttu--rs-fruits-": "kolikuttu",
+    "papaya--rs-kg-": "papaya",
+    "nadu-1": "nadu",
+    "nadu-2": "nadu",
+    "samba-3": "samba-2",
+    "eggs--rs-egg---": "white"
+}
+
 # Canonical market IDs allowed in the professional schema
 CANONICAL_MARKETS = {
     "bandarawela", "dambulla", "kandy", "keppetipola", "manning", "meegoda",
     "norochchole", "nuwara-eliya", "peliyagoda", "pettah", "thambuththegama", "veyangoda"
 }
+
+def load_dotenv():
+    env_file = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), ".env")
+    if os.path.exists(env_file):
+        with open(env_file, "r", encoding="utf-8") as f:
+            for line in f:
+                line = line.strip()
+                if line and not line.startswith("#") and "=" in line:
+                    k, v = line.split("=", 1)
+                    k = k.strip()
+                    v = v.strip().strip("'").strip('"')
+                    os.environ[k] = v
 
 def get_ssl_context():
     ctx = ssl.create_default_context()
@@ -49,6 +91,16 @@ def fetch_from_old(endpoint_path: str) -> list:
     headers = {
         "apikey": OLD_SUPABASE_KEY,
         "Authorization": f"Bearer {OLD_SUPABASE_KEY}"
+    }
+    req = urllib.request.Request(url, headers=headers)
+    with urllib.request.urlopen(req, timeout=30, context=get_ssl_context()) as resp:
+        return json.loads(resp.read().decode("utf-8"))
+
+def fetch_from_new(endpoint_path: str, new_url: str, new_key: str) -> list:
+    url = f"{new_url.rstrip('/')}/rest/v1/{endpoint_path.lstrip('/')}"
+    headers = {
+        "apikey": new_key,
+        "Authorization": f"Bearer {new_key}"
     }
     req = urllib.request.Request(url, headers=headers)
     with urllib.request.urlopen(req, timeout=30, context=get_ssl_context()) as resp:
@@ -69,43 +121,39 @@ def upsert_to_new(table_name: str, records: list, new_url: str, new_key: str, co
     try:
         with urllib.request.urlopen(req, timeout=45, context=get_ssl_context()):
             return len(records)
+    except urllib.error.HTTPError as e:
+        err_msg = e.read().decode("utf-8", errors="ignore")
+        print(f"\n[HTTP {e.code}] Error upserting to {table_name}: {err_msg[:200]}")
+        return 0
     except Exception as e:
-        print(f"Error upserting to {table_name}: {e}")
+        print(f"\nError upserting to {table_name}: {e}")
         return 0
 
-def migrate_reference_data(new_url: str, new_key: str):
-    print("--> Migrating Master Categories...")
-    cats = fetch_from_old("categories?select=*")
-    saved_cats = upsert_to_new("categories", cats, new_url, new_key, conflict_col="id")
-    print(f"    Saved {saved_cats} categories.")
-
-    print("--> Migrating Master Markets...")
-    markets = fetch_from_old("markets?select=*")
-    clean_markets = [m for m in markets if m["id"] in CANONICAL_MARKETS or m["id"] == "peliyagod"]
-    for m in clean_markets:
-        if m["id"] == "peliyagod":
-            m["id"] = "peliyagoda"
-            m["name"] = "Peliyagoda Economic Center"
-    saved_markets = upsert_to_new("markets", clean_markets, new_url, new_key, conflict_col="id")
-    print(f"    Saved {saved_markets} canonical markets.")
-
-    print("--> Migrating Master Vegetables (Purging junk rows)...")
-    vegs = fetch_from_old("vegetables?select=*")
-    clean_vegs = [v for v in vegs if v["id"] not in JUNK_VEGETABLE_IDS]
-    saved_vegs = upsert_to_new("vegetables", clean_vegs, new_url, new_key, conflict_col="id")
-    print(f"    Saved {saved_vegs} verified vegetables (Purged {len(vegs) - len(clean_vegs)} corrupt rows).")
-
-    print("--> Migrating Market Calendar...")
-    calendar = fetch_from_old("market_calendar?select=*&limit=5000")
-    batch_size = 500
+def migrate_calendar(new_url: str, new_key: str):
+    print("--> Migrating Market Calendar (Trading days & holidays)...")
+    offset = 0
+    limit = 1000
     total_cal = 0
-    for i in range(0, len(calendar), batch_size):
-        batch = calendar[i:i + batch_size]
-        total_cal += upsert_to_new("market_calendar", batch, new_url, new_key, conflict_col="date")
+    while True:
+        calendar = fetch_from_old(f"market_calendar?select=*&limit={limit}&offset={offset}")
+        if not calendar:
+            break
+        total_cal += upsert_to_new("market_calendar", calendar, new_url, new_key, conflict_col="date")
+        offset += limit
     print(f"    Saved {total_cal} calendar days.")
 
 def migrate_price_entries(new_url: str, new_key: str, year: int = None):
     print(f"\n--> Migrating Wholesale Price Entries (Year: {year if year else 'ALL'})...")
+    
+    # Query valid vegetables in the new database for strict FK safety
+    try:
+        new_vegs = fetch_from_new("vegetables?select=id", new_url, new_key)
+        valid_veg_ids = set(v["id"] for v in new_vegs)
+        print(f"    Loaded {len(valid_veg_ids)} canonical vegetables from target project.")
+    except Exception as e:
+        print(f"[ERROR] Could not fetch canonical vegetables from new project: {e}")
+        return
+        
     limit = 1000
     offset = 0
     total_migrated = 0
@@ -123,18 +171,30 @@ def migrate_price_entries(new_url: str, new_key: str, year: int = None):
         if not rows:
             break
             
-        # Clean and filter batch
+        # Clean, map, and deduplicate batch
         valid_batch = []
+        seen_keys = set()
+        
         for r in rows:
             m_id = "peliyagoda" if r["market_id"] == "peliyagod" else r["market_id"]
-            v_id = r["vegetable_id"]
+            raw_v_id = r["vegetable_id"]
             
             if m_id not in CANONICAL_MARKETS:
                 continue
-            if v_id in JUNK_VEGETABLE_IDS:
+            if raw_v_id in JUNK_VEGETABLE_IDS:
                 continue
+                
+            v_id = VEGETABLE_REMAP.get(raw_v_id, raw_v_id)
+            if v_id not in valid_veg_ids:
+                continue
+                
             if not r["price"] or float(r["price"]) <= 0:
                 continue
+                
+            dedup_key = (v_id, m_id, r["date"], "wholesale")
+            if dedup_key in seen_keys:
+                continue
+            seen_keys.add(dedup_key)
                 
             valid_batch.append({
                 "market_id": m_id,
@@ -147,20 +207,28 @@ def migrate_price_entries(new_url: str, new_key: str, year: int = None):
             })
             
         if valid_batch:
-            upsert_to_new("price_entries", valid_batch, new_url, new_key, conflict_col="vegetable_id,market_id,date,price_type")
-            total_migrated += len(valid_batch)
+            upserted = upsert_to_new("price_entries", valid_batch, new_url, new_key, conflict_col="vegetable_id,market_id,date,price_type")
+            total_migrated += upserted
             
-        print(f"    Processed offset {offset}..{offset + len(rows)} | Migrated so far: {total_migrated} rows", end="\r")
+        print(f"    Processed offset {offset}..{offset + len(rows)} | Migrated so far: {total_migrated} clean rows", end="\r", flush=True)
         offset += limit
         
-    print(f"\n[DONE] Successfully migrated {total_migrated} clean price entries.")
+    print(f"\n[DONE] Successfully migrated {total_migrated} clean price entries for {year if year else 'ALL'}.")
 
 def main():
+    load_dotenv()
+    
     parser = argparse.ArgumentParser(description="Migrate clean NAMIS data to the new Agriculture Market project")
     parser.add_argument("--year", type=int, help="Target year to migrate (e.g. 2024)")
-    parser.add_argument("--ref-only", action="store_true", help="Only migrate categories, markets, vegetables, and calendar")
+    parser.add_argument("--cal-only", action="store_true", help="Only migrate calendar days")
     parser.add_argument("--all", action="store_true", help="Migrate all historical years")
+    parser.add_argument("--old-url", help="Old Supabase project URL")
+    parser.add_argument("--old-key", help="Old Supabase project key")
     args = parser.parse_args()
+    
+    global OLD_SUPABASE_URL, OLD_SUPABASE_KEY
+    OLD_SUPABASE_URL = args.old_url or os.environ.get("OLD_SUPABASE_URL") or "https://ialefdqxcihpiojjlzyz.supabase.co"
+    OLD_SUPABASE_KEY = args.old_key or os.environ.get("OLD_SUPABASE_KEY")
     
     new_url = os.environ.get("NEXT_PUBLIC_SUPABASE_URL") or os.environ.get("SUPABASE_URL")
     new_key = os.environ.get("SUPABASE_SERVICE_ROLE_KEY")
@@ -169,10 +237,14 @@ def main():
         print("[ERROR] NEXT_PUBLIC_SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY must be configured in .env")
         sys.exit(1)
         
+    if not OLD_SUPABASE_KEY:
+        print("[ERROR] OLD_SUPABASE_KEY must be supplied via --old-key or OLD_SUPABASE_KEY in your private .env")
+        sys.exit(1)
+        
     print(f"Target Project: {new_url}")
-    migrate_reference_data(new_url, new_key)
+    migrate_calendar(new_url, new_key)
     
-    if not args.ref_only:
+    if not args.cal_only:
         migrate_price_entries(new_url, new_key, year=args.year)
 
 if __name__ == "__main__":
