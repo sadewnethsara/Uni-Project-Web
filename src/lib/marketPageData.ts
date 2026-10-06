@@ -170,10 +170,27 @@ export const MARKET_COMMODITIES: MarketCommodity[] = [
 ];
 
 /** Re-export for parseAnalyzePrompt compatibility */
-export const SIDEBAR_COMMODITY_IDS = MARKET_COMMODITIES.map((c) => c.id);
+export const COMMODITY_LOOKUP_ALIASES: Record<string, string> = {
+  "brinjals": "brinjal",
+  "green-chillies": "chilli",
+  "green-chilli": "chilli",
+  "beet-root": "beetroot",
+  "cabbage--kandy-": "cabbage",
+  "knolkhol": "knol_khol",
+  "potato--imported-": "potato",
+  "potato--nuwaraeliya-": "potato",
+  "potato-imported-": "potato",
+  "ladies-fingers": "okra",
+  "imported": "onion",
+  "vedalan": "onion",
+  "sinnan": "onion",
+  "b-onion-imported": "onion",
+  "b-onion-imported-": "onion"
+};
 
 export function getCommodityById(id: string): MarketCommodity | undefined {
-  return MARKET_COMMODITIES.find((c) => c.id === id);
+  const targetId = COMMODITY_LOOKUP_ALIASES[id] || id;
+  return MARKET_COMMODITIES.find((c) => c.id === targetId || c.id === id);
 }
 
 export function getMarketMeta(marketId: string) {

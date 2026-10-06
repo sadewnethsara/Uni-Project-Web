@@ -1,0 +1,73 @@
+name: Automated Weekly Market Sync (Wholesale & Retail)
+
+on:
+  schedule:
+    # Runs every Monday at 06:00 UTC (11:30 AM Sri Lanka Time)
+    - cron: '0 6 * * 1'
+  workflow_dispatch:
+    inputs:
+      sync_scope:
+        description: 'Sync Scope'
+        required: true
+        default: 'all'
+        type: choice
+        options:
+          - all
+          - dambulla_dec
+          - dcs_retail
+          - cbsl_reports
+
+jobs:
+  sync-markets:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install google-genai requests urllib3
+
+      - name: Sync Dambulla DEC Live Wholesale API (Grade A+)
+        if: ${{ inputs.sync_scope == 'all' || inputs.sync_scope == 'dambulla_dec' || github.event_name == 'schedule' }}
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: |
+          echo "Starting Dambulla DEC Live Sync..."
+          python scripts/sync_dambulla_api.py
+
+      - name: Sync DCS Colombo Retail Prices (Grade A)
+        if: ${{ inputs.sync_scope == 'all' || inputs.sync_scope == 'dcs_retail' || github.event_name == 'schedule' }}
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+        run: |
+          echo "Starting DCS Consumer Retail Price Sync..."
+          python scripts/sync_dcs_retail.py
+
+      - name: Sync Central Bank (CBSL) Daily Price Reports (Grade B+)
+        if: ${{ inputs.sync_scope == 'all' || inputs.sync_scope == 'cbsl_reports' || github.event_name == 'schedule' }}
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+        run: |
+          echo "Checking CBSL Daily Price Reports..."
+          python scripts/sync_cbsl_reports.py
+
+      - name: Refresh Trading & Holiday Calendar
+        if: ${{ inputs.sync_scope == 'all' || github.event_name == 'schedule' }}
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+        run: |
+          echo "Refreshing Market Holiday Calendar..."
+          python scripts/populate_market_calendar.py || true

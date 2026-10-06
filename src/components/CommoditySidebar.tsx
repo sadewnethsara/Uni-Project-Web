@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ANALYZE_THEME, PANEL_CLASS } from "@/lib/chartTheme";
 import {
   MARKET_COMMODITIES,
+  COMMODITY_LOOKUP_ALIASES,
   formatRs,
   type CommodityDayPrice,
 } from "@/lib/marketPageData";
@@ -79,7 +80,7 @@ export default function CommoditySidebar({
 
       <div className="flex-1 overflow-y-auto overscroll-contain">
         {MARKET_COMMODITIES.map((item) => {
-          const row = board.find((b) => b.commodityId === item.id);
+          const row = board.find((b) => b.commodityId === item.id || COMMODITY_LOOKUP_ALIASES[b.commodityId] === item.id);
           const isActive = selectedId === item.id;
           const unavailable = !row?.available;
 

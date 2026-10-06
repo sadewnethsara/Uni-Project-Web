@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ANALYZE_THEME, PANEL_CLASS } from "@/lib/chartTheme";
 import {
   MARKET_COMMODITIES,
+  COMMODITY_LOOKUP_ALIASES,
   formatRs,
   type CommodityDayPrice,
 } from "@/lib/marketPageData";
@@ -38,7 +39,7 @@ export default function MarketOverviewGrid({ board, selectedId, onSelect, market
   return (
     <div className="grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-3 xl:grid-cols-2 2xl:grid-cols-3 gap-3">
       {MARKET_COMMODITIES.map((commodity, idx) => {
-        const row = board.find((b) => b.commodityId === commodity.id);
+        const row = board.find((b) => b.commodityId === commodity.id || COMMODITY_LOOKUP_ALIASES[b.commodityId] === commodity.id);
         const isActive = selectedId === commodity.id;
         const unavailable = !row?.available;
 
