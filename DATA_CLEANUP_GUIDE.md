@@ -196,31 +196,64 @@ git push origin main
 
 ---
 
-## 🔄 Step 3: Backfilling Missing 2025 Regional Data
+## 🔄 Step 3: Targeted Single-Year Historical Sync
 
-Once the current workflow run completes and the code changes are pushed:
+The `historical_sync.yml` workflow has been upgraded to sync a **single target year** with optional start and end months, stopping as soon as that year finishes:
 
-1. Open the GitHub Actions tab in your repository (or use the GitHub CLI).
-2. Trigger the **Manual Historical Data Sync** workflow:
-   ```bash
-   gh workflow run "Manual Historical Data Sync" -f start_year=2025 -f start_month=3
-   ```
-3. Because the workflow uses idempotent upserts (`ON CONFLICT (market_id, vegetable_id, date) DO UPDATE`), this will safely add all regional market data for March–December 2025 without touching or duplicating existing records.
+```bash
+# Example: Sync only 2025 from March to December (takes ~15-20 mins)
+gh workflow run "Manual Historical Data Sync" -f year=2025 -f start_month=3 -f end_month=12
+
+# Example: Sync only 2016 (takes ~18 mins)
+gh workflow run "Manual Historical Data Sync" -f year=2016 -f start_month=1 -f end_month=12
+```
+
+Because the workflow uses idempotent upserts (`ON CONFLICT (market_id, vegetable_id, date) DO UPDATE`), this safely fills missing data without touching or duplicating existing records.
 
 ---
 
-## 🚀 Step 4: Future-Proof Architecture for Automated Updates
+## 🤖 Step 4: AI & Fuzzy Market Name Normalizer (`market_normalizer.py`)
 
-To ensure daily syncs run smoothly without failing:
+A multi-tier market resolver has been created at [`scripts/scraper/market_normalizer.py`](file:///c:/Users/sadew/OneDrive/Desktop/Elixir/Uni-Project-Web/scripts/scraper/market_normalizer.py):
 
-### 1. Daily Sync Scope (`daily_sync.yml`)
-- The automated daily workflow (`cron: '30 16 * * *'` / 10:00 PM Sri Lanka Time) only downloads and syncs the **last 7 days**.
-- Execution takes **under 45 seconds**, completely avoiding the GitHub Actions 6-hour execution limit.
+1. **Layer 1 (Local Fuzzy Match - 0ms, 100% Free)**:
+   - Uses `difflib` and a canonical alias dictionary.
+   - Instantly handles typos and variants (e.g. `pettahs` -> `pettah`, `akeppetipola` -> `keppetipola`, `2024.11.13 Peliyagoda` -> `peliyagoda`).
+2. **Layer 2 (Google Gemini AI Fallback - Free Tier)**:
+   - If an unidentifiable string appears, it queries Google Gemini 2.5 Flash using your free `GEMINI_API_KEY` to classify the market.
 
-### 2. Historical Sync Scoping (`historical_sync.yml`)
-- Historical backfills should always be executed **year by year** (e.g. `start_year: 2025`) using the `start_year` and `start_month` inputs, rather than starting from 2015 in a single monolithic job.
+---
 
-### 3. Automated Error Prevention Rules
-1. **Never dynamically create new markets in production**: Any market not in the 12 canonical list will be discarded or flagged, preventing database bloat.
-2. **Idempotent Upserts**: `scripts/sync_data.ts` always uses `onConflict: 'date,market_id,vegetable_id'`, allowing safe re-runs at any time.
-3. **Price Range Guardrail**: Any price that fails sanity validation ($\le 0$ or $> 10,000$) is ignored during extraction.
+## 📊 Step 5: `market_calendar` Table for Machine Learning & Data Science
+
+When training time-series forecasting models (Meta Prophet, LSTM, ARIMA), missing days cause model confusion unless reasons are provided.
+
+A dedicated table `market_calendar` tracks every single day from 2015 to 2026:
+
+### Schema:
+```sql
+CREATE TABLE IF NOT EXISTS public.market_calendar (
+    date DATE PRIMARY KEY,
+    is_trading_day BOOLEAN NOT NULL DEFAULT true,
+    day_of_week TEXT NOT NULL,
+    closure_reason TEXT, -- 'poya_day', 'public_holiday', 'weekend_sunday', 'covid_lockdown', 'fuel_crisis_hartal', 'no_bulletin_published'
+    holiday_name TEXT,
+    notes TEXT,
+    created_at TIMESTAMPTZ DEFAULT NOW()
+);
+```
+
+### Populating the Calendar:
+Run the automated population script:
+```bash
+python scripts/populate_market_calendar.py
+```
+This classifies every date between 2015 and 2026 into:
+- Full Moon Poya Days (Vesak, Poson, Medin, etc.)
+- National Public Holidays (Sinhala & Tamil New Year, May Day, Independence Day, Christmas)
+- COVID-19 islandwide lockdown period (March 20 – May 26, 2020)
+- 2022 Fuel crisis transportation hartals
+- Sunday wholesale breaks
+- Unscheduled archive gaps (e.g., February 2017 404)
+
+In Meta Prophet, this table can be directly passed as the `holidays` parameter for state-of-the-art price forecasting.

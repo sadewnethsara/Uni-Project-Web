@@ -3,22 +3,27 @@ name: Manual Historical Data Sync
 on:
   workflow_dispatch:
     inputs:
-      start_year:
-        description: 'Year to start syncing from (e.g. 2015)'
+      year:
+        description: 'Target year to sync (e.g. 2025)'
         required: true
-        default: '2015'
+        default: '2025'
         type: string
       start_month:
-        description: 'Month to start syncing from (1-12, default: 1)'
+        description: 'Month to start from (1-12, default: 1)'
         required: false
         default: '1'
+        type: string
+      end_month:
+        description: 'Month to end at (1-12, default: 12)'
+        required: false
+        default: '12'
         type: string
 
 jobs:
   historical_sync:
     runs-on: ubuntu-latest
-    # This might take a while since it processes year by year
-    timeout-minutes: 360 
+    # Processing a single year takes ~15-25 minutes
+    timeout-minutes: 60 
 
     steps:
       - name: Checkout Repository
@@ -43,61 +48,66 @@ jobs:
         run: |
           npm install @supabase/supabase-js tsx
 
-      - name: Month-by-Month Process and Sync
+      - name: Process and Sync Selected Year
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
-          START_YEAR: ${{ github.event.inputs.start_year }}
+          YEAR: ${{ github.event.inputs.year }}
           START_MONTH: ${{ github.event.inputs.start_month }}
+          END_MONTH: ${{ github.event.inputs.end_month }}
         run: |
           mkdir -p ./PDFs
           mkdir -p ./price_data
           
-          CURRENT_YEAR=$(date +%Y)
+          # Base 10 conversion to safely parse month numbers
+          M_START=$((10#${START_MONTH:-1}))
+          M_END=$((10#${END_MONTH:-12}))
           
-          for YEAR in $(seq $START_YEAR $CURRENT_YEAR); do
-            M_START=1
-            if [ "$YEAR" -eq "$START_YEAR" ] && [ -n "$START_MONTH" ]; then
-              M_START=$((10#$START_MONTH))
+          echo "=================================================="
+          echo "Starting targeted sync for Year: $YEAR (Months $M_START to $M_END)"
+          echo "=================================================="
+          
+          for MONTH in $(seq $M_START $M_END); do
+            MM=$(printf "%02d" $MONTH)
+            START_DATE="$YEAR-$MM-01"
+            END_DATE=$(date -d "$START_DATE + 1 month - 1 day" +%Y-%m-%d)
+            TODAY=$(date +%Y-%m-%d)
+            
+            if [[ "$START_DATE" > "$TODAY" ]]; then
+              echo "Reached future date $START_DATE. Stopping."
+              exit 0
             fi
-            for MONTH in $(seq $M_START 12); do
-              MM=$(printf "%02d" $MONTH)
-              START_DATE="$YEAR-$MM-01"
-              END_DATE=$(date -d "$START_DATE + 1 month - 1 day" +%Y-%m-%d)
-              TODAY=$(date +%Y-%m-%d)
+            
+            echo "=================================================="
+            echo "Processing $START_DATE to $END_DATE..."
+            echo "=================================================="
+            
+            # 1. Download PDFs for this specific month
+            python scripts/scraper/download_pdfs.py --start-date $START_DATE --end-date $END_DATE --output-dir ./PDFs
+            
+            PDF_COUNT=$(find ./PDFs -type f -name "*.pdf" 2>/dev/null | wc -l)
+            if [ "$PDF_COUNT" -gt 0 ]; then
+              echo "Found $PDF_COUNT PDFs. Proceeding with extraction..."
               
-              if [[ "$START_DATE" > "$TODAY" ]]; then
-                echo "Reached future date $START_DATE. Stopping."
-                exit 0
-              fi
+              # 2. Extract Prices to JSON
+              python scripts/scraper/batch_process_pdfs.py ./PDFs --output-dir ./price_data
               
-              echo "=================================================="
-              echo "Processing $START_DATE to $END_DATE..."
-              echo "=================================================="
-              
-              # 1. Download PDFs for this specific month
-              python scripts/scraper/download_pdfs.py --start-date $START_DATE --end-date $END_DATE --output-dir ./PDFs
-              
-              PDF_COUNT=$(find ./PDFs -type f -name "*.pdf" 2>/dev/null | wc -l)
-              if [ "$PDF_COUNT" -gt 0 ]; then
-                echo "Found $PDF_COUNT PDFs. Proceeding with extraction..."
-                
-                # 2. Extract Prices to JSON
-                python scripts/scraper/batch_process_pdfs.py ./PDFs --output-dir ./price_data
-                
-                JSON_COUNT=$(find ./price_data -type f -name "*.json" 2>/dev/null | wc -l)
-                if [ "$JSON_COUNT" -gt 0 ]; then
-                  echo "Found $JSON_COUNT JSON files. Proceeding with sync..."
-                  # 3. Sync to Supabase
-                  npx tsx scripts/sync_data.ts
-                else
-                  echo "No JSON files generated. Skipping sync."
-                fi
+              JSON_COUNT=$(find ./price_data -type f -name "*.json" 2>/dev/null | wc -l)
+              if [ "$JSON_COUNT" -gt 0 ]; then
+                echo "Found $JSON_COUNT JSON files. Proceeding with sync..."
+                # 3. Sync to Supabase
+                npx tsx scripts/sync_data.ts
               else
-                echo "No PDFs found for this month. Skipping extraction and sync."
+                echo "No JSON files generated. Skipping sync."
               fi
-              
-              # 4. Clean up cache for the next month to save space and memory
-              rm -rf ./PDFs/* ./price_data/*
-            done
+            else
+              echo "No PDFs found for this month. Skipping extraction and sync."
+            fi
+            
+            # 4. Clean up cache for the next month to save disk space
+            rm -rf ./PDFs/* ./price_data/*
           done
+          
+          echo "=================================================="
+          echo "Successfully completed sync for Year: $YEAR"
+          echo "=================================================="
