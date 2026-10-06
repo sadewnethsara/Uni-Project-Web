@@ -19,6 +19,7 @@ on:
           - dcs_retail_all
           - cbsl_reports
           - cbsl_historical
+          - inflation_rates
       year:
         description: 'Target Year (Leave blank for latest / all)'
         required: false
@@ -117,6 +118,15 @@ jobs:
         run: |
           echo "Refreshing Market Holiday Calendar..."
           python scripts/maintenance/populate_market_calendar.py || true
+
+      - name: Sync Sri Lanka Inflation & Rupee Rates (CCPI, NCPI, USD/LKR)
+        if: ${{ inputs.sync_scope == 'all' || inputs.sync_scope == 'inflation_rates' || github.event_name == 'schedule' }}
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+        run: |
+          echo "Syncing Sri Lanka Inflation & Rupee Rates..."
+          python scripts/sync/sync_inflation_rates.py
 
       - name: Run Enterprise Data Quality & Hygiene Audit
         env:

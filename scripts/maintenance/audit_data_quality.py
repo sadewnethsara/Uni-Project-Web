@@ -78,11 +78,14 @@ def main():
     total_prices = run_query_count("price_entries?select=id")
     total_retail = run_query_count("retail_price_entries?select=id")
     total_discrepancies = run_query_count("price_discrepancies?select=id")
+    total_inflation = run_query_count("inflation_rates?select=id")
     
     print(f"\n[1] DATASET VOLUMETRICS:")
     print(f"    * Wholesale & Paired Retail Entries: {total_prices:,} rows")
     print(f"    * DCS Consumer Retail Entries:      {total_retail:,} rows")
     print(f"    * Audited Discrepancies:             {total_discrepancies:,} rows")
+    if total_inflation >= 0:
+        print(f"    * Inflation & Rupee Time Series:     {total_inflation:,} rows")
 
     # 2. Null Value Violations
     print(f"\n[2] INTEGRITY & NULL CHECKS:")

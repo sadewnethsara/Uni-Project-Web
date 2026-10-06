@@ -35,12 +35,14 @@ NAMIS aggregates multi-tiered price discovery feeds across wholesale hubs, farmg
 ├──────────────────────────┬──────────────────────────┬───────────────────────┤
 │  price_entries           │  retail_price_entries    │  price_discrepancies  │
 │  (247,000+ clean rows)   │  (51,000+ clean rows)    │  (6,300+ audited rows)│
-└──────────────────────────┴──────────────────────────┴───────────────────────┘
+├──────────────────────────┴──────────────────────────┴───────────────────────┤
+│  inflation_rates (Macro & Rupee Time Series: Daily, Weekly, Monthly, Yearly)│
+└─────────────────────────────────────────────────────────────────────────────┘
 ```
 
 ---
 
-## 📊 2. The 5 Active Data Feeds
+## 📊 2. The 6 Active Data Feeds
 
 | Feed Slug | Provider | Markets Monitored | Frequency | Primary Pipeline Script |
 | :--- | :--- | :--- | :--- | :--- |
@@ -49,6 +51,7 @@ NAMIS aggregates multi-tiered price discovery feeds across wholesale hubs, farmg
 | `dambulla_dec` | Dambulla Dedicated Economic Centre Digital Portal | **Dambulla** (Electronic Wholesale Auctions) | Real-time daily API | [`scripts/sync/sync_dambulla_api.py`](file:///C:/Users/sadew/OneDrive/Desktop/Elixir/Uni-Project-Web/scripts/sync/sync_dambulla_api.py) |
 | `cbsl` | Central Bank of Sri Lanka | **Pettah**, **Dambulla**, **Narahenpita** | Daily Bulletins (2016–Present) | [`scripts/sync/sync_cbsl_historical.py`](file:///C:/Users/sadew/OneDrive/Desktop/Elixir/Uni-Project-Web/scripts/sync/sync_cbsl_historical.py) |
 | `dcs_retail` | Department of Census & Statistics | **Colombo District** (14 Retail Centres) | Weekly Consumer Time-Series | [`scripts/sync/sync_dcs_retail.py`](file:///C:/Users/sadew/OneDrive/Desktop/Elixir/Uni-Project-Web/scripts/sync/sync_dcs_retail.py) |
+| `cbsl_inflation` | CBSL & DCS National Statistics | **National / Colombo (CCPI & NCPI)** | Daily, Weekly, Monthly, Yearly | [`scripts/sync/sync_inflation_rates.py`](file:///C:/Users/sadew/OneDrive/Desktop/Elixir/Uni-Project-Web/scripts/sync/sync_inflation_rates.py) |
 
 ---
 
