@@ -5,13 +5,15 @@ Downloads and extracts daily agricultural commodity price bulletins from the
 Central Bank of Sri Lanka (CBSL) archives and syncs to Supabase.
 
 Features:
-- Scrapes archive pages from https://www.cbsl.gov.lk/en/statistics/economic-indicators/price-report
-- Historical coverage: August 1, 2016 to current date (203 archive pages, ~2,400 bulletins)
-- Extracts wholesale (Pettah, Dambulla) and retail (Pettah) prices via pdfplumber
+- Complete historical coverage: August 1, 2016 to present (Pages 0 to 203, ~2,400 bulletins)
+- Universal parser: Adapts dynamically across all PDF layout generations:
+  * 2016 - mid-2017 (5-page format, vegetable table on Page 1)
+  * mid-2017 - 2026 (2-page/6-page format, vegetable table on Page 2)
+- Multi-format filename resolver: Supports both 'price_report_YYYYMMDD' and 'Daily Price Report - DD MM YYYY'
+- Extracts wholesale (Pettah, Dambulla) and retail (Pettah, Dambulla) prices
 - Zero disk usage: Streams PDFs directly in-memory and parses on-the-fly
 - Automated discrepancy detection: Conflicting prices (>5% variance) are routed to
   'price_discrepancies' table for moderator review; missing slots are inserted into 'price_entries'
-- Year-targeted scanning: Automatically seeks through pages to find the exact target year
 - Enforces Supabase Free-Tier guardrails (batch size <= 500, in-memory stream cleanup)
 """
 
@@ -21,6 +23,7 @@ import re
 import io
 import json
 import urllib.request
+import urllib.parse
 import urllib.error
 import ssl
 from datetime import datetime
@@ -38,6 +41,7 @@ VEGETABLE_MAP = {
     "carrot": "carrot",
     "cabbage": "cabbage--kandy-",
     "tomato": "tomato",
+    "tomatoes": "tomato",
     "brinjal": "brinjals",
     "pumpkin": "pumpkin",
     "snake gourd": "snake-gourd",
@@ -60,24 +64,72 @@ def clean_num(val_str: str) -> float:
     except ValueError:
         return 0.0
 
+def extract_cbsl_pdf_date(url_or_link: str) -> str:
+    """Robustly extracts ISO date (YYYY-MM-DD) from varied CBSL PDF filename patterns."""
+    decoded = urllib.parse.unquote(url_or_link)
+    
+    # Pattern 1: price_report_YYYYMMDD
+    m1 = re.search(r'price_report_(\d{4})[-_]?(\d{2})[-_]?(\d{2})', decoded, re.I)
+    if m1:
+        return f"{m1.group(1)}-{m1.group(2)}-{m1.group(3)}"
+        
+    # Pattern 2: Daily Price Report - DD MM YYYY
+    m2 = re.search(r'Daily\s*Price\s*Report\s*-\s*(\d{1,2})\s*(\d{1,2})\s*(\d{4})', decoded, re.I)
+    if m2:
+        d, m, y = m2.groups()
+        return f"{int(y):04d}-{int(m):02d}-{int(d):02d}"
+
+    # Pattern 3: Any date YYYYMMDD in pricerpt path
+    m3 = re.search(r'pricerpt/.*?(\d{4})(\d{2})(\d{2})', decoded, re.I)
+    if m3:
+        y, m, d = int(m3.group(1)), int(m3.group(2)), int(m3.group(3))
+        if 2015 <= y <= 2030 and 1 <= m <= 12 and 1 <= d <= 31:
+            return f"{y:04d}-{m:02d}-{d:02d}"
+
+    # Pattern 4: Any date DD MM YYYY or DD-MM-YYYY in pricerpt path
+    m4 = re.search(r'pricerpt/.*?(\d{1,2})[-_\s](\d{1,2})[-_\s](\d{4})', decoded, re.I)
+    if m4:
+        d, m, y = int(m4.group(1)), int(m4.group(2)), int(m4.group(3))
+        if 2015 <= y <= 2030 and 1 <= m <= 12 and 1 <= d <= 31:
+            return f"{y:04d}-{m:02d}-{d:02d}"
+            
+    return None
+
 def parse_cbsl_pdf(pdf_bytes: bytes, report_date: str) -> list:
-    """Parses Page 2 table of CBSL daily price report."""
+    """Universal parser for CBSL daily bulletins across all layout generations (2016-2026)."""
     records = []
     try:
         with pdfplumber.open(io.BytesIO(pdf_bytes)) as pdf:
-            if len(pdf.pages) < 2:
-                return []
-            page2 = pdf.pages[1]
-            text = page2.extract_text()
-            if not text:
+            # 1. Dynamically locate the page containing the vegetable price table
+            veg_page = None
+            for p in pdf.pages:
+                t = p.extract_text() or ""
+                if "beans" in t.lower() and "rs./" in t.lower():
+                    veg_page = p
+                    break
+                    
+            if not veg_page:
                 return []
                 
+            text = veg_page.extract_text()
             lines = text.split("\n")
+            
+            # 2. Detect column layout generation
+            is_legacy_layout = False
+            for l in lines[:10]:
+                lower_l = l.lower()
+                if "wholesale" in lower_l and "retail" in lower_l:
+                    if lower_l.count("wholesale") >= 2 and lower_l.count("retail") >= 2:
+                        is_legacy_layout = True
+                        break
+
+            # 3. Extract commodity prices
             for line in lines:
                 lower = line.lower()
                 for veg_name, veg_id in VEGETABLE_MAP.items():
-                    if lower.startswith(veg_name) and "rs./kg" in lower:
-                        tokens = line.split("Rs./kg")[-1].strip().split()
+                    if (lower.startswith(veg_name) or lower.startswith(veg_name.replace(" ", "-"))) and "rs./" in lower:
+                        tokens = line.split("Rs./")[-1]
+                        tokens = re.sub(r"^kg\s*", "", tokens, flags=re.I).strip().split()
                         nums = []
                         buffer = ""
                         for t in tokens:
@@ -88,44 +140,28 @@ def parse_cbsl_pdf(pdf_bytes: bytes, report_date: str) -> list:
                                     nums.append(val)
                                 buffer = ""
                                 
-                        # Order: [Pettah W/S Last, Pettah W/S Today, Dambulla W/S Last, Dambulla W/S Today, Pettah Ret Last, Pettah Ret Today...]
-                        if len(nums) >= 4:
-                            pettah_ws = nums[1] if len(nums) > 1 else nums[0]
-                            dambulla_ws = nums[3] if len(nums) > 3 else (nums[2] if len(nums) > 2 else 0)
-                            
-                            if pettah_ws > 0:
-                                records.append({
-                                    "vegetable_id": veg_id,
-                                    "market_id": "pettah",
-                                    "price": pettah_ws,
-                                    "price_type": "wholesale",
-                                    "source": "cbsl",
-                                    "date": report_date,
-                                    "note": f"CBSL Daily Bulletin ({veg_name.title()})"
-                                })
-                            if dambulla_ws > 0:
-                                records.append({
-                                    "vegetable_id": veg_id,
-                                    "market_id": "dambulla",
-                                    "price": dambulla_ws,
-                                    "price_type": "wholesale",
-                                    "source": "cbsl",
-                                    "date": report_date,
-                                    "note": f"CBSL Daily Bulletin ({veg_name.title()})"
-                                })
-                                
-                        if len(nums) >= 6:
-                            pettah_retail = nums[5] if len(nums) > 5 else nums[4]
-                            if pettah_retail > 0:
-                                records.append({
-                                    "vegetable_id": veg_id,
-                                    "market_id": "pettah",
-                                    "price": pettah_retail,
-                                    "price_type": "retail",
-                                    "source": "cbsl",
-                                    "date": report_date,
-                                    "note": f"CBSL Daily Bulletin ({veg_name.title()})"
-                                })
+                        if is_legacy_layout:
+                            # 2016 - mid-2017 Layout:
+                            # [Pettah WS 5d, Pettah WS Today, Pettah Ret 5d, Pettah Ret Today, Dam WS 5d, Dam WS Today, Dam Ret 5d, Dam Ret Today]
+                            if len(nums) >= 2 and nums[1] > 0:
+                                records.append({"vegetable_id": veg_id, "market_id": "pettah", "price": nums[1], "price_type": "wholesale", "source": "cbsl", "date": report_date, "note": f"CBSL Daily Bulletin ({veg_name.title()})"})
+                            if len(nums) >= 4 and nums[3] > 0:
+                                records.append({"vegetable_id": veg_id, "market_id": "pettah", "price": nums[3], "price_type": "retail", "source": "cbsl", "date": report_date, "note": f"CBSL Daily Bulletin ({veg_name.title()})"})
+                            if len(nums) >= 6 and nums[5] > 0:
+                                records.append({"vegetable_id": veg_id, "market_id": "dambulla", "price": nums[5], "price_type": "wholesale", "source": "cbsl", "date": report_date, "note": f"CBSL Daily Bulletin ({veg_name.title()})"})
+                            if len(nums) >= 8 and nums[7] > 0:
+                                records.append({"vegetable_id": veg_id, "market_id": "dambulla", "price": nums[7], "price_type": "retail", "source": "cbsl", "date": report_date, "note": f"CBSL Daily Bulletin ({veg_name.title()})"})
+                        else:
+                            # mid-2017 - 2026 Layout:
+                            # [Pettah WS Last, Pettah WS Today, Dam WS Last, Dam WS Today, Pettah Ret Last, Pettah Ret Today, Dam Ret Last, Dam Ret Today]
+                            if len(nums) >= 2 and nums[1] > 0:
+                                records.append({"vegetable_id": veg_id, "market_id": "pettah", "price": nums[1], "price_type": "wholesale", "source": "cbsl", "date": report_date, "note": f"CBSL Daily Bulletin ({veg_name.title()})"})
+                            if len(nums) >= 4 and nums[3] > 0:
+                                records.append({"vegetable_id": veg_id, "market_id": "dambulla", "price": nums[3], "price_type": "wholesale", "source": "cbsl", "date": report_date, "note": f"CBSL Daily Bulletin ({veg_name.title()})"})
+                            if len(nums) >= 6 and nums[5] > 0:
+                                records.append({"vegetable_id": veg_id, "market_id": "pettah", "price": nums[5], "price_type": "retail", "source": "cbsl", "date": report_date, "note": f"CBSL Daily Bulletin ({veg_name.title()})"})
+                            if len(nums) >= 8 and nums[7] > 0:
+                                records.append({"vegetable_id": veg_id, "market_id": "dambulla", "price": nums[7], "price_type": "retail", "source": "cbsl", "date": report_date, "note": f"CBSL Daily Bulletin ({veg_name.title()})"})
                         break
     except Exception as e:
         print(f"    Error parsing PDF: {e}", flush=True)
@@ -177,8 +213,8 @@ def post_batch(table_name: str, records: list) -> int:
 
 def fetch_cbsl_archive_links(year: int = None, max_pages: int = 210, limit: int = None) -> list:
     """
-    Intelligently scrapes archive pages for CBSL PDF report links.
-    If 'year' is specified, navigates directly to the pages containing that year and stops when passed.
+    Intelligently scrapes archive pages for CBSL PDF report links across all 204 pages.
+    Extracts dates from both 'price_report_YYYYMMDD' and 'Daily Price Report - DD MM YYYY'.
     """
     base_url = "https://www.cbsl.gov.lk/en/statistics/economic-indicators/price-report"
     headers = {"User-Agent": "Mozilla/5.0"}
@@ -186,8 +222,13 @@ def fetch_cbsl_archive_links(year: int = None, max_pages: int = 210, limit: int 
     seen = set()
     found_year = False
     
-    print(f"--> Scanning CBSL archive pages (Target year: {year if year else 'ALL'})...", flush=True)
-    for p in range(max_pages):
+    start_p = 0
+    if year:
+        # Fast jump directly near the target year instead of scanning hundreds of previous pages
+        start_p = max(0, min(203, (2026 - year) * 20 - 10))
+        
+    print(f"--> Scanning CBSL archive pages (Target year: {year if year else 'ALL'}, starting from page {start_p})...", flush=True)
+    for p in range(start_p, max_pages):
         page_url = base_url if p == 0 else f"{base_url}?page={p}"
         req = urllib.request.Request(page_url, headers=headers)
         try:
@@ -197,55 +238,59 @@ def fetch_cbsl_archive_links(year: int = None, max_pages: int = 210, limit: int 
             print(f"    Error scraping CBSL page {p}: {e}", flush=True)
             break
             
-        pdf_matches = re.findall(r'href="([^"]*price_report_(\d{4})(\d{2})(\d{2})[^"]*\.pdf)"', html, re.I)
-        if not pdf_matches:
+        all_pdfs = re.findall(r'href="([^"]+\.pdf)"', html, re.I)
+        pricerpt_links = [l for l in all_pdfs if 'pricerpt' in l.lower() or 'price_report' in l.lower()]
+        
+        # If no price report PDFs found at all on this page and we are past page 200, stop
+        if not pricerpt_links and p >= 203:
+            print(f"    Reached end of archive at page {p}.", flush=True)
             break
             
         page_added = 0
-        all_page_years = [int(m[1]) for m in pdf_matches]
-        min_page_year = min(all_page_years)
-        max_page_year = max(all_page_years)
+        page_years = []
         
-        # If looking for a specific year and this page is entirely newer, skip parsing details but continue
-        if year and min_page_year > year:
-            continue
+        for raw_link in pricerpt_links:
+            full_url = raw_link if raw_link.startswith("http") else f"https://www.cbsl.gov.lk{raw_link}"
+            if full_url in seen:
+                continue
+                
+            iso_d = extract_cbsl_pdf_date(full_url)
+            if not iso_d:
+                continue
+                
+            seen.add(full_url)
+            item_year = int(iso_d.split("-")[0])
+            page_years.append(item_year)
             
-        for full_match, y, m, d in pdf_matches:
-            item_year = int(y)
             if year and item_year != year:
                 continue
                 
-            link = full_match if full_match.startswith("http") else f"https://www.cbsl.gov.lk{full_match}"
-            if link not in seen:
-                seen.add(link)
-                iso_date = f"{y}-{m}-{d}"
-                results.append({"url": link, "date": iso_date})
-                page_added += 1
-                if limit and len(results) >= limit:
-                    break
-                    
+            results.append({"url": full_url, "date": iso_d})
+            page_added += 1
+            if limit and len(results) >= limit:
+                break
+                
         if page_added > 0:
             found_year = True
-            print(f"    Page {p}: Found {page_added} reports for {year if year else 'archive'} (Total collected: {len(results)})", flush=True)
+            print(f"    Page {p}: Added {page_added} reports for {year if year else 'archive'} (Total: {len(results)})", flush=True)
             
         if limit and len(results) >= limit:
             break
             
-        # If we were tracking a specific year, found reports for it, and the page is now older than 'year', stop!
-        if year and found_year and max_page_year < year:
-            print(f"    Passed year {year} (reached year {max_page_year}). Stopping search.", flush=True)
+        # If targeting a specific year and page is entirely older than target year, stop
+        if year and found_year and page_years and max(page_years) < year:
+            print(f"    Passed year {year} (reached year {max(page_years)}). Stopping search.", flush=True)
             break
             
     return results
 
 def main():
     parser = argparse.ArgumentParser(description="Sync CBSL Historical Daily Price Bulletins")
-    parser.add_argument("--year", type=int, help="Target year to sync (e.g. 2025, 2024, 2023... back to 2016)")
-    parser.add_argument("--all", action="store_true", help="Sync all available historical reports from CBSL (2016 - present)")
-    parser.add_argument("--limit", type=int, default=None, help="Maximum number of PDF reports to process (default: unlimited if year/all given)")
+    parser.add_argument("--year", type=int, help="Target year to sync (e.g. 2016, 2017, 2024, 2025)")
+    parser.add_argument("--all", action="store_true", help="Sync all available historical reports from CBSL (August 2016 - present)")
+    parser.add_argument("--limit", type=int, default=None, help="Maximum number of PDF reports to process (default: unlimited)")
     args = parser.parse_args()
     
-    # If neither year nor --all nor limit is given, default to processing latest 50
     eff_limit = args.limit
     if not args.year and not args.all and eff_limit is None:
         eff_limit = 50
@@ -272,7 +317,7 @@ def main():
                 
             records = parse_cbsl_pdf(pdf_bytes, report_date)
             if not records:
-                print(f"    No commodity records found in Page 2 table.", flush=True)
+                print(f"    No commodity records found in vegetable table.", flush=True)
                 continue
                 
             # Discrepancy checking & routing
