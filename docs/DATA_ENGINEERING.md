@@ -37,12 +37,13 @@ NAMIS aggregates multi-tiered price discovery feeds across wholesale hubs, farmg
 │  (247,000+ clean rows)   │  (51,000+ clean rows)    │  (6,300+ audited rows)│
 ├──────────────────────────┴──────────────────────────┴───────────────────────┤
 │  inflation_rates (Macro & Rupee Time Series: Daily, Weekly, Monthly, Yearly)│
+│  inflation_forecasts (Rolling 365-Day Forward Prediction Horizon)           │
 └─────────────────────────────────────────────────────────────────────────────┘
 ```
 
 ---
 
-## 📊 2. The 6 Active Data Feeds
+## 📊 2. The 7 Active Data Feeds
 
 | Feed Slug | Provider | Markets Monitored | Frequency | Primary Pipeline Script |
 | :--- | :--- | :--- | :--- | :--- |
@@ -52,6 +53,7 @@ NAMIS aggregates multi-tiered price discovery feeds across wholesale hubs, farmg
 | `cbsl` | Central Bank of Sri Lanka | **Pettah**, **Dambulla**, **Narahenpita** | Daily Bulletins (2016–Present) | [`scripts/sync/sync_cbsl_historical.py`](file:///C:/Users/sadew/OneDrive/Desktop/Elixir/Uni-Project-Web/scripts/sync/sync_cbsl_historical.py) |
 | `dcs_retail` | Department of Census & Statistics | **Colombo District** (14 Retail Centres) | Weekly Consumer Time-Series | [`scripts/sync/sync_dcs_retail.py`](file:///C:/Users/sadew/OneDrive/Desktop/Elixir/Uni-Project-Web/scripts/sync/sync_dcs_retail.py) |
 | `cbsl_inflation` | CBSL & DCS National Statistics | **National / Colombo (CCPI & NCPI)** | Daily, Weekly, Monthly, Yearly | [`scripts/sync/sync_inflation_rates.py`](file:///C:/Users/sadew/OneDrive/Desktop/Elixir/Uni-Project-Web/scripts/sync/sync_inflation_rates.py) |
+| `macro_forecast` | NAMIS Econometric ML Engine | **National Rolling 365-Day Window** | Daily Auto-Rolling Forecast | [`scripts/sync/forecast_rolling_inflation.py`](file:///C:/Users/sadew/OneDrive/Desktop/Elixir/Uni-Project-Web/scripts/sync/forecast_rolling_inflation.py) |
 
 ---
 

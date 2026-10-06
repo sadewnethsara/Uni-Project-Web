@@ -127,6 +127,8 @@ jobs:
         run: |
           echo "Syncing Sri Lanka Inflation & Rupee Rates..."
           python scripts/sync/sync_inflation_rates.py
+          echo "Updating Rolling 1-Year Forward Inflation & Rupee Forecast..."
+          python scripts/sync/forecast_rolling_inflation.py || true
 
       - name: Run Enterprise Data Quality & Hygiene Audit
         env:
