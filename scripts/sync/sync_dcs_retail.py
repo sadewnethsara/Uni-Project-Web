@@ -165,6 +165,16 @@ def sync_dcs(supabase_url: str = None, supabase_key: str = None, limit_weeks: in
             print(f"     * {sample['commodity_name']} ({sample['category']}): Rs. {sample['price']} for {sample['date_label']}", flush=True)
 
 if __name__ == "__main__":
+    import argparse
+    parser = argparse.ArgumentParser(description="Sync DCS Weekly Consumer Retail Prices")
+    parser.add_argument("--all", action="store_true", help="Sync all available historical weeks from DCS")
+    parser.add_argument("--limit-weeks", type=int, default=12, help="Limit number of recent weeks to sync (default: 12)")
+    args = parser.parse_args()
+
     url = os.environ.get("SUPABASE_URL") or os.environ.get("NEXT_PUBLIC_SUPABASE_URL")
     key = os.environ.get("SUPABASE_SERVICE_ROLE_KEY") or os.environ.get("SUPABASE_ANON_KEY")
-    sync_dcs(url, key, limit_weeks=12)
+    
+    weeks = None if args.all else args.limit_weeks
+    print(f"--> Ingestion mode: {'All historical weeks' if args.all else f'Latest {weeks} weeks'}", flush=True)
+    sync_dcs(url, key, limit_weeks=weeks)
+

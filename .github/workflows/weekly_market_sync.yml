@@ -16,7 +16,9 @@ on:
           - cran_historical
           - dambulla_dec
           - dcs_retail
+          - dcs_retail_all
           - cbsl_reports
+          - cbsl_historical
       year:
         description: 'Target Year (Leave blank for latest / all)'
         required: false
@@ -26,6 +28,7 @@ on:
 jobs:
   sync-markets:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     env:
       PYTHONUNBUFFERED: "1"
     steps:
@@ -41,7 +44,7 @@ jobs:
       - name: Install Dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install google-genai requests urllib3 rdata pandas
+          pip install google-genai requests urllib3 rdata pandas pdfplumber
 
       - name: Sync CRAN Historical Wholesale & Retail Dataset (10 Years, Pettah & Dambulla)
         if: ${{ inputs.sync_scope == 'all' || inputs.sync_scope == 'cran_historical' }}
@@ -72,8 +75,17 @@ jobs:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
         run: |
-          echo "Starting DCS Consumer Retail Price Sync..."
+          echo "Starting DCS Consumer Retail Price Sync (Latest 12 Weeks)..."
           python scripts/sync/sync_dcs_retail.py
+
+      - name: Sync All Historical DCS Colombo Retail Prices
+        if: ${{ inputs.sync_scope == 'dcs_retail_all' }}
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+        run: |
+          echo "Starting Full Historical DCS Consumer Retail Price Sync..."
+          python scripts/sync/sync_dcs_retail.py --all
 
       - name: Sync Central Bank (CBSL) Daily Price Reports (Grade B+)
         if: ${{ inputs.sync_scope == 'all' || inputs.sync_scope == 'cbsl_reports' || github.event_name == 'schedule' }}
@@ -83,6 +95,19 @@ jobs:
         run: |
           echo "Checking CBSL Daily Price Reports..."
           python scripts/sync/sync_cbsl_reports.py
+
+      - name: Sync Historical Central Bank (CBSL) Price Bulletins
+        if: ${{ inputs.sync_scope == 'cbsl_historical' }}
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+        run: |
+          echo "Starting CBSL Historical Bulletins Sync..."
+          YEAR_FLAG=""
+          if [ -n "${{ inputs.year }}" ]; then
+            YEAR_FLAG="--year ${{ inputs.year }}"
+          fi
+          python scripts/sync/sync_cbsl_historical.py $YEAR_FLAG --pages 10 --limit 100
 
       - name: Refresh Trading & Holiday Calendar
         if: ${{ inputs.sync_scope == 'all' || github.event_name == 'schedule' }}
