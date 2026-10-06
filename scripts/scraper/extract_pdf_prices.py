@@ -241,6 +241,24 @@ def normalize_peliyagoda_name(name: str) -> str:
     return name
 
 
+def clean_market_name(name: str, fallback_idx: int = 1) -> str:
+    cleaned = re.sub(r'\d{4}[.\-/]\d{1,2}[.\-/]\d{1,2}|\d{1,2}[.\-/]\d{1,2}[.\-/]\d{4}', '', name)
+    cleaned = re.sub(r'(?i)market', '', cleaned).strip()
+    c_lower = cleaned.lower()
+    if 'peliyagoda' in c_lower: return 'Peliyagoda'
+    if 'dambulla' in c_lower: return 'Dambulla'
+    if 'kandy' in c_lower: return 'Kandy'
+    if 'keppetipola' in c_lower or 'kappetipola' in c_lower: return 'Keppetipola'
+    if 'meegoda' in c_lower or 'megoda' in c_lower: return 'Meegoda'
+    if 'norochchole' in c_lower: return 'Norochchole'
+    if 'thambuththegama' in c_lower or 't\'thegama' in c_lower or 'hambuththegam' in c_lower: return 'Thambuththegama'
+    if 'nuwara' in c_lower: return 'Nuwara Eliya'
+    if 'bandarawela' in c_lower: return 'Bandarawela'
+    if 'veyangoda' in c_lower: return 'Veyangoda'
+    if 'pettah' in c_lower: return 'Pettah'
+    return cleaned if cleaned else f"Market_{fallback_idx}"
+
+
 def parse_peliyagoda_page(table: list, date: str) -> list:
     records = []
     current_category = "Up Country Vegetable"
@@ -254,10 +272,8 @@ def parse_peliyagoda_page(table: list, date: str) -> list:
                 parts.append(str(table[0][i]).strip())
             if len(table[1]) > i and table[1][i]:
                 parts.append(str(table[1][i]).strip())
-            name = " ".join(parts).replace('\n', ' ')
-            name = re.sub(r'\d{1,2}/\d{1,2}/\d{4}', '', name)
-            name = re.sub(r'(?i)market', '', name).strip()
-            market_names.append(name if name else f"Market_{i}")
+            raw_name = " ".join(parts).replace('\n', ' ')
+            market_names.append(clean_market_name(raw_name, i))
     
     if not market_names:
         market_names = ["Peliyagoda"]
