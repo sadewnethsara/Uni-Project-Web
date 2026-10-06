@@ -31,3 +31,9 @@ alwaysApply: true
 - Next.js 16 (Turbopack, App Router) + React 19 + TypeScript.
 - Clean Tailwind styles with dark mode support.
 - Always run `pnpm run build` to verify zero TypeScript errors.
+
+## 5. Free-Tier Guardrails (Supabase & GitHub Actions)
+- **Supabase Storage**: 500 MB max. Never store raw PDFs or OCR binary blobs in PostgreSQL.
+- **Batching**: Write operations must batch in 500-1,000 row chunks.
+- **Pagination**: NEVER do `select=*` on `price_entries` without a `limit` or `date` filter (prevents 504 timeouts and OOM).
+- **GitHub Actions**: Keep workflows under 2,000 free monthly minutes by running incremental windows (last 7 days) and setting `timeout-minutes`.

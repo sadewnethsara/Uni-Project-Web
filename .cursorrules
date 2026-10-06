@@ -37,3 +37,14 @@ Strictly adhere to the following rules at all times.
 - Next.js 16 (App Router) + React 19 + TypeScript.
 - Always verify compilation with `pnpm run build` or `npm run build` before finishing.
 - Use `SRI_LANKA_COMMODITY_ALIASES` in `src/lib/iconsData.ts` for commodity icons.
+
+## 6. Resource Limits & Free-Tier Guardrails
+- **Supabase Micro RAM & Storage**:
+  - Max batch size: 500-1,000 records per POST request.
+  - Never run `SELECT * FROM price_entries` without `limit` or `date` filter (prevents 504 timeouts and OOM).
+  - Explicit column projection (`select=id,price,date`) to conserve 5 GB/month egress bandwidth.
+  - Zero raw PDFs or binary OCR blobs in PostgreSQL (keeps DB under 500 MB).
+- **GitHub Actions (2,000 min/mo)**:
+  - Add `timeout-minutes: 15` (or `30`) to every workflow job.
+  - Run syncs on incremental windows (last 7 days).
+  - Purge scratch directories (`rm -rf ./PDFs/* ./price_data/*`) during long batch loops.

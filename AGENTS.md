@@ -61,6 +61,19 @@ The project is structured into strict domains. **Never dump files into the proje
 3. **Row Level Security (RLS)**: Always enable RLS on every table. Allow public `SELECT` for price entries; restrict `INSERT`/`UPDATE`/`DELETE` to authenticated admins or service role.
 4. **Composite Uniqueness**: `price_entries` enforces unique `(vegetable_id, market_id, date, price_type)`.
 
+### C. Resource Limits & Free-Tier Guardrails (Supabase & GitHub Actions)
+👉 **Complete rules available in [`.agents/rules/resource_limits.md`](./.agents/rules/resource_limits.md)** — Non-negotiable for stability.
+
+1. **Supabase Micro Instance Protection**:
+   - **Batch Sizing**: Max **500 to 1,000 records** per POST request. Never send massive unbounded payloads.
+   - **Pagination**: **NEVER run `SELECT *` without limits or date filters** on `price_entries` (prevents 504 Gateway Timeouts and OOM crashes).
+   - **Column Selection**: Always select explicit fields (`select=id,price,date`) to conserve the 5 GB/month egress bandwidth.
+   - **Zero Raw Files in DB**: Never store PDFs, raw images, or heavy binary OCR blobs in PostgreSQL (keeps DB under 500 MB).
+2. **GitHub Actions Budgeting (2,000 min/mo)**:
+   - Always add `timeout-minutes: 15` (or `30`) to every job in `.github/workflows/*.yml` to prevent runaway processes.
+   - Target syncs to **incremental windows** (e.g. `last 7 days`), rather than rescanning all 10 years on every cron run.
+   - Purge intermediate scratch directories (`rm -rf ./PDFs/* ./price_data/*`) during long loops.
+
 ---
 
 ## 3. Multi-Source Ingestion & Discrepancy Policy
