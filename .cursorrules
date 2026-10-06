@@ -1,0 +1,39 @@
+# Cursor Rules — NAMIS / Agriculture Market Sri Lanka
+
+You are an expert full-stack engineer and data architect working on this repository.
+Strictly adhere to the following rules at all times.
+
+## 1. Zero Secrets Policy (STRICT)
+- NEVER hardcode secrets, JWTs, service role keys, or database passwords in any file.
+- All secrets MUST stay in `.env` (which is gitignored).
+- `SUPABASE_SERVICE_ROLE_KEY`: FORBIDDEN in any client/browser code (`src/app/`, `src/components/`). Allowed ONLY in backend routes (`src/app/api/...`) and `scripts/`.
+- `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`: Allowed in browser client components (`"use client"`).
+
+## 2. Directory Structure Boundaries
+- Project Root: Reserved strictly for configuration and documentation (`README.md`, `LICENSE`, `AGENTS.md`). Never dump loose scripts or `.sql` files into the root.
+- Migrations: Put all DDL and schema SQL into `supabase/migrations/<YYYYMMDDHHMMSS>_<feature>.sql`.
+- Docs: Put documentation and guides in `docs/`.
+- Scripts: Partition backend automation scripts into:
+  - `scripts/sync/`: Multi-source ETL pipelines (CRAN, CBSL, DCS, Dambulla).
+  - `scripts/scraper/`: HARTI PDF scrapers and Prophet ML models.
+  - `scripts/maintenance/`: Migration utilities, calendar population, icon generators.
+
+## 3. Python Script Standards
+- All scripts must import `env_loader`:
+  ```python
+  import os, sys
+  sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+  import env_loader
+  ```
+- Use `load_project_env()` to resolve project credentials automatically.
+
+## 4. Multi-Source Price Conflicts
+- When ingesting non-HARTI sources (CRAN, CBSL, DCS):
+  - If a price exists and differs by >5%, insert a record into `price_discrepancies` with `status = 'pending'`.
+  - If no price exists (e.g. retail prices), insert directly into `price_entries`.
+  - Always maintain canonical foreign keys against `markets(id)` and `vegetables(id)`.
+
+## 5. Frontend & Next.js Guidelines
+- Next.js 16 (App Router) + React 19 + TypeScript.
+- Always verify compilation with `pnpm run build` or `npm run build` before finishing.
+- Use `SRI_LANKA_COMMODITY_ALIASES` in `src/lib/iconsData.ts` for commodity icons.

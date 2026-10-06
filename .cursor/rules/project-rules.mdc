@@ -1,0 +1,33 @@
+---
+description: NAMIS Architecture, Security, and Code Standards
+globs: *
+alwaysApply: true
+---
+
+# Cursor Rules (.mdc) — NAMIS Architecture & Security
+
+## 1. Absolute Security Directives
+- **Zero Secrets in Git**: Never hardcode API keys, service role secrets, or passwords.
+- **Key Isolation**: 
+  - `SUPABASE_SERVICE_ROLE_KEY` is **strictly forbidden** in browser/client components (`"use client"`). Only permitted in backend API routes (`/api/...`) and `scripts/`.
+  - `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` is allowed in client components.
+- **Environment**: All credentials reside in `.env` (gitignored). Python scripts must import `env_loader`.
+
+## 2. File Organization & Boundaries
+- Never create loose files in the project root.
+- Database migrations go to `supabase/migrations/<YYYYMMDDHHMMSS>_<name>.sql`.
+- Documentation goes to `docs/`.
+- Backend scripts belong in:
+  - `scripts/sync/`: Multi-source sync pipelines (CRAN, CBSL, DCS, Dambulla).
+  - `scripts/scraper/`: HARTI daily bulletin PDF scraper & OCR.
+  - `scripts/maintenance/`: Seed scripts, database migrations, calendar tools.
+
+## 3. Database Schema Integrity
+- Primary time-series table: `price_entries` with unique composite `(vegetable_id, market_id, date, price_type)`.
+- Multi-source discrepancies must be inserted into `price_discrepancies` with `status = 'pending'`.
+- Canonical foreign keys: `markets.id` and `vegetables.id` (54 clean commodities). Purge corrupted slugs (`#DIV/0!`, `#REF!`, division headers).
+
+## 4. Frontend Conventions
+- Next.js 16 (Turbopack, App Router) + React 19 + TypeScript.
+- Clean Tailwind styles with dark mode support.
+- Always run `pnpm run build` to verify zero TypeScript errors.
