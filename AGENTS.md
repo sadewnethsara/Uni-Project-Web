@@ -42,11 +42,16 @@ The project is structured into strict domains. **Never dump files into the proje
 
 ## 2. Core Architectural Principles
 
-### A. Zero Secrets in Git (Strict Security Rule)
-1. **Never commit API keys, service role secrets, database passwords, or JWTs.**
-2. All secrets must reside exclusively in `.env` (which is gitignored via `.env*`).
-3. Automation scripts must load variables via `scripts/env_loader.py` or `os.environ`.
-4. In GitHub Actions workflows, always use `${{ secrets.VARIABLE_NAME }}`. Never hardcode tokens in YAML.
+### A. Strict Security & Key Isolation Rules
+👉 **Complete rules available in [`.agents/rules/security.md`](./.agents/rules/security.md)** — All agents must read and strictly follow.
+
+1. **Zero Secrets in Git**: Never commit API keys, service role secrets, database passwords, or JWTs.
+2. **Environment Variable Storage**: All secrets must reside exclusively in `.env` (which is gitignored via `.env*`). Never hardcode fallback strings in `os.getenv()`.
+3. **Key Tier Isolation**:
+   - `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`: Allowed in browser client components (`"use client"`).
+   - `SUPABASE_SERVICE_ROLE_KEY`: **STRICTLY FORBIDDEN** in any client component or browser bundle. Allowed ONLY in backend server routes (`/api/...`) and `scripts/`.
+4. **Environment Loading**: Automation scripts must load variables via `scripts/env_loader.py`.
+5. **CI/CD Security**: In GitHub Actions workflows, always use `${{ secrets.VARIABLE_NAME }}`. Never print or echo secrets in logs.
 
 ### B. Database Schema & Migration Rules
 1. **Single Source of Truth**: All DDL changes, new tables, and constraints belong in `supabase/migrations/<YYYYMMDDHHMMSS>_<feature_name>.sql`.
