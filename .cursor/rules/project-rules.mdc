@@ -37,3 +37,10 @@ alwaysApply: true
 - **Batching**: Write operations must batch in 500-1,000 row chunks.
 - **Pagination**: NEVER do `select=*` on `price_entries` without a `limit` or `date` filter (prevents 504 timeouts and OOM).
 - **GitHub Actions**: Keep workflows under 2,000 free monthly minutes by running incremental windows (last 7 days) and setting `timeout-minutes`.
+
+## 6. Data Engineering & Automated Hygiene Standards
+- Follow the 5-Layer Defense architecture defined in `.agents/rules/data_engineering.md` and `docs/DATA_ENGINEERING.md`.
+- Strictly filter out formula noise (`#DIV/0!`, `#REF!`), unmapped strings, and non-positive prices (`price <= 0`).
+- Repair OCR split numbers (`5 50.00` -> `550.00`) and enforce ISO 8601 dates (`YYYY-MM-DD`).
+- Run `py -3 scripts/maintenance/audit_data_quality.py` to ensure a 100% (Grade A+) dataset hygiene score.
+- Every automated ingestion workflow in GitHub Actions must execute the audit step as its final quality gate.

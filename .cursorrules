@@ -48,3 +48,10 @@ Strictly adhere to the following rules at all times.
   - Add `timeout-minutes: 15` (or `30`) to every workflow job.
   - Run syncs on incremental windows (last 7 days).
   - Purge scratch directories (`rm -rf ./PDFs/* ./price_data/*`) during long batch loops.
+
+## 7. Data Engineering & Automated Cleansing Standards
+- Follow the 5-Layer Defense architecture outlined in `.agents/rules/data_engineering.md` and `docs/DATA_ENGINEERING.md`.
+- Strictly reject spreadsheet tokens (`#DIV/0!`, `#REF!`, `data-management-division`) and non-positive prices (`price <= 0`).
+- Repair OCR split numbers (`5 50.00` -> `550.00`) and enforce ISO 8601 dates (`YYYY-MM-DD`).
+- Always run `py -3 scripts/maintenance/audit_data_quality.py` to ensure a 100% (Grade A+) dataset hygiene score.
+- Ensure all CI/CD sync workflows execute the automated audit gate as their final step.

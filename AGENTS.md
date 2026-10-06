@@ -74,6 +74,14 @@ The project is structured into strict domains. **Never dump files into the proje
    - Target syncs to **incremental windows** (e.g. `last 7 days`), rather than rescanning all 10 years on every cron run.
    - Purge intermediate scratch directories (`rm -rf ./PDFs/* ./price_data/*`) during long loops.
 
+### D. Data Engineering, Ingestion & Automated Hygiene
+👉 **Complete rules available in [`.agents/rules/data_engineering.md`](./.agents/rules/data_engineering.md)** and manual in [`docs/DATA_ENGINEERING.md`](./docs/DATA_ENGINEERING.md).
+
+1. **5-Layer Defense**: Every pipeline must enforce Layer 1 (pre-processing/OCR fix) through Layer 5 (automated CI/CD audit).
+2. **Mandatory Audit Tool**: Run `py -3 scripts/maintenance/audit_data_quality.py` to verify data health (requires 100% pass score).
+3. **Zero Corrupted Artifacts**: Pipelines must reject `#DIV/0!`, `#REF!`, non-positive prices (`price <= 0`), and unmapped commodity strings.
+4. **Idempotent Upserting**: Always specify `on_conflict=vegetable_id,market_id,date,price_type` with duplicate resolution.
+
 ---
 
 ## 3. Multi-Source Ingestion & Discrepancy Policy
