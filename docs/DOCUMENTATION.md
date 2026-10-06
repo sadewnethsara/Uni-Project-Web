@@ -422,6 +422,12 @@ sequenceDiagram
 - Persists user language preference to `localStorage`.
 - Dual-field commodity display (`name` and `name_si`) guarantees accessibility for grassroots farmers.
 
+### 5.8 Prescriptive Harvest Timing & "When-to-Plant" Decision Engine
+- **Comprehensive Master Blueprint**: Documented in [`docs/HARVEST_OPTIMIZER_PREDICTIVE_SPEC.md`](./HARVEST_OPTIMIZER_PREDICTIVE_SPEC.md).
+- **Core Mission**: Transforms NAMIS from reactive historical observation to prescriptive agricultural intelligence, calculating the optimal planting date backwards from predicted peak wholesale prices while maximizing risk-adjusted net profit.
+- **Decoupled 8-Model Architecture**: Rather than dumping all variables into one model, NAMIS isolates Yield, Supply, Demand, Quantile Price (P10/P50/P90), Cultivation Cost, Logistics, Risk, and Optimization.
+- **Iterative Roadmap**: Governs phased ingestion of 28 domains spanning farm-gate spreads, Dambulla arrival tonnages, weather microclimates, and regional agro-ecological suitability masks.
+
 ---
 
 ## 6. API Reference & Route Handlers
