@@ -6,10 +6,12 @@ Central Bank of Sri Lanka (CBSL) archives and syncs to Supabase.
 
 Features:
 - Scrapes archive pages from https://www.cbsl.gov.lk/en/statistics/economic-indicators/price-report
+- Historical coverage: August 1, 2016 to current date (203 archive pages, ~2,400 bulletins)
 - Extracts wholesale (Pettah, Dambulla) and retail (Pettah) prices via pdfplumber
 - Zero disk usage: Streams PDFs directly in-memory and parses on-the-fly
 - Automated discrepancy detection: Conflicting prices (>5% variance) are routed to
   'price_discrepancies' table for moderator review; missing slots are inserted into 'price_entries'
+- Year-targeted scanning: Automatically seeks through pages to find the exact target year
 - Enforces Supabase Free-Tier guardrails (batch size <= 500, in-memory stream cleanup)
 """
 
@@ -173,14 +175,18 @@ def post_batch(table_name: str, records: list) -> int:
         print(f"    Error posting to {table_name}: {e}", flush=True)
         return 0
 
-def fetch_cbsl_archive_links(year: int = None, max_pages: int = 10, limit: int = 100) -> list:
-    """Scrapes multiple archive pages for CBSL PDF report links."""
+def fetch_cbsl_archive_links(year: int = None, max_pages: int = 210, limit: int = None) -> list:
+    """
+    Intelligently scrapes archive pages for CBSL PDF report links.
+    If 'year' is specified, navigates directly to the pages containing that year and stops when passed.
+    """
     base_url = "https://www.cbsl.gov.lk/en/statistics/economic-indicators/price-report"
     headers = {"User-Agent": "Mozilla/5.0"}
     results = []
     seen = set()
+    found_year = False
     
-    print(f"--> Scanning CBSL archive pages (up to {max_pages} pages)...", flush=True)
+    print(f"--> Scanning CBSL archive pages (Target year: {year if year else 'ALL'})...", flush=True)
     for p in range(max_pages):
         page_url = base_url if p == 0 else f"{base_url}?page={p}"
         req = urllib.request.Request(page_url, headers=headers)
@@ -196,9 +202,19 @@ def fetch_cbsl_archive_links(year: int = None, max_pages: int = 10, limit: int =
             break
             
         page_added = 0
+        all_page_years = [int(m[1]) for m in pdf_matches]
+        min_page_year = min(all_page_years)
+        max_page_year = max(all_page_years)
+        
+        # If looking for a specific year and this page is entirely newer, skip parsing details but continue
+        if year and min_page_year > year:
+            continue
+            
         for full_match, y, m, d in pdf_matches:
-            if year and int(y) != year:
+            item_year = int(y)
+            if year and item_year != year:
                 continue
+                
             link = full_match if full_match.startswith("http") else f"https://www.cbsl.gov.lk{full_match}"
             if link not in seen:
                 seen.add(link)
@@ -208,21 +224,37 @@ def fetch_cbsl_archive_links(year: int = None, max_pages: int = 10, limit: int =
                 if limit and len(results) >= limit:
                     break
                     
-        print(f"    Page {p}: Found {page_added} reports (Total collected: {len(results)})", flush=True)
+        if page_added > 0:
+            found_year = True
+            print(f"    Page {p}: Found {page_added} reports for {year if year else 'archive'} (Total collected: {len(results)})", flush=True)
+            
         if limit and len(results) >= limit:
+            break
+            
+        # If we were tracking a specific year, found reports for it, and the page is now older than 'year', stop!
+        if year and found_year and max_page_year < year:
+            print(f"    Passed year {year} (reached year {max_page_year}). Stopping search.", flush=True)
             break
             
     return results
 
 def main():
     parser = argparse.ArgumentParser(description="Sync CBSL Historical Daily Price Bulletins")
-    parser.add_argument("--year", type=int, help="Target year (e.g. 2024)")
-    parser.add_argument("--pages", type=int, default=5, help="Number of archive pages to scan (default: 5)")
-    parser.add_argument("--limit", type=int, default=50, help="Maximum number of PDF reports to process (default: 50)")
+    parser.add_argument("--year", type=int, help="Target year to sync (e.g. 2025, 2024, 2023... back to 2016)")
+    parser.add_argument("--all", action="store_true", help="Sync all available historical reports from CBSL (2016 - present)")
+    parser.add_argument("--limit", type=int, default=None, help="Maximum number of PDF reports to process (default: unlimited if year/all given)")
     args = parser.parse_args()
     
-    links = fetch_cbsl_archive_links(year=args.year, max_pages=args.pages, limit=args.limit)
+    # If neither year nor --all nor limit is given, default to processing latest 50
+    eff_limit = args.limit
+    if not args.year and not args.all and eff_limit is None:
+        eff_limit = 50
+        
+    links = fetch_cbsl_archive_links(year=args.year, limit=eff_limit)
     print(f"\n--> Found {len(links)} CBSL Price Reports to process.", flush=True)
+    if not links:
+        print("[INFO] No reports found matching the criteria. (Note: CBSL daily price archives begin August 2016).")
+        return
     
     total_entries_synced = 0
     total_discrepancies_logged = 0
@@ -243,8 +275,6 @@ def main():
                 print(f"    No commodity records found in Page 2 table.", flush=True)
                 continue
                 
-            print(f"    Extracted {len(records)} prices.", flush=True)
-            
             # Discrepancy checking & routing
             existing_map = fetch_existing_price_map(report_date)
             to_insert_entries = []
@@ -254,23 +284,21 @@ def main():
                 key = (r["vegetable_id"], r["market_id"], r["price_type"])
                 if key in existing_map:
                     exist_price, exist_source = existing_map[key]
-                    diff = round(r["price"] - exist_price, 2)
+                    diff = round(abs(r["price"] - exist_price), 2)
                     diff_pct = round((diff / exist_price) * 100, 2) if exist_price > 0 else 0
                     
-                    if abs(diff_pct) >= 5.0 and exist_source != "cbsl":
+                    if diff_pct >= 5.0 and exist_source != "cbsl":
                         to_insert_discrepancies.append({
                             "vegetable_id": r["vegetable_id"],
                             "market_id": r["market_id"],
                             "date": report_date,
                             "price_type": r["price_type"],
                             "existing_price": exist_price,
-                            "new_price": r["price"],
-                            "price_diff": diff,
-                            "diff_percent": diff_pct,
                             "existing_source": exist_source,
-                            "new_source": "cbsl",
+                            "conflicting_price": r["price"],
+                            "conflicting_source": "cbsl",
                             "status": "pending",
-                            "notes": f"CBSL bulletin reported {r['price']} vs existing {exist_price} ({exist_source})"
+                            "admin_notes": f"CBSL bulletin reported Rs. {r['price']} vs existing Rs. {exist_price} ({exist_source})"
                         })
                 else:
                     to_insert_entries.append(r)
@@ -278,7 +306,7 @@ def main():
             if to_insert_entries:
                 synced = post_batch("price_entries", to_insert_entries)
                 total_entries_synced += synced
-                print(f"    Upserted {synced} new price rows into 'price_entries'.", flush=True)
+                print(f"    Extracted {len(records)} prices -> Upserted {synced} into 'price_entries'.", flush=True)
                 
             if to_insert_discrepancies:
                 logged = post_batch("price_discrepancies", to_insert_discrepancies)
@@ -290,6 +318,7 @@ def main():
             
     print(f"\n==================================================")
     print(f"CBSL Historical Ingestion Finished:")
+    print(f"  * Target Year: {args.year if args.year else 'All Available'}")
     print(f"  * New prices added to price_entries: {total_entries_synced}")
     print(f"  * Discrepancies logged to price_discrepancies: {total_discrepancies_logged}")
     print(f"==================================================")

@@ -103,11 +103,11 @@ jobs:
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
         run: |
           echo "Starting CBSL Historical Bulletins Sync..."
-          YEAR_FLAG=""
+          YEAR_FLAG="--all"
           if [ -n "${{ inputs.year }}" ]; then
             YEAR_FLAG="--year ${{ inputs.year }}"
           fi
-          python scripts/sync/sync_cbsl_historical.py $YEAR_FLAG --pages 10 --limit 100
+          python scripts/sync/sync_cbsl_historical.py $YEAR_FLAG
 
       - name: Refresh Trading & Holiday Calendar
         if: ${{ inputs.sync_scope == 'all' || github.event_name == 'schedule' }}
