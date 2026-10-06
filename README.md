@@ -13,7 +13,7 @@
 > **NAMIS** (also branded as **AgriLanka**) is a digital agriculture and market intelligence platform designed to eliminate information asymmetry, predict commodity price movements, and empower Sri Lankan farmers, wholesale traders, and policymakers with real-time multi-market transparency.
 
 📖 **Looking for full system documentation, database schemas, and architectural specs?**  
-👉 Read the comprehensive [**DOCUMENTATION.md**](./DOCUMENTATION.md).
+👉 Read the comprehensive [**DOCUMENTATION.md**](./docs/DOCUMENTATION.md).
 
 ---
 
@@ -115,7 +115,7 @@ python generate_forecasts.py ../../prophet_data --output ../../forecast_report.h
 
 ## 📚 Complete Documentation
 
-Please refer to [**DOCUMENTATION.md**](./DOCUMENTATION.md) for:
+Please refer to [**DOCUMENTATION.md**](./docs/DOCUMENTATION.md) for:
 - Detailed Database Entity-Relationship Diagrams (ERD) & DDL scripts
 - API endpoint specifications (`/api/chat`, `/api/send-otp`)
 - Authentication and Row Level Security (RLS) policies

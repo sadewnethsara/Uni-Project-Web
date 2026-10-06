@@ -68,17 +68,8 @@ CANONICAL_MARKETS = {
     "norochchole", "nuwara-eliya", "peliyagoda", "pettah", "thambuththegama", "veyangoda"
 }
 
-def load_dotenv():
-    env_file = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), ".env")
-    if os.path.exists(env_file):
-        with open(env_file, "r", encoding="utf-8") as f:
-            for line in f:
-                line = line.strip()
-                if line and not line.startswith("#") and "=" in line:
-                    k, v = line.split("=", 1)
-                    k = k.strip()
-                    v = v.strip().strip("'").strip('"')
-                    os.environ[k] = v
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+import env_loader
 
 def get_ssl_context():
     ctx = ssl.create_default_context()

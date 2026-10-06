@@ -18,6 +18,9 @@ import urllib.request
 import ssl
 from datetime import datetime
 
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+import env_loader
+
 def get_latest_cbsl_pdf_links(limit: int = 5):
     """
     Scrapes CBSL price report page for PDF links.

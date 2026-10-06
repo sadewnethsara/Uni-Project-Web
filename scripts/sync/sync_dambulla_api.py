@@ -20,8 +20,9 @@ import ssl
 from datetime import datetime, timedelta
 import difflib
 
-# Add parent directory to path to allow importing market_normalizer
-sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+import env_loader
+
 try:
     from scraper.market_normalizer import normalize_market_name
 except ImportError:

@@ -18,6 +18,9 @@ import urllib.request
 import ssl
 from datetime import datetime
 
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+import env_loader
+
 MONTH_MAP = {
     "jan": 1, "feb": 2, "mar": 3, "apr": 4, "may": 5, "jun": 6,
     "jul": 7, "july": 7, "aug": 8, "sep": 9, "sept": 9, "oct": 10,

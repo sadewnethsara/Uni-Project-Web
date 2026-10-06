@@ -55,7 +55,7 @@ jobs:
               echo "Found $JSON_COUNT JSON files. Proceeding with sync..."
               
               # 3. Sync to Supabase
-              npx tsx scripts/sync_data.ts
+              npx tsx scripts/sync/sync_data.ts
             else
               echo "No JSON files generated. Skipping sync."
             fi
