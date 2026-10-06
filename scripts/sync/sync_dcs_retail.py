@@ -50,18 +50,23 @@ def fetch_dcs_prices():
     ctx.check_hostname = False
     ctx.verify_mode = ssl.CERT_NONE
     
-    print(f"--> Fetching DCS Price Data from {url}...")
+    print(f"--> Fetching DCS Price Data from {url} (3.9 MB)...", flush=True)
     req = urllib.request.Request(url, headers=headers)
-    with urllib.request.urlopen(req, timeout=30, context=ctx) as resp:
-        content = resp.read().decode("utf-8", errors="ignore")
+    try:
+        with urllib.request.urlopen(req, timeout=45, context=ctx) as resp:
+            content = resp.read().decode("utf-8", errors="ignore")
+    except Exception as e:
+        print(f"[ERROR] Failed to download DCS Price Data: {e}", flush=True)
+        return [], []
     
+    print(f"    Downloaded {len(content) / 1024 / 1024:.2f} MB. Parsing JavaScript datasets...", flush=True)
     # Extract var pip = [...]
     pip_match = re.search(r"var\s+pip\s*=\s*(\[.*?\]);", content, re.DOTALL)
     # Extract var prices = [...]
     prices_match = re.search(r"var\s+prices\s*=\s*(\[.*?\]);", content, re.DOTALL)
     
     if not pip_match or not prices_match:
-        print("[ERROR] Failed to locate 'pip' or 'prices' JS arrays.")
+        print("[ERROR] Failed to locate 'pip' or 'prices' JS arrays in DCS page.", flush=True)
         return [], []
     
     # Clean possible JS syntax issues (trailing commas)
@@ -92,8 +97,12 @@ def fetch_dcs_prices():
 
 def sync_dcs(supabase_url: str = None, supabase_key: str = None, limit_weeks: int = 52):
     pip_data, prices_data = fetch_dcs_prices()
-    print(f"    Loaded {len(pip_data)} commodity metadata definitions.")
-    print(f"    Loaded {len(prices_data)} total weekly historical reports.")
+    if not pip_data or not prices_data:
+        print("[ERROR] No DCS price data available to sync.", flush=True)
+        return
+        
+    print(f"    Loaded {len(pip_data)} commodity metadata definitions.", flush=True)
+    print(f"    Loaded {len(prices_data)} total weekly historical reports.", flush=True)
     
     # Build commodity metadata lookup
     meta_lookup = {item["product"]: item for item in pip_data}
@@ -126,10 +135,10 @@ def sync_dcs(supabase_url: str = None, supabase_key: str = None, limit_weeks: in
                 "parsed_date": parsed_d
             })
             
-    print(f"    Prepared {len(records_to_insert)} individual retail price records across {len(target_weeks)} weeks.")
+    print(f"    Prepared {len(records_to_insert)} individual retail price records across {len(target_weeks)} weeks.", flush=True)
     
     if supabase_url and supabase_key:
-        print(f"    Upserting into Supabase 'retail_price_entries' in batches of 500...")
+        print(f"    Upserting into Supabase 'retail_price_entries' in batches of 500...", flush=True)
         endpoint = f"{supabase_url.rstrip('/')}/rest/v1/retail_price_entries?on_conflict=commodity_code,date_label"
         headers = {
             "apikey": supabase_key,
@@ -137,7 +146,7 @@ def sync_dcs(supabase_url: str = None, supabase_key: str = None, limit_weeks: in
             "Content-Type": "application/json",
             "Prefer": "resolution=merge-duplicates"
         }
-        ctx = ssl.create_default_context()
+        ctx = ssl._create_unverified_context()
         
         batch_size = 500
         total_upserted = 0
@@ -148,12 +157,12 @@ def sync_dcs(supabase_url: str = None, supabase_key: str = None, limit_weeks: in
                 with urllib.request.urlopen(req, timeout=30, context=ctx):
                     total_upserted += len(batch)
             except Exception as e:
-                print(f"    Batch error at {i}: {e}")
-        print(f"[DONE] Successfully synced {total_upserted} retail price records.")
+                print(f"    Batch error at {i}: {e}", flush=True)
+        print(f"[DONE] Successfully synced {total_upserted} retail price records.", flush=True)
     else:
-        print("    (SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY not set - showing top 3 samples):")
+        print("    (SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY not set - showing top 3 samples):", flush=True)
         for sample in records_to_insert[:3]:
-            print(f"     * {sample['commodity_name']} ({sample['category']}): Rs. {sample['price']} for {sample['date_label']}")
+            print(f"     * {sample['commodity_name']} ({sample['category']}): Rs. {sample['price']} for {sample['date_label']}", flush=True)
 
 if __name__ == "__main__":
     url = os.environ.get("SUPABASE_URL") or os.environ.get("NEXT_PUBLIC_SUPABASE_URL")
