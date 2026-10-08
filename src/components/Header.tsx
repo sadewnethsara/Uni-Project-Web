@@ -19,7 +19,6 @@ export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
-  const [lastScrollY, setLastScrollY] = useState(0);
   const { isLoggedIn, user, logout } = useAuth();
   const router = useRouter();
   const profileRef = useRef<HTMLDivElement>(null);
@@ -56,14 +55,12 @@ export default function Header() {
     if (isAuthPage) return;
 
     const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-      setIsVisible(currentScrollY < 10);
-      setLastScrollY(currentScrollY);
+      setIsVisible(window.scrollY < 10);
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [lastScrollY, isAuthPage]);
+  }, [isAuthPage]);
 
   const handleLogout = () => {
     logout();
