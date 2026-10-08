@@ -92,12 +92,11 @@ export function QuickAddManagement({
     fetchMarkets();
   }, []);
 
-  // Sync prop changes to selectedMarket
-  useEffect(() => {
-    if (market) {
-      setSelectedMarket(market);
-    }
-  }, [market]);
+  const [prevMarketProp, setPrevMarketProp] = useState(market);
+  if (market && market !== prevMarketProp) {
+    setPrevMarketProp(market);
+    setSelectedMarket(market);
+  }
   const [itemIndex, setItemIndex] = useState(0);
   const [inputValue, setInputValue] = useState("");
   const [sessionEntries, setSessionEntries] = useState<QuickAddEntry[]>([]);

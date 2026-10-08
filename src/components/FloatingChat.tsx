@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ANALYZE_THEME } from "@/lib/chartTheme";
 
@@ -33,7 +33,7 @@ export default function FloatingChatWidget() {
     }
   }, [messages, isOpen, isLoading]);
 
-  const sendQuery = async (queryText: string) => {
+  const sendQuery = useCallback(async (queryText: string) => {
     if (!queryText.trim() || isLoading) return;
 
     const userMsg: ChatMessage = { id: Date.now(), sender: "user", text: queryText };
@@ -57,7 +57,7 @@ export default function FloatingChatWidget() {
         ...prev,
         { id: Date.now() + 1, sender: "bot", text: botReply }
       ]);
-    } catch (err) {
+    } catch {
       setMessages((prev) => [
         ...prev,
         {
@@ -69,7 +69,7 @@ export default function FloatingChatWidget() {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [isLoading, messages]);
 
   const handleSend = (e: React.FormEvent) => {
     e.preventDefault();

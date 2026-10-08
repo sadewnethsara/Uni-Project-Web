@@ -68,12 +68,7 @@ export function OverviewManagement({ market, admin, onNavigate }: OverviewManage
   });
   const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    fetchDashboardData();
-  }, []);
-
   const fetchDashboardData = async () => {
-    setIsLoading(true);
     try {
       const supabase = createClient();
       const [marketsRes, categoriesRes, vegetablesRes, adminsRes] = await Promise.all([
@@ -95,6 +90,10 @@ export function OverviewManagement({ market, admin, onNavigate }: OverviewManage
       setIsLoading(false);
     }
   };
+
+  useEffect(() => {
+    fetchDashboardData();
+  }, []);
 
   const isSuperAdmin = admin?.role === "super";
 

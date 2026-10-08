@@ -50,12 +50,12 @@ export function AdminsManagement() {
   const [adminForm, setAdminForm] = useState<AdminFormState>(INITIAL_FORM);
   const [dbMarkets, setDbMarkets] = useState<any[]>([]);
 
-  useEffect(() => {
-    fetchData();
-  }, []);
+  const showToast = (message: string, type: 'success' | 'error' = 'success') => {
+    setToast({ message, type });
+    setTimeout(() => setToast(null), 3000);
+  };
 
   const fetchData = async () => {
-    setIsLoading(true);
     try {
       const supabase = createClient();
 
@@ -76,27 +76,26 @@ export function AdminsManagement() {
       if (error) throw error;
 
       if (Array.isArray(data)) {
-        setAdmins(data.map((a: any) => ({
-          id: a.id.toString(),
-          email: a.email,
-          name: a.name,
+        setAdmins(data.map((a: Record<string, unknown>) => ({
+          id: String(a.id),
+          email: String(a.email || ''),
+          name: String(a.name || ''),
           role: a.role as AdminRole,
-          marketId: a.market_id || undefined,
-          createdAt: a.created_at,
+          marketId: a.market_id ? String(a.market_id) : undefined,
+          createdAt: String(a.created_at || ''),
           isActive: a.is_active !== false
         })));
       }
-    } catch (error) {
+    } catch {
       showToast("Failed to fetch data", "error");
     } finally {
       setIsLoading(false);
     }
   };
 
-  const showToast = (message: string, type: 'success' | 'error' = 'success') => {
-    setToast({ message, type });
-    setTimeout(() => setToast(null), 3000);
-  };
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   const resetForm = () => {
     setEditingAdmin(null);

@@ -45,7 +45,6 @@ export default function DashboardPage() {
 
   useEffect(() => {
     if (isLoggedIn) {
-      setIsLoading(true);
       const supabase = createClient();
       
       const fetchDashboardData = async () => {

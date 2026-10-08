@@ -16,12 +16,12 @@ export function MarketsManagement() {
   const [editingMarket, setEditingMarket] = useState<MarketCenter | null>(null);
   const [marketForm, setMarketForm] = useState({ name: "", nameSi: "", district: "", emoji: "" });
 
-  useEffect(() => {
-    fetchData();
-  }, []);
+  const showToast = (message: string, type: 'success' | 'error' = 'success') => {
+    setToast({ message, type });
+    setTimeout(() => setToast(null), 3000);
+  };
 
   const fetchData = async () => {
-    setIsLoading(true);
     try {
       const supabase = createClient();
       const { data, error } = await supabase
@@ -40,17 +40,16 @@ export function MarketsManagement() {
           emoji: m.emoji || "🏛️"
         })));
       }
-    } catch (error) {
+    } catch {
       showToast("Failed to fetch data", "error");
     } finally {
       setIsLoading(false);
     }
   };
 
-  const showToast = (message: string, type: 'success' | 'error' = 'success') => {
-    setToast({ message, type });
-    setTimeout(() => setToast(null), 3000);
-  };
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   const handleSave = async () => {
     if (!marketForm.name.trim() || !marketForm.district.trim() || !marketForm.emoji.trim()) return;

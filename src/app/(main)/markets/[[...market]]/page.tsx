@@ -85,9 +85,15 @@ export default function MarketPage({ params }: PageProps) {
   );
   const viewDateLabel = formatDisplayDate(toISODate(viewDate));
 
+  const [prevViewKey, setPrevViewKey] = useState(`${marketId}_${toISODate(viewDate)}`);
+  const currentViewKey = `${marketId}_${toISODate(viewDate)}`;
+  if (prevViewKey !== currentViewKey) {
+    setPrevViewKey(currentViewKey);
+    setIsLoading(true);
+  }
+
   // Fetch prices and vegetables from API
   useEffect(() => {
-    setIsLoading(true);
     const supabase = createClient();
 
     const loadData = async () => {

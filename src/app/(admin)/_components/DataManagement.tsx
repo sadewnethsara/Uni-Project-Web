@@ -39,12 +39,12 @@ export function DataManagement() {
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  useEffect(() => {
-    fetchData();
-  }, []);
+  const showToast = (message: string, type: 'success' | 'error' = 'success') => {
+    setToast({ message, type });
+    setTimeout(() => setToast(null), 3000);
+  };
 
   const fetchData = async () => {
-    setIsLoading(true);
     try {
       const supabase = createClient();
       const { data: resData, error } = await supabase
@@ -75,17 +75,16 @@ export function DataManagement() {
         }));
         setData(formatted);
       }
-    } catch (error) {
+    } catch {
       showToast("Failed to fetch data from Supabase", "error");
     } finally {
       setIsLoading(false);
     }
   };
 
-  const showToast = (message: string, type: 'success' | 'error' = 'success') => {
-    setToast({ message, type });
-    setTimeout(() => setToast(null), 3000);
-  };
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   // Derived state
   const filteredData = data.filter(item => 

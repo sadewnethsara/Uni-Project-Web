@@ -63,12 +63,11 @@ export function PriceManagement({
     fetchMarkets();
   }, []);
 
-  // Sync prop changes to selectedMarket
-  useEffect(() => {
-    if (market) {
-      setSelectedMarket(market);
-    }
-  }, [market]);
+  const [prevMarketProp, setPrevMarketProp] = useState(market);
+  if (market && market !== prevMarketProp) {
+    setPrevMarketProp(market);
+    setSelectedMarket(market);
+  }
 
   const [vegetableData, setVegetableData] = useState<VegetableItem[]>([
     { id: 1, name: "Carrots", emoji: "🥕", todayPrice: 180, yesterdayPrice: 175, lastWeekPrice: 170, category: "Vegetables" },

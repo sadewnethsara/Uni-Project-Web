@@ -11,11 +11,6 @@ import { useRouter, usePathname } from "next/navigation";
 export default function Header() {
   const pathname = usePathname();
 
-  // Hide header on admin and dashboard pages
-  if (pathname?.startsWith("/admin") || pathname?.startsWith("/dashboard")) {
-    return <></>;
-  }
-
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
@@ -61,6 +56,11 @@ export default function Header() {
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, [isAuthPage]);
+
+  // Hide header on admin and dashboard pages
+  if (pathname?.startsWith("/admin") || pathname?.startsWith("/dashboard")) {
+    return null;
+  }
 
   const handleLogout = () => {
     logout();

@@ -16,9 +16,13 @@ interface Props {
 
 export default function HeroBottomSheet({ loc, onClose, images }: Props) {
     const [slide, setSlide] = useState(0);
+    const [prevLocId, setPrevLocId] = useState(loc?.id);
 
     // Reset slide when location changes
-    React.useEffect(() => { setSlide(0); }, [loc?.id]);
+    if (loc?.id !== prevLocId) {
+        setPrevLocId(loc?.id);
+        setSlide(0);
+    }
 
     return (
         <>

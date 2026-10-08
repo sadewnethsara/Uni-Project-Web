@@ -196,25 +196,33 @@ export default function AnalyzePage() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  const [prevAiNonce, setPrevAiNonce] = useState(dash.aiNonce);
+  if (dash.aiNonce > 0 && dash.aiNonce !== prevAiNonce) {
+    setPrevAiNonce(dash.aiNonce);
+    setDrawings([]);
+    setIsUpdating(true);
+  }
+
   useEffect(() => {
     if (dash.aiNonce > 0) {
-      setDrawings([]);
-      setIsUpdating(true);
       const t = window.setTimeout(() => setIsUpdating(false), 900);
       return () => window.clearTimeout(t);
     }
   }, [dash.aiNonce]);
 
   const filterSig = `${dash.commodities.join(",")}|${dash.markets.join(",")}|${dash.timeframe}|${dash.gradeFilter}|${dash.chartStyle}|${dash.calendarApplied}`;
-  const prevFilterSig = useRef(filterSig);
+  const [prevFilterSig, setPrevFilterSig] = useState(filterSig);
+  if (prevFilterSig !== filterSig) {
+    setPrevFilterSig(filterSig);
+    setIsUpdating(true);
+  }
 
   useEffect(() => {
-    if (prevFilterSig.current === filterSig) return;
-    prevFilterSig.current = filterSig;
-    setIsUpdating(true);
-    const t = window.setTimeout(() => setIsUpdating(false), 520);
-    return () => window.clearTimeout(t);
-  }, [filterSig]);
+    if (isUpdating) {
+      const t = window.setTimeout(() => setIsUpdating(false), 520);
+      return () => window.clearTimeout(t);
+    }
+  }, [isUpdating]);
 
   useEffect(() => {
     const supabase = createClient();

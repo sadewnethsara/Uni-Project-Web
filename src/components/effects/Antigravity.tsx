@@ -20,6 +20,11 @@ interface AntigravityProps {
   fieldStrength?: number;
 }
 
+function getPseudoRandom(seed: number, offset: number) {
+  const x = Math.sin(seed * 12.9898 + offset * 78.233) * 43758.5453123;
+  return x - Math.floor(x);
+}
+
 const AntigravityInner: React.FC<AntigravityProps> = ({
   count = 300,
   magnetRadius = 10,
@@ -51,18 +56,18 @@ const AntigravityInner: React.FC<AntigravityProps> = ({
     const height = viewport.height || 100;
 
     for (let i = 0; i < count; i++) {
-      const t = Math.random() * 100;
-      const factor = 20 + Math.random() * 100;
-      const speed = 0.01 + Math.random() / 200;
-      const xFactor = -50 + Math.random() * 100;
-      const yFactor = -50 + Math.random() * 100;
-      const zFactor = -50 + Math.random() * 100;
+      const t = getPseudoRandom(i, 1) * 100;
+      const factor = 20 + getPseudoRandom(i, 2) * 100;
+      const speed = 0.01 + getPseudoRandom(i, 3) / 200;
+      const xFactor = -50 + getPseudoRandom(i, 4) * 100;
+      const yFactor = -50 + getPseudoRandom(i, 5) * 100;
+      const zFactor = -50 + getPseudoRandom(i, 6) * 100;
 
-      const x = (Math.random() - 0.5) * width;
-      const y = (Math.random() - 0.5) * height;
-      const z = (Math.random() - 0.5) * 20;
+      const x = (getPseudoRandom(i, 7) - 0.5) * width;
+      const y = (getPseudoRandom(i, 8) - 0.5) * height;
+      const z = (getPseudoRandom(i, 9) - 0.5) * 20;
 
-      const randomRadiusOffset = (Math.random() - 0.5) * 2;
+      const randomRadiusOffset = (getPseudoRandom(i, 10) - 0.5) * 2;
 
       temp.push({
         t,
@@ -118,7 +123,8 @@ const AntigravityInner: React.FC<AntigravityProps> = ({
     const globalRotation = state.clock.getElapsedTime() * rotationSpeed;
 
     particles.forEach((particle, i) => {
-      let { t, speed, mx, my, mz, cz, randomRadiusOffset } = particle;
+      let { t } = particle;
+      const { speed, mx, my, mz, cz, randomRadiusOffset } = particle;
 
       t = particle.t += speed / 2;
 

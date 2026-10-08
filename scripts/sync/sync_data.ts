@@ -45,22 +45,22 @@ async function syncData() {
   const { data: existingVegs } = await supabase.from('vegetables').select('*');
   const { data: existingMarkets } = await supabase.from('markets').select('*');
   
-  let categories = [...(existingCats || [])];
-  let vegetables = [...(existingVegs || [])];
-  let markets = [...(existingMarkets || [])];
+  const categories = [...(existingCats || [])];
+  const vegetables = [...(existingVegs || [])];
+  const markets = [...(existingMarkets || [])];
 
   for (const file of jsonFiles) {
     console.log(`Processing ${file.name}...`);
     const fileData = fs.readFileSync(file.path, 'utf8');
     const data = JSON.parse(fileData);
     
-    let priceRecords: any[] = [];
+    const priceRecords: any[] = [];
 
     for (const entry of data) {
       if (!entry.category || !entry.item) continue;
 
-      let catName = entry.category;
-      let catId = catName.toLowerCase().replace(/[^a-z0-9]/g, '-');
+      const catName = entry.category;
+      const catId = catName.toLowerCase().replace(/[^a-z0-9]/g, '-');
       let cat = categories.find(c => c.id === catId);
       if (!cat) {
         cat = { id: catId, name: catName, emoji: "📁", name_si: "" };
@@ -68,8 +68,8 @@ async function syncData() {
         await supabase.from('categories').upsert([cat]);
       }
 
-      let itemName = entry.item;
-      let itemId = itemName.toLowerCase().replace(/[^a-z0-9]/g, '-');
+      const itemName = entry.item;
+      const itemId = itemName.toLowerCase().replace(/[^a-z0-9]/g, '-');
       let veg = vegetables.find(v => v.id === itemId);
       if (!veg) {
         veg = {
@@ -90,7 +90,7 @@ async function syncData() {
       }
 
       if (price != null && entry.date && entry.market) {
-        let rawMarket = entry.market.toLowerCase().trim();
+        const rawMarket = entry.market.toLowerCase().trim();
         let marketId = rawMarket;
         let displayName = entry.market;
 

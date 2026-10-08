@@ -17,12 +17,12 @@ export function CategoriesManagement() {
   const [editingCategory, setEditingCategory] = useState<Category | null>(null);
   const [categoryForm, setCategoryForm] = useState({ name: "", nameSi: "", emoji: "" });
 
-  useEffect(() => {
-    fetchData();
-  }, []);
+  const showToast = (message: string, type: 'success' | 'error' = 'success') => {
+    setToast({ message, type });
+    setTimeout(() => setToast(null), 3000);
+  };
 
   const fetchData = async () => {
-    setIsLoading(true);
     try {
       const supabase = createClient();
       const [catRes, vegRes] = await Promise.all([
@@ -52,17 +52,16 @@ export function CategoriesManagement() {
           unit: v.unit || "kg",
         })));
       }
-    } catch (error) {
+    } catch {
       showToast("Failed to fetch data", "error");
     } finally {
       setIsLoading(false);
     }
   };
 
-  const showToast = (message: string, type: 'success' | 'error' = 'success') => {
-    setToast({ message, type });
-    setTimeout(() => setToast(null), 3000);
-  };
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   const handleSave = async () => {
     if (!categoryForm.name.trim() || !categoryForm.emoji.trim()) return;

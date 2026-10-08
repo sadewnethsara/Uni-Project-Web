@@ -23,12 +23,12 @@ export function ItemsManagement() {
     unit: "kg",
   });
 
-  useEffect(() => {
-    fetchData();
-  }, []);
+  const showToast = (message: string, type: 'success' | 'error' = 'success') => {
+    setToast({ message, type });
+    setTimeout(() => setToast(null), 3000);
+  };
 
   const fetchData = async () => {
-    setIsLoading(true);
     try {
       const supabase = createClient();
       const [catRes, vegRes] = await Promise.all([
@@ -58,17 +58,16 @@ export function ItemsManagement() {
           unit: v.unit || "kg",
         })));
       }
-    } catch (error) {
+    } catch {
       showToast("Failed to fetch data", "error");
     } finally {
       setIsLoading(false);
     }
   };
 
-  const showToast = (message: string, type: 'success' | 'error' = 'success') => {
-    setToast({ message, type });
-    setTimeout(() => setToast(null), 3000);
-  };
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   const handleSave = async () => {
     if (!itemForm.name.trim() || !itemForm.emoji.trim() || !itemForm.categoryId) return;

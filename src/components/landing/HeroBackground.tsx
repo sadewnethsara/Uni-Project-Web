@@ -19,7 +19,7 @@ export default function HeroBackground({
         <>
             {/* BACKGROUND DECORATION (FADES OUT) */}
             <motion.div className="fixed inset-0 pointer-events-none overflow-hidden" style={{ opacity: initialBgOpacity, display: initialBgDisplay as any }}>
-                <BackgroundLines children={undefined}></BackgroundLines>
+                <BackgroundLines />
 
                 <div className="absolute inset-0 opacity-[0.03]"
                     style={{ backgroundImage: `linear-gradient(#000 1px, transparent 1px), linear-gradient(90deg, #000 1px, transparent 1px)`, backgroundSize: '50px 50px' }}

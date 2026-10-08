@@ -30,10 +30,13 @@ export default function AnalyticsMobileBottomSheet({
   defaultTab = "commodities",
 }: AnalyticsMobileBottomSheetProps) {
   const [activeTab, setActiveTab] = useState<"commodities" | "markets" | "timeframe">(defaultTab);
-
-  useEffect(() => {
-    if (isOpen) setActiveTab(defaultTab);
-  }, [isOpen, defaultTab]);
+  const [prevIsOpen, setPrevIsOpen] = useState(isOpen);
+  if (isOpen !== prevIsOpen) {
+    setPrevIsOpen(isOpen);
+    if (isOpen) {
+      setActiveTab(defaultTab);
+    }
+  }
 
   const toggleCommodity = (commodityId: string) => {
     if (selectedCommodities.includes(commodityId)) {
@@ -57,7 +60,7 @@ export default function AnalyticsMobileBottomSheet({
 
   const timeframes: TimeframePreset[] = ["1D", "7D", "1M", "3M", "1Y", "YTD", "CUSTOM"];
 
-  const CommoditiesList = () => (
+  const renderCommoditiesList = () => (
     <div className="px-4 py-4 space-y-2">
       {Object.entries(COMMODITY_DETAILS).map(([id, details]) => {
         const isActive = selectedCommodities.includes(id);
@@ -107,7 +110,7 @@ export default function AnalyticsMobileBottomSheet({
     </div>
   );
 
-  const MarketsList = () => (
+  const renderMarketsList = () => (
     <div className="px-4 py-4 space-y-2">
       {ANALYZE_MARKETS.map((market) => {
         const isActive = selectedMarkets.includes(market.id);
@@ -160,7 +163,7 @@ export default function AnalyticsMobileBottomSheet({
     </div>
   );
 
-  const TimeframeList = () => (
+  const renderTimeframeList = () => (
     <div className="px-4 py-4 space-y-2">
       {timeframes.map((tf) => {
         const isActive = timeframe === tf;
@@ -202,7 +205,7 @@ export default function AnalyticsMobileBottomSheet({
     </div>
   );
 
-  const ModalHeader = () => (
+  const renderModalHeader = () => (
     <div
       className="sticky top-0 z-10 px-4 py-3 border-b flex items-center justify-between"
       style={{ background: ANALYZE_THEME.surfaceRaised, borderColor: ANALYZE_THEME.border }}
@@ -227,7 +230,7 @@ export default function AnalyticsMobileBottomSheet({
     </div>
   );
 
-  const TabSelector = () => (
+  const renderTabSelector = () => (
     <div className="flex gap-2 px-4 py-3 border-b" style={{ background: ANALYZE_THEME.surfaceRaised, borderColor: ANALYZE_THEME.border }}>
       {[
         { id: "commodities", label: "Vegetables" },
@@ -273,13 +276,13 @@ export default function AnalyticsMobileBottomSheet({
             className="fixed bottom-0 left-0 right-0 z-50 bg-white rounded-t-3xl max-h-[85vh] flex flex-col"
             style={{ background: ANALYZE_THEME.surfaceRaised }}
           >
-            <ModalHeader />
-            <TabSelector />
+            {renderModalHeader()}
+            {renderTabSelector()}
             
             <div className="flex-1 overflow-y-auto">
-              {activeTab === "commodities" && <CommoditiesList />}
-              {activeTab === "markets" && <MarketsList />}
-              {activeTab === "timeframe" && <TimeframeList />}
+              {activeTab === "commodities" && renderCommoditiesList()}
+              {activeTab === "markets" && renderMarketsList()}
+              {activeTab === "timeframe" && renderTimeframeList()}
             </div>
           </motion.div>
         </>
