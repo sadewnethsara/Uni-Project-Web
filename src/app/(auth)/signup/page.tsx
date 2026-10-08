@@ -73,7 +73,9 @@ export default function SignupPage() {
     setError("");
     setIsSendingOtp(true);
 
-    const code = Math.floor(1000 + Math.random() * 9000).toString();
+    const array = new Uint32Array(1);
+    window.crypto.getRandomValues(array);
+    const code = (1000 + (array[0] % 9000)).toString();
 
     try {
       const response = await fetch("/api/send-otp", {
@@ -651,6 +653,8 @@ export default function SignupPage() {
                           onClick={() => setShowPassword(!showPassword)}
                           className="absolute right-3.5 top-1/2 -translate-y-1/2 cursor-pointer"
                           style={{ color: ANALYZE_THEME.inkFaint }}
+                          aria-label={showPassword ? "Hide password" : "Show password"}
+                          title={showPassword ? "Hide password" : "Show password"}
                         >
                           {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                         </button>

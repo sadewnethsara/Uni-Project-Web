@@ -29,6 +29,7 @@ export default function MarketFilterBar() {
                     {/* Filter 1: Economic Centre Selection */}
                     <div className="relative">
                         <select
+                            aria-label="Select Market"
                             value={selectedMarket}
                             onChange={(e) => setSelectedMarket(e.target.value)}
                             className="appearance-none bg-slate-50 border border-slate-200 hover:border-slate-300 text-slate-700 text-xs font-semibold px-4 py-2.5 pr-8 rounded-lg cursor-pointer transition-colors outline-none focus:border-emerald-500"
@@ -46,6 +47,7 @@ export default function MarketFilterBar() {
                     {/* Filter 2: Crop Category */}
                     <div className="relative">
                         <select
+                            aria-label="Select Category"
                             value={selectedCategory}
                             onChange={(e) => setSelectedCategory(e.target.value)}
                             className="appearance-none bg-slate-50 border border-slate-200 hover:border-slate-300 text-slate-700 text-xs font-semibold px-4 py-2.5 pr-8 rounded-lg cursor-pointer transition-colors outline-none focus:border-emerald-500"
@@ -63,6 +65,7 @@ export default function MarketFilterBar() {
                     {/* Filter 3: Specific High-Yield Crops */}
                     <div className="relative">
                         <select
+                            aria-label="Select Crop"
                             value={selectedCrop}
                             onChange={(e) => setSelectedCrop(e.target.value)}
                             className="appearance-none bg-slate-50 border border-slate-200 hover:border-slate-300 text-slate-700 text-xs font-semibold px-4 py-2.5 pr-8 rounded-lg cursor-pointer transition-colors outline-none focus:border-emerald-500"
@@ -81,6 +84,7 @@ export default function MarketFilterBar() {
                     {/* Filter 4: AI Prediction Trend Direction */}
                     <div className="relative">
                         <select
+                            aria-label="Select Trend Direction"
                             value={selectedTrend}
                             onChange={(e) => setSelectedTrend(e.target.value)}
                             className="appearance-none bg-slate-50 border border-slate-200 hover:border-slate-300 text-slate-700 text-xs font-semibold px-4 py-2.5 pr-8 rounded-lg cursor-pointer transition-colors outline-none focus:border-emerald-500"
@@ -106,6 +110,7 @@ export default function MarketFilterBar() {
                     )}
 
                     <button
+                        aria-label="Reset filters"
                         onClick={handleReset}
                         disabled={activeCount === 0}
                         className={`flex items-center gap-1.5 px-3 py-2 text-xs font-bold rounded-lg transition-colors border select-none cursor-pointer
