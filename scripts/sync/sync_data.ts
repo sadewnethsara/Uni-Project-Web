@@ -94,31 +94,28 @@ async function syncData() {
         let marketId = rawMarket;
         let displayName = entry.market;
 
-        // Canonical market mapping matching UI ANALYZE_MARKETS
-        if (rawMarket.includes("peliyagoda")) { marketId = "peliyagoda"; displayName = "Peliyagoda"; }
-        else if (rawMarket.includes("pettah")) { marketId = "pettah"; displayName = "Pettah"; }
+        // Canonical market mapping matching UI ANALYZE_MARKETS and database schema
+        if (rawMarket.includes("peliyagod") || rawMarket.includes("peliyagoda")) { marketId = "peliyagoda"; displayName = "Peliyagoda"; }
+        else if (rawMarket.includes("pettah") || rawMarket.includes("petha")) { marketId = "pettah"; displayName = "Pettah"; }
         else if (rawMarket.includes("dambulla")) { marketId = "dambulla"; displayName = "Dambulla"; }
         else if (rawMarket.includes("kandy")) { marketId = "kandy"; displayName = "Kandy"; }
-        else if (rawMarket.includes("keppetipola") || rawMarket.includes("kappetipola")) { marketId = "keppetipola"; displayName = "Keppetipola"; }
+        else if (rawMarket.includes("keppetipola") || rawMarket.includes("kappetipola") || rawMarket.includes("akeppetipola")) { marketId = "keppetipola"; displayName = "Keppetipola"; }
         else if (rawMarket.includes("meegoda") || rawMarket.includes("megoda")) { marketId = "meegoda"; displayName = "Meegoda"; }
-        else if (rawMarket.includes("norochchole")) { marketId = "norochchole"; displayName = "Norochchole"; }
-        else if (rawMarket.includes("thambuththegama") || rawMarket.includes("t'thegama") || rawMarket.includes("hambuththegam")) { marketId = "thambuththegama"; displayName = "Thambuththegama"; }
+        else if (rawMarket.includes("norochchole") || rawMarket.includes("norochchol")) { marketId = "norochchole"; displayName = "Norochchole"; }
+        else if (rawMarket.includes("thambuththegam") || rawMarket.includes("t'thegama") || rawMarket.includes("hambuththegam") || rawMarket.includes("ambuththega")) { marketId = "thambuththegama"; displayName = "Thambuththegama"; }
         else if (rawMarket.includes("nuwara")) { marketId = "nuwara-eliya"; displayName = "Nuwara Eliya"; }
         else if (rawMarket.includes("bandarawela")) { marketId = "bandarawela"; displayName = "Bandarawela"; }
         else if (rawMarket.includes("veyangoda")) { marketId = "veyangoda"; displayName = "Veyangoda"; }
         else if (rawMarket.includes("manning")) { marketId = "manning"; displayName = "Manning Market"; }
-        
-        let marketObj = markets.find(m => m.id === marketId);
+        else {
+          // Reject unmappable OCR artifacts (e.g., '\', ']', 'market_1') to keep markets table clean
+          continue;
+        }
+
+        const marketObj = markets.find(m => m.id === marketId);
         if (!marketObj) {
-          marketObj = {
-            id: marketId,
-            name: displayName,
-            name_si: "",
-            district: "",
-            emoji: "🏢"
-          };
-          markets.push(marketObj);
-          await supabase.from('markets').upsert([marketObj]);
+          // Ensure we never insert non-canonical markets into the database
+          continue;
         }
         
         priceRecords.push({

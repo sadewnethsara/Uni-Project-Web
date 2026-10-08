@@ -243,20 +243,22 @@ def normalize_peliyagoda_name(name: str) -> str:
 
 def clean_market_name(name: str, fallback_idx: int = 1) -> str:
     cleaned = re.sub(r'\d{4}[.\-/]\d{1,2}[.\-/]\d{1,2}|\d{1,2}[.\-/]\d{1,2}[.\-/]\d{4}', '', name)
-    cleaned = re.sub(r'(?i)market', '', cleaned).strip()
+    cleaned = re.sub(r'(?i)\bmarket\b|\bcenter\b|\bdec\b', '', cleaned).strip()
     c_lower = cleaned.lower()
-    if 'peliyagoda' in c_lower: return 'Peliyagoda'
+    if 'peliyagod' in c_lower: return 'Peliyagoda'
     if 'dambulla' in c_lower: return 'Dambulla'
     if 'kandy' in c_lower: return 'Kandy'
-    if 'keppetipola' in c_lower or 'kappetipola' in c_lower: return 'Keppetipola'
+    if 'keppetipola' in c_lower or 'kappetipola' in c_lower or 'akeppetipola' in c_lower: return 'Keppetipola'
     if 'meegoda' in c_lower or 'megoda' in c_lower: return 'Meegoda'
-    if 'norochchole' in c_lower: return 'Norochchole'
-    if 'thambuththegama' in c_lower or 't\'thegama' in c_lower or 'hambuththegam' in c_lower: return 'Thambuththegama'
+    if 'norochchol' in c_lower: return 'Norochchole'
+    if any(k in c_lower for k in ['thambuththegam', 't\'thegama', 'hambuththegam', 'ambuththega', 't’thegama']): return 'Thambuththegama'
     if 'nuwara' in c_lower: return 'Nuwara Eliya'
     if 'bandarawela' in c_lower: return 'Bandarawela'
     if 'veyangoda' in c_lower: return 'Veyangoda'
-    if 'pettah' in c_lower: return 'Pettah'
-    return cleaned if cleaned else f"Market_{fallback_idx}"
+    if 'pettah' in c_lower or 'petha' in c_lower: return 'Pettah'
+    if 'manning' in c_lower: return 'Manning Market'
+    sanitized = re.sub(r'[^a-zA-Z\s\-]', '', cleaned).strip()
+    return sanitized if sanitized else f"Market_{fallback_idx}"
 
 
 def parse_peliyagoda_page(table: list, date: str) -> list:
