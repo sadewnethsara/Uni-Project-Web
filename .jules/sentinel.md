@@ -2,3 +2,8 @@
 **Vulnerability:** The application was leaking potentially sensitive error information to the client in the `/api/chat` and `/api/send-otp` endpoints. Additionally, the OTP generation function was logging the code to the console client-side in the `signup` page.
 **Learning:** Returning standard system error messages back directly to the client can lead to unintentional information exposure (e.g. details about environment or unexpected api behaviour). Client-side generated OTPs should never be logged. Note that client side generated OTPs are a structural anti-pattern.
 **Prevention:** Implement secure error handling by returning generic error messages in API routes. Avoid `console.log` statements in client-side code, especially those that generate sensitive information.
+
+## 2024-05-18 - [Fix weak random number generation for OTP]
+**Vulnerability:** The application was using `Math.random()` to generate a 4-digit OTP on the client side, which is cryptographically insecure and predictable.
+**Learning:** `Math.random()` is not suitable for generating security-sensitive values like OTPs, tokens, or passwords, as its PRNG algorithm is predictable.
+**Prevention:** Always use cryptographically secure random number generators (CSPRNG) like `window.crypto.getRandomValues()` in the browser or `crypto.randomBytes()` in Node.js for security-related random generation.
