@@ -2,7 +2,26 @@ import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
   try {
-    const { messages } = await req.json();
+    const body = await req.json();
+    const { messages } = body;
+
+    // Security Fix: Input validation for messages
+    if (!messages || !Array.isArray(messages) || messages.length > 50) {
+      return NextResponse.json(
+        { error: "Invalid input" },
+        { status: 400 }
+      );
+    }
+
+    for (const msg of messages) {
+      if (!msg || typeof msg !== 'object' || typeof msg.text !== 'string' || msg.text.length > 2000) {
+        return NextResponse.json(
+          { error: "Invalid message payload" },
+          { status: 400 }
+        );
+      }
+    }
+
     const apiKey =
       process.env.GEMINI_API_KEY;
 
