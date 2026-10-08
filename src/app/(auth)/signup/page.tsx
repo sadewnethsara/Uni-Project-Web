@@ -73,7 +73,9 @@ export default function SignupPage() {
     setError("");
     setIsSendingOtp(true);
 
-    const code = Math.floor(1000 + Math.random() * 9000).toString();
+    const array = new Uint32Array(1);
+    window.crypto.getRandomValues(array);
+    const code = (1000 + (array[0] % 9000)).toString();
 
     try {
       const response = await fetch("/api/send-otp", {
