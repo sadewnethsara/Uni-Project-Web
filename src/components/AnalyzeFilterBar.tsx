@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useMemo } from "react";
 import {
   ANALYZE_COMMODITIES,
   ANALYZE_MARKETS,
@@ -91,15 +91,17 @@ export default function AnalyzeFilterBar({
     }
   };
 
-  const filteredMarkets = ANALYZE_MARKETS.filter(
+  // ⚡ Bolt Performance Optimization:
+  // Memoize search filtering to prevent recalculation on every re-render (especially when toggling other dropdowns or filters)
+  const filteredMarkets = useMemo(() => ANALYZE_MARKETS.filter(
     (m) =>
       m.shortName.toLowerCase().includes(marketSearch.toLowerCase()) ||
       m.id.includes(marketSearch.toLowerCase())
-  );
+  ), [marketSearch]);
 
-  const filteredVeg = ANALYZE_COMMODITIES.filter((c) =>
+  const filteredVeg = useMemo(() => ANALYZE_COMMODITIES.filter((c) =>
     c.name.toLowerCase().includes(vegSearch.toLowerCase())
-  );
+  ), [vegSearch]);
 
   const calendarLabel =
     timeframe !== "CUSTOM"
