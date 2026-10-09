@@ -600,8 +600,8 @@ export default function SignupPage() {
                     </div>
 
                     <div>
-                      <label className="block text-xs font-bold mb-1.5" style={{ color: ANALYZE_THEME.ink }}>
-                        Work Email Address
+                      <label htmlFor="email" className="block text-xs font-bold mb-1.5" style={{ color: ANALYZE_THEME.ink }}>
+                        Work Email Address <span className="text-red-500" aria-hidden="true">*</span>
                       </label>
                       <div className="relative">
                         <Mail
@@ -610,6 +610,7 @@ export default function SignupPage() {
                           style={{ color: ANALYZE_THEME.inkFaint }}
                         />
                         <input
+                          id="email"
                           type="email"
                           value={email}
                           onChange={(e) => setEmail(e.target.value)}
@@ -626,8 +627,8 @@ export default function SignupPage() {
                     </div>
 
                     <div>
-                      <label className="block text-xs font-bold mb-1.5" style={{ color: ANALYZE_THEME.ink }}>
-                        Create Password
+                      <label htmlFor="password" className="block text-xs font-bold mb-1.5" style={{ color: ANALYZE_THEME.ink }}>
+                        Create Password <span className="text-red-500" aria-hidden="true">*</span>
                       </label>
                       <div className="relative">
                         <Lock
@@ -636,6 +637,7 @@ export default function SignupPage() {
                           style={{ color: ANALYZE_THEME.inkFaint }}
                         />
                         <input
+                          id="password"
                           type={showPassword ? "text" : "password"}
                           value={password}
                           onChange={(e) => setPassword(e.target.value)}
