@@ -45,7 +45,8 @@ export default function PublicLayout({
   };
   useEffect(() => {
     const handleScroll = () => setShowScrollButton(window.scrollY > 200);
-    window.addEventListener("scroll", handleScroll);
+    // ⚡ Bolt: Added passive: true to prevent scroll events from blocking the main thread, resulting in smoother scrolling.
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
