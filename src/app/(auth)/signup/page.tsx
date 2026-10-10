@@ -433,8 +433,8 @@ export default function SignupPage() {
                     </div>
 
                     <div>
-                      <label className="block text-xs font-bold mb-1.5" style={{ color: ANALYZE_THEME.ink }}>
-                        Full Name
+                      <label htmlFor="full-name" className="block text-xs font-bold mb-1.5" style={{ color: ANALYZE_THEME.ink }}>
+                        Full Name <span className="text-red-500" aria-hidden="true">*</span>
                       </label>
                       <div className="relative">
                         <User
@@ -443,6 +443,7 @@ export default function SignupPage() {
                           style={{ color: ANALYZE_THEME.inkFaint }}
                         />
                         <input
+                          id="full-name"
                           type="text"
                           value={fullName}
                           onChange={(e) => setFullName(e.target.value)}
@@ -459,8 +460,8 @@ export default function SignupPage() {
                     </div>
 
                     <div>
-                      <label className="block text-xs font-bold mb-1.5" style={{ color: ANALYZE_THEME.ink }}>
-                        Mobile Number
+                      <label htmlFor="mobile" className="block text-xs font-bold mb-1.5" style={{ color: ANALYZE_THEME.ink }}>
+                        Mobile Number <span className="text-red-500" aria-hidden="true">*</span>
                       </label>
                       <div className="flex gap-2">
                         <div className="relative flex-1">
@@ -470,6 +471,7 @@ export default function SignupPage() {
                             style={{ color: ANALYZE_THEME.inkFaint }}
                           />
                           <input
+                            id="mobile"
                             type="tel"
                             disabled={isOtpVerified}
                             value={phone}
@@ -505,7 +507,7 @@ export default function SignupPage() {
                         animate={{ opacity: 1, height: "auto" }}
                         className="pt-1"
                       >
-                        <label className="block text-xs font-bold mb-1.5" style={{ color: ANALYZE_THEME.ink }}>
+                        <label htmlFor="otp" className="block text-xs font-bold mb-1.5" style={{ color: ANALYZE_THEME.ink }}>
                           Enter 4-Digit OTP
                         </label>
                         <div className="flex gap-2">
@@ -516,6 +518,7 @@ export default function SignupPage() {
                               style={{ color: ANALYZE_THEME.inkFaint }}
                             />
                             <input
+                              id="otp"
                               type="text"
                               maxLength={4}
                               value={otp}
@@ -600,8 +603,8 @@ export default function SignupPage() {
                     </div>
 
                     <div>
-                      <label className="block text-xs font-bold mb-1.5" style={{ color: ANALYZE_THEME.ink }}>
-                        Work Email Address
+                      <label htmlFor="email" className="block text-xs font-bold mb-1.5" style={{ color: ANALYZE_THEME.ink }}>
+                        Work Email Address <span className="text-red-500" aria-hidden="true">*</span>
                       </label>
                       <div className="relative">
                         <Mail
@@ -610,6 +613,7 @@ export default function SignupPage() {
                           style={{ color: ANALYZE_THEME.inkFaint }}
                         />
                         <input
+                          id="email"
                           type="email"
                           value={email}
                           onChange={(e) => setEmail(e.target.value)}
@@ -626,8 +630,8 @@ export default function SignupPage() {
                     </div>
 
                     <div>
-                      <label className="block text-xs font-bold mb-1.5" style={{ color: ANALYZE_THEME.ink }}>
-                        Create Password
+                      <label htmlFor="password" className="block text-xs font-bold mb-1.5" style={{ color: ANALYZE_THEME.ink }}>
+                        Create Password <span className="text-red-500" aria-hidden="true">*</span>
                       </label>
                       <div className="relative">
                         <Lock
@@ -636,6 +640,7 @@ export default function SignupPage() {
                           style={{ color: ANALYZE_THEME.inkFaint }}
                         />
                         <input
+                          id="password"
                           type={showPassword ? "text" : "password"}
                           value={password}
                           onChange={(e) => setPassword(e.target.value)}
