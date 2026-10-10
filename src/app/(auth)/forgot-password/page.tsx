@@ -220,12 +220,13 @@ export default function ForgotPasswordPage() {
                 {step === 1 ? (
                   <form onSubmit={handleRequestCode} className="space-y-4">
                     <div>
-                      <label className="block text-xs font-bold mb-1.5" style={{ color: ANALYZE_THEME.ink }}>
-                        Work Email Address
+                      <label htmlFor="email" className="block text-xs font-bold mb-1.5" style={{ color: ANALYZE_THEME.ink }}>
+                        Work Email Address <span className="text-red-500" aria-hidden="true">*</span>
                       </label>
                       <div className="relative">
                         <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2" size={18} style={{ color: ANALYZE_THEME.inkFaint }} />
                         <input
+                          id="email"
                           type="email"
                           value={email}
                           onChange={(e) => setEmail(e.target.value)}
@@ -254,12 +255,13 @@ export default function ForgotPasswordPage() {
                 ) : (
                   <form onSubmit={handleResetPassword} className="space-y-4">
                     <div>
-                      <label className="block text-xs font-bold mb-1.5" style={{ color: ANALYZE_THEME.ink }}>
-                        Enter 4-Digit Verification OTP
+                      <label htmlFor="otp" className="block text-xs font-bold mb-1.5" style={{ color: ANALYZE_THEME.ink }}>
+                        Enter 4-Digit Verification OTP <span className="text-red-500" aria-hidden="true">*</span>
                       </label>
                       <div className="relative">
                         <KeyRound className="absolute left-3.5 top-1/2 -translate-y-1/2" size={18} style={{ color: ANALYZE_THEME.inkFaint }} />
                         <input
+                          id="otp"
                           type="text"
                           maxLength={4}
                           value={otp}
@@ -277,12 +279,13 @@ export default function ForgotPasswordPage() {
                     </div>
 
                     <div>
-                      <label className="block text-xs font-bold mb-1.5" style={{ color: ANALYZE_THEME.ink }}>
-                        New Password
+                      <label htmlFor="new-password" className="block text-xs font-bold mb-1.5" style={{ color: ANALYZE_THEME.ink }}>
+                        New Password <span className="text-red-500" aria-hidden="true">*</span>
                       </label>
                       <div className="relative">
                         <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2" size={18} style={{ color: ANALYZE_THEME.inkFaint }} />
                         <input
+                          id="new-password"
                           type={showPassword ? "text" : "password"}
                           value={newPassword}
                           onChange={(e) => setNewPassword(e.target.value)}
