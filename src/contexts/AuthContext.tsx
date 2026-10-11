@@ -191,7 +191,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   }, []);
 
-  const register = useCallback(async (name: string, email: string, password: string, role: string, phone?: string) => {
+  const register = useCallback(async (name: string, email: string, password: string, _role: string, phone?: string) => {
     try {
       const { data, error } = await supabase.auth.signUp({
         email,
@@ -209,7 +209,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
       if (data.user) {
         // Map UI roles (buyer, farmer, trader) to allowed database roles (super, market, viewer)
-        const dbRole = (role === 'super' || role === 'market' || role === 'viewer') ? role : 'viewer';
+        // SECURITY FIX: Never trust client-provided roles during registration.
+        // Force all new signups to default 'viewer' role to prevent privilege escalation.
+        const dbRole = 'viewer';
 
         // Create user profile in public.admins
         const { error: profileError } = await supabase.from('admins').insert([{
