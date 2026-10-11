@@ -179,33 +179,41 @@ def parse_cbsl_pdf(pdf_bytes: bytes, report_date: str) -> list:
         
     return records
 
-def get_latest_cbsl_pdf_links(limit: int = 10) -> list:
-    url = "https://www.cbsl.gov.lk/en/statistics/economic-indicators/price-report"
+def get_latest_cbsl_pdf_links(limit: int = None, max_pages: int = 1) -> list:
+    base_url = "https://www.cbsl.gov.lk/en/statistics/economic-indicators/price-report"
     headers = {"User-Agent": "Mozilla/5.0"}
     ctx = ssl._create_unverified_context()
     
-    print(f"--> Scraping CBSL portal at {url}...", flush=True)
-    try:
-        req = urllib.request.Request(url, headers=headers)
-        with urllib.request.urlopen(req, timeout=30, context=ctx) as resp:
-            html = resp.read().decode("utf-8", errors="ignore")
-    except Exception as e:
-        print(f"[ERROR] Failed to fetch CBSL page: {e}", flush=True)
-        return []
-    
-    pdf_matches = re.findall(r'href="([^"]*price_report_\d{8}[^"]*\.pdf)"', html, re.I)
     results = []
     seen = set()
-    for link in pdf_matches:
-        full_url = link if link.startswith("http") else f"https://www.cbsl.gov.lk{link}"
-        if full_url not in seen:
-            seen.add(full_url)
-            date_match = re.search(r'(\d{4})(\d{2})(\d{2})', full_url)
-            iso_date = f"{date_match.group(1)}-{date_match.group(2)}-{date_match.group(3)}" if date_match else None
-            results.append({"url": full_url, "date": iso_date})
-            if len(results) >= limit:
-                break
-                
+    
+    for page in range(max_pages):
+        url = base_url if page == 0 else f"{base_url}?page={page}"
+        print(f"--> Scraping CBSL portal page {page} at {url}...", flush=True)
+        try:
+            req = urllib.request.Request(url, headers=headers)
+            with urllib.request.urlopen(req, timeout=30, context=ctx) as resp:
+                html = resp.read().decode("utf-8", errors="ignore")
+        except Exception as e:
+            print(f"[ERROR] Failed to fetch CBSL page {page}: {e}", flush=True)
+            break
+        
+        pdf_matches = re.findall(r'href="([^"]*price_report_\d{8}[^"]*\.pdf)"', html, re.I)
+        page_added = 0
+        for link in pdf_matches:
+            full_url = link if link.startswith("http") else f"https://www.cbsl.gov.lk{link}"
+            if full_url not in seen:
+                seen.add(full_url)
+                date_match = re.search(r'(\d{4})(\d{2})(\d{2})', full_url)
+                iso_date = f"{date_match.group(1)}-{date_match.group(2)}-{date_match.group(3)}" if date_match else None
+                results.append({"url": full_url, "date": iso_date})
+                page_added += 1
+                if limit and len(results) >= limit:
+                    return results
+                    
+        if page_added == 0:
+            break
+            
     return results
 
 def upsert_to_supabase(records: list, supabase_url: str, supabase_key: str) -> int:
@@ -238,11 +246,11 @@ def upsert_to_supabase(records: list, supabase_url: str, supabase_key: str) -> i
             
     return total_saved
 
-def sync_cbsl(supabase_url: str = None, supabase_key: str = None, limit: int = 10):
+def sync_cbsl(supabase_url: str = None, supabase_key: str = None, limit: int = None, max_pages: int = 1):
     print("=" * 65)
     print("  CBSL DAILY WHOLESALE & RETAIL MARKET PRICE SYNC")
     print("=" * 65)
-    reports = get_latest_cbsl_pdf_links(limit=limit)
+    reports = get_latest_cbsl_pdf_links(limit=limit, max_pages=max_pages)
     print(f"    Found {len(reports)} recent CBSL Daily Price Report PDFs.", flush=True)
     
     ctx = ssl._create_unverified_context()
@@ -272,6 +280,12 @@ def sync_cbsl(supabase_url: str = None, supabase_key: str = None, limit: int = 1
     print(f"\n[DONE] Successfully synced {total_synced} CBSL price records into Supabase.", flush=True)
 
 if __name__ == "__main__":
+    import argparse
+    parser = argparse.ArgumentParser(description="Sync CBSL Daily Price Reports into Supabase")
+    parser.add_argument("--pages", type=int, default=1, help="Number of CBSL portal archive pages to scrape (default: 1)")
+    parser.add_argument("--limit", type=int, default=None, help="Maximum number of PDF reports to process")
+    args = parser.parse_args()
+    
     url = os.environ.get("SUPABASE_URL") or os.environ.get("NEXT_PUBLIC_SUPABASE_URL")
     key = os.environ.get("SUPABASE_SERVICE_ROLE_KEY") or os.environ.get("SUPABASE_ANON_KEY")
-    sync_cbsl(url, key, limit=10)
+    sync_cbsl(url, key, limit=args.limit, max_pages=args.pages)
