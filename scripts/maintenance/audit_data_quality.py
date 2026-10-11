@@ -125,13 +125,24 @@ def main():
     checks.append(("No Future Dated Records", future_prices == 0, f"Future dates found: {future_prices}"))
     print(f"    * Future Dates (> {today_str}): {future_prices} {'[OK]' if future_prices == 0 else '[FAIL]'}")
 
-    # 5. Foreign Key Dimension Alignment
-    print(f"\n[5] DIMENSION ENTITY ALIGNMENT:")
+    # 5. Foreign Key Dimension Alignment & Hygiene
+    print(f"\n[5] DIMENSION ENTITY ALIGNMENT & HYGIENE:")
     markets = fetch_json("markets?select=id")
     vegetables = fetch_json("vegetables?select=id")
     print(f"    * Active Canonical Markets:     {len(markets)} configured")
     print(f"    * Active Canonical Commodities: {len(vegetables)} configured")
-    checks.append(("Foreign Key Dimension Tables Populated", len(markets) >= 10 and len(vegetables) >= 40, f"Mkt: {len(markets)}, Veg: {len(vegetables)}"))
+    
+    junk_patterns = ["div-0", "ref", "division", "head", "karathak", "kora", "kiri-ponne"]
+    corrupted_vegs = [
+        v["id"] for v in vegetables
+        if v["id"] in ("-", ".") or any(p in v["id"].lower() for p in junk_patterns)
+    ]
+    has_zero_corrupted = len(corrupted_vegs) == 0
+    checks.append(("Zero Corrupted Commodity Entities in Database", has_zero_corrupted, f"Corrupted found: {corrupted_vegs}"))
+    print(f"    * Corrupted/Junk Commodities in DB: {len(corrupted_vegs)} {'[OK]' if has_zero_corrupted else '[FAIL]'}")
+    
+    dim_ok = len(markets) >= 10 and len(vegetables) >= 40 and has_zero_corrupted
+    checks.append(("Foreign Key Dimension Tables Populated", dim_ok, f"Mkt: {len(markets)}, Veg: {len(vegetables)}"))
 
     # 6. Overall Quality Score
     passed_count = sum(1 for _, ok, _ in checks if ok)

@@ -8,6 +8,7 @@ on:
 jobs:
   sync_database:
     runs-on: ubuntu-latest
+    timeout-minutes: 20
 
     steps:
       - name: Checkout Repository
@@ -32,16 +33,32 @@ jobs:
         run: |
           npm install @supabase/supabase-js tsx
 
-      - name: Run Scraper and Sync Data
+      - name: Sync CBSL Daily Price Reports (Official Central Bank Bulletins)
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+        run: |
+          echo "Syncing latest CBSL Daily Price Reports (Pettah & Dambulla)..."
+          python scripts/sync/sync_cbsl_reports.py
+
+      - name: Sync Dambulla DEC Live Auction Prices
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+        run: |
+          echo "Syncing Dambulla DEC Live API prices..."
+          python scripts/sync/sync_dambulla_api.py
+
+      - name: Run HARTI Daily Bulletin Scraper and Sync Data
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
         run: |
           START_DATE=$(date -d "7 days ago" +%Y-%m-%d)
-          echo "Starting daily sync from $START_DATE"
+          echo "Starting daily HARTI sync from $START_DATE"
           
-          # 1. Download PDFs
-          python scripts/scraper/download_pdfs.py --start-date $START_DATE --output-dir ./PDFs
+          # 1. Download PDFs (with non-blocking error handling if HARTI portal is offline)
+          python scripts/scraper/download_pdfs.py --start-date $START_DATE --output-dir ./PDFs || true
           
           PDF_COUNT=$(find ./PDFs -type f -name "*.pdf" 2>/dev/null | wc -l)
           if [ "$PDF_COUNT" -gt 0 ]; then
@@ -60,8 +77,11 @@ jobs:
               echo "No JSON files generated. Skipping sync."
             fi
           else
-            echo "No PDFs found for the last 7 days. Skipping extraction and sync."
+            echo "No HARTI PDFs found for the last 7 days. Continuing with multi-source sync."
           fi
+
+          # Purge scratch files to stay within runner disk limits
+          rm -rf ./PDFs/* ./price_data/*
 
       - name: Run Enterprise Data Quality & Hygiene Audit
         env:

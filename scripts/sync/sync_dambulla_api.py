@@ -32,6 +32,9 @@ except ImportError:
 DAMBULLA_PRODUCT_MAP = {
     "beans": "beans",
     "beet root": "beet-root",
+    "beetroot - nuwaraeliya": "beet-root",
+    "beetroot cut - malsiripura": "beet-root",
+    "beetroot cut - puththalama": "beet-root",
     "cabbage": "cabbage--kandy-",
     "carrot": "carrot",
     "knolkhol": "knolkhol",
@@ -56,15 +59,26 @@ DAMBULLA_PRODUCT_MAP = {
     "manioc": "manioc",
     "sweet potato": "sweet-potatoe",
     "potato": "potato--imported-",
-    "potato local": "potato--nuwaraeliya-",
+    "potato import": "potato--imported-",
+    "potato local": "potato--welimada-",
+    "potato lanka": "potato--welimada-",
+    "potato welimada": "potato--welimada-",
+    "potato nuwaraeliya": "potato--nuwaraeliya-",
     "big onion": "imported",
+    "big onion import": "imported",
+    "big onion lanka": "sinnan",
     "red onion": "vedalan",
+    "banana - abul": "ambul",
+    "banana - ambun": "ambul",
+    "banana - kolikuttu": "kolikuttu",
+    "banana - sini": "seeni",
     "ambul": "ambul",
     "kolikuttu": "kolikuttu",
     "seeni": "seeni",
     "papaya": "papaya",
     "pineapple": "pineapple---large",
     "avocado": "avocado",
+    "avacado": "avocado",
     "passion fruit": "passion-fruits"
 }
 
@@ -74,12 +88,11 @@ def normalize_dambulla_product(name: str) -> str:
         return DAMBULLA_PRODUCT_MAP[cleaned]
     
     # Try fuzzy match against known keys
-    matches = difflib.get_close_matches(cleaned, DAMBULLA_PRODUCT_MAP.keys(), n=1, cutoff=0.75)
+    matches = difflib.get_close_matches(cleaned, DAMBULLA_PRODUCT_MAP.keys(), n=1, cutoff=0.8)
     if matches:
         return DAMBULLA_PRODUCT_MAP[matches[0]]
     
-    # Fallback slug
-    return cleaned.replace(" ", "-").replace("'", "")
+    return None
 
 def fetch_dambulla_prices_for_date(date_str: str) -> list:
     url = f"https://api.dambulladec.com/api/prices/by-date/{date_str}?page=1&pageSize=150"
@@ -157,6 +170,8 @@ def sync_date(date_str: str, supabase_url: str = None, supabase_key: str = None)
         
         avg_price = round((min_p + max_p) / 2.0, 2) if (min_p > 0 and max_p > 0) else max(min_p, max_p)
         veg_id = normalize_dambulla_product(prod_name)
+        if not veg_id:
+            continue
         
         # Foreign key validation against canonical vegetables table
         if valid_veg_ids and veg_id not in valid_veg_ids:

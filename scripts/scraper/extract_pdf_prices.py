@@ -57,13 +57,23 @@ IGNORED_ITEMS = {
     ("Dried Chillies", "Local"),  # Pettah: 0 non-null records across all 925 days tracked
     ("Imported Rice", "Raw red"),  # Pettah: 0 non-null records across all 925 days tracked
     ("Imported Rice", "Nadu"),  # Pettah: last real price 2025-05-14, appears discontinued
+    ("Imported Rice", "Kiri Ponne(Pall Ponne)"),
+    ("Imported Rice", "Kiri Ponne"),
+    ("Imported Rice", "Kora"),
     ("Up Country Vegetable", "Cabbage (N'Eliya)"),  # Peliyagoda: last real price 2025-11-27, 269-day max gap
     ("Big Onion", "Local"),  # Pettah: last real price 2025-12-18, appears discontinued
     ("Low country Vegetable", "Big-onion Local"),  # Peliyagoda: last real price 2025-12-18, appears discontinued
     ("Pulses", "Cowpea (White)"),  # Pettah: only tracked 2025-07 to 2025-12, insufficient history
     ("Other Fruits (Rs/Fruit)", "Karathakolomban"),  # Peliyagoda: last real price 2025-12-22, appears discontinued
+    ("Other Fruits (Rs/Fruit)", "Karathak"),
+    ("Other Fruits (Rs/Fruit)", "Karathako"),
+    ("Other Fruits (Rs/Fruit)", "Orange"),
     ("Other Fruits (Rs/Fruit)", "Mango - Betti"),  # Peliyagoda: sparse (17.8% coverage), excluded per user decision
 }
+
+SKIP_LINE_PATTERNS = re.compile(
+    r"(?i)\b(division|head|marketing|information|data\s*management|harti|bulletin|wholesale)\b|#div|#ref|^\W*$"
+)
 
 # The name group excludes any decimal-point number ((?!\d+\.\d+).) so a
 # rare rendering glitch where a stray decimal value appears before the real
@@ -147,6 +157,8 @@ def parse_pettah_page(text: str, date: str) -> list:
             continue
         if name_only.lower() in PAGE1_SKIP_LINES:
             continue
+        if SKIP_LINE_PATTERNS.search(line) or SKIP_LINE_PATTERNS.search(name_only):
+            continue
 
         if current_category is None:
             # Still in the title/header block above "Rice (Rs/kg)" - ignore.
@@ -224,10 +236,14 @@ VEG_CATEGORY_RE = re.compile(r"vegetable|banana|other fruit", re.IGNORECASE)
 # always immediately follow "Pineapple - Large" in this report) but don't
 # repeat "Pineapple" in their own cell, so make that explicit too.
 PELIYAGODA_NAME_ALIASES = [
-    (re.compile(r"karathakol", re.IGNORECASE), "Karathakolomban"),
+    (re.compile(r"karathak", re.IGNORECASE), "Karathakolomban"),
     (re.compile(r"passion\s*fruit", re.IGNORECASE), "Passion Fruits"),
     (re.compile(r"^medium$", re.IGNORECASE), "Pineapple - Medium"),
     (re.compile(r"^small$", re.IGNORECASE), "Pineapple - Small"),
+    (re.compile(r"bitter\s*gourd", re.IGNORECASE), "Bitter Gourd"),
+    (re.compile(r"beet\s*root", re.IGNORECASE), "Beet root"),
+    (re.compile(r"brinjal", re.IGNORECASE), "Brinjals"),
+    (re.compile(r"cabbage.*kandy", re.IGNORECASE), "Cabbage (Kandy)"),
 ]
 
 
@@ -285,6 +301,8 @@ def parse_peliyagoda_page(table: list, date: str) -> list:
             continue
         first_cell = row[0].strip()
         if not first_cell:
+            continue
+        if SKIP_LINE_PATTERNS.search(first_cell):
             continue
 
         rest = row[1:]
