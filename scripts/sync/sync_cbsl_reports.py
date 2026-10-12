@@ -25,6 +25,12 @@ sys.stdout.reconfigure(encoding='utf-8')
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import env_loader
 
+CBSL_HEADERS = {
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
+    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
+    "Accept-Language": "en-US,en;q=0.5",
+}
+
 CBSL_COMMODITY_MAP = [
     # (pattern in lower, canonical_id, display_name)
     ("beans", "beans", "Beans"),
@@ -181,7 +187,7 @@ def parse_cbsl_pdf(pdf_bytes: bytes, report_date: str) -> list:
 
 def get_latest_cbsl_pdf_links(limit: int = None, max_pages: int = 1) -> list:
     base_url = "https://www.cbsl.gov.lk/en/statistics/economic-indicators/price-report"
-    headers = {"User-Agent": "Mozilla/5.0"}
+    headers = CBSL_HEADERS
     ctx = ssl._create_unverified_context()
     
     results = []
@@ -254,7 +260,7 @@ def sync_cbsl(supabase_url: str = None, supabase_key: str = None, limit: int = N
     print(f"    Found {len(reports)} recent CBSL Daily Price Report PDFs.", flush=True)
     
     ctx = ssl._create_unverified_context()
-    headers = {"User-Agent": "Mozilla/5.0"}
+    headers = CBSL_HEADERS
     total_synced = 0
     
     for rep in reports:

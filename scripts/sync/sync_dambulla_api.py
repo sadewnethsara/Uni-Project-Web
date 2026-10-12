@@ -207,7 +207,8 @@ def sync_date(date_str: str, supabase_url: str = None, supabase_key: str = None)
 
 def main():
     parser = argparse.ArgumentParser(description="Sync Dambulla DEC prices into Supabase")
-    parser.add_argument("--date", help="Target date YYYY-MM-DD (defaults to today)")
+    parser.add_argument("--date", help="Target date YYYY-MM-DD")
+    parser.add_argument("--days", type=int, default=3, help="Rolling days to sync up to today (default: 3)")
     parser.add_argument("--start-date", help="Range start date YYYY-MM-DD")
     parser.add_argument("--end-date", help="Range end date YYYY-MM-DD")
     args = parser.parse_args()
@@ -224,9 +225,20 @@ def main():
             total += sync_date(d_str, supabase_url, supabase_key)
             curr += timedelta(days=1)
         print(f"\n[DONE] Range sync complete. Total prices processed: {total}")
+    elif args.date:
+        sync_date(args.date, supabase_url, supabase_key)
     else:
-        target_date = args.date or datetime.now().strftime("%Y-%m-%d")
-        sync_date(target_date, supabase_url, supabase_key)
+        # Default rolling window (e.g. last 3 days up to today) to reliably capture delayed/weekend uploads
+        num_days = max(1, args.days)
+        today = datetime.now()
+        start = today - timedelta(days=num_days - 1)
+        total = 0
+        curr = start
+        while curr <= today:
+            d_str = curr.strftime("%Y-%m-%d")
+            total += sync_date(d_str, supabase_url, supabase_key)
+            curr += timedelta(days=1)
+        print(f"\n[DONE] Rolling {num_days}-day sync complete. Total prices processed: {total}")
 
 if __name__ == "__main__":
     main()

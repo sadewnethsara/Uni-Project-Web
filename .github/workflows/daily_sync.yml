@@ -46,8 +46,8 @@ jobs:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
         run: |
-          echo "Syncing Dambulla DEC Live API prices..."
-          python scripts/sync/sync_dambulla_api.py
+          echo "Syncing Dambulla DEC Live API prices (rolling 3-day window)..."
+          python scripts/sync/sync_dambulla_api.py --days 3
 
       - name: Run HARTI Daily Bulletin Scraper and Sync Data
         env:

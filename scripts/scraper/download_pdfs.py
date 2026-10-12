@@ -78,20 +78,61 @@ MONTH_NAMES = {
 # month folder. Add more names here if another gap is discovered.
 FALLBACK_FOLDER_NAMES = ["December", "February"]
 
+import re
+import urllib.parse
+
 # The filename template changed starting this date (inclusive).
 NEW_FORMAT_START = date(2026, 4, 1)
 
 HEADERS = {
-    "User-Agent": "Mozilla/5.0 (compatible; harti-price-collector/1.0; research use)"
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36"
 }
 
 LOG_FIELDS = ["timestamp", "date", "status", "http_status", "url", "detail"]
+
+_PORTAL_INDEX = None
+
+def get_portal_pdf_map(session: requests.Session = None) -> dict:
+    """Scrapes https://www.harti.gov.lk/daily-price.php to discover all uploaded bulletins dynamically."""
+    global _PORTAL_INDEX
+    if _PORTAL_INDEX is not None:
+        return _PORTAL_INDEX
+
+    url = "https://www.harti.gov.lk/daily-price.php"
+    s = session or requests.Session()
+    date_to_url = {}
+    try:
+        resp = s.get(url, headers=HEADERS, timeout=15)
+        if resp.status_code == 200:
+            matches = re.findall(r'href="([^"]*\.pdf)"', resp.text, re.I)
+            for m in matches:
+                # Pattern 1: (YYYY.MM.DD)
+                d_match = re.search(r'\((\d{4})\.(\d{2})\.(\d{2})\)', m)
+                if d_match:
+                    d_str = f"{d_match.group(1)}-{d_match.group(2)}-{d_match.group(3)}"
+                    full_url = "https://www.harti.gov.lk/" + urllib.parse.quote(m)
+                    date_to_url[d_str] = full_url
+                    continue
+                # Pattern 2: daily_DD-MM-YYYY
+                d_match2 = re.search(r'daily_(\d{2})-(\d{2})-(\d{4})', m, re.I)
+                if d_match2:
+                    d_str = f"{d_match2.group(3)}-{d_match2.group(2)}-{d_match2.group(1)}"
+                    full_url = "https://www.harti.gov.lk/" + urllib.parse.quote(m)
+                    date_to_url[d_str] = full_url
+                    continue
+    except Exception as e:
+        # Graceful fallback if portal page is down or times out
+        pass
+
+    _PORTAL_INDEX = date_to_url
+    return _PORTAL_INDEX
 
 
 def candidate_filenames(d: date) -> list:
     old = f"daily_{d.day:02d}-{d.month:02d}-{d.year}.pdf"
     new = f"Vegetable%20Pricenew%20ex1({d.year}.{d.month:02d}.{d.day:02d}).pdf"
-    return [new, old] if d >= NEW_FORMAT_START else [old, new]
+    weekend = f"Vegetables%20Wholesale%20Prices%20({d.year}.{d.month:02d}.{d.day:02d}).pdf"
+    return [weekend, new, old] if d >= NEW_FORMAT_START else [old, weekend, new]
 
 
 def candidate_folders(d: date) -> list:
@@ -100,12 +141,22 @@ def candidate_folders(d: date) -> list:
     return [primary] + fallbacks
 
 
-def candidate_urls(d: date) -> list:
-    """Ordered list of plausible URLs for a date, most likely first."""
+def candidate_urls(d: date, session: requests.Session = None) -> list:
+    """Ordered list of plausible URLs for a date, discovered portal links first."""
     urls = []
+    
+    # 1. Check dynamic portal map first
+    portal_map = get_portal_pdf_map(session)
+    iso_date = d.isoformat()
+    if iso_date in portal_map:
+        urls.append(portal_map[iso_date])
+        
+    # 2. Add fallback static candidate URLs
     for folder in candidate_folders(d):
         for filename in candidate_filenames(d):
-            urls.append(BASE.format(year=d.year, folder=folder, filename=filename))
+            u = BASE.format(year=d.year, folder=folder, filename=filename)
+            if u not in urls:
+                urls.append(u)
     return urls
 
 
@@ -139,7 +190,7 @@ def download_one(d: date, output_dir: Path, session: requests.Session,
     tried = []
     last_error = ""
 
-    for url in candidate_urls(d):
+    for url in candidate_urls(d, session):
         tried.append(url)
         got_transient_error = False
 
