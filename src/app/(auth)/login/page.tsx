@@ -241,8 +241,8 @@ export default function LoginPage() {
 
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <label className="block text-xs font-bold mb-1.5" style={{ color: ANALYZE_THEME.ink }}>
-                  Work Email Address
+                <label htmlFor="email" className="block text-xs font-bold mb-1.5" style={{ color: ANALYZE_THEME.ink }}>
+                  Work Email Address <span className="text-red-500" aria-hidden="true">*</span>
                 </label>
                 <div className="relative">
                   <Mail
@@ -251,6 +251,7 @@ export default function LoginPage() {
                     style={{ color: ANALYZE_THEME.inkFaint }}
                   />
                   <input
+                    id="email"
                     type="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
@@ -268,8 +269,8 @@ export default function LoginPage() {
 
               <div>
                 <div className="flex items-center justify-between mb-1.5">
-                  <label className="text-xs font-bold" style={{ color: ANALYZE_THEME.ink }}>
-                    Password
+                  <label htmlFor="password" className="text-xs font-bold" style={{ color: ANALYZE_THEME.ink }}>
+                    Password <span className="text-red-500" aria-hidden="true">*</span>
                   </label>
                   <Link
                     href="/forgot-password"
@@ -286,6 +287,7 @@ export default function LoginPage() {
                     style={{ color: ANALYZE_THEME.inkFaint }}
                   />
                   <input
+                    id="password"
                     type={showPassword ? "text" : "password"}
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
