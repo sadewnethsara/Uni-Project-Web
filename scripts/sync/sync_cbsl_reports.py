@@ -185,10 +185,13 @@ def parse_cbsl_pdf(pdf_bytes: bytes, report_date: str) -> list:
         
     return records
 
-def get_latest_cbsl_pdf_links(limit: int = None, max_pages: int = 1) -> list:
+import requests
+
+def get_latest_cbsl_pdf_links(limit: int = None, max_pages: int = 1, session: requests.Session = None) -> list:
+    if session is None:
+        session = requests.Session()
     base_url = "https://www.cbsl.gov.lk/en/statistics/economic-indicators/price-report"
     headers = CBSL_HEADERS
-    ctx = ssl._create_unverified_context()
     
     results = []
     seen = set()
@@ -197,9 +200,11 @@ def get_latest_cbsl_pdf_links(limit: int = None, max_pages: int = 1) -> list:
         url = base_url if page == 0 else f"{base_url}?page={page}"
         print(f"--> Scraping CBSL portal page {page} at {url}...", flush=True)
         try:
-            req = urllib.request.Request(url, headers=headers)
-            with urllib.request.urlopen(req, timeout=30, context=ctx) as resp:
-                html = resp.read().decode("utf-8", errors="ignore")
+            resp = session.get(url, headers=headers, timeout=30)
+            if resp.status_code != 200:
+                print(f"[ERROR] Failed to fetch CBSL page {page}: HTTP {resp.status_code}", flush=True)
+                break
+            html = resp.text
         except Exception as e:
             print(f"[ERROR] Failed to fetch CBSL page {page}: {e}", flush=True)
             break
@@ -222,9 +227,11 @@ def get_latest_cbsl_pdf_links(limit: int = None, max_pages: int = 1) -> list:
             
     return results
 
-def upsert_to_supabase(records: list, supabase_url: str, supabase_key: str) -> int:
+def upsert_to_supabase(records: list, supabase_url: str, supabase_key: str, session: requests.Session = None) -> int:
     if not records or not supabase_url or not supabase_key:
         return 0
+    if session is None:
+        session = requests.Session()
         
     endpoint = f"{supabase_url.rstrip('/')}/rest/v1/price_entries?on_conflict=vegetable_id,market_id,date,price_type"
     headers = {
@@ -233,20 +240,18 @@ def upsert_to_supabase(records: list, supabase_url: str, supabase_key: str) -> i
         "Content-Type": "application/json",
         "Prefer": "resolution=merge-duplicates"
     }
-    ctx = ssl._create_unverified_context()
     
     # Free-tier batch guardrail: 500 records per batch
     batch_size = 500
     total_saved = 0
     for i in range(0, len(records), batch_size):
         batch = records[i:i + batch_size]
-        req = urllib.request.Request(endpoint, data=json.dumps(batch).encode("utf-8"), headers=headers, method="POST")
         try:
-            with urllib.request.urlopen(req, timeout=30, context=ctx):
+            resp = session.post(endpoint, json=batch, headers=headers, timeout=30)
+            if resp.status_code in (200, 201):
                 total_saved += len(batch)
-        except urllib.error.HTTPError as e:
-            err = e.read().decode("utf-8", errors="ignore")
-            print(f"    Supabase upsert error [HTTP {e.code}]: {err[:200]}", flush=True)
+            else:
+                print(f"    Supabase upsert error [HTTP {resp.status_code}]: {resp.text[:200]}", flush=True)
         except Exception as e:
             print(f"    Supabase upsert error: {e}", flush=True)
             
@@ -256,25 +261,27 @@ def sync_cbsl(supabase_url: str = None, supabase_key: str = None, limit: int = N
     print("=" * 65)
     print("  CBSL DAILY WHOLESALE & RETAIL MARKET PRICE SYNC")
     print("=" * 65)
-    reports = get_latest_cbsl_pdf_links(limit=limit, max_pages=max_pages)
+    session = requests.Session()
+    reports = get_latest_cbsl_pdf_links(limit=limit, max_pages=max_pages, session=session)
     print(f"    Found {len(reports)} recent CBSL Daily Price Report PDFs.", flush=True)
     
-    ctx = ssl._create_unverified_context()
     headers = CBSL_HEADERS
     total_synced = 0
     
     for rep in reports:
         print(f"--> Processing [{rep['date']}]: {rep['url']}", flush=True)
         try:
-            req = urllib.request.Request(rep["url"], headers=headers)
-            with urllib.request.urlopen(req, timeout=25, context=ctx) as resp:
-                pdf_bytes = resp.read()
+            resp = session.get(rep["url"], headers=headers, timeout=25)
+            if resp.status_code != 200:
+                print(f"    Failed to download PDF [HTTP {resp.status_code}]: {rep['url']}", flush=True)
+                continue
+            pdf_bytes = resp.content
                 
             entries = parse_cbsl_pdf(pdf_bytes, rep["date"])
             print(f"    Extracted {len(entries)} commodity prices (Pettah & Dambulla).", flush=True)
             
             if supabase_url and supabase_key and entries:
-                saved = upsert_to_supabase(entries, supabase_url, supabase_key)
+                saved = upsert_to_supabase(entries, supabase_url, supabase_key, session=session)
                 total_synced += saved
                 print(f"    Upserted {saved} rows into Supabase.", flush=True)
             elif entries:

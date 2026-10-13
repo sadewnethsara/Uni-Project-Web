@@ -2,13 +2,16 @@ name: Daily Supabase Database Sync
 
 on:
   schedule:
-    - cron: '30 16 * * *' # Runs daily at 10:00 PM Sri Lanka Time (16:30 UTC)
+    # Runs 3 times daily (Sri Lanka Standard Time = UTC + 5:30)
+    - cron: '30 1 * * *'  # 07:00 AM Sri Lanka Time (01:30 UTC) - Morning Market Catchup
+    - cron: '30 10 * * *' # 04:00 PM Sri Lanka Time (10:30 UTC) - Afternoon Bulletin Release
+    - cron: '30 16 * * *' # 10:00 PM Sri Lanka Time (16:30 UTC) - Evening Final Close
   workflow_dispatch: # Allows manual trigger from GitHub UI
 
 jobs:
   sync_database:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 60
 
     steps:
       - name: Checkout Repository
