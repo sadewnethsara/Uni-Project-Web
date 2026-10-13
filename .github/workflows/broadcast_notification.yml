@@ -32,6 +32,14 @@ on:
           - 'kandy'
           - 'keppetipola'
           - 'peliyagoda'
+      topic:
+        description: 'Notification Channel & Audience'
+        required: true
+        type: choice
+        default: 'market_updates'
+        options:
+          - 'market_updates'
+          - 'price_surges'
       force_send:
         description: 'Bypass duplicate check and force send'
         required: false
@@ -62,18 +70,20 @@ jobs:
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
           FIREBASE_SERVICE_ACCOUNT_JSON: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_JSON }}
         run: |
+          TOPIC="${{ github.event.inputs.topic }}"
           if [ "${{ github.event.inputs.mode }}" = "custom_message" ]; then
-            echo "Sending custom push notification..."
+            echo "Sending custom push notification to topic: $TOPIC..."
             python scripts/maintenance/send_market_notification.py \
               --title "${{ github.event.inputs.custom_title }}" \
               --body "${{ github.event.inputs.custom_body }}" \
               --market "${{ github.event.inputs.market_id }}" \
+              --topic "$TOPIC" \
               --force
           else
-            echo "Running auto-verify notification..."
+            echo "Running auto-verify notification for topic: $TOPIC..."
             FORCE_FLAG=""
             if [ "${{ github.event.inputs.force_send }}" = "true" ]; then
               FORCE_FLAG="--force"
             fi
-            python scripts/maintenance/send_market_notification.py $FORCE_FLAG
+            python scripts/maintenance/send_market_notification.py --topic "$TOPIC" $FORCE_FLAG
           fi

@@ -178,8 +178,14 @@ def format_notification(summary: dict) -> tuple:
 
     return title, body, payload_data
 
-def send_fcm_topic_notification(title: str, body: str, payload_data: dict) -> str:
-    """Dispatches FCM push message to the 'market_updates' topic."""
+def send_fcm_topic_notification(
+    title: str, 
+    body: str, 
+    payload_data: dict,
+    topic: str = "market_updates",
+    channel_id: str = "market_updates_channel"
+) -> str:
+    """Dispatches FCM push message to the specified topic and Android channel."""
     if not FIREBASE_SA_JSON:
         print("[ERROR] FIREBASE_SERVICE_ACCOUNT_JSON secret is not set.")
         return ""
@@ -195,21 +201,25 @@ def send_fcm_topic_notification(title: str, body: str, payload_data: dict) -> st
     except ValueError:
         firebase_admin.initialize_app(cred)
 
+    # Distinct visual styling based on notification channel
+    is_surge = (channel_id == "price_surges_channel" or topic == "price_surges")
+    accent_color = "#DC2626" if is_surge else "#16A34A"  # Red for surge alerts, Green for daily bulletins
+
     android_config = messaging.AndroidConfig(
         priority="high",
         notification=messaging.AndroidNotification(
             title=title,
             body=body,
-            channel_id="market_updates_channel",
+            channel_id=channel_id,
             sound="default",
-            color="#16a34a",
+            color=accent_color,
             default_sound=True,
             default_vibrate_timings=True
         )
     )
 
     message = messaging.Message(
-        topic="market_updates",
+        topic=topic,
         notification=messaging.Notification(
             title=title,
             body=body
@@ -229,10 +239,21 @@ def main():
     parser.add_argument("--body", type=str, default="", help="Custom notification body override")
     parser.add_argument("--market", type=str, default="", help="Market ID for payload (e.g. dambulla)")
     parser.add_argument("--date", type=str, default="", help="Date YYYY-MM-DD override")
+    parser.add_argument(
+        "--topic", 
+        type=str, 
+        default="market_updates", 
+        choices=["market_updates", "price_surges"],
+        help="FCM Topic: market_updates or price_surges"
+    )
     args = parser.parse_args()
+
+    channel_id = "price_surges_channel" if args.topic == "price_surges" else "market_updates_channel"
 
     print("=" * 65)
     print("  NAMIS DATABASE SYNC VERIFICATION & PUSH NOTIFICATION")
+    print(f"  Channel: {channel_id} | Topic: {args.topic}")
+    print("=" * 65)
     print("=" * 65)
 
     target_date = args.date or datetime.now().strftime("%Y-%m-%d")
@@ -271,9 +292,15 @@ def main():
     print(f"[*] Notification Title: {title}")
     print(f"[*] Notification Body:  {body}")
 
-    fcm_id = send_fcm_topic_notification(title, body, payload)
+    fcm_id = send_fcm_topic_notification(
+        title, 
+        body, 
+        payload, 
+        topic=args.topic, 
+        channel_id=channel_id
+    )
     if fcm_id:
-        print(f"[SUCCESS] Broadcasted to FCM topic 'market_updates'. Message ID: {fcm_id}")
+        print(f"[SUCCESS] Broadcasted to FCM topic '{args.topic}'. Message ID: {fcm_id}")
         record = {
             "date": target_date,
             "markets": markets_list,
