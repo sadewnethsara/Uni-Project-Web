@@ -32,6 +32,13 @@ on:
           - 'kandy'
           - 'keppetipola'
           - 'peliyagoda'
+          - 'meegoda'
+          - 'norochchole'
+          - 'thambuththegama'
+          - 'nuwara-eliya'
+          - 'bandarawela'
+          - 'veyangoda'
+          - 'manning'
       topic:
         description: 'Notification Channel & Audience'
         required: true

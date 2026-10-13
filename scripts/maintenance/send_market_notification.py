@@ -131,43 +131,119 @@ def check_recent_updates() -> dict:
         "price_types": price_types
     }
 
-def format_notification(summary: dict) -> tuple:
-    """Formats professional notification Title, Short Body, and Expanded BigText."""
-    market_labels = {
-        "dambulla": "Dambulla DEC",
-        "pettah": "Pettah Wholesale Market",
-        "kandy": "Kandy Economic Centre",
-        "keppetipola": "Keppetipola Economic Centre",
-        "narahenpita": "Narahenpita Economic Centre",
-        "peliyagoda": "Peliyagoda Market"
+TRANSLATIONS = {
+    "en": {
+        "wholesale": "Wholesale",
+        "retail": "Retail",
+        "update_title": "📊 {price_type} Market Update: {market}",
+        "island_title": "📊 Sri Lanka {price_type} Market Update",
+        "single_market_body": "{market} prices for {date} are now live ({count} commodities updated).",
+        "multi_market_body": "Prices for {markets} ({date}) are now live across {count} commodities.",
+        "general_body": "Daily commodity prices for {date} have been updated successfully.",
+        "markets": {
+            "dambulla": "Dambulla Economic Center",
+            "pettah": "Pettah Wholesale Market",
+            "kandy": "Kandy Central Market",
+            "keppetipola": "Keppetipola Economic Center",
+            "narahenpita": "Narahenpita Economic Center",
+            "peliyagoda": "Peliyagoda Economic Center",
+            "meegoda": "Meegoda Economic Center",
+            "norochchole": "Norochchole Economic Center",
+            "thambuththegama": "Thambuththegama Economic Center",
+            "nuwara-eliya": "Nuwara Eliya Economic Center",
+            "bandarawela": "Bandarawela Economic Center",
+            "veyangoda": "Veyangoda Economic Center",
+            "manning": "Manning Market"
+        }
+    },
+    "si": {
+        "wholesale": "තොග",
+        "retail": "සිල්ලර",
+        "update_title": "📊 {price_type} මිල යාවත්කාලීන විය: {market}",
+        "island_title": "📊 ශ්‍රී ලංකා {price_type} වෙළෙඳපොළ මිල යාවත්කාලීන විය",
+        "single_market_body": "{date} දින {market} මිල ගණන් දැන් නිකුත් කර ඇත (භාණ්ඩ {count}ක් යාවත්කාලීනයි).",
+        "multi_market_body": "{date} දින {markets} මිල ගණන් භාණ්ඩ {count}ක් සඳහා දැන් නිකුත් කර ඇත.",
+        "general_body": "{date} දින සඳහා දෛනික එළවළු සහ කෘෂි මිල ගණන් යාවත්කාලීන කර ඇත.",
+        "markets": {
+            "dambulla": "දඹුල්ල ආර්ථික මධ්‍යස්ථානය",
+            "pettah": "පිටකොටුව තොග වෙළෙඳපොළ",
+            "kandy": "මහනුවර වෙළෙඳපොළ",
+            "keppetipola": "කැප්පෙටිපොළ ආර්ථික මධ්‍යස්ථානය",
+            "narahenpita": "නාරාහේන්පිට ආර්ථික මධ්‍යස්ථානය",
+            "peliyagoda": "පෑලියගොඩ ආර්ථික මධ්‍යස්ථානය",
+            "meegoda": "මීගොඩ ආර්ථික මධ්‍යස්ථානය",
+            "norochchole": "නොරොච්චෝලේ ආර්ථික මධ්‍යස්ථානය",
+            "thambuththegama": "තඹුත්තේගම ආර්ථික මධ්‍යස්ථානය",
+            "nuwara-eliya": "නුවරඑළිය ආර්ථික මධ්‍යස්ථානය",
+            "bandarawela": "බණ්ඩාරවෙල ආර්ථික මධ්‍යස්ථානය",
+            "veyangoda": "වේයන්ගොඩ ආර්ථික මධ්‍යස්ථානය",
+            "manning": "මැනිං වෙළෙඳපොළ"
+        }
+    },
+    "ta": {
+        "wholesale": "மொத்த",
+        "retail": "சில்லறை",
+        "update_title": "📊 {price_type} சந்தை விலை புதுப்பிக்கப்பட்டது: {market}",
+        "island_title": "📊 இலங்கை {price_type} சந்தை விலை புதுப்பிக்கப்பட்டது",
+        "single_market_body": "{date} ஆம் திகதிக்கான {market} விலைகள் இப்போது கிடைக்கின்றன ({count} பொருட்கள் புதுப்பிக்கப்பட்டன).",
+        "multi_market_body": "{date} ஆம் திகதிக்கான {markets} விலைகள் {count} பொருட்களுக்கு இப்போது கிடைக்கின்றன.",
+        "general_body": "{date} ஆம் திகதிக்கான தினசரி காய்கறி விலைகள் புதுப்பிக்கப்பட்டுள்ளன.",
+        "markets": {
+            "dambulla": "தம்புள்ளை பொருளாதார மையம்",
+            "pettah": "புறக்கோட்டை மொத்த சந்தை",
+            "kandy": "கண்டி மத்திய சந்தை",
+            "keppetipola": "கெப்பட்டிபொல பொருளாதார மையம்",
+            "narahenpita": "நாராஹேன்பிட்ட பொருளாதார மையம்",
+            "peliyagoda": "பேலியகொடை பொருளாதார மையம்",
+            "meegoda": "மீகொட பொருளாதார மையம்",
+            "norochchole": "நுரைச்சோலை பொருளாதார மையம்",
+            "thambuththegama": "தம்புத்தேகம பொருளாதார மையம்",
+            "nuwara-eliya": "நுவரெலியா பொருளாதார மையம்",
+            "bandarawela": "பண்டாரவளை பொருளாதார மையம்",
+            "veyangoda": "வேயங்கொட பொருளாதார மையம்",
+            "manning": "மெனிங் சந்தை"
+        }
     }
+}
 
+def format_multilingual_notifications(summary: dict) -> tuple:
+    """Formats localized notification Title & Body for English (en), Sinhala (si), and Tamil (ta)."""
     raw_markets = summary.get("markets", [])
-    display_markets = [market_labels.get(m, m.title()) for m in raw_markets]
-    
-    target_date_str = summary["latest_date"]
+    target_date_str = summary.get("latest_date") or datetime.now().strftime("%Y-%m-%d")
+    is_wholesale = "wholesale" in summary.get("price_types", ["wholesale"])
+    count = summary.get("total_commodities", 0)
+
     try:
         dt = datetime.strptime(target_date_str, "%Y-%m-%d")
-        formatted_date = dt.strftime("%B %d, %Y")
+        en_date = dt.strftime("%B %d, %Y")
+        si_date = f"{dt.year} {['ජනවාරි', 'පෙබරවාරි', 'මාර්තු', 'අප්‍රේල්', 'මැයි', 'ජූනි', 'ජූලි', 'අගෝස්තු', 'සැප්තැම්බර්', 'ඔක්තෝබර්', 'නොවැම්බර්', 'දෙසැම්බර්'][dt.month - 1]} {dt.day}"
+        ta_date = f"{dt.year} {['ஜனவரி', 'பிப்ரவரி', 'மார்ச்', 'ஏப்ரல்', 'மே', 'ஜூன்', 'ஜூலை', 'ஆகஸ்ட்', 'செப்டம்பர்', 'அக்டோபர்', 'நவம்பர்', 'டிசம்பர்'][dt.month - 1]} {dt.day}"
     except Exception:
-        formatted_date = target_date_str
+        en_date = si_date = ta_date = target_date_str
 
-    is_wholesale = "wholesale" in summary.get("price_types", ["wholesale"])
-    type_str = "Wholesale" if is_wholesale else "Retail"
+    dates = {"en": en_date, "si": si_date, "ta": ta_date}
+    results = {}
 
-    if len(display_markets) == 1:
-        primary_market = display_markets[0]
-        title = f"📊 {type_str} Market Update: {primary_market}"
-        body = f"{primary_market} prices for {formatted_date} are now live ({summary['total_commodities']} commodities updated)."
-    elif len(display_markets) > 1:
-        title = f"📊 Sri Lanka {type_str} Market Update"
-        body = f"Prices for {', '.join(display_markets[:2])} ({formatted_date}) are now live across {summary['total_commodities']} commodities."
-    else:
-        title = f"📊 NAMIS {type_str} Price Bulletin"
-        body = f"Daily commodity prices for {formatted_date} have been updated successfully."
+    for lang in ["en", "si", "ta"]:
+        t = TRANSLATIONS[lang]
+        price_type_str = t["wholesale"] if is_wholesale else t["retail"]
+        market_names = [t["markets"].get(m, m.title()) for m in raw_markets]
+
+        if len(market_names) == 1:
+            primary = market_names[0]
+            title = t["update_title"].format(price_type=price_type_str, market=primary)
+            body = t["single_market_body"].format(market=primary, date=dates[lang], count=count)
+        elif len(market_names) > 1:
+            title = t["island_title"].format(price_type=price_type_str)
+            joined_mkts = ", ".join(market_names[:2])
+            body = t["multi_market_body"].format(markets=joined_mkts, date=dates[lang], count=count)
+        else:
+            title = t["island_title"].format(price_type=price_type_str)
+            body = t["general_body"].format(date=dates[lang])
+
+        results[lang] = {"title": title, "body": body}
 
     primary_market_id = raw_markets[0] if raw_markets else "dambulla"
-
     payload_data = {
         "click_action": "FLUTTER_NOTIFICATION_CLICK",
         "type": "market_update",
@@ -176,7 +252,7 @@ def format_notification(summary: dict) -> tuple:
         "price_type": "wholesale" if is_wholesale else "retail"
     }
 
-    return title, body, payload_data
+    return results, payload_data
 
 def send_fcm_topic_notification(
     title: str, 
@@ -261,8 +337,6 @@ def main():
     # If custom title & body are provided, we send directly
     if args.title and args.body:
         print("[*] Custom Notification Mode Activated.")
-        title = args.title
-        body = args.body
         primary_market = args.market or "dambulla"
         payload = {
             "click_action": "FLUTTER_NOTIFICATION_CLICK",
@@ -273,6 +347,11 @@ def main():
         }
         markets_list = [primary_market]
         total_items = 0
+        localized = {
+            "en": {"title": args.title, "body": args.body},
+            "si": {"title": args.title, "body": args.body},
+            "ta": {"title": args.title, "body": args.body}
+        }
     else:
         summary = check_recent_updates()
         if not summary.get("has_updates") and not args.force:
@@ -287,30 +366,42 @@ def main():
         print(f"[+] Verified fresh data for date: {target_date}")
         print(f"[+] Total commodities: {total_items} in markets: {markets_list}")
 
-        title, body, payload = format_notification(summary)
+        localized, payload = format_multilingual_notifications(summary)
 
-    print(f"[*] Notification Title: {title}")
-    print(f"[*] Notification Body:  {body}")
+    # 1. Dispatch English (Default + 'en' topic)
+    en_title = localized["en"]["title"]
+    en_body = localized["en"]["body"]
+    print(f"[*] Dispatching English to '{args.topic}' and '{args.topic}_en'...")
+    en_fcm_id = send_fcm_topic_notification(en_title, en_body, payload, topic=args.topic, channel_id=channel_id)
+    send_fcm_topic_notification(en_title, en_body, payload, topic=f"{args.topic}_en", channel_id=channel_id)
 
-    fcm_id = send_fcm_topic_notification(
-        title, 
-        body, 
-        payload, 
-        topic=args.topic, 
-        channel_id=channel_id
-    )
-    if fcm_id:
-        print(f"[SUCCESS] Broadcasted to FCM topic '{args.topic}'. Message ID: {fcm_id}")
+    # 2. Dispatch Sinhala ('si' topic)
+    si_title = localized["si"]["title"]
+    si_body = localized["si"]["body"]
+    print(f"[*] Dispatching Sinhala to '{args.topic}_si'...")
+    send_fcm_topic_notification(si_title, si_body, payload, topic=f"{args.topic}_si", channel_id=channel_id)
+
+    # 3. Dispatch Tamil ('ta' topic)
+    ta_title = localized["ta"]["title"]
+    ta_body = localized["ta"]["body"]
+    print(f"[*] Dispatching Tamil to '{args.topic}_ta'...")
+    send_fcm_topic_notification(ta_title, ta_body, payload, topic=f"{args.topic}_ta", channel_id=channel_id)
+
+    if en_fcm_id:
         record = {
             "date": target_date,
             "markets": markets_list,
             "total_commodities": total_items,
-            "title": title,
-            "message": body,
-            "fcm_message_id": fcm_id
+            "title": en_title,
+            "message": en_body,
+            "title_si": si_title,
+            "message_si": si_body,
+            "title_ta": ta_title,
+            "message_ta": ta_body,
+            "fcm_message_id": en_fcm_id
         }
         run_supabase_post("market_updates", record)
-        print("[+] Logged update event to 'market_updates' table.")
+        print("[+] Logged multilingual update event to 'market_updates' table.")
     else:
         print("[WARN] FCM broadcast was not completed.")
 
