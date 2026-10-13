@@ -222,31 +222,62 @@ def send_fcm_topic_notification(title: str, body: str, payload_data: dict) -> st
     return response
 
 def main():
+    import argparse
+    parser = argparse.ArgumentParser(description="Send NAMIS Market Push Notification")
+    parser.add_argument("--force", action="store_true", help="Force send even if already sent")
+    parser.add_argument("--title", type=str, default="", help="Custom notification title override")
+    parser.add_argument("--body", type=str, default="", help="Custom notification body override")
+    parser.add_argument("--market", type=str, default="", help="Market ID for payload (e.g. dambulla)")
+    parser.add_argument("--date", type=str, default="", help="Date YYYY-MM-DD override")
+    args = parser.parse_args()
+
     print("=" * 65)
     print("  NAMIS DATABASE SYNC VERIFICATION & PUSH NOTIFICATION")
     print("=" * 65)
 
-    summary = check_recent_updates()
-    if not summary.get("has_updates"):
-        print(f"[INFO] Verification completed: {summary.get('reason', 'No new updates')}.")
-        print("[INFO] Notification dispatch skipped. Clean exit.")
-        return
+    target_date = args.date or datetime.now().strftime("%Y-%m-%d")
 
-    print(f"[+] Verified fresh data for date: {summary['latest_date']}")
-    print(f"[+] Total commodities: {summary['total_commodities']} in markets: {summary['markets']}")
+    # If custom title & body are provided, we send directly
+    if args.title and args.body:
+        print("[*] Custom Notification Mode Activated.")
+        title = args.title
+        body = args.body
+        primary_market = args.market or "dambulla"
+        payload = {
+            "click_action": "FLUTTER_NOTIFICATION_CLICK",
+            "type": "market_update",
+            "market_id": primary_market,
+            "date": target_date,
+            "price_type": "wholesale"
+        }
+        markets_list = [primary_market]
+        total_items = 0
+    else:
+        summary = check_recent_updates()
+        if not summary.get("has_updates") and not args.force:
+            print(f"[INFO] Verification completed: {summary.get('reason', 'No new updates')}.")
+            print("[INFO] Notification dispatch skipped. Clean exit.")
+            return
 
-    title, body, payload = format_notification(summary)
+        target_date = summary.get("latest_date", target_date)
+        markets_list = summary.get("markets", [args.market or "dambulla"])
+        total_items = summary.get("total_commodities", 0)
+
+        print(f"[+] Verified fresh data for date: {target_date}")
+        print(f"[+] Total commodities: {total_items} in markets: {markets_list}")
+
+        title, body, payload = format_notification(summary)
+
     print(f"[*] Notification Title: {title}")
     print(f"[*] Notification Body:  {body}")
 
     fcm_id = send_fcm_topic_notification(title, body, payload)
     if fcm_id:
         print(f"[SUCCESS] Broadcasted to FCM topic 'market_updates'. Message ID: {fcm_id}")
-        # Record to market_updates table for in-app history & duplicate prevention
         record = {
-            "date": summary["latest_date"],
-            "markets": summary["markets"],
-            "total_commodities": summary["total_commodities"],
+            "date": target_date,
+            "markets": markets_list,
+            "total_commodities": total_items,
             "title": title,
             "message": body,
             "fcm_message_id": fcm_id
