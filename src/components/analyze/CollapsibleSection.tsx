@@ -97,6 +97,7 @@ export default function CollapsibleSection({
           <button
             type="button"
             title="Screenshot section"
+            aria-label="Screenshot section"
             onClick={takeScreenshot}
             disabled={shotBusy}
             className="h-8 w-8 inline-flex items-center justify-center rounded-lg cursor-pointer disabled:opacity-50"
@@ -107,6 +108,7 @@ export default function CollapsibleSection({
           <button
             type="button"
             title={fullscreen ? "Exit fullscreen" : "Fullscreen"}
+            aria-label={fullscreen ? "Exit fullscreen" : "Fullscreen"}
             onClick={() => setFullscreen((v) => !v)}
             className="h-8 w-8 inline-flex items-center justify-center rounded-lg cursor-pointer"
             style={{ color: ANALYZE_THEME.inkMuted, background: ANALYZE_THEME.surfaceMuted }}
@@ -117,6 +119,7 @@ export default function CollapsibleSection({
             <button
               type="button"
               title="Close"
+              aria-label="Close fullscreen"
               onClick={exitFullscreen}
               className="h-8 w-8 inline-flex items-center justify-center rounded-lg cursor-pointer"
               style={{ color: ANALYZE_THEME.inkMuted, background: ANALYZE_THEME.surfaceMuted }}

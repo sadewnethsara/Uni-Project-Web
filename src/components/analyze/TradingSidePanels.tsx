@@ -36,6 +36,7 @@ export function DrawingToolbar({
           key={t.id}
           type="button"
           title={t.label}
+          aria-label={t.label}
           onClick={() => onTool(t.id)}
           className="h-8 min-w-8 px-2 rounded-lg text-xs font-bold cursor-pointer transition-colors"
           style={{
@@ -43,7 +44,7 @@ export function DrawingToolbar({
             color: tool === t.id ? ANALYZE_THEME.surfaceRaised : ANALYZE_THEME.inkMuted,
           }}
         >
-          <span className="mr-1 opacity-80">{t.icon}</span>
+          <span className="mr-1 opacity-80" aria-hidden="true">{t.icon}</span>
           <span className="hidden sm:inline">{t.label}</span>
         </button>
       ))}
