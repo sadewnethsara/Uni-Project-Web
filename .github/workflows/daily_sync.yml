@@ -4,7 +4,7 @@ on:
   schedule:
     # Runs 3 times daily (Sri Lanka Standard Time = UTC + 5:30)
     - cron: '30 1 * * *'  # 07:00 AM Sri Lanka Time (01:30 UTC) - Morning Market Catchup
-    - cron: '30 10 * * *' # 04:00 PM Sri Lanka Time (10:30 UTC) - Afternoon Bulletin Release
+    - cron: '30 11 * * *' # 05:00 PM Sri Lanka Time (11:00 UTC) - Afternoon Bulletin Release
     - cron: '30 16 * * *' # 10:00 PM Sri Lanka Time (16:30 UTC) - Evening Final Close
   workflow_dispatch: # Allows manual trigger from GitHub UI
 
