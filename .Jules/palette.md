@@ -14,3 +14,7 @@
 **Learning:** Icon-only buttons used for password visibility toggles (eye icons) need `aria-label` and `title` attributes that dynamically change based on state (e.g., "Show password" vs "Hide password"). Without these, screen readers announce them as generic buttons, creating a confusing experience for visually impaired users.
 **Action:** Always add dynamic `aria-label` and `title` attributes to icon-only buttons that toggle state, especially in forms.
 
+
+## 2024-10-25 - [Accessible Icon-Only Action Buttons]
+**Learning:** Found several components (like DateRangeCalendar, TradingSidePanels, and CollapsibleSection) containing icon-only action buttons (e.g., using "✕", "‹", "›" or SVG icons) without accessible names. Relying solely on visual cues or `title` attributes makes these critical interaction points unreadable for screen reader users. Additionally, when a button contains both a decorative icon and text, but the text is hidden on small screens (`sm:inline`), the button loses its accessible name on mobile devices.
+**Action:** Always add explicit `aria-label` attributes to any icon-only button. If an icon is purely decorative or accompanied by an `aria-label` on the parent button, add `aria-hidden="true"` to the icon element itself.

@@ -202,6 +202,7 @@ export default function DateRangeCalendar({
               onClick={onClose}
               className="text-sm font-bold cursor-pointer px-1 hover:opacity-75 transition-opacity"
               style={{ color: ANALYZE_THEME.inkFaint }}
+              aria-label="Close calendar"
             >
               ✕
             </button>
@@ -216,6 +217,7 @@ export default function DateRangeCalendar({
           onClick={prevMonth}
           className="w-9 h-9 rounded-xl flex items-center justify-center cursor-pointer font-bold text-lg hover:bg-black/5 transition-colors"
           style={{ color: ANALYZE_THEME.inkMuted }}
+          aria-label="Previous month"
         >
           ‹
         </button>
@@ -234,6 +236,7 @@ export default function DateRangeCalendar({
           onClick={nextMonth}
           className="w-9 h-9 rounded-xl flex items-center justify-center cursor-pointer font-bold text-lg hover:bg-black/5 transition-colors"
           style={{ color: ANALYZE_THEME.inkMuted }}
+          aria-label="Next month"
         >
           ›
         </button>
@@ -361,6 +364,7 @@ export default function DateRangeCalendar({
                 onClick={() => onSelectedDatesChange(selectedDates.filter((x) => x !== d))}
                 className="text-[10px] font-bold px-2 py-1 rounded-lg cursor-pointer flex items-center gap-1"
                 style={{ background: ANALYZE_THEME.surfaceMuted, color: ANALYZE_THEME.ink }}
+                aria-label={`Remove date ${label}`}
               >
                 {label} ×
               </button>
