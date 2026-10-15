@@ -14,3 +14,8 @@
 **Learning:** Icon-only buttons used for password visibility toggles (eye icons) need `aria-label` and `title` attributes that dynamically change based on state (e.g., "Show password" vs "Hide password"). Without these, screen readers announce them as generic buttons, creating a confusing experience for visually impaired users.
 **Action:** Always add dynamic `aria-label` and `title` attributes to icon-only buttons that toggle state, especially in forms.
 
+---
+
+## 2024-11-20 - DateRangeCalendar Accessibility Improvement
+**Learning:** Found that custom date picker components (like `DateRangeCalendar.tsx`) often contain numerous icon-only buttons (e.g., month navigation, close modal, remove selected date) that lack `aria-label` attributes. Without these, screen reader users cannot understand the purpose of the controls.
+**Action:** Always ensure that every icon-only button in complex interactive widgets (like calendars or date pickers) has a descriptive `aria-label`, and hide the decorative text/icons within them using `aria-hidden="true"`.
