@@ -202,8 +202,9 @@ export default function DateRangeCalendar({
               onClick={onClose}
               className="text-sm font-bold cursor-pointer px-1 hover:opacity-75 transition-opacity"
               style={{ color: ANALYZE_THEME.inkFaint }}
+              aria-label="Close calendar"
             >
-              ✕
+              <span aria-hidden="true">✕</span>
             </button>
           )}
         </div>
@@ -216,26 +217,29 @@ export default function DateRangeCalendar({
           onClick={prevMonth}
           className="w-9 h-9 rounded-xl flex items-center justify-center cursor-pointer font-bold text-lg hover:bg-black/5 transition-colors"
           style={{ color: ANALYZE_THEME.inkMuted }}
+          aria-label="Previous month"
         >
-          ‹
+          <span aria-hidden="true">‹</span>
         </button>
         <button
           type="button"
           onClick={() => setShowYearList(!showYearList)}
           className="text-sm font-bold tracking-wide flex items-center gap-1.5 cursor-pointer px-3 py-1.5 rounded-xl transition-colors hover:bg-black/5"
+          aria-expanded={showYearList}
         >
           <span>
             {MONTH_LABELS[viewMonth]} {viewYear}
           </span>
-          <span className="text-[9px] opacity-60">▼</span>
+          <span className="text-[9px] opacity-60" aria-hidden="true">▼</span>
         </button>
         <button
           type="button"
           onClick={nextMonth}
           className="w-9 h-9 rounded-xl flex items-center justify-center cursor-pointer font-bold text-lg hover:bg-black/5 transition-colors"
           style={{ color: ANALYZE_THEME.inkMuted }}
+          aria-label="Next month"
         >
-          ›
+          <span aria-hidden="true">›</span>
         </button>
       </div>
 
@@ -361,8 +365,10 @@ export default function DateRangeCalendar({
                 onClick={() => onSelectedDatesChange(selectedDates.filter((x) => x !== d))}
                 className="text-[10px] font-bold px-2 py-1 rounded-lg cursor-pointer flex items-center gap-1"
                 style={{ background: ANALYZE_THEME.surfaceMuted, color: ANALYZE_THEME.ink }}
+                aria-label={`Remove ${label}`}
               >
-                {label} ×
+                <span>{label}</span>
+                <span aria-hidden="true">×</span>
               </button>
             );
           })}
