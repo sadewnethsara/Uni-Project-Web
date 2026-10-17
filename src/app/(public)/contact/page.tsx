@@ -262,10 +262,11 @@ export default function ContactPage() {
                 <form onSubmit={handleSubmit} className="space-y-4">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-xs font-bold mb-1.5" style={{ color: ANALYZE_THEME.ink }}>
-                        Full Name *
+                      <label htmlFor="fullName" className="block text-xs font-bold mb-1.5" style={{ color: ANALYZE_THEME.ink }}>
+                        Full Name <span className="text-red-500" aria-hidden="true">*</span>
                       </label>
                       <input
+                        id="fullName"
                         type="text"
                         value={fullName}
                         onChange={(e) => setFullName(e.target.value)}
@@ -281,10 +282,11 @@ export default function ContactPage() {
                     </div>
 
                     <div>
-                      <label className="block text-xs font-bold mb-1.5" style={{ color: ANALYZE_THEME.ink }}>
-                        Work Email *
+                      <label htmlFor="email" className="block text-xs font-bold mb-1.5" style={{ color: ANALYZE_THEME.ink }}>
+                        Work Email <span className="text-red-500" aria-hidden="true">*</span>
                       </label>
                       <input
+                        id="email"
                         type="email"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
@@ -302,10 +304,11 @@ export default function ContactPage() {
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-xs font-bold mb-1.5" style={{ color: ANALYZE_THEME.ink }}>
+                      <label htmlFor="phone" className="block text-xs font-bold mb-1.5" style={{ color: ANALYZE_THEME.ink }}>
                         Mobile Phone
                       </label>
                       <input
+                        id="phone"
                         type="tel"
                         value={phone}
                         onChange={(e) => setPhone(e.target.value)}
@@ -320,10 +323,11 @@ export default function ContactPage() {
                     </div>
 
                     <div>
-                      <label className="block text-xs font-bold mb-1.5" style={{ color: ANALYZE_THEME.ink }}>
+                      <label htmlFor="subject" className="block text-xs font-bold mb-1.5" style={{ color: ANALYZE_THEME.ink }}>
                         Inquiry Topic
                       </label>
                       <select
+                        id="subject"
                         value={subject}
                         onChange={(e) => setSubject(e.target.value)}
                         className="w-full px-4 py-2.5 text-sm font-medium rounded-xl border focus:outline-none transition-all cursor-pointer"
@@ -342,10 +346,11 @@ export default function ContactPage() {
                   </div>
 
                   <div>
-                    <label className="block text-xs font-bold mb-1.5" style={{ color: ANALYZE_THEME.ink }}>
-                      Your Message *
+                    <label htmlFor="message" className="block text-xs font-bold mb-1.5" style={{ color: ANALYZE_THEME.ink }}>
+                      Your Message <span className="text-red-500" aria-hidden="true">*</span>
                     </label>
                     <textarea
+                      id="message"
                       rows={4}
                       value={message}
                       onChange={(e) => setMessage(e.target.value)}
