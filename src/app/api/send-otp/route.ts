@@ -11,6 +11,16 @@ export async function POST(request: Request) {
       );
     }
 
+    // SECURITY: Validate OTP format strictly (exactly 4 digits) to prevent SMS injection.
+    // Without this, an attacker could pass a malicious string (e.g., a phishing link)
+    // into the 'otp' parameter, which would then be sent in the SMS message.
+    if (typeof otp !== 'string' || !/^\d{4}$/.test(otp)) {
+      return NextResponse.json(
+        { error: 'Invalid OTP format. It must be exactly 4 digits.' },
+        { status: 400 }
+      );
+    }
+
     // Normalize Sri Lankan phone number (e.g. 0771234567 -> 94771234567)
     let formattedNumber = recipient.replace(/\D/g, '');
     if (formattedNumber.startsWith('0')) {
