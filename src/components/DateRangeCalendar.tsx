@@ -202,6 +202,7 @@ export default function DateRangeCalendar({
               onClick={onClose}
               className="text-sm font-bold cursor-pointer px-1 hover:opacity-75 transition-opacity"
               style={{ color: ANALYZE_THEME.inkFaint }}
+              aria-label="Close calendar"
             >
               ✕
             </button>
