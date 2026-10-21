@@ -208,8 +208,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       }
 
       if (data.user) {
-        // Map UI roles (buyer, farmer, trader) to allowed database roles (super, market, viewer)
-        const dbRole = (role === 'super' || role === 'market' || role === 'viewer') ? role : 'viewer';
+        // Security Fix: Prevent client-side privilege escalation.
+        // Client-provided roles must never be trusted for authorization during self-registration.
+        const dbRole = 'viewer';
 
         // Create user profile in public.admins
         const { error: profileError } = await supabase.from('admins').insert([{
