@@ -1,3 +1,7 @@
 ## 2024-05-24 - [Avoid continuous scroll state]
 **Learning:** Storing the raw window scroll coordinate (e.g. `window.scrollY`) in a React state variable causes the component to re-render on *every single scroll tick*. When this state is used as a dependency in a `useEffect` that attaches a scroll listener, it forces the listener to be constantly removed and re-attached, destroying performance.
 **Action:** When determining visibility or threshold states on scroll, compute the boolean condition (`window.scrollY > 10`) and only update state if that boolean value changes (which React `useState` does implicitly when setting the same primitive boolean). Do not store the raw scroll number in state unless absolutely necessary for an animation frame, and even then prefer `useMotionValue` or similar non-react-state primitives.
+
+## 2024-05-24 - [Avoid O(N) filtering inside dependent useMemos]
+**Learning:** When a large array (like `apiPrices`) needs to be filtered multiple times (e.g. by `vegetable_id`) inside several separate `useMemo` hooks, doing `apiPrices.filter(...)` inside each hook causes redundant O(N) traversals of the full dataset on every render.
+**Action:** Create a single, intermediate memoized array (e.g., `const commodityPrices = useMemo(() => apiPrices.filter(...))`) that pre-filters the dataset, and have the subsequent `useMemo` hooks depend on and iterate over this much smaller array.
