@@ -14,3 +14,7 @@
 **Learning:** Icon-only buttons used for password visibility toggles (eye icons) need `aria-label` and `title` attributes that dynamically change based on state (e.g., "Show password" vs "Hide password"). Without these, screen readers announce them as generic buttons, creating a confusing experience for visually impaired users.
 **Action:** Always add dynamic `aria-label` and `title` attributes to icon-only buttons that toggle state, especially in forms.
 
+
+## $(date +%Y-%m-%d) - Input Placeholder Accessibility
+**Learning:** Found several input fields (`type="email"` and `type="text"`) in components like `NewsletterSection.tsx`, `AnalyzeFilterBar.tsx`, and `FloatingChat.tsx` that relied solely on `placeholder` attributes without an associated `<label>` or `aria-label`. This negatively impacts screen reader users who may not receive adequate context. Additionally, many of these inputs used `focus:outline-none` without an accessible alternative focus ring, hindering keyboard navigation.
+**Action:** Always add `aria-label` to form controls that lack a visible `<label>`. When removing the default browser outline with `focus-visible:outline-none` or `focus:outline-none`, always ensure an alternative, visible focus indicator is provided using classes like `focus-visible:ring-2 focus-visible:ring-offset-2` to maintain keyboard accessibility.
