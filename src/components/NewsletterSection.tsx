@@ -96,7 +96,8 @@ export default function Newsletter() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="Enter your email"
-                className="flex-1 px-6 py-4 rounded-xl text-sm font-medium focus:outline-none transition-all"
+                aria-label="Email address"
+                className="flex-1 px-6 py-4 rounded-xl text-sm font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-teal-500 transition-all"
                 style={{
                   background: ANALYZE_THEME.surfaceRaised,
                   border: `1px solid ${ANALYZE_THEME.border}50`,
