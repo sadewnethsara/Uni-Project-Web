@@ -14,3 +14,7 @@
 **Learning:** Icon-only buttons used for password visibility toggles (eye icons) need `aria-label` and `title` attributes that dynamically change based on state (e.g., "Show password" vs "Hide password"). Without these, screen readers announce them as generic buttons, creating a confusing experience for visually impaired users.
 **Action:** Always add dynamic `aria-label` and `title` attributes to icon-only buttons that toggle state, especially in forms.
 
+
+## 2026-10-26 - Accessible Form Inputs Without Labels
+**Learning:** Found multiple instances where form inputs (like in `NewsletterSection`, `FloatingChat`, and `AnalyzeFilterBar`) relied solely on placeholder text without explicit `<label>` tags or `aria-label` attributes. This pattern severely degrades screen reader accessibility, as placeholders are not reliably announced as accessible names.
+**Action:** Always ensure that form inputs lacking an explicitly associated visible `<label>` include a descriptive `aria-label` attribute for proper screen reader support.
