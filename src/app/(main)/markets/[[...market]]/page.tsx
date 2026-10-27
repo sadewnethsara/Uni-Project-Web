@@ -192,9 +192,14 @@ export default function MarketPage({ params }: PageProps) {
     ? board.find((b) => b.commodityId === selectedCommodityId)
     : null;
 
+  const commodityPrices = useMemo(() => {
+    if (!selectedCommodityId || apiPrices.length === 0) return [];
+    return apiPrices.filter(p => p.vegetable_id === selectedCommodityId);
+  }, [selectedCommodityId, apiPrices]);
+
   // Compute stats based on API data instead of mocked functions
   const comparison = useMemo(() => {
-    if (!selectedCommodityId || apiPrices.length === 0) return null;
+    if (!selectedCommodityId || commodityPrices.length === 0) return null;
     const todayStr = toISODate(viewDate);
 
     const yesterday = new Date(viewDate);
@@ -206,7 +211,7 @@ export default function MarketPage({ params }: PageProps) {
     const lastYearStr = toISODate(lastYear);
 
     const getPrice = (dateStr: string) => {
-      const p = apiPrices.find(p => p.market_id === marketId && p.vegetable_id === selectedCommodityId && p.date === dateStr);
+      const p = commodityPrices.find(p => p.market_id === marketId && p.date === dateStr);
       return p ? parseFloat(p.price) : null;
     };
 
@@ -221,41 +226,41 @@ export default function MarketPage({ params }: PageProps) {
       changeVsYesterday: pToday && pYest ? Math.round(((pToday - pYest) / pYest) * 100) : null,
       changeVsLastYear: pToday && pLastYear ? Math.round(((pToday - pLastYear) / pLastYear) * 100) : null,
     };
-  }, [selectedCommodityId, apiPrices, marketId, viewDate]);
+  }, [selectedCommodityId, commodityPrices, marketId, viewDate]);
 
   const sparkline = useMemo(() => {
-    if (!selectedCommodityId || apiPrices.length === 0) return [];
+    if (!selectedCommodityId || commodityPrices.length === 0) return [];
     const todayStr = toISODate(viewDate);
-    return apiPrices
-      .filter(p => p.market_id === marketId && p.vegetable_id === selectedCommodityId && p.date <= todayStr)
+    return commodityPrices
+      .filter(p => p.market_id === marketId && p.date <= todayStr)
       .sort((a, b) => b.date.localeCompare(a.date))
       .slice(0, 7)
       .map(p => ({ date: p.date, label: formatDisplayDate(p.date), price: parseFloat(p.price) }))
       .reverse();
-  }, [selectedCommodityId, apiPrices, marketId, viewDate]);
+  }, [selectedCommodityId, commodityPrices, marketId, viewDate]);
 
   const lowestPrice = useMemo(() => {
-    if (!selectedCommodityId || apiPrices.length === 0) return null;
+    if (!selectedCommodityId || commodityPrices.length === 0) return null;
     const todayStr = toISODate(viewDate);
-    const prices = apiPrices.filter(p => p.vegetable_id === selectedCommodityId && p.date === todayStr);
+    const prices = commodityPrices.filter(p => p.date === todayStr);
     if (prices.length === 0) return null;
     const minP = Math.min(...prices.map(p => parseFloat(p.price)));
     const minM = prices.find(p => parseFloat(p.price) === minP);
     return minM ? { marketId: minM.market_id, marketName: getMarketDisplayName(minM.market_id), price: minP } : null;
-  }, [selectedCommodityId, apiPrices, viewDate]);
+  }, [selectedCommodityId, commodityPrices, viewDate]);
 
   const highestPrice = useMemo(() => {
-    if (!selectedCommodityId || apiPrices.length === 0) return null;
+    if (!selectedCommodityId || commodityPrices.length === 0) return null;
     const todayStr = toISODate(viewDate);
-    const prices = apiPrices.filter(p => p.vegetable_id === selectedCommodityId && p.date === todayStr);
+    const prices = commodityPrices.filter(p => p.date === todayStr);
     if (prices.length === 0) return null;
     const maxP = Math.max(...prices.map(p => parseFloat(p.price)));
     const maxM = prices.find(p => parseFloat(p.price) === maxP);
     return maxM ? { marketId: maxM.market_id, marketName: getMarketDisplayName(maxM.market_id), price: maxP } : null;
-  }, [selectedCommodityId, apiPrices, viewDate]);
+  }, [selectedCommodityId, commodityPrices, viewDate]);
 
   const weeklyMarketPrices = useMemo(() => {
-    if (!selectedCommodityId || apiPrices.length === 0) return [];
+    if (!selectedCommodityId || commodityPrices.length === 0) return [];
 
     const out: any[] = [];
     for (let i = 6; i >= 0; i--) {
@@ -263,9 +268,9 @@ export default function MarketPage({ params }: PageProps) {
       d.setDate(d.getDate() - i);
       const iso = toISODate(d);
 
-      const selectedPrice = apiPrices.find(p => p.market_id === marketId && p.vegetable_id === selectedCommodityId && p.date === iso);
+      const selectedPrice = commodityPrices.find(p => p.market_id === marketId && p.date === iso);
 
-      const pricesForDay = apiPrices.filter(p => p.vegetable_id === selectedCommodityId && p.date === iso);
+      const pricesForDay = commodityPrices.filter(p => p.date === iso);
       const lowest = pricesForDay.length > 0
         ? pricesForDay.reduce((min, p) => parseFloat(p.price) < parseFloat(min.price) ? p : min)
         : null;
@@ -282,7 +287,7 @@ export default function MarketPage({ params }: PageProps) {
       });
     }
     return out;
-  }, [selectedCommodityId, apiPrices, marketId, viewDate]);
+  }, [selectedCommodityId, commodityPrices, marketId, viewDate]);
 
   const listedCount = board.filter((b) => b.available).length;
   const missingCount = board.length - listedCount;
