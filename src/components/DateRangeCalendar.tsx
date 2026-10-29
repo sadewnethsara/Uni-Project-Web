@@ -200,10 +200,11 @@ export default function DateRangeCalendar({
             <button
               type="button"
               onClick={onClose}
-              className="text-sm font-bold cursor-pointer px-1 hover:opacity-75 transition-opacity"
+              aria-label="Close calendar"
+              className="text-sm font-bold cursor-pointer px-1 hover:opacity-75 transition-opacity focus:outline-none focus-visible:ring-2 focus-visible:ring-black/20"
               style={{ color: ANALYZE_THEME.inkFaint }}
             >
-              ✕
+              <span aria-hidden="true">✕</span>
             </button>
           )}
         </div>
@@ -214,28 +215,32 @@ export default function DateRangeCalendar({
         <button
           type="button"
           onClick={prevMonth}
-          className="w-9 h-9 rounded-xl flex items-center justify-center cursor-pointer font-bold text-lg hover:bg-black/5 transition-colors"
+          aria-label="Previous month"
+          className="w-9 h-9 rounded-xl flex items-center justify-center cursor-pointer font-bold text-lg hover:bg-black/5 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-black/20"
           style={{ color: ANALYZE_THEME.inkMuted }}
         >
-          ‹
+          <span aria-hidden="true">‹</span>
         </button>
         <button
           type="button"
           onClick={() => setShowYearList(!showYearList)}
-          className="text-sm font-bold tracking-wide flex items-center gap-1.5 cursor-pointer px-3 py-1.5 rounded-xl transition-colors hover:bg-black/5"
+          aria-label="Select year and month"
+          aria-expanded={showYearList}
+          className="text-sm font-bold tracking-wide flex items-center gap-1.5 cursor-pointer px-3 py-1.5 rounded-xl transition-colors hover:bg-black/5 focus:outline-none focus-visible:ring-2 focus-visible:ring-black/20"
         >
           <span>
             {MONTH_LABELS[viewMonth]} {viewYear}
           </span>
-          <span className="text-[9px] opacity-60">▼</span>
+          <span className="text-[9px] opacity-60" aria-hidden="true">▼</span>
         </button>
         <button
           type="button"
           onClick={nextMonth}
-          className="w-9 h-9 rounded-xl flex items-center justify-center cursor-pointer font-bold text-lg hover:bg-black/5 transition-colors"
+          aria-label="Next month"
+          className="w-9 h-9 rounded-xl flex items-center justify-center cursor-pointer font-bold text-lg hover:bg-black/5 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-black/20"
           style={{ color: ANALYZE_THEME.inkMuted }}
         >
-          ›
+          <span aria-hidden="true">›</span>
         </button>
       </div>
 
@@ -359,10 +364,11 @@ export default function DateRangeCalendar({
                 key={`sel-date-${d}-${i}`}
                 type="button"
                 onClick={() => onSelectedDatesChange(selectedDates.filter((x) => x !== d))}
-                className="text-[10px] font-bold px-2 py-1 rounded-lg cursor-pointer flex items-center gap-1"
+                aria-label={`Remove ${label}`}
+                className="text-[10px] font-bold px-2 py-1 rounded-lg cursor-pointer flex items-center gap-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-black/20"
                 style={{ background: ANALYZE_THEME.surfaceMuted, color: ANALYZE_THEME.ink }}
               >
-                {label} ×
+                {label} <span aria-hidden="true">×</span>
               </button>
             );
           })}
