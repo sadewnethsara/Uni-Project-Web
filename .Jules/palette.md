@@ -14,3 +14,7 @@
 **Learning:** Icon-only buttons used for password visibility toggles (eye icons) need `aria-label` and `title` attributes that dynamically change based on state (e.g., "Show password" vs "Hide password"). Without these, screen readers announce them as generic buttons, creating a confusing experience for visually impaired users.
 **Action:** Always add dynamic `aria-label` and `title` attributes to icon-only buttons that toggle state, especially in forms.
 
+
+## 2024-10-30 - Accessible Icon-Only Carousel Buttons
+**Learning:** Found that custom bottom sheet components using `framer-motion` (specifically image carousels) sometimes lack accessible names on their control buttons (close, next, previous) and unnecessarily expose decorative `<svg>` icons to screen readers, causing a poor experience.
+**Action:** Always ensure that interactive elements such as icon-only control buttons include `aria-label` attributes (e.g. "Close", "Next image"). Further, decorative `<svg>` icons inside such buttons should have `aria-hidden="true"` so that screen readers only announce the button's intended label, without redundantly attempting to announce the SVG internals.
