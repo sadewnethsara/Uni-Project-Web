@@ -11,6 +11,13 @@ export async function POST(request: Request) {
       );
     }
 
+    if (typeof otp !== 'string' || !/^\d{4}$/.test(otp)) {
+      return NextResponse.json(
+        { error: 'Invalid OTP format. It must be exactly 4 digits.' },
+        { status: 400 }
+      );
+    }
+
     // Normalize Sri Lankan phone number (e.g. 0771234567 -> 94771234567)
     let formattedNumber = recipient.replace(/\D/g, '');
     if (formattedNumber.startsWith('0')) {
