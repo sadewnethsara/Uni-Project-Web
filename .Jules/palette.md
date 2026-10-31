@@ -14,3 +14,7 @@
 **Learning:** Icon-only buttons used for password visibility toggles (eye icons) need `aria-label` and `title` attributes that dynamically change based on state (e.g., "Show password" vs "Hide password"). Without these, screen readers announce them as generic buttons, creating a confusing experience for visually impaired users.
 **Action:** Always add dynamic `aria-label` and `title` attributes to icon-only buttons that toggle state, especially in forms.
 
+
+## 2024-11-23 - Accessible Date Range Calendar Elements
+**Learning:** Found that custom date range calendars often use text-based symbols (✕, ‹, ›, ▼) within buttons which are announced literally by screen readers unless hidden, and lack proper keyboard focus rings.
+**Action:** When using text characters as icons inside buttons, always wrap them in `<span aria-hidden="true">`, provide a descriptive `aria-label`, and ensure keyboard accessibility by appending visible focus rings (e.g. `focus-visible:ring-2 focus-visible:ring-offset-2`).
