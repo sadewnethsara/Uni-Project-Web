@@ -69,29 +69,38 @@ export default function HeroBottomSheet({ loc, onClose, images }: Props) {
 
                             {/* close */}
                             <button onClick={onClose}
-                                className="absolute top-3 right-3 w-8 h-8 rounded-full flex items-center justify-center transition hover:scale-110"
+                                aria-label="Close details"
+                                className="absolute top-3 right-3 w-8 h-8 rounded-full flex items-center justify-center transition hover:scale-110 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2"
                                 style={{ background: 'rgba(0,0,0,0.45)' }}>
-                                <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                                    <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-                                </svg>
+                                <span aria-hidden="true" className="flex items-center justify-center">
+                                    <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                                        <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                                    </svg>
+                                </span>
                             </button>
 
                             {/* arrow prev */}
                             {images.length > 1 && (
                                 <>
                                     <button onClick={() => setSlide((s) => (s - 1 + images.length) % images.length)}
-                                        className="absolute left-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full flex items-center justify-center transition hover:scale-110"
+                                        aria-label="Previous image"
+                                        className="absolute left-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full flex items-center justify-center transition hover:scale-110 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2"
                                         style={{ background: 'rgba(0,0,0,0.40)' }}>
-                                        <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                                            <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
-                                        </svg>
+                                        <span aria-hidden="true" className="flex items-center justify-center">
+                                            <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                                                <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+                                            </svg>
+                                        </span>
                                     </button>
                                     <button onClick={() => setSlide((s) => (s + 1) % images.length)}
-                                        className="absolute right-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full flex items-center justify-center transition hover:scale-110"
+                                        aria-label="Next image"
+                                        className="absolute right-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full flex items-center justify-center transition hover:scale-110 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2"
                                         style={{ background: 'rgba(0,0,0,0.40)' }}>
-                                        <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                                            <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-                                        </svg>
+                                        <span aria-hidden="true" className="flex items-center justify-center">
+                                            <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                                                <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                                            </svg>
+                                        </span>
                                     </button>
                                 </>
                             )}

@@ -14,3 +14,6 @@
 **Learning:** Icon-only buttons used for password visibility toggles (eye icons) need `aria-label` and `title` attributes that dynamically change based on state (e.g., "Show password" vs "Hide password"). Without these, screen readers announce them as generic buttons, creating a confusing experience for visually impaired users.
 **Action:** Always add dynamic `aria-label` and `title` attributes to icon-only buttons that toggle state, especially in forms.
 
+## 2024-11-01 - Redundant screen reader announcements for decorative SVGs in icon-only buttons
+**Learning:** Adding an `aria-label` to an icon-only button without explicitly hiding the inner SVG icon can lead to redundant or confusing announcements by screen readers, particularly if the SVG itself has an implicit label or role.
+**Action:** When adding `aria-label` to icon-only buttons (like image carousel controls or close buttons), explicitly wrap the decorative SVG inside a `<span aria-hidden="true">` to ensure screen readers only announce the `aria-label` and ignore the visual decorative elements. Also, always ensure to provide a visual focus indicator using `focus-visible:ring-2` when default outlines are removed via `focus:outline-none`.
