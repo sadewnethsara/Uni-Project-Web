@@ -70,6 +70,7 @@ export default function CollapsibleSection({
           onClick={() => setOpen((v) => !v)}
           className="flex items-center gap-2 min-w-0 text-left cursor-pointer group"
           aria-expanded={open}
+          aria-controls={`section-content-${id}`}
         >
           <ChevronDown
             className={`w-4 h-4 flex-shrink-0 transition-transform ${open ? "" : "-rotate-90"}`}
@@ -96,32 +97,35 @@ export default function CollapsibleSection({
           )}
           <button
             type="button"
+            aria-label="Screenshot section"
             title="Screenshot section"
             onClick={takeScreenshot}
             disabled={shotBusy}
             className="h-8 w-8 inline-flex items-center justify-center rounded-lg cursor-pointer disabled:opacity-50"
             style={{ color: ANALYZE_THEME.inkMuted, background: ANALYZE_THEME.surfaceMuted }}
           >
-            <Camera className="w-3.5 h-3.5" />
+            <span aria-hidden="true"><Camera className="w-3.5 h-3.5" /></span>
           </button>
           <button
             type="button"
+            aria-label={fullscreen ? "Exit fullscreen" : "Fullscreen"}
             title={fullscreen ? "Exit fullscreen" : "Fullscreen"}
             onClick={() => setFullscreen((v) => !v)}
             className="h-8 w-8 inline-flex items-center justify-center rounded-lg cursor-pointer"
             style={{ color: ANALYZE_THEME.inkMuted, background: ANALYZE_THEME.surfaceMuted }}
           >
-            {fullscreen ? <Minimize2 className="w-3.5 h-3.5" /> : <Maximize2 className="w-3.5 h-3.5" />}
+            <span aria-hidden="true">{fullscreen ? <Minimize2 className="w-3.5 h-3.5" /> : <Maximize2 className="w-3.5 h-3.5" />}</span>
           </button>
           {fullscreen && (
             <button
               type="button"
+              aria-label="Close"
               title="Close"
               onClick={exitFullscreen}
               className="h-8 w-8 inline-flex items-center justify-center rounded-lg cursor-pointer"
               style={{ color: ANALYZE_THEME.inkMuted, background: ANALYZE_THEME.surfaceMuted }}
             >
-              <X className="w-3.5 h-3.5" />
+              <span aria-hidden="true"><X className="w-3.5 h-3.5" /></span>
             </button>
           )}
         </div>
@@ -129,6 +133,7 @@ export default function CollapsibleSection({
 
       {open && (
         <div
+          id={`section-content-${id}`}
           className={`${fullscreen ? "flex-1 overflow-auto" : ""} ${bodyClassName}`}
           style={{ background: ANALYZE_THEME.surfaceRaised }}
         >
