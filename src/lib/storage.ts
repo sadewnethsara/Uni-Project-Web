@@ -84,7 +84,18 @@ export function saveMarkets(markets: MarketCenter[]): void {
 }
 
 export function generateId(): string {
-  return `${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
+  // Use crypto for randomness if available (browser or node), fallback to Math.random
+  let randomStr = "";
+  if (typeof crypto !== "undefined" && crypto.getRandomValues) {
+    const array = new Uint32Array(1);
+    crypto.getRandomValues(array);
+    randomStr = array[0].toString(36).slice(0, 7);
+  } else {
+    randomStr = Math.random().toString(36).slice(2, 9);
+  }
+  // Pad if necessary to ensure it's at least 7 chars if crypto generated a small number
+  randomStr = randomStr.padEnd(7, "0");
+  return `${Date.now()}-${randomStr}`;
 }
 
 export function loadAdmins(): Admin[] {
