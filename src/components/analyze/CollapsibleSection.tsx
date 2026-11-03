@@ -70,6 +70,7 @@ export default function CollapsibleSection({
           onClick={() => setOpen((v) => !v)}
           className="flex items-center gap-2 min-w-0 text-left cursor-pointer group"
           aria-expanded={open}
+          aria-controls={`${id}-content`}
         >
           <ChevronDown
             className={`w-4 h-4 flex-shrink-0 transition-transform ${open ? "" : "-rotate-90"}`}
@@ -129,6 +130,7 @@ export default function CollapsibleSection({
 
       {open && (
         <div
+          id={`${id}-content`}
           className={`${fullscreen ? "flex-1 overflow-auto" : ""} ${bodyClassName}`}
           style={{ background: ANALYZE_THEME.surfaceRaised }}
         >
