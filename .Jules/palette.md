@@ -14,3 +14,7 @@
 **Learning:** Icon-only buttons used for password visibility toggles (eye icons) need `aria-label` and `title` attributes that dynamically change based on state (e.g., "Show password" vs "Hide password"). Without these, screen readers announce them as generic buttons, creating a confusing experience for visually impaired users.
 **Action:** Always add dynamic `aria-label` and `title` attributes to icon-only buttons that toggle state, especially in forms.
 
+
+## 2024-11-03 - CollapsibleSection Accessibility Improvement
+**Learning:** Found that the expandable/collapsible button in `src/components/analyze/CollapsibleSection.tsx` was missing an `aria-controls` attribute, which is necessary to link the toggle button to the content panel it controls for proper screen reader support.
+**Action:** Always include an `aria-controls` attribute on interactive toggle elements that expand or collapse content, mapping to the ID of the dynamically rendered panel.
