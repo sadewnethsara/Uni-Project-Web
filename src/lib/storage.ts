@@ -84,6 +84,13 @@ export function saveMarkets(markets: MarketCenter[]): void {
 }
 
 export function generateId(): string {
+  if (typeof window !== "undefined" && window.crypto) {
+    const array = new Uint32Array(1);
+    window.crypto.getRandomValues(array);
+    const randomString = array[0].toString(36).padStart(7, "0").slice(0, 7);
+    return `${Date.now()}-${randomString}`;
+  }
+  // Fallback for SSR or if crypto is unavailable (though typically available in modern browsers)
   return `${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
 }
 
