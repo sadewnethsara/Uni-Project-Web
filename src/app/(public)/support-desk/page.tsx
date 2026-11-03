@@ -48,7 +48,10 @@ export default function SupportDeskPage() {
     setIsSubmitting(true);
 
     try {
-      const randomTicketId = `AGRI-SUP-${Math.floor(100000 + Math.random() * 900000)}`;
+      const array = new Uint32Array(1);
+      window.crypto.getRandomValues(array);
+      const secureRandomNumber = 100000 + (array[0] % 900000);
+      const randomTicketId = `AGRI-SUP-${secureRandomNumber}`;
       const supabase = createClient();
       const { error: submitError } = await supabase
         .from("support_tickets")
