@@ -14,3 +14,7 @@
 **Learning:** Icon-only buttons used for password visibility toggles (eye icons) need `aria-label` and `title` attributes that dynamically change based on state (e.g., "Show password" vs "Hide password"). Without these, screen readers announce them as generic buttons, creating a confusing experience for visually impaired users.
 **Action:** Always add dynamic `aria-label` and `title` attributes to icon-only buttons that toggle state, especially in forms.
 
+
+## 2026-11-05 - Inputs missing accessible labels and focus indicators
+**Learning:** A pattern was found where placeholder-only text inputs lacked `aria-label`s, preventing screen readers from identifying them. Additionally, using `outline-none` or `focus:outline-none` without providing alternative focus styles makes the inputs inaccessible for keyboard users as focus state is invisible.
+**Action:** When creating form inputs without associated `<label>` elements, always add a descriptive `aria-label`. When suppressing default focus outlines using `outline-none` or `focus:outline-none`, always append `focus-visible:ring-2 focus-visible:ring-offset-2` to provide clear keyboard focus indication.

@@ -268,11 +268,12 @@ export default function FloatingChatWidget() {
             >
               <input
                 type="text"
+                aria-label="Chat message"
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 placeholder="Ask about market prices, bean trends, high profits..."
                 disabled={isLoading}
-                className="flex-1 border rounded-xl px-3.5 py-2.5 text-xs focus:outline-none transition-colors disabled:opacity-50 font-medium"
+                className="flex-1 border rounded-xl px-3.5 py-2.5 text-xs focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-gray-400 transition-colors disabled:opacity-50 font-medium"
                 style={{
                   background: ANALYZE_THEME.surfaceMuted,
                   borderColor: ANALYZE_THEME.border,

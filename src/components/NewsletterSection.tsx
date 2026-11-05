@@ -93,10 +93,11 @@ export default function Newsletter() {
             >
               <input
                 type="email"
+                aria-label="Email address"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="Enter your email"
-                className="flex-1 px-6 py-4 rounded-xl text-sm font-medium focus:outline-none transition-all"
+                className="flex-1 px-6 py-4 rounded-xl text-sm font-medium focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-gray-400 transition-all"
                 style={{
                   background: ANALYZE_THEME.surfaceRaised,
                   border: `1px solid ${ANALYZE_THEME.border}50`,

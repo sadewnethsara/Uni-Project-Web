@@ -238,10 +238,11 @@ export default function AnalyzeFilterBar({
               >
                 <input
                   type="text"
+                  aria-label="Search vegetables"
                   placeholder="Search vegetables…"
                   value={vegSearch}
                   onChange={(e) => setVegSearch(e.target.value)}
-                  className="w-full rounded-xl px-3 py-2 text-xs outline-none mb-2 border"
+                  className="w-full rounded-xl px-3 py-2 text-xs outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-gray-400 mb-2 border"
                   style={{
                     background: ANALYZE_THEME.surfaceMuted,
                     borderColor: ANALYZE_THEME.border,
@@ -311,10 +312,11 @@ export default function AnalyzeFilterBar({
               >
                 <input
                   type="text"
+                  aria-label="Search markets"
                   placeholder="Search markets…"
                   value={marketSearch}
                   onChange={(e) => setMarketSearch(e.target.value)}
-                  className="w-full rounded-xl px-3 py-2 text-xs outline-none mb-2 border"
+                  className="w-full rounded-xl px-3 py-2 text-xs outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-gray-400 mb-2 border"
                   style={{
                     background: ANALYZE_THEME.surfaceMuted,
                     borderColor: ANALYZE_THEME.border,
