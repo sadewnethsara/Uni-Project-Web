@@ -1,0 +1,13 @@
+
+> agri@0.1.0 dev /app
+> next dev
+
+▲ Next.js 16.2.10 (Turbopack)
+- Local:         http://localhost:3000
+- Network:       http://192.168.0.2:3000
+✓ Ready in 536ms
+
+○ Compiling /markets/[[...market]] ...
+ GET /markets/dambulla 200 in 10.1s (next.js: 9.5s, application-code: 676ms)
+ GET /markets/dambulla?commodity=carrot 200 in 182ms (next.js: 30ms, application-code: 152ms)
+ GET /markets/dambulla?commodity=d9319c5c-7d9b-4355-89f5-7484df6dd783 200 in 164ms (next.js: 26ms, application-code: 138ms)
